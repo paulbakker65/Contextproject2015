@@ -4,19 +4,18 @@ Group: Health Informatics 5
 
 | User Story | Task 			       | Assigned to | Estimated Effort             |
 |:----------:|:-----------------------:|:-----------:|:----------------------------:|
-| Story 1    | Parsing of the txt file of the Thing| | |
-|			 | Parsing of the xls of the website|||
-|			 | Parsing of the xls file of the visit file of the hospital|||
-|			 | Parsing of the xls file of the algorithm output of the website|||
-| Story 2    | Create database with four tables|||
-
+| Story 1    | Defining the requirements	 |Everyone    | 4 hours                      |
+|			 | Create the product backlog | Paul & Julian | 2 hours                 |
+| Story 2 	 | Determining the datastructure  | Jan & Robin   | 4 hours            |
+|			 | Determining how to parse the files | Everyone | 4 hours      | 
+ 
 
 ## User Stories
 
 ### Story 1
 
-A user should be able to give the four files to the application so constraints can be set.
+It should be clear which features our product must have / could have. 
 
 ### Story 2
 
-?
+A user should be able to give the files which should be saved so we can perform operations on the data. 
