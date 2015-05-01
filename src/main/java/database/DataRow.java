@@ -25,5 +25,9 @@ public class DataRow {
 		}
 		return res;
 	}
+	
+	public HashMap<String, String> getHashMap() {
+		return columns;
+	}
 
 }

@@ -29,4 +29,8 @@ public class Database {
 		return res;
 	}
 
+	public ArrayList<DataRow> getRows() {
+		return rows;
+	}
+	
 }
