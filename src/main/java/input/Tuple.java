@@ -10,4 +10,14 @@ public class Tuple extends HashMap<String, String> {
 		}
 	}
 	
+	public String toString() {
+		String res = "";
+		
+		for (String val : values()) {
+			res += val + "\t";
+		}
+		
+		return res;
+	}
+	
 }
