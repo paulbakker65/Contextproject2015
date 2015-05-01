@@ -4,4 +4,11 @@
   <artifactId>creatinine</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Contextproject</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.opencsv</groupId>
+  		<artifactId>opencsv</artifactId>
+  		<version>3.3</version>
+  	</dependency>
+  </dependencies>
 </project>
