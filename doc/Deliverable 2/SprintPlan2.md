@@ -6,7 +6,6 @@ Group: Health Informatics 5
 |:----------:|:-----------------------:|:-----------:|:----------------------------:|
 | Story 1    | A CSV must be read	 | Julian & Robin    | 8 hours                      |
 |			 | Simple parser must be made | Julian & Paul | 8 hours |
-|			 | Simple Database structure | Matthijs & Jan | 4 hours |
 | Story 2    | Our data structure must be exported to a CSV file | Matthijs & Jan | 10 hours| 
 | Story 3 	 | Finishing the product vision  | Paul & Robin   | 2 hours            |
 |			 | Making draft of our porduct planning | Everyone | 6 hours      | 
