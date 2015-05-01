@@ -1,0 +1,6 @@
+<settings startLine=1, delimiter=";">
+	<column name="User id" />
+	<column name="Value" type="number" />
+	<column name="Enter date" type="date" format="DDMMYY" /> 
+	...
+</settings>
