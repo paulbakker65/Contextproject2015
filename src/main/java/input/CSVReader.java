@@ -1,16 +1,17 @@
 package input;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
+import table.Table;
+import table.Tuple;
 
 
 public class CSVReader {
 	
-	public static Table read (File file) throws IOException {
+	public static Table read (String file) throws IOException {
 		Table data = new Table();
-		System.out.println("test");
-		Scanner sc = new Scanner(new CSVReader().getClass().getResourceAsStream("/csvexample.csv"));
+		Scanner sc = new Scanner(new CSVReader().getClass().getResourceAsStream(file));
 		String[] columns = sc.nextLine().split(";");
 		while(sc.hasNext()){
 			data.add(new Tuple(columns, sc.nextLine().split(";")));
