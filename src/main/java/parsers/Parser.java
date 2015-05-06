@@ -22,7 +22,7 @@ public class Parser {
 		numcolumns = columns.size();
 	}
 
-	public Table Parse(Reader r) throws IOException {
+	public Table Parse(Reader r) throws IOException, ColumnTypeMismatchException {
 		for(int i = 0; i < settings.getStartLine() - 1; i++) {
 			r.readRow();
 		}
@@ -34,6 +34,13 @@ public class Parser {
 		while(row != null && row.length == numcolumns){
 			
 			//VERIFY DATA HERE && Convert string to other data types
+			Value[] values = new Value[numcolumns];
+			
+			for (int i = 0; i < columns.size(); i++) {
+				values[i] = columns.get(i).convertToValue(row[i]);
+			}
+			
+			//TODO: Transform record values from String to Value and adapt all dependencies. 
 			
 			Record tuple = new Record(columns, row);
 			t.add(tuple);
