@@ -22,13 +22,13 @@ public class Table extends ArrayList<Record> {
 	
 	
 	public String toString() {
-		String res = "";
-		
-		for (Record tuple : this) {
-			res += tuple.toString() + "\n";
+	 StringBuilder sb = new StringBuilder();
+		for (Record record : this) {
+		sb.append(record.toString());
+		sb.append(System.getProperty("line.separator"));
 		}
-		
-		return res;
-	}
+
+	 return sb.toString();
+		}
 	
 }

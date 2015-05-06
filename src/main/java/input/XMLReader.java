@@ -1,5 +1,4 @@
 package input;
-import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,13 +13,13 @@ import org.xml.sax.SAXException;
 
 
 public class XMLReader {
-	public static Settings readXMLFile(File xmlFile) throws WrongXMLException {		
+	public static Settings readXMLFile(String xmlFile) throws WrongXMLException {		
 		Settings res = new Settings();
 		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(xmlFile);
+			Document doc = dBuilder.parse(new XMLReader().getClass().getResourceAsStream(xmlFile));
 			
 			Element rootElement = doc.getDocumentElement();
 			rootElement.normalize();
@@ -52,6 +51,13 @@ public class XMLReader {
 		catch (NumberFormatException e) {
 			throw new WrongXMLException();
 		}
+		
+		String delimiter = element.getAttribute("delimiter");
+		
+		if (delimiter.isEmpty())
+			throw new WrongXMLException();
+		
+		settings.setDelimiter(delimiter);
 	}
 	
 	public static void readColumns(Settings settings, NodeList columns) throws WrongXMLException {
@@ -99,7 +105,7 @@ public class XMLReader {
 	
 	public static void main(String[] args) {
 		try {
-			System.out.println(readXMLFile(new File("settings.xml")));
+			System.out.println(readXMLFile("/settings.xml"));
 		} 
 		catch (WrongXMLException e) {
 			e.printStackTrace();
