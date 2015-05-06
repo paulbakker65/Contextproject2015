@@ -11,10 +11,12 @@ import input.TXTReader;
 public class Main {
 
 	public static void main(String[] args) throws IOException, URISyntaxException {
-		Table test = CSVReader.read("/csvexample.csv");
+		Table test = CSVReader.read("/Q_ADMIRE_metingen_pagevisits_141214.csv");
 		Table txtTest = TXTReader.read("/ADMIRE_13.txt");
-		System.out.println(test);
-		System.out.println(txtTest);
+		Table patientWebsite = test.getPatientByID("admire13");
+		patientWebsite.addAll(txtTest);
+		System.out.println(patientWebsite);
+		//System.out.println(txtTest);
 		
 	}
 	

@@ -1,8 +1,6 @@
 package table;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Table extends ArrayList<Tuple> {
 	
@@ -10,21 +8,16 @@ public class Table extends ArrayList<Tuple> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-
-	public static void main(String[] args) throws FileNotFoundException {
-		System.out.println(new Scanner(new Table().getClass().getResourceAsStream("/csvexample.csv").toString()));
-	}
 	
-	public Tuple getPatientByID(int id) {
+	public Table getPatientByID(String id) {
+		Table table = new Table();
 		 for(int i = 0; i < this.size(); i++) {
-			if(this.get(i).containsKey("userid")){
-				if(Integer.valueOf(this.get(i).get("userid")) == id){
-					return this.get(i);
+				if(this.get(i).get("Login").equals(id)){
+					table.add(this.get(i));
 				}
-			}
+	
 		 }
-		return null;
+		return table;
 	}
 	
 	
