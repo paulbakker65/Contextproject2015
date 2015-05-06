@@ -1,4 +1,4 @@
-<settings startLine="7" delimiter=";">
+<settings startLine="7" delimiter=",">
 	<column name="Measurement" />
 	<column name="Value" type="number" />
 	<column name="Unit" />

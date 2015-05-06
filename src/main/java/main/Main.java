@@ -17,10 +17,10 @@ public class Main {
 		Settings settings_website = XMLReader.readXMLFile("/settings_website.xml");
 		Table websiteTest = CSVReader.read("/Q_ADMIRE_metingen_pagevisits_141214.csv", settings_website);
 		Table txtTest = CSVReader.read("/ADMIRE_13.txt", settings);
-		//Table patientWebsite = test.getPatientByID("admire13");
-		//patientWebsite.addAll(txtTest);
-		System.out.println(websiteTest);
-		System.out.println(txtTest);
+		Table patientWebsite = websiteTest.getPatientByID("admire13");
+		patientWebsite.addAll(txtTest);
+		System.out.println(patientWebsite);
+		
 		
 	}
 	

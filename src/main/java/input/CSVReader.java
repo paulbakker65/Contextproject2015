@@ -18,7 +18,7 @@ public class CSVReader {
 			sc.nextLine();
 		}
 		while(sc.hasNext()){
-			String[] values = sc.nextLine().split(";");
+			String[] values = sc.nextLine().split(settings.getDelimiter());
 			if(values.length == columns.size()){
 				data.add(new Record(columns, values));
 			}
