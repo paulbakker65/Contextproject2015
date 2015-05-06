@@ -11,11 +11,16 @@ public class DateConversion {
 	 * @param excelSerial Excel Style Date in SerialDate format.
 	 * @return Date object in java.util.Date style
 	 */
-	public static Date fromExcelSerialToDate2(int excelSerial) {
-		GregorianCalendar c = new GregorianCalendar();
-		c.set(1900, GregorianCalendar.JANUARY, 1);
+	public static Date fromExcelSerialToDate(double excelSerial) {
+		int nDays = (int)Math.floor(excelSerial);
+		double partialDays = excelSerial - nDays;
+		int nMillis = (int)(partialDays * 24 * 60 * 60 * 1000);
 		
-		c.add(GregorianCalendar.DAY_OF_YEAR, excelSerial);
+		GregorianCalendar c = new GregorianCalendar();
+		c.set(1900, GregorianCalendar.JANUARY, 1, 0, 0, 0);
+		
+		c.add(GregorianCalendar.DAY_OF_YEAR, nDays);
+		c.add(GregorianCalendar.MILLISECOND, nMillis);
 		
 		return c.getTime();	
 	}
