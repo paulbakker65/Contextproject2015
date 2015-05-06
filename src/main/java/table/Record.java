@@ -18,7 +18,9 @@ public class Record extends HashMap<String, String> {
 	
 	public Record(ArrayList<Column> col, String[] val) {
 		for(int i = 0; i < col.size(); i++) {
-			this.put(col.get(i).getName(), val[i]);
+			if(!val[i].equals("NULL") && !val[i].isEmpty()) { 
+				this.put(col.get(i).getName(), val[i]);
+			}
 		}
 	}
 	
