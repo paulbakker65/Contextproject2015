@@ -51,6 +51,13 @@ public class XMLReader {
 		catch (NumberFormatException e) {
 			throw new WrongXMLException();
 		}
+		
+		String delimiter = element.getAttribute("delimiter");
+		
+		if (delimiter.isEmpty())
+			throw new WrongXMLException();
+		
+		settings.setDelimiter(delimiter);
 	}
 	
 	public static void readColumns(Settings settings, NodeList columns) throws WrongXMLException {
