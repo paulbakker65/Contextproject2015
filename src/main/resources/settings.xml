@@ -1,5 +1,8 @@
-<settings startLine="1" delimiter=";">
-	<column name="User id" />
+<settings startLine="7" delimiter=";">
+	<column name="Measurement" />
 	<column name="Value" type="number" />
-	<column name="Date" type="date" format="DDMMYY" /> 
+	<column name="Unit" />
+	<column name="Useless" /> 
+	<column name="Date" type="date" format="YYMMDD" /> 
+	<column name="Time" type="date" format="HHMM" />  
 </settings>
