@@ -14,11 +14,12 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
 		Settings settings = XMLReader.readXMLFile("/settings.xml");
-		//Table websiteTest = CSVReader.read("/Q_ADMIRE_metingen_pagevisits_141214.csv", settings);
+		Settings settings_website = XMLReader.readXMLFile("/settings_website.xml");
+		Table websiteTest = CSVReader.read("/Q_ADMIRE_metingen_pagevisits_141214.csv", settings_website);
 		Table txtTest = CSVReader.read("/ADMIRE_13.txt", settings);
 		//Table patientWebsite = test.getPatientByID("admire13");
 		//patientWebsite.addAll(txtTest);
-		//System.out.println(patientWebsite);
+		System.out.println(websiteTest);
 		System.out.println(txtTest);
 		
 	}
