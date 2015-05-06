@@ -43,7 +43,7 @@ public class Main {
 		Table hospitalVisitPatient = hospital.getPatientByID("13", "PatientID");
 		
 		Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
-		Exporter.export(txtTest, new FileWriter("output2.csv"), settings);
+		Exporter.export(statsensor, new FileWriter("output2.csv"), settings_statsensor);
 		Exporter.export(hospitalVisitPatient, new FileWriter("output3.csv"), settings_hospital);
 	}
 }
