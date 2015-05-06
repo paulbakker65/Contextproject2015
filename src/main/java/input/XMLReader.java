@@ -36,7 +36,7 @@ public class XMLReader {
 		return res;
 	}
 	
-	public static void readSettings(Settings settings, Element element) throws WrongXMLException {
+	private static void readSettings(Settings settings, Element element) throws WrongXMLException {
 		if (!element.getNodeName().equals("settings"))
 			throw new WrongXMLException();
 		
@@ -60,7 +60,7 @@ public class XMLReader {
 		settings.setDelimiter(delimiter);
 	}
 	
-	public static void readColumns(Settings settings, NodeList columns) throws WrongXMLException {
+	private static void readColumns(Settings settings, NodeList columns) throws WrongXMLException {
 		for (int i = 0; i < columns.getLength(); i++) {				 
 			Node node = columns.item(i);
 	 
@@ -71,7 +71,7 @@ public class XMLReader {
 		}		
 	}
 	
-	public static void readColumn(Settings settings, Element column) throws WrongXMLException {
+	private static void readColumn(Settings settings, Element column) throws WrongXMLException {
 		String name = column.getAttribute("name");
 		
 		if (name.isEmpty())
@@ -94,7 +94,7 @@ public class XMLReader {
 		settings.addColumn(newCol);
 	}
 	
-	public static void setDateFormat(DateColumn date, Element column) throws WrongXMLException {
+	private static void setDateFormat(DateColumn date, Element column) throws WrongXMLException {
 		String format = column.getAttribute("format");
 		
 		if (format.isEmpty())
@@ -103,12 +103,12 @@ public class XMLReader {
 		date.setFormat(format);
 	}
 	
-	public static void main(String[] args) {
-		try {
-			System.out.println(readXMLFile("/settings.xml"));
-		} 
-		catch (WrongXMLException e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+//			System.out.println(readXMLFile("/settings.xml"));
+//		} 
+//		catch (WrongXMLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
