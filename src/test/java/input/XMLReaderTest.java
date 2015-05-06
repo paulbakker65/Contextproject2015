@@ -12,7 +12,7 @@ public class XMLReaderTest {
 	public void correctXMLTest() {
 		try {
 			Settings settings = XMLReader.readXMLFile("/correct_xml.xml");
-			
+				
 			assertEquals(7, settings.getStartLine());
 			assertEquals(";", settings.getDelimiter());
 			assertTrue(settings.getColumns().get(0) instanceof StringColumn);
@@ -81,5 +81,14 @@ public class XMLReaderTest {
 	public void emptyNameXMLTest() throws WrongXMLException {		
 		@SuppressWarnings("unused")
 		Settings settings = XMLReader.readXMLFile("/empty_name.xml");		
+	}
+	
+	@Test
+	public void toStringTest() {
+		Settings settings = new Settings();
+		String res = "startLine:\t" + 1 + "\n";
+		res += "delimiter:\t\"" + "," + "\"\n";
+		res += "columns:\t";
+		assertEquals(res, settings.toString());
 	}
 }
