@@ -1,30 +1,60 @@
 package input;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import table.Table;
 import table.Record;
 
 
-public class CSVReader {
+public class CSVReader extends Reader{
+	private String delimiter = ";";
 	
-	public static Table read (String file, Settings settings) throws IOException {
-		Table data = new Table();
-		Scanner sc = new Scanner(new CSVReader().getClass().getResourceAsStream(file));
-		ArrayList<Column> columns = settings.getColumns();
-		for(int i = 0; i < settings.getStartLine() - 1; i++) {
-			sc.nextLine();
-		}
-		while(sc.hasNext()){
-			String[] values = sc.nextLine().split(settings.getDelimiter());
-			if(values.length == columns.size()){
-				data.add(new Record(columns, values));
-			}
-		}
-		sc.close();
-		return data;
+	private FileReader fr;
+	private BufferedReader br;
+	
+	
+	public CSVReader(String filepath) throws FileNotFoundException {
+		super();
+		this.filepath = filepath;
+		
+		fr = new FileReader(filepath);
+	    br = new BufferedReader(fr);
 	}
 	
+	
+
+	public CSVReader(String filepath, String delimiter) throws FileNotFoundException {
+		this(filepath);
+		this.delimiter = delimiter;
+	}
+
+
+
+	public String[] readRow(){
+		String line = null;
+		try {
+			line = br.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(line == null)
+			return null;
+		String[] record = line.split(delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+		return record;
+	}
+	
+
+	public String getDelimiter() {
+		return delimiter;
+	}
+
+	public void setDelimiter(String delimiter) {
+		this.delimiter = delimiter;
+	}
 }
