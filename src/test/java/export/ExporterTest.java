@@ -9,30 +9,30 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import database.DataRow;
-import database.Database;
+import table.Record;
+import table.Table;
 
 public class ExporterTest {
 
 	
-	DataRow dummyrow1;
-	DataRow dummyrow2;
-	Database dummydb;
+	Record dummyrow1;
+	Record dummyrow2;
+	Table dummydb;
 	String[] cols = {"fruit","groente","saus"};
 	
 	@Before
 	public void setUp(){
-		dummyrow1 = new DataRow();
-		dummyrow1.addColumn("groente", "wortel");
-		dummyrow1.addColumn("saus", "mayonaise");
+		dummyrow1 = new Record();
+		dummyrow1.put("groente", "wortel");
+		dummyrow1.put("saus", "mayonaise");
 		
-		dummyrow2 = new DataRow();
-		dummyrow2.addColumn("fruit", "banaan");
-		dummyrow2.addColumn("groente", "bloemkool");
+		dummyrow2 = new Record();
+		dummyrow2.put("fruit", "banaan");
+		dummyrow2.put("groente", "bloemkool");
 		
-		dummydb = new Database();
-		dummydb.addRow(dummyrow1);
-		dummydb.addRow(dummyrow2);
+		dummydb = new Table();
+		dummydb.add(dummyrow1);
+		dummydb.add(dummyrow2);
 	}
 	
 	@Test

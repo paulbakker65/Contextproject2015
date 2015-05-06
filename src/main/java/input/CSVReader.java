@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import table.Table;
-import table.Tuple;
+import table.Record;
 
 
 public class CSVReader {
@@ -14,7 +14,7 @@ public class CSVReader {
 		Scanner sc = new Scanner(new CSVReader().getClass().getResourceAsStream(file));
 		String[] columns = sc.nextLine().split(";");
 		while(sc.hasNext()){
-			data.add(new Tuple(columns, sc.nextLine().split(";")));
+			data.add(new Record(columns, sc.nextLine().split(";")));
 		}
 		sc.close();
 		return data;
