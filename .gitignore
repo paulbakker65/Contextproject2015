@@ -1,4 +1,4 @@
 /target/
-.csv
-.xls
-.xlsx
+*.csv
+*.xls
+*.xlsx
