@@ -9,10 +9,10 @@ public class Table extends ArrayList<Record> {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public Table getPatientByID(String id) {
+	public Table getPatientByID(String id, String col) {
 		Table table = new Table();
 		 for(int i = 0; i < this.size(); i++) {
-				if(this.get(i).get("Login").equals(id)){
+				if(this.get(i).get(col).equals(id)){
 					table.add(this.get(i));
 				}
 	

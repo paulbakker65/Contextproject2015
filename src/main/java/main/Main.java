@@ -15,10 +15,14 @@ public class Main {
 	public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
 		Settings settings = XMLReader.readXMLFile("/settings.xml");
 		Settings settings_website = XMLReader.readXMLFile("/settings_website.xml");
+		Settings settings_hospital = XMLReader.readXMLFile("/settings_hospital.xml");
+		Table hospitalTest = CSVReader.read("/Afspraken_geanonimiseerd.csv", settings_hospital);
 		Table websiteTest = CSVReader.read("/Q_ADMIRE_metingen_pagevisits_141214.csv", settings_website);
 		Table txtTest = CSVReader.read("/ADMIRE_13.txt", settings);
-		Table patientWebsite = websiteTest.getPatientByID("admire13");
+		Table patientWebsite = websiteTest.getPatientByID("admire13", "Login");
+		Table hospitalVisitPatient = hospitalTest.getPatientByID("13", "PatientID");
 		patientWebsite.addAll(txtTest);
+		patientWebsite.addAll(hospitalVisitPatient);
 		System.out.println(patientWebsite);
 		
 		
