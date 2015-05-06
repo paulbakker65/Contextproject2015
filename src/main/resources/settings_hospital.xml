@@ -1,0 +1,6 @@
+<settings startLine="2" delimiter=";">
+	<column name="PatientID" type="number" />
+	<column name="Group" type="number" />
+	<column name="Date" type="date" format="DDMMYY" /> 
+	<column name="Summary" />  
+</settings>
