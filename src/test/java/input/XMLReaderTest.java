@@ -101,6 +101,6 @@ public class XMLReaderTest {
 		res += "name: col2,\ttype: number\n\t\t";
 		res += "name: col3,\ttype: date,\tformat: yyMMdd\n\t\t";
 		assertEquals(res, settings.toString());
-		assertEquals(sdf, dc.getFormat());
+		assertEquals(sdf, dc.getFormat());		
 	}
 }

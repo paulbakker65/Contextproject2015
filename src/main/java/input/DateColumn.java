@@ -1,7 +1,12 @@
 package input;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import parsers.ColumnTypeMismatchException;
+import parsers.DateValue;
+import parsers.Value;
 
 
 public class DateColumn extends Column {
@@ -32,5 +37,15 @@ public class DateColumn extends Column {
 	
 	public String toString() {
 		return super.toString() + ",\ttype: date,\tformat: " + formatStr;
+	}
+
+	@Override
+	public Value convertToValue(String text) throws ColumnTypeMismatchException {
+		try {
+			return new DateValue(format.parse(text));
+		}
+		catch (ParseException e) {
+			throw new ColumnTypeMismatchException(e.getMessage());
+		}
 	}
 }
