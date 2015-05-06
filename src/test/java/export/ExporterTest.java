@@ -1,7 +1,11 @@
 package export;
 
 import static org.junit.Assert.assertEquals;
+import input.Settings;
+import input.WrongXMLException;
+import input.XMLReader;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,10 +22,13 @@ public class ExporterTest {
 	Record dummyrow1;
 	Record dummyrow2;
 	Table dummydb;
-	String[] cols = {"fruit","groente","saus"};
+	
+	
+	Settings settings;
+	String[] cols;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws WrongXMLException{
 		dummyrow1 = new Record();
 		dummyrow1.put("groente", "wortel");
 		dummyrow1.put("saus", "mayonaise");
@@ -33,10 +40,12 @@ public class ExporterTest {
 		dummydb = new Table();
 		dummydb.add(dummyrow1);
 		dummydb.add(dummyrow2);
+		
+		settings = XMLReader.readXMLFile("/settings.xml");
 	}
 	
 	@Test
-	public void testExport() {
+	public void testExport() throws IOException {
 		String expected = "\"fruit\",\"groente\",\"saus\"\n\"\",\"wortel\",\"mayonaise\"\n\"banaan\",\"bloemkool\",\"\"\n";
 		//"fruit","groente","saus"
 		//"","wortel","mayonaise"
@@ -44,7 +53,7 @@ public class ExporterTest {
 		
 		
 		StringWriter w = new StringWriter();
-		Exporter.export(dummydb,w);
+		Exporter.export(dummydb,w, settings);
 		assertEquals(expected, w.toString());
 	}
 

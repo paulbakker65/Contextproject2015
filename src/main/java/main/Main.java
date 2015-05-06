@@ -27,9 +27,9 @@ public class Main {
 		System.out.println(patientWebsite);
 		System.out.println(hospitalVisitPatient);
 
-		Exporter.export(patientWebsite, new FileWriter("output.csv"));
-		Exporter.export(txtTest, new FileWriter("output2.csv"));
-		Exporter.export(hospitalVisitPatient, new FileWriter("output3.csv"));
+		Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
+		Exporter.export(txtTest, new FileWriter("output2.csv"), settings);
+		Exporter.export(hospitalVisitPatient, new FileWriter("output3.csv"), settings_hospital);
 		
 		
 	}
