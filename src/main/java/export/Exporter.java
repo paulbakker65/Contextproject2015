@@ -9,33 +9,32 @@ import java.util.Set;
 
 import com.opencsv.CSVWriter;
 
-import database.DataRow;
-import database.Database;
+import table.*;
 
 public class Exporter {
 
-	public static void export(Database db, Writer writer) {
+	public static void export(Table db, Writer writer) {
 		List<String> columns = new ArrayList(getAllColumns(db)); //Get all the columns
 
 		CSVWriter csvwriter = new CSVWriter(writer);
 		csvwriter.writeNext(columns.toArray(new String[columns.size()])); //write column names
-		for (DataRow dr : db.getRows()){
+		for (Record dr : db){
 			csvwriter.writeNext(generateRow(dr,columns));
 		}
 	}
 	
-	public static Set<String> getAllColumns(Database db){
+	public static Set<String> getAllColumns(Table db){
 		Set<String> col = new HashSet<String>();
-		for (DataRow dr : db.getRows()) {
-			col.addAll(dr.getHashMap().keySet());
+		for (Record dr : db) {
+			col.addAll(dr.keySet());
 		}
 		return col;
 	}
 	
-	public static String[] generateRow(DataRow dr, List<String> columns){
+	public static String[] generateRow(Record dr, List<String> columns){
 		List<String> items = new ArrayList<String>();
 		for (String column : columns){
-			String value = dr.getHashMap().get(column);
+			String value = dr.get(column);
 			if (value==null)
 				items.add("");
 			else

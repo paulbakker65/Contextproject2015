@@ -2,7 +2,7 @@ package table;
 
 import java.util.ArrayList;
 
-public class Table extends ArrayList<Tuple> {
+public class Table extends ArrayList<Record> {
 	
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class Table extends ArrayList<Tuple> {
 	public String toString() {
 		String res = "";
 		
-		for (Tuple tuple : this) {
+		for (Record tuple : this) {
 			res += tuple.toString() + "\n";
 		}
 		

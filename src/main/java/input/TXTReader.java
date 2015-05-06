@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import table.Table;
-import table.Tuple;
+import table.Record;
 
 public class TXTReader {
 
@@ -25,7 +25,7 @@ public class TXTReader {
 				return data;
 			}
 			else{
-				data.add(new Tuple(columns, sc.nextLine().split(",")));
+				data.add(new Record(columns, sc.nextLine().split(",")));
 			}
 		}
 		sc.close();
