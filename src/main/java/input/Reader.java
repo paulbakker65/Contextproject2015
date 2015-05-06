@@ -11,10 +11,6 @@ public abstract class Reader {
 		return filepath;
 	}
 
-	public void setFilepath(String filepath) {
-		this.filepath = filepath;
-	}
-
 	@Override
 	public String toString() {
 		return "Reader [filepath=" + filepath + "]";
