@@ -1,12 +1,14 @@
 package export;
 
 import static org.junit.Assert.assertEquals;
+import input.Column;
 import input.Settings;
 import input.WrongXMLException;
 import input.XMLReader;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -42,11 +44,16 @@ public class ExporterTest {
 		dummydb.add(dummyrow2);
 		
 		settings = XMLReader.readXMLFile("/settings.xml");
+		ArrayList<Column> colstemp = settings.getColumns();
+		cols = new String[colstemp.size()];
+		for(int i = 0; i < colstemp.size(); i++) {
+			cols[i] = colstemp.get(i).getName();
+		}
 	}
 	
 	@Test
 	public void testExport() throws IOException {
-		String expected = "\"fruit\",\"groente\",\"saus\"\n\"\",\"wortel\",\"mayonaise\"\n\"banaan\",\"bloemkool\",\"\"\n";
+		String expected = "\"fruit\";\"groente\";\"saus\"\n\"\";\"wortel\";\"mayonaise\"\n\"banaan\";\"bloemkool\";\"\"\n";
 		//"fruit","groente","saus"
 		//"","wortel","mayonaise"
 		//"banaan","bloemkool",""
@@ -55,11 +62,6 @@ public class ExporterTest {
 		StringWriter w = new StringWriter();
 		Exporter.export(dummydb,w, settings);
 		assertEquals(expected, w.toString());
-	}
-
-	@Test
-	public void testGetAllColumns() {
-		assertEquals(new HashSet(Arrays.asList(cols)),Exporter.getAllColumns(dummydb));
 	}
 
 	@Test

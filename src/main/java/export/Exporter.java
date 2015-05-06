@@ -23,22 +23,14 @@ public class Exporter {
 			columns.add(col.getName());
 		}
 
-		CSVWriter csvwriter = new CSVWriter(writer);
+		CSVWriter csvwriter = new CSVWriter(writer, settings.getDelimiter().charAt(0));
 		csvwriter.writeNext(columns.toArray(new String[columns.size()])); //write column names
 		for (Record dr : db){
 			csvwriter.writeNext(generateRow(dr,columns));
 		}
 		csvwriter.close();
 	}
-	
-	public static Set<String> getAllColumns(Table db){
-		Set<String> col = new HashSet<String>();
-		for (Record dr : db) {
-			col.addAll(dr.keySet());
-		}
-		return col;
-	}
-	
+		
 	public static String[] generateRow(Record dr, List<String> columns){
 		List<String> items = new ArrayList<String>();
 		for (String column : columns){
