@@ -1,8 +1,6 @@
 package input;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 
 public class DateColumn extends Column {
 	private DateFormat format;

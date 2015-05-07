@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,12 +63,14 @@ public class ExporterTest {
 		assertEquals(expected, w.toString());
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testGenerateRow1() {
 		String[] expected = {"","wortel","mayonaise"};
 		assertEquals(expected,Exporter.generateRow(dummyrow1, Arrays.asList(cols)));
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testGenerateRow2() {
 		String[] expected = {"banaan","bloemkool",""};

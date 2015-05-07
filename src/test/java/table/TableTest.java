@@ -1,6 +1,7 @@
 package table;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import input.Column;
 import input.StringColumn;
 
@@ -11,7 +12,7 @@ import org.junit.Test;
 
 public class TableTest {
 	
-	Table t;
+	private Table t;
 	
 	@Before
 	public void setUp() {
