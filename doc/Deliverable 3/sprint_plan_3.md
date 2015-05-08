@@ -31,4 +31,4 @@ A a researcher I want to place constraints on the data so that to discard data n
 
 ### Story 10
 
-As a researcher I want to obtain chunks of the data so that 
+As a researcher I want to obtain chunks of the data so that I can analyze chunks of data individually.
