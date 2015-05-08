@@ -1,10 +1,23 @@
 package parsers;
 
+/**
+ * Case class for representing that no value is present.
+ * @author Robin
+ *
+ */
 public class NullValue extends Value {
+	
+	/**
+	 * Constructs a new NullValue.
+	 */
+	public NullValue() {}
+	
+	@Override
 	public String toString() {
 		return "";
 	}
 	
+	@Override
 	public boolean equals(Object other) {
 		return (other instanceof NullValue);
 	}

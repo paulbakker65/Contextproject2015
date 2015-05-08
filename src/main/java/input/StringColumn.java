@@ -1,16 +1,25 @@
 package input;
 
-import parsers.ColumnTypeMismatchException;
 import parsers.NullValue;
 import parsers.StringValue;
 import parsers.Value;
 
+/**
+ * Case class for specifying a column with just text.
+ * @author Robin
+ *
+ */
 public class StringColumn extends Column {
 
+	/**
+	 * Constructs a new StringColumn.
+	 * @param name the name of the column.
+	 */
 	public StringColumn(String name) {
 		super(name);
 	}
 	
+	@Override
 	public String toString() {
 		return super.toString() + ",\ttype: text";
 	}
