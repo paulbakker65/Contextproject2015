@@ -7,11 +7,13 @@ import input.StringColumn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import parsers.StringValue;
+import parsers.Value;
 
 public class RecordTest {
 
@@ -26,17 +28,17 @@ public class RecordTest {
 	
 	@Test
 	public void testContructor() {
-		Map<String,String> expected = new HashMap<String,String>();
-		expected.put("fruit", "banana");
-		expected.put("drink", "milk");
+		Map<String,Value> expected = new HashMap<String,Value>();
+		expected.put("fruit", new StringValue("banana"));
+		expected.put("drink", new StringValue("milk"));
 		
-		assertEquals(expected,new Record(cols,new String[]{"banana","milk"}));
+		assertEquals(expected,new Record(cols,new Value[]{new StringValue("banana"), new StringValue("milk")}));
 		
 	}
 	
 	@Test
 	public void testToString(){
-		Record r = new Record(cols,new String[]{"banana","milk"});
+		Record r = new Record(cols,new StringValue[]{new StringValue("banana"), new StringValue("milk")});
 		String result = r.toString();
 		if (result.indexOf("banana")==-1||result.indexOf("milk")==-1){
 			fail(result);

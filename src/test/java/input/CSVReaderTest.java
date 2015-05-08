@@ -1,7 +1,8 @@
 package input;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.junit.Before;
@@ -11,44 +12,60 @@ import table.Record;
 import table.Table;
 
 public class CSVReaderTest {
-
-	Record dummyrow;
-	Record dummyrow1;
-	Record dummyrow2;
-	Table dummydb;
-	
-	Settings settings;
-	Table table;
+	Settings settings;	
+	String filepath = "src/test/resources/csvexample.csv";
 	
 	@Before
 	public void setUp() throws WrongXMLException{
-		dummyrow = new Record();
-		dummyrow.put("fruit", "appel");
-		dummyrow.put("groente", "aardappel");
-		dummyrow.put("saus", "appelmoes");
-		
-		dummyrow1 = new Record();
-		dummyrow1.put("groente", "wortel");
-		dummyrow1.put("saus", "mayonaise");
-		
-		dummyrow2 = new Record();
-		dummyrow2.put("fruit", "banaan");
-		dummyrow2.put("groente", "bloemkool");
-		
-		dummydb = new Table();
-		dummydb.add(dummyrow);
-		dummydb.add(dummyrow1);
-		dummydb.add(dummyrow2);
-		
 		settings = XMLReader.readXMLFile("/settings.xml");
 	}
 	
 	@Test
-	public void goodWeatherTest() throws IOException {
-		table = CSVReader.read("/csvexample.csv", settings);
-		assertEquals(table.get(0), dummyrow);
-		assertEquals(table.get(1), dummyrow1);
-		assertEquals(table.get(2), dummyrow2);
+	public void filepathTest() throws FileNotFoundException{
+		CSVReader reader = new CSVReader(filepath, settings.getDelimiter());
+		assertEquals(reader.getFilepath(), filepath);
 	}
 	
+	@Test
+	public void delimiterTest() throws FileNotFoundException{
+		CSVReader reader = new CSVReader(filepath, settings.getDelimiter());
+		assertEquals(reader.getDelimiter(), settings.getDelimiter());
+		
+		String newdelimiter = "\t\t";
+		reader.setDelimiter(newdelimiter);
+		assertEquals(reader.getDelimiter(), newdelimiter);
+		
+		newdelimiter = ";";
+		reader.setDelimiter(newdelimiter);
+		assertEquals(reader.getDelimiter(), newdelimiter);
+	}
+	
+
+	@Test
+	public void csvexampleTest() throws IOException {
+		CSVReader reader = new CSVReader(filepath, settings.getDelimiter());
+		
+		String row1Actual[] = reader.readRow();
+		String row1expected[] = {"appel", "aardappel", "appelmoes"};
+		assertArrayEquals(row1expected, row1Actual);
+		
+		String row2Actual[] = reader.readRow();
+		String row2expected[] = {"", "wortel", "mayonaise"};
+		assertArrayEquals(row2expected, row2Actual);
+		
+		String row3Actual[] = reader.readRow();
+		String row3expected[] = {"banaan", "bloemkool", ""};
+		assertArrayEquals(row3expected, row3Actual);
+		
+		String row4Actual[] = reader.readRow();
+		String row4expected[] = {"\"mango;mango\"", "zuurkool met worst", "appel"};
+		assertArrayEquals(row4expected, row4Actual);
+		
+	}
+	
+	@Test
+	public void tostringTest() throws FileNotFoundException{
+		CSVReader reader = new CSVReader(filepath, settings.getDelimiter());
+		assertEquals("Reader [filepath=" + filepath + "]", reader.toString());
+	}
 }

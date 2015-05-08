@@ -1,4 +1,5 @@
 /target/
+/medical/
 *.csv
 *.xls
 *.xlsx

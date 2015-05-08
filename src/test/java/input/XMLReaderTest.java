@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.text.SimpleDateFormat;
+
 import org.junit.Test;
 
 public class XMLReaderTest {
@@ -86,9 +88,19 @@ public class XMLReaderTest {
 	@Test
 	public void toStringTest() {
 		Settings settings = new Settings();
+		settings.addColumn(new StringColumn("col"));
+		settings.addColumn(new NumberColumn("col2"));
+		
+		DateColumn dc = new DateColumn("col3", "yyMMdd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");	
+		settings.addColumn(dc);
+		
 		String res = "startLine:\t" + 1 + "\n";
 		res += "delimiter:\t\"" + "," + "\"\n";
-		res += "columns:\t";
+		res += "columns:\tname: col,\ttype: text\n\t\t";
+		res += "name: col2,\ttype: number\n\t\t";
+		res += "name: col3,\ttype: date,\tformat: yyMMdd\n\t\t";
 		assertEquals(res, settings.toString());
+		assertEquals(sdf, dc.getFormat());		
 	}
 }

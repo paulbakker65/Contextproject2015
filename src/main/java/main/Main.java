@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import export.Exporter;
+import parsers.ColumnTypeMismatchException;
 import parsers.Parser;
 import table.Table;
 import input.CSVReader;
@@ -15,7 +16,7 @@ import input.XMLReader;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
+	public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException, ColumnTypeMismatchException {
 		Settings settings_website = XMLReader.readXMLFile("/settings_website.xml");
 		Settings settings_statsensor = XMLReader.readXMLFile("/settings.xml");
 		Settings settings_hospital = XMLReader.readXMLFile("/settings_hospital.xml");
@@ -35,8 +36,8 @@ public class Main {
 		parser = new Parser(settings_hospital);
 		Table hospital = parser.Parse(reader);
 		
-		//System.out.println(website);
-		//System.out.println(statsensor);
+//		System.out.println(website);
+//		System.out.println(statsensor);
 		//System.out.println(hospital);
 		
 		Table patientWebsite = website.getPatientByID("admire13", "Login");

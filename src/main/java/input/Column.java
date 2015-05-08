@@ -1,5 +1,8 @@
 package input;
 
+import parsers.ColumnTypeMismatchException;
+import parsers.Value;
+
 public abstract class Column {
 	protected String name;
 	
@@ -18,4 +21,6 @@ public abstract class Column {
 	public String toString() {
 		return "name: " + name;
 	}
+	
+	public abstract Value convertToValue(String text) throws ColumnTypeMismatchException;
 }
