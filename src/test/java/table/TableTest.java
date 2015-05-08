@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import parsers.StringValue;
+
 public class TableTest {
 	
 	Table t;
@@ -22,7 +24,7 @@ public class TableTest {
 			ArrayList<Column> cols = new ArrayList<Column>();
 			cols.add(new StringColumn("userid"));
 			cols.add(new StringColumn("random"));
-			Record r = new Record(cols, new String[]{i+"", i * 10 + ""});
+			Record r = new Record(cols, new StringValue[]{new StringValue(i+""), new StringValue(i * 10 + "")});
 			t.add(r);
 		}
 		// Add 10 more records with the same user id's
@@ -30,7 +32,7 @@ public class TableTest {
 			ArrayList<Column> cols = new ArrayList<Column>();
 			cols.add(new StringColumn("userid"));
 			cols.add(new StringColumn("random"));
-			Record r = new Record(cols, new String[]{i+"", i * 1000 + ""});
+			Record r = new Record(cols, new StringValue[]{new StringValue(i+""), new StringValue(i * 1000 + "")});
 			t.add(r);
 		}
 	}
@@ -64,8 +66,8 @@ public class TableTest {
 		ArrayList<Column> cols = new ArrayList<Column>();
 		cols.add(new StringColumn("userid"));
 		cols.add(new StringColumn("random"));
-		Record r1 = new Record(cols, new String[]{"1", "10"});
-		Record r2 = new Record(cols, new String[]{"1", "1000"});
+		Record r1 = new Record(cols, new StringValue[]{new StringValue("1"), new StringValue("10")});
+		Record r2 = new Record(cols, new StringValue[]{new StringValue("1"), new StringValue("1000")});
 		
 		expected.add(r1);
 		expected.add(r2);
@@ -81,8 +83,8 @@ public class TableTest {
 		ArrayList<Column> cols = new ArrayList<Column>();
 		cols.add(new StringColumn("userid"));
 		cols.add(new StringColumn("random"));
-		Record r1 = new Record(cols, new String[]{"1", "10"});
-		Record r2 = new Record(cols, new String[]{"1", "1000"});
+		Record r1 = new Record(cols, new StringValue[]{new StringValue("1"), new StringValue("10")});
+		Record r2 = new Record(cols, new StringValue[]{new StringValue("1"), new StringValue("1000")});
 		
 		expected.add(r1);
 		expected.add(r2);
@@ -98,7 +100,7 @@ public class TableTest {
 		ArrayList<Column> cols = new ArrayList<Column>();
 		cols.add(new StringColumn("userid"));
 		cols.add(new StringColumn("random"));
-		Record r1 = new Record(cols, new String[]{"1", "10"});
+		Record r1 = new Record(cols, new StringValue[]{new StringValue("1"), new StringValue("10")});
 		
 		expected.add(r1);
 		
@@ -113,8 +115,8 @@ public class TableTest {
 		ArrayList<Column> cols = new ArrayList<Column>();
 		cols.add(new StringColumn("userid"));
 		cols.add(new StringColumn("random"));
-		Record r1 = new Record(cols, new String[]{"1", "10"});
-		Record r2 = new Record(cols, new String[]{"1", "5"});
+		Record r1 = new Record(cols,  new StringValue[]{new StringValue("1"), new StringValue("10")});
+		Record r2 = new Record(cols,  new StringValue[]{new StringValue("1"), new StringValue("5")});
 		
 		expected.add(r1);
 		expected.add(r2);
@@ -130,8 +132,8 @@ public class TableTest {
 		ArrayList<Column> cols = new ArrayList<Column>();
 		cols.add(new StringColumn("userid"));
 		cols.add(new StringColumn("random"));
-		Record r1 = new Record(cols, new String[]{"1", "5"});
-		Record r2 = new Record(cols, new String[]{"1", "5"});
+		Record r1 = new Record(cols, new StringValue[]{new StringValue("1"), new StringValue("5")});
+		Record r2 = new Record(cols, new StringValue[]{new StringValue("1"), new StringValue("5")});
 		
 		expected.add(r1);
 		expected.add(r2);
