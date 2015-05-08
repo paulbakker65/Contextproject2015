@@ -26,15 +26,15 @@ public class Main {
 		
 		reader = new CSVReader("medical/Q_ADMIRE_metingen_pagevisits_141214.csv", settings_statsensor.getDelimiter());
 		parser = new Parser(settings_website);
-		Table website = parser.Parse(reader);
+		Table website = parser.parse(reader);
 		
 		reader = new CSVReader("medical/measured creatinine/ADMIRE_13.txt", settings_statsensor.getDelimiter());
 		parser = new Parser(settings_statsensor);
-		Table statsensor = parser.Parse(reader);
+		Table statsensor = parser.parse(reader);
 		
 		reader = new CSVReader("medical/Afspraken_geanonimiseerd.csv", settings_statsensor.getDelimiter());
 		parser = new Parser(settings_hospital);
-		Table hospital = parser.Parse(reader);
+		Table hospital = parser.parse(reader);
 		
 //		System.out.println(website);
 //		System.out.println(statsensor);
