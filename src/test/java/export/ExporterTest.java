@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import parsers.StringValue;
 import table.Record;
 import table.Table;
 
@@ -32,12 +32,12 @@ public class ExporterTest {
 	@Before
 	public void setUp() throws WrongXMLException{
 		dummyrow1 = new Record();
-		dummyrow1.put("groente", "wortel");
-		dummyrow1.put("saus", "mayonaise");
+		dummyrow1.put("groente", new StringValue("wortel"));
+		dummyrow1.put("saus", new StringValue("mayonaise"));
 		
 		dummyrow2 = new Record();
-		dummyrow2.put("fruit", "banaan");
-		dummyrow2.put("groente", "bloemkool");
+		dummyrow2.put("fruit", new StringValue("banaan"));
+		dummyrow2.put("groente", new StringValue("bloemkool"));
 		
 		dummydb = new Table();
 		dummydb.add(dummyrow1);
