@@ -31,4 +31,24 @@ public class DateValue extends Value {
 	public String toString() {
 		return new SimpleDateFormat("yyyy-MM-dd").format(value);
 	}
+
+	@Override
+	public boolean isNumeric() {
+		return false;
+	}
+
+	@Override
+	public boolean isDate() {
+		return true;
+	}
+
+	@Override
+	public boolean isString() {
+		return false;
+	}
+
+	@Override
+	public boolean isNull() {
+		return false;
+	}
 }

@@ -16,7 +16,7 @@ public class StringColumn extends Column {
 	}
 
 	@Override
-	public Value convertToValue(String text) throws ColumnTypeMismatchException {
+	public Value convertToValue(String text) {
 		if (text.toLowerCase().equals("null") || text.isEmpty())
 			return new NullValue();
 		

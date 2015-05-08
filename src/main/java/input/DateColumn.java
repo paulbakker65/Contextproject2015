@@ -17,7 +17,7 @@ public class DateColumn extends Column {
 	private String formatStr;
 	
 	public DateColumn(String name) {
-		super(name);
+		this(name, "yyyy-MM-dd");
 	}
 	
 	public DateColumn(String name, String format) {
@@ -28,11 +28,15 @@ public class DateColumn extends Column {
 	public DateFormat getFormat() {
 		return format;
 	}
+	
+	public String getFormatStr() {
+		return formatStr;
+	}
 
 	public void setFormat(String format) {
-		this.formatStr = format.toLowerCase();
+		this.formatStr = format;
 		
-		if (formatStr.equals("excel"))
+		if (formatStr.toLowerCase().equals("excel"))
 			this.format = null;
 		else
 			this.format = new SimpleDateFormat(format);
@@ -51,7 +55,7 @@ public class DateColumn extends Column {
 		try {
 			if (text.toLowerCase().equals("null") || text.isEmpty())
 				return new NullValue();
-			if (formatStr.equals("excel"))
+			if (formatStr.toLowerCase().equals("excel"))
 				return new DateValue(convertExcelDate(text));
 				
 			return new DateValue(format.parse(text));

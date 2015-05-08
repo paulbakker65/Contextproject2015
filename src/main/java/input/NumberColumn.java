@@ -24,7 +24,6 @@ public class NumberColumn extends Column {
 			return new NumberValue(Double.parseDouble(text));
 		}
 		catch (NumberFormatException e) {
-			System.out.println(text);
 			throw new ColumnTypeMismatchException();
 		}
 	}

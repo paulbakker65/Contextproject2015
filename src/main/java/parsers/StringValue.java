@@ -28,4 +28,24 @@ public class StringValue extends Value {
 	public String toString() {
 		return value;
 	}
+	
+	@Override
+	public boolean isNumeric() {
+		return false;
+	}
+
+	@Override
+	public boolean isDate() {
+		return false;
+	}
+
+	@Override
+	public boolean isString() {
+		return true;
+	}
+
+	@Override
+	public boolean isNull() {
+		return false;
+	}
 }
