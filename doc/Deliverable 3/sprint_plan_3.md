@@ -14,10 +14,10 @@ Group: Health Informatics 5
 | Story 10	 | There must be chucking possible in the current data format | Jan | 8 hours
 |			 | The chunk command must be represented into script language | Paul | 2 hours      | 
 |			 | Determine how a chunk should be represented into an output file | Paul| 3 hours |
-| Organisation	 | Update emerging architecture | ??? | 2 hours
-|  | Update product planning| ??? | 1 hours
-|  | Optimizing Maven and Travis | ??? | 1 hours
-|  | Sprint plan | ??? | 1 hours
+| Organisation	 | Update emerging architecture | Paul & Jan | 2 hours
+|  | Comment on product planning| Everyone | 0.5 hours per person
+|  | Fixing Maven and Travis | Jan | 3 hours
+|  | Sprint plan | Paul (scrum master) | 1 hours
 
 ## User Stories
 
