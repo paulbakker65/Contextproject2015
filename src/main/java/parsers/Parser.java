@@ -38,13 +38,13 @@ public class Parser {
 			
 			for (int i = 0; i < columns.size(); i++) {
 				values[i] = columns.get(i).convertToValue(row[i]);
-				System.out.print(values[i].toString() + "\t");
+				//System.out.print(values[i].toString() + "\t");
 			}
-			System.out.println();
+			//System.out.println();
 			
 			//TODO: Transform record values from String to Value and adapt all dependencies. 
 			
-			Record tuple = new Record(columns, row);
+			Record tuple = new Record(columns, values);
 			t.add(tuple);
 			
 			row = r.readRow();
