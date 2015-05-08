@@ -25,3 +25,7 @@ The user must be able to export the data on which it has made calculations to a 
 ### Story 3
 
 The user should be able to keep track of this project. 
+
+##Brief reflection
+
+This week we had as final goal to have a simple reader and exporter working for our demo this friday and the database structure needed to achieve this. We worked in pairs for most of the tasks, as they were each quite substantial pieces of the program. We thought that having four eyes looking at such basic funtionallity would be beneficial. The estimated effort was a good estimate so we have finished all our tasks on time. For the next sprint we will have smaller tasks so we will be working less together and everyone will have their own responsibilities. The user stories in the sprint plans will from now on be based on those from the Product Planning and we will also update the Emergent Architecture Design document if anything in our program changes. 
