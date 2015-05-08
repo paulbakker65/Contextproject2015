@@ -3,12 +3,10 @@ package table;
 import table.DateConversion;
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class DateConversionTest {
