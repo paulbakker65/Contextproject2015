@@ -14,4 +14,8 @@ public class NumberValue extends Value {
 	public void setValue(double value) {
 		this.value = value;
 	}
+	
+	public String toString() {
+		return Integer.toString((int) value);
+	}
 }

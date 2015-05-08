@@ -2,11 +2,14 @@ package input;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import parsers.ColumnTypeMismatchException;
 import parsers.DateValue;
+import parsers.NullValue;
 import parsers.Value;
+import table.DateConversion;
 
 
 public class DateColumn extends Column {
@@ -27,8 +30,12 @@ public class DateColumn extends Column {
 	}
 
 	public void setFormat(String format) {
-		this.formatStr = format;
-		this.format = new SimpleDateFormat(format);
+		this.formatStr = format.toLowerCase();
+		
+		if (formatStr.equals("excel"))
+			this.format = null;
+		else
+			this.format = new SimpleDateFormat(format);
 	}
 	
 //	public DateColumn(String format, Locale language) {
@@ -42,10 +49,24 @@ public class DateColumn extends Column {
 	@Override
 	public Value convertToValue(String text) throws ColumnTypeMismatchException {
 		try {
+			if (text.toLowerCase().equals("null") || text.isEmpty())
+				return new NullValue();
+			if (formatStr.equals("excel"))
+				return new DateValue(convertExcelDate(text));
+				
 			return new DateValue(format.parse(text));
 		}
 		catch (ParseException e) {
 			throw new ColumnTypeMismatchException(e.getMessage());
+		}
+	}
+	
+	private Date convertExcelDate(String text) throws ColumnTypeMismatchException {
+		try {
+			return DateConversion.fromExcelSerialToDate(Double.parseDouble(text));
+		}
+		catch (NumberFormatException e) {
+			throw new ColumnTypeMismatchException();
 		}
 	}
 }

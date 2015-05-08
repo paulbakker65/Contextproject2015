@@ -1,6 +1,7 @@
 package input;
 
 import parsers.ColumnTypeMismatchException;
+import parsers.NullValue;
 import parsers.StringValue;
 import parsers.Value;
 
@@ -16,6 +17,9 @@ public class StringColumn extends Column {
 
 	@Override
 	public Value convertToValue(String text) throws ColumnTypeMismatchException {
+		if (text.toLowerCase().equals("null") || text.isEmpty())
+			return new NullValue();
+		
 		return new StringValue(text);
 	}
 }

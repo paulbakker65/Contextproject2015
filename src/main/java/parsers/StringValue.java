@@ -14,4 +14,8 @@ public class StringValue extends Value {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	public String toString() {
+		return value;
+	}
 }

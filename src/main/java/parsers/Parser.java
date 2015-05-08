@@ -38,7 +38,9 @@ public class Parser {
 			
 			for (int i = 0; i < columns.size(); i++) {
 				values[i] = columns.get(i).convertToValue(row[i]);
+				System.out.print(values[i].toString() + "\t");
 			}
+			System.out.println();
 			
 			//TODO: Transform record values from String to Value and adapt all dependencies. 
 			

@@ -1,4 +1,5 @@
 package parsers;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -15,5 +16,9 @@ public class DateValue extends Value {
 
 	public void setValue(Date value) {
 		this.value = value;
+	}
+	
+	public String toString() {
+		return new SimpleDateFormat("yyyy-MM-dd").format(value);
 	}
 }
