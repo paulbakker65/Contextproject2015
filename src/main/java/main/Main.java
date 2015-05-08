@@ -35,15 +35,19 @@ public class Main {
 		parser = new Parser(settings_hospital);
 		Table hospital = parser.Parse(reader);
 		
-		//System.out.println(website);
-		//System.out.println(statsensor);
-		//System.out.println(hospital);
 		
 		Table patientWebsite = website.getPatientByID("admire13", "Login");
 		Table hospitalVisitPatient = hospital.getPatientByID("13", "PatientID");
 		
+		System.out.println(patientWebsite);
+		System.out.println();
+		System.out.println(statsensor);
+		System.out.println();
+		System.out.println(hospitalVisitPatient);
+		
 		Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
 		Exporter.export(statsensor, new FileWriter("output2.csv"), settings_statsensor);
 		Exporter.export(hospitalVisitPatient, new FileWriter("output3.csv"), settings_hospital);
+		System.out.println("Demo finished!");
 	}
 }
