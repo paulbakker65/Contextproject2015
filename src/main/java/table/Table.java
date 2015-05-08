@@ -2,6 +2,8 @@ package table;
 
 import java.util.ArrayList;
 
+import parsers.StringValue;
+
 public class Table extends ArrayList<Record> {
 	
 	/**
@@ -19,7 +21,7 @@ public class Table extends ArrayList<Record> {
 	public Table getPatientByID(String id, String col) {
 		Table table = new Table();
 		 for(int i = 0; i < this.size(); i++) {
-				if(this.get(i).get(col).toString().equals(id)){
+				if(this.get(i).get(col).equals(new StringValue(id))){
 					table.add(this.get(i));
 				}
 	

@@ -15,6 +15,16 @@ public class StringValue extends Value {
 		this.value = value;
 	}
 	
+	public boolean equals(Object other) {
+		if (other instanceof StringValue) {
+			StringValue that = (StringValue) other;
+			
+			return (this.value.equals(that.value));
+		}
+		
+		return false;
+	}
+	
 	public String toString() {
 		return value;
 	}

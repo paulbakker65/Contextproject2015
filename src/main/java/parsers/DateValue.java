@@ -18,6 +18,16 @@ public class DateValue extends Value {
 		this.value = value;
 	}
 	
+	public boolean equals(Object other) {
+		if (other instanceof DateValue) {
+			DateValue that = (DateValue) other;
+			
+			return (this.value.equals(that.value));
+		}
+		
+		return false;
+	}
+	
 	public String toString() {
 		return new SimpleDateFormat("yyyy-MM-dd").format(value);
 	}
