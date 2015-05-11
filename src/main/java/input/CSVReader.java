@@ -4,12 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
-
-import table.Table;
-import table.Record;
-
 
 public class CSVReader extends Reader{
 	private String delimiter = ";";

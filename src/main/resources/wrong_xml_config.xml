@@ -2,4 +2,4 @@
 	<column name="Measurement" />
 	<column name="Value" type="number" />
 	<column name="Date" type="date"/>  
-	
+</table>	

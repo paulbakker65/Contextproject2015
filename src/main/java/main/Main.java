@@ -6,7 +6,9 @@ import java.net.URISyntaxException;
 
 import export.Exporter;
 import parsers.ColumnTypeMismatchException;
+import parsers.NumberValue;
 import parsers.Parser;
+import parsers.StringValue;
 import table.Table;
 import input.CSVReader;
 import input.Reader;
@@ -26,25 +28,32 @@ public class Main {
 		
 		reader = new CSVReader("medical/Q_ADMIRE_metingen_pagevisits_141214.csv", settings_statsensor.getDelimiter());
 		parser = new Parser(settings_website);
-		Table website = parser.Parse(reader);
+		Table website = parser.parse(reader);
 		
 		reader = new CSVReader("medical/measured creatinine/ADMIRE_13.txt", settings_statsensor.getDelimiter());
 		parser = new Parser(settings_statsensor);
-		Table statsensor = parser.Parse(reader);
+		Table statsensor = parser.parse(reader);
 		
 		reader = new CSVReader("medical/Afspraken_geanonimiseerd.csv", settings_statsensor.getDelimiter());
 		parser = new Parser(settings_hospital);
-		Table hospital = parser.Parse(reader);
+		Table hospital = parser.parse(reader);
 		
 //		System.out.println(website);
 //		System.out.println(statsensor);
 		//System.out.println(hospital);
 		
-		Table patientWebsite = website.getPatientByID("admire13", "Login");
-		Table hospitalVisitPatient = hospital.getPatientByID("13", "PatientID");
+		Table patientWebsite = website.getPatientByID(new StringValue("admire13"), "Login");
+		Table hospitalVisitPatient = hospital.getPatientByID(new NumberValue(13), "PatientID");
+		
+		System.out.println(patientWebsite);
+		System.out.println();
+		System.out.println(statsensor);
+		System.out.println();
+		System.out.println(hospitalVisitPatient);
 		
 		Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
 		Exporter.export(statsensor, new FileWriter("output2.csv"), settings_statsensor);
 		Exporter.export(hospitalVisitPatient, new FileWriter("output3.csv"), settings_hospital);
+		System.out.println("Demo finished!");
 	}
 }

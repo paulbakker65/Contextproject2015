@@ -1,5 +1,6 @@
 package export;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import input.Column;
 import input.Settings;
@@ -67,13 +68,13 @@ public class ExporterTest {
 	@Test
 	public void testGenerateRow1() {
 		String[] expected = {"","wortel","mayonaise"};
-		assertEquals(expected,Exporter.generateRow(dummyrow1, Arrays.asList(cols)));
+		assertArrayEquals(expected,Exporter.generateRow(dummyrow1, Arrays.asList(cols)));
 	}
 	
 	@Test
 	public void testGenerateRow2() {
 		String[] expected = {"banaan","bloemkool",""};
-		assertEquals(expected,Exporter.generateRow(dummyrow2, Arrays.asList(cols)));
+		assertArrayEquals(expected,Exporter.generateRow(dummyrow2, Arrays.asList(cols)));
 	}
 
 }

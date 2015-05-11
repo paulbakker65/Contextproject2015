@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import input.Column;
 import input.DateColumn;

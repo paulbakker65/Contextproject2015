@@ -1,7 +1,7 @@
 package table;
 
 import table.DateConversion;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
 import java.util.Date;
