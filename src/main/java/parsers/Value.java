@@ -10,6 +10,9 @@ public abstract class Value implements Comparable<Value> {
 	 * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal
 	 * checks the instance of the Value to pick a specific compareTo overload.
 	 * @param o Value object to compare to
+	 * @return 0 if equal to o <br> 
+	 * 		  -1 if less than o <br>
+	 * 		   1 if more than o, or if the values cannot be compared <br>
 	 */
 	public int compareTo(Value o) {
 		if (this instanceof StringValue) {
@@ -44,6 +47,6 @@ public abstract class Value implements Comparable<Value> {
 				return Integer.MAX_VALUE;
 			}
 		}
-		return 0;
+		return Integer.MAX_VALUE;
 	}
 }
