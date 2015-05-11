@@ -5,7 +5,9 @@ import input.Column;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Record extends HashMap<String, String> {
+import parsers.Value;
+
+public class Record extends HashMap<String, Value> {
 
 	/**
 	 * 
@@ -16,9 +18,9 @@ public class Record extends HashMap<String, String> {
 		super();
 	}
 	
-	public Record(ArrayList<Column> col, String[] val) {
+	public Record(ArrayList<Column> col, Value[] val) {
 		for(int i = 0; i < col.size(); i++) {
-			if(!val[i].equals("NULL") && !val[i].isEmpty()) { 
+			if(!val[i].equals("NULL")) { 
 				this.put(col.get(i).getName(), val[i]);
 			}
 		}
@@ -27,7 +29,7 @@ public class Record extends HashMap<String, String> {
 	public String toString() {
 		String res = "";
 		
-		for (String val : values()) {
+		for (Value val : values()) {
 			res += val + "\t";
 		}
 		

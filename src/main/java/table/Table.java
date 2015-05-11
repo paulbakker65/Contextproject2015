@@ -2,6 +2,8 @@ package table;
 
 import java.util.ArrayList;
 
+import parsers.Value;
+
 public class Table extends ArrayList<Record> {
 	
 	/**
@@ -16,7 +18,7 @@ public class Table extends ArrayList<Record> {
 	 * @param col The header of the column containing the user id
 	 * @return A Table object with all row's for a given user.
 	 */
-	public Table getPatientByID(String id, String col) {
+	public Table getPatientByID(Value id, String col) {
 		Table table = new Table();
 		 for(int i = 0; i < this.size(); i++) {
 				if(this.get(i).get(col).equals(id)){

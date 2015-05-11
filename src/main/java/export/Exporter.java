@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import parsers.Value;
 
 import com.opencsv.CSVWriter;
 
@@ -32,11 +33,11 @@ public class Exporter {
 	public static String[] generateRow(Record dr, List<String> columns){
 		List<String> items = new ArrayList<String>();
 		for (String column : columns){
-			String value = dr.get(column);
+			Value value = dr.get(column);
 			if (value==null)
 				items.add("");
 			else
-				items.add(value);
+				items.add(value.toString());
 		}
 		return items.toArray(new String[items.size()]);
 	}

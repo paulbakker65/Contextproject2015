@@ -2,7 +2,7 @@
  <column name="CMI_id" type="number" />
  <column name="Revision" type="number" /> 
  <column name="Moment" />
- <column name="Date" type="number" />
+ <column name="Date" type="date" format="excel" />
  <column name="Sequence" type="number" />
  <column name="Value" type="number" />
  <column name="Value2" type="number" />
@@ -13,9 +13,9 @@
  <column name="KADRI" type="number"/>
  <column name="Comment" />
  <column name="CreatedBy" />
- <column name="CreatedDate" type="date" format="DD-MM-YY" />
+ <column name="CreatedDate" type="date" format="dd/MM/yy" />
  <column name="ModifiedBy" />
- <column name="ModifiedDate" type="date" format="DD-MM-YY" />
+ <column name="ModifiedDate" type="date" format="dd/MM/yy" />
  <column name="UserId" type="number"/>
  <column name="CM_Id" type="number"/>
  <column name="Login" />
