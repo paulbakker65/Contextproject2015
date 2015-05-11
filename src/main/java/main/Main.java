@@ -4,12 +4,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import operations.ChunkingOperation;
+import operations.ChunkingOperation.ChunkComparatorEnum;
 import export.Exporter;
 import parsers.ColumnTypeMismatchException;
 import parsers.NumberValue;
 import parsers.Parser;
 import parsers.StringValue;
-import process.Chunker;
 import table.Table;
 import input.CSVReader;
 import input.Reader;
@@ -53,9 +54,10 @@ public class Main {
 		System.out.println(hospitalVisitPatient);
 		System.out.println();
 		
-		Chunker chunker = new Chunker(patientWebsite);
-		Table temp = chunker.chunkOnMonth("Date");
-		System.out.println(temp);
+		ChunkingOperation chunker = new ChunkingOperation(patientWebsite);
+		chunker.setOperationParameters("Date", ChunkComparatorEnum.MONTH);
+		chunker.execute();
+		System.out.println(chunker.getResult());
 
 		
 		Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
