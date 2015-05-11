@@ -9,6 +9,7 @@ import parsers.ColumnTypeMismatchException;
 import parsers.NumberValue;
 import parsers.Parser;
 import parsers.StringValue;
+import process.Chunker;
 import table.Table;
 import input.CSVReader;
 import input.Reader;
@@ -50,6 +51,12 @@ public class Main {
 		System.out.println(statsensor);
 		System.out.println();
 		System.out.println(hospitalVisitPatient);
+		System.out.println();
+		
+		Chunker chunker = new Chunker(patientWebsite);
+		Table temp = chunker.chunkOnMonth("Date");
+		System.out.println(temp);
+
 		
 		Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
 		Exporter.export(statsensor, new FileWriter("output2.csv"), settings_statsensor);
