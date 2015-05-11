@@ -1,6 +1,6 @@
 package parsers;
 
-public class StringValue extends Value implements Comparable<StringValue> {
+public class StringValue extends Value {
 	private String value;
 	
 	public StringValue(String value) {
@@ -49,7 +49,6 @@ public class StringValue extends Value implements Comparable<StringValue> {
 		return false;
 	}
 
-	@Override
 	public int compareTo(StringValue o) {
 		return this.value.compareTo(o.value);
 	}

@@ -1,6 +1,6 @@
 package parsers;
 
-public class NumberValue extends Value implements Comparable<NumberValue> {
+public class NumberValue extends Value {
 	private double value;
 	
 	public NumberValue(double value) {

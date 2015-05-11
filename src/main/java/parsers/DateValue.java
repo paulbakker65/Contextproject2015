@@ -2,7 +2,7 @@ package parsers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateValue extends Value implements Comparable<DateValue> {
+public class DateValue extends Value {
 	private Date value;
 	
 	public DateValue(Date value) {

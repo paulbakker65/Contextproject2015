@@ -81,92 +81,9 @@ public class FilterOperation extends Operation {
 	}
 
 	/**
-	 * this method is called by
-	 * {@link #constraintFunction(Value, ConstraintComparatorEnum, Value)
-	 * constraintFunction(...)} if the Value is of type NumberValue. see
-	 * {@link #constraintFunction(Value, ConstraintComparatorEnum, Value)
-	 * constraintFunction(...)} for more information
-	 * 
-	 * @param recordValue
-	 *            record value
-	 * @param constraintComparatorEnum
-	 *            used constraint type (ENUM)
-	 * @param constraintValue
-	 *            constraint value to meet
-	 * @return <b>false</b> iff the record value does not meet the constraint, <br>
-	 *         <b>true</b> if the record value meets the constraint, <br>
-	 *         <b>true</b> if the constraint type is undefined
-	 */
-	private boolean constraintFunction(NumberValue recordValue,
-			ConstraintComparatorEnum constraintComparatorEnum,
-			NumberValue constraintValue) {
-		// compare the values
-		int compareResult = recordValue.compareTo(constraintValue);
-		switch (constraintComparatorEnum) {
-		case EQ:
-			return (compareResult == 0);
-		case G:
-			return (compareResult > 0);
-		case GEQ:
-			return (compareResult >= 0);
-		case L:
-			return (compareResult < 0);
-		case LEQ:
-			return (compareResult <= 0);
-		case ND:
-			return false;
-		default:
-			return false;
-		}
-	}
-
-	/**
-	 * this method is called by
-	 * {@link #constraintFunction(Value, ConstraintComparatorEnum, Value)
-	 * constraintFunction(...)} if the Value is of type DateValue. see
-	 * {@link #constraintFunction(Value, ConstraintComparatorEnum, Value)
-	 * constraintFunction(...)} for more information
-	 * 
-	 * @param recordValue
-	 *            record value
-	 * @param constraintComparatorEnum
-	 *            used constraint type (ENUM)
-	 * @param constraintValue
-	 *            constraint value to meet
-	 * @return <b>false</b> iff the record value does not meet the constraint, <br>
-	 *         <b>true</b> if the record value meets the constraint, <br>
-	 *         <b>true</b> if the constraint type is undefined
-	 */
-	private boolean constraintFunction(DateValue recordValue,
-			ConstraintComparatorEnum constraintComparatorEnum,
-			DateValue constraintValue) {
-		// compare the values
-		int compareResult = recordValue.compareTo(constraintValue);
-		switch (constraintComparatorEnum) {
-		case EQ:
-			return (compareResult == 0);
-		case G:
-			return (compareResult > 0);
-		case GEQ:
-			return (compareResult >= 0);
-		case L:
-			return (compareResult < 0);
-		case LEQ:
-			return (compareResult <= 0);
-		case ND:
-			return false;
-		default:
-			return false;
-		}
-	}
-
-	/**
 	 * calculates whether a record value meets a constraint or not, this
-	 * function calls either
-	 * {@link #constraintFunction(NumberValue, ConstraintComparatorEnum, NumberValue)}
-	 * or
-	 * {@link #constraintFunction(DateValue, ConstraintComparatorEnum, DateValue)}
-	 * depending on the actual type of Value
+	 * function uses the compareTo function of Value which in turn chooses which compareTo it
+	 * uses based on the actual subclass.
 	 * 
 	 * @param recordValue
 	 *            record value, type generic Value
@@ -181,19 +98,19 @@ public class FilterOperation extends Operation {
 	private boolean constraintFunction(Value recordValue,
 			ConstraintComparatorEnum constraintComparatorEnum,
 			Value constraintValue) {
-		// if recordValue is a NumberValue, call constraintFunction(NumberValue,NumberValue)
-		if (recordValue.isNumeric()) {
-			return this.constraintFunction((NumberValue)recordValue, constraintComparatorEnum, (NumberValue)constraintValue);
-		}
-		// if recordValue is a DateValue, call constraintFunction(DateValue,DateValue)
-		if(recordValue.isDate()) {
-			return this.constraintFunction((DateValue)recordValue, constraintComparatorEnum, (DateValue)constraintValue);
-		}
-		// else go with generic Value object
-		// generic Value object only supports constraint type equal
+
+		int compareResult = recordValue.compareTo(constraintValue);
 		switch (constraintComparatorEnum) {
 		case EQ:
-			return recordValue.equals(constraintValue);
+			return (compareResult == 0);
+		case G:
+			return (compareResult > 0);
+		case GEQ:
+			return (compareResult >= 0);
+		case L:
+			return (compareResult < 0);
+		case LEQ:
+			return (compareResult <= 0);
 		case ND:
 			return false;
 		default:
