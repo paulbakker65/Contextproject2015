@@ -1,6 +1,6 @@
 package parsers;
 
-public class NumberValue extends Value {
+public class NumberValue extends Value implements Comparable<NumberValue> {
 	private double value;
 	
 	public NumberValue(double value) {
@@ -47,5 +47,12 @@ public class NumberValue extends Value {
 	@Override
 	public boolean isNull() {
 		return false;
+	}
+	
+	public int compareTo(NumberValue o) {
+		Double val = new Double(this.value);
+		Double anotherVal = new Double(o.value);
+		
+		return val.compareTo(anotherVal);
 	}
 }

@@ -1,6 +1,6 @@
 package parsers;
 
-public class NullValue extends Value {
+public class NullValue extends Value implements Comparable<NullValue> {
 	public String toString() {
 		return "";
 	}
@@ -27,5 +27,9 @@ public class NullValue extends Value {
 	@Override
 	public boolean isNull() {
 		return true;
+	}
+
+	public int compareTo(NullValue o) {
+		return 0;
 	}
 }

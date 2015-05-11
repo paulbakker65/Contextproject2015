@@ -2,8 +2,7 @@ package parsers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-public class DateValue extends Value {
+public class DateValue extends Value implements Comparable<DateValue> {
 	private Date value;
 	
 	public DateValue(Date value) {
@@ -50,5 +49,9 @@ public class DateValue extends Value {
 	@Override
 	public boolean isNull() {
 		return false;
+	}
+
+	public int compareTo(DateValue o) {
+		return this.value.compareTo(o.value);
 	}
 }
