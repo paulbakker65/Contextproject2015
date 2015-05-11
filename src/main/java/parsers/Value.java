@@ -62,7 +62,7 @@ public abstract class Value {
 		}
 		else if (this instanceof NullValue) {
 			if (o instanceof NullValue) {
-				return ((StringValue)this).compareTo(((StringValue)o));
+				return ((NullValue)this).compareTo(((NullValue)o));
 			}
 			else {
 				return Integer.MAX_VALUE;
