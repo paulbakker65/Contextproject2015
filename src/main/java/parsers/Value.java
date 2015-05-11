@@ -1,11 +1,5 @@
 package parsers;
 
-public abstract class Value implements Comparable<Value> {
-/**
- * Abstract class for representing a value in a record.
- * @author Robin
- *
- */
 public abstract class Value {
 	
 	/**
