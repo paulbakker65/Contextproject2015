@@ -41,4 +41,8 @@ public class NullValue extends Value {
 	public boolean isNull() {
 		return true;
 	}
+
+	public int compareTo(NullValue o) {
+		return 0;
+	}
 }
