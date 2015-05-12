@@ -68,6 +68,11 @@ public class NumberValue extends Value {
 		return false;
 	}
 	
+	@Override
+	public boolean isTime() {
+		return false;
+	}
+		
 	public int compareTo(NumberValue o) {
 		Double val = new Double(this.value);
 		Double anotherVal = new Double(o.value);

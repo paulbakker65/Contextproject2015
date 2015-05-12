@@ -1,4 +1,4 @@
-<table startLine="1" delimiter=",">
+<table startLine="1", delimiter=",">
 	<column name="Measurement" />
 	<column name="Value" type="number" />
 	<column name="Date" type="date"/>  

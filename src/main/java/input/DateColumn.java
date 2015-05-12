@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.w3c.dom.Element;
+
 import parsers.ColumnTypeMismatchException;
 import parsers.DateValue;
 import parsers.NullValue;
@@ -96,5 +98,15 @@ public class DateColumn extends Column {
 		catch (NumberFormatException e) {
 			throw new ColumnTypeMismatchException();
 		}
+	}
+
+	@Override
+	public void read(Element element) throws WrongXMLException {
+		String format = element.getAttribute("format");
+		
+		if (format.isEmpty())
+			throw new WrongXMLException("Format not specified!");
+		
+		setFormat(format);		
 	}
 }

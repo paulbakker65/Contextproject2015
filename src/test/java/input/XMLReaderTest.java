@@ -85,6 +85,30 @@ public class XMLReaderTest {
 		Settings settings = XMLReader.readXMLFile("/empty_name.xml");		
 	}
 	
+	@Test(expected=WrongXMLException.class)
+	public void noFormatTimeXMLTest() throws WrongXMLException {		
+		@SuppressWarnings("unused")
+		Settings settings = XMLReader.readXMLFile("/no_format_time.xml");		
+	}
+	
+	@Test(expected=WrongXMLException.class)
+	public void noTargetTimeXMLTest() throws WrongXMLException {		
+		@SuppressWarnings("unused")
+		Settings settings = XMLReader.readXMLFile("/no_target_time.xml");		
+	}
+	
+	@Test(expected=WrongXMLException.class)
+	public void wrongTargetTimeXMLTest() throws WrongXMLException {		
+		@SuppressWarnings("unused")
+		Settings settings = XMLReader.readXMLFile("/wrong_target_time.xml");		
+	}	
+	
+	@Test(expected=WrongXMLException.class)
+	public void duplicateNamesXMLTest() throws WrongXMLException {		
+		@SuppressWarnings("unused")
+		Settings settings = XMLReader.readXMLFile("/duplicate_names.xml");		
+	}
+		
 	@Test
 	public void toStringTest() {
 		Settings settings = new Settings();

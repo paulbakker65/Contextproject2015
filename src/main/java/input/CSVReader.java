@@ -34,7 +34,6 @@ public class CSVReader extends Reader{
 		try {
 			line = br.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(line == null)

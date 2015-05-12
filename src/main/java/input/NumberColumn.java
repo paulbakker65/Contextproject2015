@@ -1,5 +1,7 @@
 package input;
 
+import org.w3c.dom.Element;
+
 import parsers.ColumnTypeMismatchException;
 import parsers.NullValue;
 import parsers.NumberValue;
@@ -37,4 +39,7 @@ public class NumberColumn extends Column {
 			throw new ColumnTypeMismatchException("\"" + text + "\" is not a numeric value");
 		}
 	}
+
+	@Override
+	public void read(Element element) throws WrongXMLException {}
 }

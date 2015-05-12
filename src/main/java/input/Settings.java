@@ -1,6 +1,8 @@
 package input;
 import java.util.ArrayList;
 
+import org.w3c.dom.Element;
+
 
 public class Settings {
 	private int startLine;
@@ -41,6 +43,7 @@ public class Settings {
 		columns.add(column);
 	}
 	
+	@Override
 	public String toString() {
 		String res = "startLine:\t" + startLine + "\n";
 		res += "delimiter:\t\"" + delimiter + "\"\n";
@@ -51,5 +54,29 @@ public class Settings {
 		}
 		
 		return res;
+	}
+	
+	public void readSettings(Element element) throws WrongXMLException {
+		if (!element.getNodeName().equals("settings"))
+			throw new WrongXMLException("Root element wrong! Expected: settings, actual: " + element.getNodeName());
+		
+		String startLine = element.getAttribute("startLine");
+		
+		if (startLine.isEmpty())
+			throw new WrongXMLException("No startLine specified!");
+		
+		try {
+			setStartLine(Integer.parseInt(startLine));
+		}
+		catch (NumberFormatException e) {
+			throw new WrongXMLException("StartLine should be a number!");
+		}
+		
+		String delimiter = element.getAttribute("delimiter");
+		
+		if (delimiter.isEmpty())
+			throw new WrongXMLException("No delimiter specified!");
+		
+		setDelimiter(delimiter);
 	}
 }
