@@ -41,4 +41,9 @@ public class NullValue extends Value {
 	public boolean isNull() {
 		return true;
 	}
+	
+	@Override
+	public boolean isTime() {
+		return false;
+	}
 }

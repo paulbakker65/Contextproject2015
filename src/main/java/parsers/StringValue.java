@@ -67,4 +67,9 @@ public class StringValue extends Value {
 	public boolean isNull() {
 		return false;
 	}
+	
+	@Override
+	public boolean isTime() {
+		return false;
+	}
 }

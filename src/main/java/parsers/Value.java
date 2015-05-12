@@ -31,4 +31,10 @@ public abstract class Value {
 	 * @return whether a Value is null.
 	 */
 	public abstract boolean isNull();
+	
+	/**
+	 * Returns whether a Value is a time.
+	 * @return whether a Value is a time.
+	 */
+	public abstract boolean isTime();
 }
