@@ -9,6 +9,7 @@ import java.util.Date;
 
 import parsers.ChunkValue;
 import parsers.DateValue;
+import parsers.NumberValue;
 import parsers.StringValue;
 import parsers.Value;
 import table.Record;
@@ -33,10 +34,11 @@ public class ChunkingOperation extends Operation{
 	 */
 	ArrayList<Column> cols = new ArrayList<Column>();
 	Settings settings;
+	RecordComparator rc;
 	
 	
 	public enum ChunkComparatorEnum{
-		DAY, MONTH, YEAR	
+		DAY, MONTH, YEAR, PATIENT	
 	}
 	
 	public ChunkingOperation(Table input) {
@@ -50,6 +52,7 @@ public class ChunkingOperation extends Operation{
 		this.resultData = new Table();
 		this.operationParametersSet = true;
 		this.settings = settings;
+		this.rc = new RecordComparator(columnName);
 		
 		return this.operationParametersSet;
 	}
@@ -79,6 +82,7 @@ public class ChunkingOperation extends Operation{
 
 	@Override
 	public boolean execute() {
+		inputData.sort(rc);
 		int index = 0;
 		String label = "Chunk " + Integer.toString(index);
 		ChunkValue chunk = new ChunkValue(index, label, new Table());
@@ -105,28 +109,48 @@ public class ChunkingOperation extends Operation{
 	
 	@SuppressWarnings("deprecation")
 	public boolean chunkingOperation(ChunkComparatorEnum cce, Value recordValue, Value check) {
-		DateValue current = (DateValue) check;
-		Date currentDate = current.getValue();
-		DateValue record = (DateValue) recordValue;
-		Date recordDate = record.getValue();
+		
 		
 		switch(cce){
-		case DAY :
+		case DAY : {
+			DateValue current = (DateValue) check;
+			Date currentDate = current.getValue();
+			DateValue record = (DateValue) recordValue;
+			Date recordDate = record.getValue();
 			if((recordDate.getTime()-currentDate.getTime()) < 1000*60*60*24) {
+				
 				return true;
 			}
 			return false;
-		case MONTH :
+		}	
+		case MONTH : {
+			DateValue current = (DateValue) check;
+			Date currentDate = current.getValue();
+			DateValue record = (DateValue) recordValue;
+			Date recordDate = record.getValue();
 			if(recordDate.getMonth() == currentDate.getMonth() && recordDate.getYear() == recordDate.getYear()){
 				return true;
 			}
 			return false;
-		
-		case YEAR : 
+		}
+		case YEAR : {
+			DateValue current = (DateValue) check;
+			Date currentDate = current.getValue();
+			DateValue record = (DateValue) recordValue;
+			Date recordDate = record.getValue();
 			if(recordDate.getYear() == currentDate.getYear()) {
 				return true;
 			}
 			return false;
+		}
+		case PATIENT : {
+			NumberValue current = (NumberValue) check;
+			NumberValue record = (NumberValue) recordValue;
+			if(current.equals(record)) {
+				return true;
+			}
+			return false;
+		}
 		default: return false;	
 		}
 		
