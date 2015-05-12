@@ -21,7 +21,8 @@ public abstract class Operation {
 	 * standard constructor setting inputDataset by parameter inputDataset and
 	 * initialize resultData to an empty dataset
 	 * 
-	 * @param inputDataset the input dataset
+	 * @param inputDataset
+	 *            the input dataset
 	 */
 	public Operation(Table inputDataset) {
 		this.inputData = inputDataset;
@@ -30,13 +31,15 @@ public abstract class Operation {
 	}
 
 	/**
- 	* abstract for retrieving operation result
- 	* @return result dataset
- 	*/
+	 * abstract for retrieving operation result
+	 * 
+	 * @return result dataset
+	 */
 	public abstract Table getResult();
 
 	/**
 	 * abstract for executing operation
+	 * 
 	 * @return true iff succeeded, else false
 	 */
 	public abstract boolean execute();

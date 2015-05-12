@@ -80,8 +80,8 @@ public class FilterOperation extends Operation {
 
 	/**
 	 * calculates whether a record value meets a constraint or not, this
-	 * function uses the compareTo function of Value which in turn chooses which compareTo it
-	 * uses based on the actual subclass.
+	 * function uses the compareTo function of Value which in turn chooses which
+	 * compareTo it uses based on the actual subclass.
 	 * 
 	 * @param recordValue
 	 *            record value, type generic Value
@@ -132,7 +132,8 @@ public class FilterOperation extends Operation {
 	public boolean execute() {
 		for (Record record : this.inputData) {
 			if (record.containsKey(this.columnName)) {
-				if (this.constraintFunction(record.get(this.columnName), this.constraintType, this.constraintValue)) {
+				if (this.constraintFunction(record.get(this.columnName),
+						this.constraintType, this.constraintValue)) {
 					this.resultData.add(record);
 				}
 			}
