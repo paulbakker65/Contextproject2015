@@ -1,13 +1,12 @@
 package operations;
 import java.util.Comparator;
 
-import parsers.DateValue;
 import parsers.Value;
 import table.Record;
 
 /**
- * Compares records based on a time collumn.
- * @author unset
+ * Compares records based on a column.
+ * @author unset, paulbakker65
  *
  * @param <Record>
  */
@@ -16,8 +15,8 @@ public class RecordComparator implements Comparator<Record> {
 	private String col;
 	
 	/**
-	 * Makes a new timecomparator.
-	 * @param col the time-collumn to compare on
+	 * Makes a new Record comparator.
+	 * @param col the column to compare on
 	 */
 	public RecordComparator(String col) {
 		this.col = col;
@@ -25,7 +24,7 @@ public class RecordComparator implements Comparator<Record> {
 
 	
 	/**
-	 * Compares time. Could throw Cast exception!
+	 * Compares the values using their own compareTo methods.
 	 */
 	@Override
 	public int compare(Record o1, Record o2) {

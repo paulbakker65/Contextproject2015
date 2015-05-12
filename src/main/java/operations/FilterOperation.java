@@ -1,7 +1,5 @@
 package operations;
 
-import parsers.DateValue;
-import parsers.NumberValue;
 import parsers.Value;
 import table.Record;
 import table.Table;
