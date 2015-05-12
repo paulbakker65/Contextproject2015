@@ -1,5 +1,7 @@
 package input;
 
+import org.w3c.dom.Element;
+
 import parsers.NullValue;
 import parsers.StringValue;
 import parsers.Value;
@@ -31,4 +33,7 @@ public class StringColumn extends Column {
 		
 		return new StringValue(text);
 	}
+
+	@Override
+	public void read(Element element) throws WrongXMLException {}
 }

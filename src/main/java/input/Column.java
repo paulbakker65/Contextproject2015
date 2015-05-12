@@ -1,5 +1,7 @@
 package input;
 
+import org.w3c.dom.Element;
+
 import parsers.ColumnTypeMismatchException;
 import parsers.Value;
 
@@ -30,6 +32,31 @@ public abstract class Column {
 	 * @throws ColumnTypeMismatchException if the string cannot be converted.
 	 */
 	public abstract Value convertToValue(String text) throws ColumnTypeMismatchException;
+	
+	public abstract void read(Element element) throws WrongXMLException;
+	
+	public static Column readColumn(Element element) throws WrongXMLException {
+		String name = element.getAttribute("name");
+		
+		if (name.isEmpty())
+			throw new WrongXMLException("No name specified!");
+		
+		Column res = null;
+		String type = element.getAttribute("type");				
+		switch (type) {			
+			case "number": 	res = new NumberColumn(name);
+							break;
+			case "date":	res = new DateColumn(name);
+							break;
+			case "time":	res = new TimeColumn(name);
+							break;
+			default: 		res = new StringColumn(name);
+							break;
+		}
+		
+		res.read(element);
+		return res;
+	}
 
 	/**
 	 * Returns the name of the column.
