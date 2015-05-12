@@ -102,6 +102,12 @@ public class XMLReaderTest {
 		@SuppressWarnings("unused")
 		Settings settings = XMLReader.readXMLFile("/wrong_target_time.xml");		
 	}	
+	
+	@Test(expected=WrongXMLException.class)
+	public void duplicateNamesXMLTest() throws WrongXMLException {		
+		@SuppressWarnings("unused")
+		Settings settings = XMLReader.readXMLFile("/duplicate_names.xml");		
+	}
 		
 	@Test
 	public void toStringTest() {
