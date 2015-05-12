@@ -72,4 +72,11 @@ public class NumberValue extends Value {
 	public boolean isTime() {
 		return false;
 	}
+		
+	public int compareTo(NumberValue o) {
+		Double val = new Double(this.value);
+		Double anotherVal = new Double(o.value);
+		
+		return val.compareTo(anotherVal);
+	}
 }

@@ -87,4 +87,8 @@ public class DateValue extends Value {
 	public boolean isTime() {
 		return false;
 	}
+
+	public int compareTo(DateValue o) {
+		return this.value.compareTo(o.value);
+	}
 }
