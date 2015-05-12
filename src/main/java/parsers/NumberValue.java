@@ -73,5 +73,10 @@ public class NumberValue extends Value {
 		Double anotherVal = new Double(o.value);
 		
 		return val.compareTo(anotherVal);
+    }
+    
+	@Override
+	public boolean isTime() {
+		return false;
 	}
 }

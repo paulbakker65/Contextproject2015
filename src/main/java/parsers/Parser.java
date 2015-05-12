@@ -6,6 +6,8 @@ import input.Settings;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import table.Record;
 import table.Table;
@@ -52,17 +54,32 @@ public class Parser {
 		// Read a row, convert the values and store them in the Table.
 		while (row != null && row.length == numcolumns) {			
 			Value[] values = new Value[numcolumns];
+			Map<String, String> timeDateLinks = new HashMap<String, String>();
 			
 			for (int i = 0; i < columns.size(); i++) {
 				values[i] = columns.get(i).convertToValue(row[i]);
+				
+				if (values[i].isTime())
+					timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).getTargetDate());
 			}
 						
 			Record tuple = new Record(columns, values);
+			connectLinks(timeDateLinks, tuple);
 			t.add(tuple);
 			
 			row = reader.readRow();
 		}
 		
 		return t;	
+	}
+	
+	private void connectLinks(Map<String, String> links, Record record) {
+		for (String time : links.keySet()) {
+			TimeValue timeValue = (TimeValue) record.get(time);
+			DateValue dateValue = (DateValue) record.get(links.get(time));
+			
+			dateValue.addTime(timeValue.getValue());
+			timeValue.setValue(dateValue.getValue());
+		}
 	}
 }

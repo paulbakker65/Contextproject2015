@@ -1,24 +1,22 @@
 package parsers;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-/**
- * Case class for representing a date Value.
- * @author Robin
- *
- */
-public class DateValue extends Value {
+public class TimeValue extends Value {
 	private GregorianCalendar value;
+	private String targetDate;
 	
 	/**
 	 * Constructs a new NumberValue
 	 * @param value the stored date.
 	 */
-	public DateValue(Date value) {
+	public TimeValue(Date value, String targetDate) {
+		this.targetDate = targetDate;
 		this.value = new GregorianCalendar();
-		this.setValue(value);
+		this.value.setTime(value);
 	}
 
 	/**
@@ -33,20 +31,14 @@ public class DateValue extends Value {
 	 * Stores a new number date.
 	 * @param value the new number date.
 	 */
-	public void setValue(Date value) {
-		this.value.setTime(value);;
-	}
-	
-	public void addTime(GregorianCalendar time) {
-		value.add(Calendar.HOUR, time.get(Calendar.HOUR));
-		value.add(Calendar.MINUTE, time.get(Calendar.MINUTE));
-		value.add(Calendar.MILLISECOND, time.get(Calendar.MILLISECOND));
+	public void setValue(GregorianCalendar value) {
+		this.value = value;
 	}
 	
 	@Override
 	public boolean equals(Object other) {
-		if (other instanceof DateValue) {
-			DateValue that = (DateValue) other;
+		if (other instanceof TimeValue) {
+			TimeValue that = (TimeValue) other;
 			
 			return (this.value.equals(that.value));
 		}
@@ -56,9 +48,9 @@ public class DateValue extends Value {
 	
 	@Override
 	public String toString() {
-		return new SimpleDateFormat("yyyy-MM-dd").format(getValue().getTime());
+		return new SimpleDateFormat("hh:mm").format(getValue().getTime());
 	}
-
+	
 	@Override
 	public boolean isNumeric() {
 		return false;
@@ -66,7 +58,7 @@ public class DateValue extends Value {
 
 	@Override
 	public boolean isDate() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -78,14 +70,18 @@ public class DateValue extends Value {
 	public boolean isNull() {
 		return false;
 	}
-
-	public int compareTo(DateValue o) {
-		return this.value.compareTo(o.value);
-    }
 	
 	@Override
 	public boolean isTime() {
-		return false;
-
+		return true;
 	}
+
+	public String getTargetDate() {
+		return targetDate;
+	}
+
+	public void setTargetDate(String targetDate) {
+		this.targetDate = targetDate;
+	}
+
 }

@@ -44,5 +44,9 @@ public class NullValue extends Value {
 
 	public int compareTo(NullValue o) {
 		return 0;
+	
+	@Override
+	public boolean isTime() {
+		return false;
 	}
 }
