@@ -43,6 +43,7 @@ public class Settings {
 		columns.add(column);
 	}
 	
+	@Override
 	public String toString() {
 		String res = "startLine:\t" + startLine + "\n";
 		res += "delimiter:\t\"" + delimiter + "\"\n";

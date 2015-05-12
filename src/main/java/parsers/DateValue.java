@@ -13,7 +13,7 @@ public class DateValue extends Value {
 	private GregorianCalendar value;
 	
 	/**
-	 * Constructs a new NumberValue
+	 * Constructs a new DateValue
 	 * @param value the stored date.
 	 */
 	public DateValue(Date value) {
@@ -30,13 +30,17 @@ public class DateValue extends Value {
 	}
 
 	/**
-	 * Stores a new number date.
-	 * @param value the new number date.
+	 * Stores a new date.
+	 * @param value the new date.
 	 */
 	public void setValue(Date value) {
-		this.value.setTime(value);;
+		this.value.setTime(value);
 	}
 	
+	/**
+	 * Adds the time (hours, minutes and milliseconds) to the date value.
+	 * @param time a calendar representing the time.
+	 */
 	public void addTime(GregorianCalendar time) {
 		value.add(Calendar.HOUR, time.get(Calendar.HOUR));
 		value.add(Calendar.MINUTE, time.get(Calendar.MINUTE));

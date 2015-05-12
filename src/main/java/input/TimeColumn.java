@@ -11,6 +11,11 @@ import parsers.NullValue;
 import parsers.TimeValue;
 import parsers.Value;
 
+/**
+ * Case class for specifying a column with time values.
+ * @author Robin
+ *
+ */
 public class TimeColumn extends Column {	
 	/**
 	 * For each column the format must be specified.
@@ -76,6 +81,22 @@ public class TimeColumn extends Column {
 		this.format = new SimpleDateFormat(format);
 	}
 	
+	/**
+	 * Returns the column's target date.
+	 * @return the column's target date.
+	 */
+	public String getTargetDate() {
+		return targetDate;
+	}
+
+	/**
+	 * Gives the column a new target date.
+	 * @param targetDate the new target date.
+	 */
+	public void setTargetDate(String targetDate) {
+		this.targetDate = targetDate;
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString() + ",\ttype: time,\tformat: " + formatStr + ",\ttarget: " + targetDate;
@@ -108,13 +129,5 @@ public class TimeColumn extends Column {
 			throw new WrongXMLException("Target not specified!");
 		
 		setTargetDate(target);		
-	}
-
-	public String getTargetDate() {
-		return targetDate;
-	}
-
-	public void setTargetDate(String targetDate) {
-		this.targetDate = targetDate;
-	}
+	}	
 }
