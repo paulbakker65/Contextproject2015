@@ -1,7 +1,6 @@
 package parsers;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -40,7 +39,7 @@ public class TimeValue extends Value {
 		if (other instanceof TimeValue) {
 			TimeValue that = (TimeValue) other;
 			
-			return (this.value.equals(that.value));
+			return (this.value.equals(that.value) && this.targetDate.equals(that.targetDate));
 		}
 		
 		return false;

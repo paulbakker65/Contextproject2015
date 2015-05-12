@@ -7,56 +7,69 @@ import java.text.SimpleDateFormat;
 import org.w3c.dom.Element;
 
 import parsers.ColumnTypeMismatchException;
-import parsers.DateValue;
 import parsers.NullValue;
 import parsers.TimeValue;
 import parsers.Value;
 
-public class TimeColumn extends Column {
-	private String targetDate;
+public class TimeColumn extends Column {	
 	/**
 	 * For each column the format must be specified.
 	 */
 	private DateFormat format;
 	private String formatStr;
+	/**
+	 * For each column the target date must be specified.
+	 */
+	private String targetDate;
 	
 	/**
 	 * Constructs a new DateColumn using a default format.
 	 * @param name the name of the column.
 	 */
 	public TimeColumn(String name) {
-		this(name, "hhmm");
+		this(name, "hh:mm", null);
 	}
 	
 	/**
-	 * Constructs a new DateColumn.
+	 * Constructs a new TimeColumn.
 	 * @param name the name of the column.
-	 * @param format the date format of the column.
+	 * @param format the time format of the column.
 	 */
 	public TimeColumn(String name, String format) {
-		super(name);
-		this.setFormat(format);
+		this(name, format, null);
 	}
 	
 	/**
-	 * Returns the column's date format.
-	 * @return the column's date format.
+	 * Constructs a new TimeColumn.
+	 * @param name the name of the column.
+	 * @param format the time format of the column.
+	 * @param targetDate the date column to link to.
+	 */
+	public TimeColumn(String name, String format, String targetDate) {
+		super(name);
+		this.setFormat(format);
+		this.setTargetDate(targetDate);
+	}
+	
+	/**
+	 * Returns the column's time format.
+	 * @return the column's time format.
 	 */
 	public DateFormat getFormat() {
 		return format;
 	}
 	
 	/**
-	 * Returns the column's date format as string.
-	 * @return the column's date format as string.
+	 * Returns the column's time format as string.
+	 * @return the column's time format as string.
 	 */
 	public String getFormatStr() {
 		return formatStr;
 	}
 
 	/**
-	 * Gives the column a new date format.
-	 * @param format the new date format.
+	 * Gives the column a new time format.
+	 * @param format the new time format.
 	 */
 	public void setFormat(String format) {
 		this.formatStr = format;		
@@ -65,7 +78,7 @@ public class TimeColumn extends Column {
 	
 	@Override
 	public String toString() {
-		return super.toString() + ",\ttype: time,\tformat: " + formatStr;
+		return super.toString() + ",\ttype: time,\tformat: " + formatStr + ",\ttarget: " + targetDate;
 	}
 	
 	@Override

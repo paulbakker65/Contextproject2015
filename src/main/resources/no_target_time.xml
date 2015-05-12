@@ -1,0 +1,4 @@
+<settings startLine="1" delimiter=",">
+	<column name="Time" type="time" format="hhmm"/> 
+	<column name="Date" type="date" format="yyMMdd" />	
+</settings>

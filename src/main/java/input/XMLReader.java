@@ -44,9 +44,6 @@ public class XMLReader {
 		for (int i = 0; i < columns.getLength(); i++) {				 
 			Node node = columns.item(i);
 	 
-			if (node.getNodeType() != Node.ELEMENT_NODE) 
-				throw new WrongXMLException();
-	 
 			Column newColumn = Column.readColumn((Element) node);	
 			
 			if (newColumn instanceof TimeColumn)
