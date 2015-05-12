@@ -5,7 +5,8 @@ import input.Settings;
 import input.StringColumn;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import parsers.ChunkValue;
 import parsers.DateValue;
@@ -154,7 +155,6 @@ public class ChunkingOperation extends Operation {
 	 *            the recordValue
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	public boolean chunkingOperation(ChunkComparatorEnum cce,
 			Value recordValue, Value check) {
 
@@ -165,10 +165,13 @@ public class ChunkingOperation extends Operation {
 		switch (cce) {
 		case DAY: {
 			DateValue current = (DateValue) check;
-			Date currentDate = current.getValue();
+			GregorianCalendar currentDate = current.getValue();
 			DateValue record = (DateValue) recordValue;
-			Date recordDate = record.getValue();
-			if ((recordDate.getTime() - currentDate.getTime()) < 1000 * 60 * 60 * 24) {
+			GregorianCalendar recordDate = record.getValue();
+			if (recordDate.get(Calendar.DAY_OF_YEAR) == currentDate
+					.get(Calendar.DAY_OF_YEAR)
+					&& recordDate.get(Calendar.YEAR) == currentDate
+							.get(Calendar.YEAR)) {
 
 				return true;
 			}
@@ -176,21 +179,24 @@ public class ChunkingOperation extends Operation {
 		}
 		case MONTH: {
 			DateValue current = (DateValue) check;
-			Date currentDate = current.getValue();
+			GregorianCalendar currentDate = current.getValue();
 			DateValue record = (DateValue) recordValue;
-			Date recordDate = record.getValue();
-			if (recordDate.getMonth() == currentDate.getMonth()
-					&& recordDate.getYear() == recordDate.getYear()) {
+			GregorianCalendar recordDate = record.getValue();
+			if (recordDate.get(Calendar.MONTH) == currentDate
+					.get(Calendar.MONTH)
+					&& recordDate.get(Calendar.YEAR) == currentDate
+							.get(Calendar.YEAR)) {
+
 				return true;
 			}
 			return false;
 		}
 		case YEAR: {
 			DateValue current = (DateValue) check;
-			Date currentDate = current.getValue();
+			GregorianCalendar currentDate = current.getValue();
 			DateValue record = (DateValue) recordValue;
-			Date recordDate = record.getValue();
-			if (recordDate.getYear() == currentDate.getYear()) {
+			GregorianCalendar recordDate = record.getValue();
+			if (recordDate.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)) {
 				return true;
 			}
 			return false;

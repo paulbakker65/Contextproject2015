@@ -56,5 +56,10 @@ public class ChunkValue extends Value {
 	public boolean isNull() {
 		return false;
 	}
+
+	@Override
+	public boolean isTime() {
+		return false;
+	}
 }
 
