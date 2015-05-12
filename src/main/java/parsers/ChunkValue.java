@@ -6,10 +6,6 @@ import table.Table;
 
 public class ChunkValue extends Value {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int index;
 	private String label;
 	private Table table;

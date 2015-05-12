@@ -40,9 +40,6 @@ public class Main {
 		parser = new Parser(settings_hospital);
 		Table hospital = parser.parse(reader);
 		
-//		System.out.println(website);
-//		System.out.println(statsensor);
-		//System.out.println(hospital);
 		
 		Table patientWebsite = website.getPatientByID(new StringValue("admire13"), "Login");
 		Table hospitalVisitPatient = hospital.getPatientByID(new NumberValue(13), "PatientID");
@@ -55,12 +52,12 @@ public class Main {
 		System.out.println();
 		
 		ChunkingOperation chunker = new ChunkingOperation(patientWebsite);
-		chunker.setOperationParameters("Date", ChunkComparatorEnum.MONTH);
+		chunker.setOperationParameters("Date", ChunkComparatorEnum.MONTH, settings_website);
 		chunker.execute();
-		System.out.println(chunker.getResult());
 
 		
-		Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
+		//Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
+		Exporter.export(chunker.getOutput(), new FileWriter("test.csv"), settings_website);
 		Exporter.export(statsensor, new FileWriter("output2.csv"), settings_statsensor);
 		Exporter.export(hospitalVisitPatient, new FileWriter("output3.csv"), settings_hospital);
 		System.out.println("Demo finished!");

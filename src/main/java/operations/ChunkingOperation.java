@@ -1,7 +1,7 @@
 package operations;
 
 import input.Column;
-import input.NumberColumn;
+import input.Settings;
 import input.StringColumn;
 
 import java.util.ArrayList;
@@ -9,7 +9,6 @@ import java.util.Date;
 
 import parsers.ChunkValue;
 import parsers.DateValue;
-import parsers.NumberValue;
 import parsers.StringValue;
 import parsers.Value;
 import table.Record;
@@ -33,6 +32,7 @@ public class ChunkingOperation extends Operation{
 	 * The columns created after chunking.
 	 */
 	ArrayList<Column> cols = new ArrayList<Column>();
+	Settings settings;
 	
 	
 	public enum ChunkComparatorEnum{
@@ -41,16 +41,15 @@ public class ChunkingOperation extends Operation{
 	
 	public ChunkingOperation(Table input) {
 		super(input);
-		cols.add(new NumberColumn("index"));
-		cols.add(new StringColumn("label"));
-		cols.add(new StringColumn("chunk"));
+		cols.add(new StringColumn("Chunk"));
 	}
 	
-	public boolean setOperationParameters(String columnName, ChunkComparatorEnum cce){
+	public boolean setOperationParameters(String columnName, ChunkComparatorEnum cce, Settings settings){
 		this.columnName = columnName;
 		this.cce = cce;
 		this.resultData = new Table();
 		this.operationParametersSet = true;
+		this.settings = settings;
 		
 		return this.operationParametersSet;
 	}
@@ -64,6 +63,19 @@ public class ChunkingOperation extends Operation{
 	public Table getResult() {
 		return resultData;
 	}
+	
+	public Table getOutput() {
+		Table output = new Table();
+		for(Record r: resultData) {
+			ChunkValue temp = (ChunkValue) r.get("Chunk");
+			for(Record r2 : temp.getTable()) {
+				r2.put("Chunk", new StringValue(temp.getLabel()));
+			}
+			output.addAll(temp.getTable());
+		}
+		settings.addColumn(new StringColumn("Chunk"));
+		return output;
+	}
 
 	@Override
 	public boolean execute() {
@@ -76,7 +88,7 @@ public class ChunkingOperation extends Operation{
 				chunk.addRecord(r);
 			}
 			else {
-				Value[] values = {new NumberValue(index), new StringValue(label), chunk};
+				Value[] values = {chunk};
 				resultData.add(new Record(cols, values));
 				index++;
 				label = "Chunk " + Integer.toString(index);
