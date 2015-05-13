@@ -9,11 +9,11 @@ import java.text.SimpleDateFormat;
 import org.junit.Test;
 
 public class XMLReaderTest {
-
+	String folder = "src/main/resources";
 	@Test
 	public void correctXMLTest() {
 		try {
-			Settings settings = XMLReader.readXMLFile("/correct_xml.xml");
+			Settings settings = XMLReader.readXMLFile(folder + "/correct_xml.xml");
 				
 			assertEquals(7, settings.getStartLine());
 			assertEquals(";", settings.getDelimiter());
@@ -27,73 +27,73 @@ public class XMLReaderTest {
 	
 	@Test(expected=WrongXMLException.class)
 	public void wrongStartLineXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/wrong_startline.xml");		
+		XMLReader.readXMLFile(folder + "/wrong_startline.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void noStartLineXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/no_startline.xml");		
+		XMLReader.readXMLFile(folder + "/no_startline.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void noDelimiterXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/no_delimiter.xml");		
+		XMLReader.readXMLFile(folder + "/no_delimiter.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
-	public void noFormatXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/no_format.xml");		
+	public void noFormatXMLTest() throws WrongXMLException {
+		XMLReader.readXMLFile(folder + "/no_format.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void noNameXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/no_name.xml");		
+		XMLReader.readXMLFile(folder + "/no_name.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void noSettingsXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/no_settings.xml");		
+		XMLReader.readXMLFile(folder + "/no_settings.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void wrongTypeXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/wrong_type.xml");		
+		XMLReader.readXMLFile(folder + "/wrong_type.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void wrongConfigXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/wrong_xml_config.xml");		
+		XMLReader.readXMLFile(folder + "/wrong_xml_config.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void emptyFormatXMLTest() throws WrongXMLException {		
 		@SuppressWarnings("unused")
-		Settings settings = XMLReader.readXMLFile("/empty_format.xml");		
+		Settings settings = XMLReader.readXMLFile(folder + "/empty_format.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void emptyNameXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/empty_name.xml");		
+		XMLReader.readXMLFile(folder + "/empty_name.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void noFormatTimeXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/no_format_time.xml");		
+		XMLReader.readXMLFile(folder + "/no_format_time.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void noTargetTimeXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/no_target_time.xml");		
+		XMLReader.readXMLFile(folder + "/no_target_time.xml");		
 	}
 	
 	@Test(expected=WrongXMLException.class)
 	public void wrongTargetTimeXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/wrong_target_time.xml");		
+		XMLReader.readXMLFile(folder + "/wrong_target_time.xml");		
 	}	
 	
 	@Test(expected=WrongXMLException.class)
 	public void duplicateNamesXMLTest() throws WrongXMLException {		
-		XMLReader.readXMLFile("/duplicate_names.xml");		
+		XMLReader.readXMLFile(folder + "/duplicate_names.xml");		
 	}
 		
 	@Test
