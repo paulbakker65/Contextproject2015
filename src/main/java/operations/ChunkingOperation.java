@@ -9,6 +9,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 
+import operations.chunking.ChunkCondition;
+import operations.chunking.DayCondition;
+import operations.chunking.MonthCondition;
+import operations.chunking.PatientCondition;
+import operations.chunking.YearCondition;
 import parsers.ChunkValue;
 import parsers.DateValue;
 import parsers.NumberValue;
@@ -25,9 +30,9 @@ public class ChunkingOperation extends Operation {
 	 */
 	String columnName;
 	/**
-	 * enum for the chunk type
+	 * condition
 	 */
-	ChunkComparatorEnum cce;
+	ChunkCondition cond;
 	/**
 	 * result dataset, after operation
 	 */
@@ -78,7 +83,7 @@ public class ChunkingOperation extends Operation {
 	public boolean setOperationParameters(String columnName,
 			ChunkComparatorEnum cce, Settings settings) {
 		this.columnName = columnName;
-		this.cce = cce;
+		this.cond = getCondition(cce);
 		this.resultData = new Table();
 		
 		this.settings = settings;
@@ -129,7 +134,7 @@ public class ChunkingOperation extends Operation {
 		ChunkValue chunk = new ChunkValue(index, label, new Table());
 		Value check = inputData.get(0).get(columnName);
 		for (Record r : inputData) {
-			if (chunkingOperation(this.cce, r.get(columnName), check)) {
+			if (cond.matches(r.get(columnName), check)) {
 				chunk.addRecord(r);
 			} else {
 				Value[] values = { chunk };
@@ -145,80 +150,30 @@ public class ChunkingOperation extends Operation {
 		return false;
 	}
 
-	/**
-	 * Determines if a new chunk is needed.
-	 * 
-	 * @param cce
-	 *            , the enum on we which to chunk.
-	 * @param recordValue
-	 *            , the current record we need to check.
-	 * @param check
-	 *            , the record from the current chuck by which we will compare
-	 *            the recordValue
-	 * @return
-	 */
-	public boolean chunkingOperation(ChunkComparatorEnum cce,
-			Value recordValue, Value check) {
-
-		/**
-		 * Switch case for determining if a new chunk is needed. Because of the
-		 * cases we can cast without throwing cast exceptions.
-		 */
+	
+	public ChunkCondition getCondition(ChunkComparatorEnum cce) {
 		switch (cce) {
 		case DAY: {
-			DateValue current = (DateValue) check;
-			GregorianCalendar currentDate = current.getValue();
-			DateValue record = (DateValue) recordValue;
-			GregorianCalendar recordDate = record.getValue();
-			if (recordDate.get(Calendar.DAY_OF_YEAR) == currentDate
-					.get(Calendar.DAY_OF_YEAR)
-					&& recordDate.get(Calendar.YEAR) == currentDate
-							.get(Calendar.YEAR)) {
-
-				return true;
-			}
-			return false;
+			return new DayCondition();
 		}
 		case MONTH: {
-			DateValue current = (DateValue) check;
-			GregorianCalendar currentDate = current.getValue();
-			DateValue record = (DateValue) recordValue;
-			GregorianCalendar recordDate = record.getValue();
-			if (recordDate.get(Calendar.MONTH) == currentDate
-					.get(Calendar.MONTH)
-					&& recordDate.get(Calendar.YEAR) == currentDate
-							.get(Calendar.YEAR)) {
-
-				return true;
-			}
-			return false;
+			return new MonthCondition();
 		}
 		case YEAR: {
-			DateValue current = (DateValue) check;
-			GregorianCalendar currentDate = current.getValue();
-			DateValue record = (DateValue) recordValue;
-			GregorianCalendar recordDate = record.getValue();
-			if (recordDate.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)) {
-				return true;
-			}
-			return false;
+
+			return new YearCondition();
 		}
-//		case WEEKEND: {
-//			DateValue current = (DateValue) check;
-//			GregorianCalendar currentDate = current.getValue();
-//			DateValue record = (DateValue) recordValue;
-//			GregorianCalendar recordDate = record.getValue();
-//		}
+
 		case PATIENT: {
-			NumberValue current = (NumberValue) check;
-			NumberValue record = (NumberValue) recordValue;
-			if (current.equals(record)) {
-				return true;
-			}
-			return false;
+
+			return new PatientCondition();
 		}
 		default:
-			return false;
+			return null;
 		}
+		
+		
 	}
+	
+	
 }
