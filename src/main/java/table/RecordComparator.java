@@ -1,9 +1,7 @@
-package operations;
+package table;
 
 import java.util.Comparator;
-
 import parsers.Value;
-import table.Record;
 
 /**
  * Compares records based on a column.

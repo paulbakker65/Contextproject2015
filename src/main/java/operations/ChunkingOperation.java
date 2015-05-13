@@ -6,6 +6,7 @@ import input.StringColumn;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
 import parsers.ChunkValue;
@@ -14,6 +15,7 @@ import parsers.NumberValue;
 import parsers.StringValue;
 import parsers.Value;
 import table.Record;
+import table.RecordComparator;
 import table.Table;
 
 public class ChunkingOperation extends Operation {
@@ -51,7 +53,7 @@ public class ChunkingOperation extends Operation {
 	 *
 	 */
 	public enum ChunkComparatorEnum {
-		DAY, MONTH, YEAR, PATIENT
+		DAY, MONTH, YEAR, WEEKEND, PATIENT
 	}
 
 	/**
@@ -78,10 +80,10 @@ public class ChunkingOperation extends Operation {
 		this.columnName = columnName;
 		this.cce = cce;
 		this.resultData = new Table();
-		this.operationParametersSet = true;
+		
 		this.settings = settings;
 		this.rc = new RecordComparator(columnName);
-
+		this.operationParametersSet = true;
 		return this.operationParametersSet;
 	}
 
@@ -121,7 +123,7 @@ public class ChunkingOperation extends Operation {
 	 */
 	@Override
 	public boolean execute() {
-		inputData.sort(rc);
+		Collections.sort(inputData, rc);
 		int index = 0;
 		String label = "Chunk " + Integer.toString(index);
 		ChunkValue chunk = new ChunkValue(index, label, new Table());
@@ -201,6 +203,12 @@ public class ChunkingOperation extends Operation {
 			}
 			return false;
 		}
+//		case WEEKEND: {
+//			DateValue current = (DateValue) check;
+//			GregorianCalendar currentDate = current.getValue();
+//			DateValue record = (DateValue) recordValue;
+//			GregorianCalendar recordDate = record.getValue();
+//		}
 		case PATIENT: {
 			NumberValue current = (NumberValue) check;
 			NumberValue record = (NumberValue) recordValue;
