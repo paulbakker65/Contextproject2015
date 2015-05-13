@@ -54,7 +54,7 @@ public class ChunkingOperation extends Operation {
 	 *
 	 */
 	public enum ChunkComparatorEnum {
-		DAY, MONTH, YEAR, WEEKEND, PATIENT
+		DAY, MONTH, YEAR, WEEKEND, PATIENT, TEST
 	}
 
 	/**
