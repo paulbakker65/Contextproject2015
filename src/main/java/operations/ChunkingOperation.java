@@ -5,9 +5,7 @@ import input.Settings;
 import input.StringColumn;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 
 import operations.chunking.ChunkCondition;
 import operations.chunking.DayCondition;
@@ -15,8 +13,6 @@ import operations.chunking.MonthCondition;
 import operations.chunking.PatientCondition;
 import operations.chunking.YearCondition;
 import parsers.ChunkValue;
-import parsers.DateValue;
-import parsers.NumberValue;
 import parsers.StringValue;
 import parsers.Value;
 import table.Record;

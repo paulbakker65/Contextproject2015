@@ -92,10 +92,4 @@ public class DateValue extends Value {
 	public int compareTo(DateValue o) {
 		return this.value.compareTo(o.value);
     }
-	
-	@Override
-	public boolean isTime() {
-		return false;
-
-	}
 }

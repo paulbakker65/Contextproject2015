@@ -300,26 +300,16 @@ public class ValueTest {
 	public void testTimeValueEquals() throws ParseException {
 		Date date = new SimpleDateFormat("hh:mm").parse("10:20");
 		Date date2 = new SimpleDateFormat("hh:mm").parse("10:21");		
-<<<<<<< HEAD
-		TimeValue value = new TimeValue(date, "x");
-		TimeValue valueSame = new TimeValue(date, "y");
-		TimeValue valueNotSame = new TimeValue(date2, "z");
-=======
 		TimeValue value = new TimeValue(date, "Target");
 		TimeValue valueSame = new TimeValue(date, "Target");
 		TimeValue valueNotSameDate = new TimeValue(date2, "Target");
 		TimeValue valueNotSameTarget = new TimeValue(date, "Other target");
->>>>>>> master
 				
 		assertEquals(value, value);
 		assertNotEquals(value, null);
 		assertEquals(value, valueSame);
-<<<<<<< HEAD
-		assertNotEquals(value, valueNotSame);
-=======
 		assertNotEquals(value, valueNotSameDate);
 		assertNotEquals(value, valueNotSameTarget);
->>>>>>> master
 	}
 
 }

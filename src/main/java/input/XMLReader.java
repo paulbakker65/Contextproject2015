@@ -1,13 +1,9 @@
 package input;
 import java.io.IOException;
 import java.util.ArrayList;
-<<<<<<< HEAD
-import java.util.List;
-=======
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
->>>>>>> master
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

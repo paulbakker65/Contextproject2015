@@ -76,10 +76,4 @@ public abstract class Value {
 		}
 		return Integer.MAX_VALUE;
 	}
-    
-    /**
-	 * Returns whether a Value is a time.
-	 * @return whether a Value is a time.
-	 */
-	public abstract boolean isTime();
 }

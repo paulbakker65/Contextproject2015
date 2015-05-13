@@ -76,9 +76,4 @@ public class StringValue extends Value {
 	public int compareTo(StringValue o) {
 		return this.value.compareTo(o.value);
     }
-	
-	@Override
-	public boolean isTime() {
-		return false;
-	}
 }

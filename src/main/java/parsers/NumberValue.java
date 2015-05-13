@@ -79,9 +79,4 @@ public class NumberValue extends Value {
 		
 		return val.compareTo(anotherVal);
     }
-    
-	@Override
-	public boolean isTime() {
-		return false;
-	}
 }
