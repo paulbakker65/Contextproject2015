@@ -105,8 +105,9 @@ public class TimeColumn extends Column {
 	@Override
 	public Value convertToValue(String text) throws ColumnTypeMismatchException {
 		try {
-			if (text.toLowerCase().equals("null") || text.isEmpty())
-				return new NullValue();				
+			if (text.toLowerCase().equals("null") || text.isEmpty()) {
+        return new NullValue();
+      }				
 			return new TimeValue(format.parse(text), targetDate);
 		}
 		catch (ParseException e) {
@@ -118,15 +119,17 @@ public class TimeColumn extends Column {
 	public void read(Element element) throws WrongXMLException {
 		String format = element.getAttribute("format");
 		
-		if (format.isEmpty())
-			throw new WrongXMLException("Format not specified!");
+		if (format.isEmpty()) {
+      throw new WrongXMLException("Format not specified!");
+    }
 		
 		setFormat(format);		
 		
 		String target = element.getAttribute("target");
 		
-		if (target.isEmpty())
-			throw new WrongXMLException("Target not specified!");
+		if (target.isEmpty()) {
+      throw new WrongXMLException("Target not specified!");
+    }
 		
 		setTargetDate(target);		
 	}	

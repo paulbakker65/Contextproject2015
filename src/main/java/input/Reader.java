@@ -5,7 +5,7 @@ import java.io.IOException;
 public abstract class Reader {
 	protected String filepath = "";
 	
-	abstract public String[] readRow() throws IOException;
+	public abstract String[] readRow() throws IOException;
 
 	public String getFilepath() {
 		return filepath;

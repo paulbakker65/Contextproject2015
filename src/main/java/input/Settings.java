@@ -57,13 +57,15 @@ public class Settings {
 	}
 	
 	public void readSettings(Element element) throws WrongXMLException {
-		if (!element.getNodeName().equals("settings"))
-			throw new WrongXMLException("Root element wrong! Expected: settings, actual: " + element.getNodeName());
+		if (!element.getNodeName().equals("settings")) {
+      throw new WrongXMLException("Root element wrong! Expected: settings, actual: " + element.getNodeName());
+    }
 		
 		String startLine = element.getAttribute("startLine");
 		
-		if (startLine.isEmpty())
-			throw new WrongXMLException("No startLine specified!");
+		if (startLine.isEmpty()) {
+      throw new WrongXMLException("No startLine specified!");
+    }
 		
 		try {
 			setStartLine(Integer.parseInt(startLine));
@@ -74,8 +76,9 @@ public class Settings {
 		
 		String delimiter = element.getAttribute("delimiter");
 		
-		if (delimiter.isEmpty())
-			throw new WrongXMLException("No delimiter specified!");
+		if (delimiter.isEmpty()) {
+      throw new WrongXMLException("No delimiter specified!");
+    }
 		
 		setDelimiter(delimiter);
 	}

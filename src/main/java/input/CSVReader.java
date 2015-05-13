@@ -36,8 +36,9 @@ public class CSVReader extends Reader{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(line == null)
-			return null;
+		if(line == null) {
+      return null;
+    }
 		String[] record = line.split(delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 		return record;
 	}

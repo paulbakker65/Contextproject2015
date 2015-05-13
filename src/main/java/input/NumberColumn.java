@@ -30,8 +30,9 @@ public class NumberColumn extends Column {
 	@Override
 	public Value convertToValue(String text) throws ColumnTypeMismatchException {
 		try {
-			if (text.toLowerCase().equals("null") || text.isEmpty())
-				return new NullValue();
+			if (text.toLowerCase().equals("null") || text.isEmpty()) {
+        return new NullValue();
+      }
 			
 			return new NumberValue(Double.parseDouble(text));
 		}
