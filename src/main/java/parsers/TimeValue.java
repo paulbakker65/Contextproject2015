@@ -4,13 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * Case class for representing a time Value.
+ * @author Robin
+ *
+ */
 public class TimeValue extends Value {
 	private GregorianCalendar value;
 	private String targetDate;
 	
 	/**
-	 * Constructs a new NumberValue
-	 * @param value the stored date.
+	 * Constructs a new TimeValue
+	 * @param value the stored time.
+	 * @param targetDate the stored target date.
 	 */
 	public TimeValue(Date value, String targetDate) {
 		this.targetDate = targetDate;
@@ -19,16 +25,16 @@ public class TimeValue extends Value {
 	}
 
 	/**
-	 * Returns the stored date.
-	 * @return the stored date.
+	 * Returns the stored time.
+	 * @return the stored time.
 	 */
 	public GregorianCalendar getValue() {
 		return value;
 	}
 
 	/**
-	 * Stores a new number date.
-	 * @param value the new number date.
+	 * Stores a new time.
+	 * @param value the new time.
 	 */
 	public void setValue(GregorianCalendar value) {
 		this.value = value;
@@ -38,8 +44,8 @@ public class TimeValue extends Value {
 	public boolean equals(Object other) {
 		if (other instanceof TimeValue) {
 			TimeValue that = (TimeValue) other;
-			
-			return (this.value.equals(that.value));
+
+			return (this.value.equals(that.value) && this.targetDate.equals(that.targetDate));
 		}
 		
 		return false;

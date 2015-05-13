@@ -41,6 +41,11 @@ public class NullValue extends Value {
 	public boolean isNull() {
 		return true;
 	}
+	
+	@Override
+	public boolean isTime() {
+		return false;
+	}
 
 	public int compareTo(NullValue o) {
 		return 0;

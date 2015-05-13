@@ -28,6 +28,12 @@ public abstract class Value {
 	public abstract boolean isNull();
 	
 	/**
+	 * Returns whether a Value is a time.
+	 * @return whether a Value is a time.
+	 */
+	public abstract boolean isTime();
+
+	/**
 	 * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal
 	 * checks the instance of the Value to pick a specific compareTo overload.
 	 * @param o Value object to compare to

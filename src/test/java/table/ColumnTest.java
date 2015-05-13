@@ -10,6 +10,7 @@ import input.Column;
 import input.DateColumn;
 import input.NumberColumn;
 import input.StringColumn;
+import input.TimeColumn;
 
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ import parsers.DateValue;
 import parsers.NullValue;
 import parsers.NumberValue;
 import parsers.StringValue;
+import parsers.TimeValue;
 import parsers.Value;
 
 public class ColumnTest {
@@ -176,6 +178,77 @@ public class ColumnTest {
 	@Test(expected=ColumnTypeMismatchException.class)
 	public void testDateColumnConvertToValueExcelException() throws ColumnTypeMismatchException, ParseException {
 		DateColumn column = new DateColumn("testName", "excel");
+		Value value = column.convertToValue("text");
+	}
+	
+	@Test
+	public void testTimeColumnConstructorDefaultFormatDefaultTarget() {
+		TimeColumn column = new TimeColumn("testName");		
+		assertNotNull(column);
+		assertEquals("testName", column.getName());
+		assertEquals("hh:mm", column.getFormatStr());
+		assertEquals(new SimpleDateFormat("hh:mm"), column.getFormat());
+		assertEquals(null, column.getTargetDate());
+	}
+	
+	@Test
+	public void testTimeColumnConstructorWithFormatDefaultTarget() {
+		TimeColumn column = new TimeColumn("testName", "hhmm");		
+		assertNotNull(column);
+		assertEquals("testName", column.getName());
+		assertEquals("hhmm", column.getFormatStr());
+		assertEquals(new SimpleDateFormat("hhmm"), column.getFormat());
+		assertEquals(null, column.getTargetDate());
+	}
+	
+	@Test
+	public void testTimeColumnConstructorWithFormatWithTarget() {
+		TimeColumn column = new TimeColumn("testName", "hhmm", "Date");		
+		assertNotNull(column);
+		assertEquals("testName", column.getName());
+		assertEquals("hhmm", column.getFormatStr());
+		assertEquals(new SimpleDateFormat("hhmm"), column.getFormat());
+		assertEquals("Date", column.getTargetDate());
+	}
+	
+	@Test
+	public void testTimeColumnToString() {
+		TimeColumn column = new TimeColumn("testName", "hhmm", "Date");		
+		assertEquals("name: testName,\ttype: time,\tformat: hhmm,\ttarget: Date", column.toString());
+	}
+	
+	@Test
+	public void testTimeColumnConvertToValueCorrect() throws ColumnTypeMismatchException, ParseException {
+		TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
+		TimeValue value = new TimeValue(new SimpleDateFormat("hhmm").parse("1020"), "Date");
+		assertEquals(value, column.convertToValue("1020"));
+	}
+	
+	@Test
+	public void testTimeColumnConvertToValueNull() throws ColumnTypeMismatchException {
+		TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
+		NullValue value = new NullValue();
+		assertEquals(value, column.convertToValue("NULL"));
+	}
+	
+	@Test
+	public void testTimeColumnConvertToValueEmpty() throws ColumnTypeMismatchException {
+		TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
+		NullValue value = new NullValue();
+		assertEquals(value, column.convertToValue(""));
+	}
+	
+	@SuppressWarnings("unused")
+	@Test(expected=ColumnTypeMismatchException.class)
+	public void testTimeColumnConvertToValueException() throws ColumnTypeMismatchException, ParseException {
+		TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
+		Value value = column.convertToValue("31/12/2014");
+	}
+	
+	@SuppressWarnings("unused")
+	@Test(expected=ColumnTypeMismatchException.class)
+	public void testTimeColumnConvertToValueExcelException() throws ColumnTypeMismatchException, ParseException {
+		TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
 		Value value = column.convertToValue("text");
 	}
 }

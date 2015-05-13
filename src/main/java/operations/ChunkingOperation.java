@@ -163,7 +163,6 @@ public class ChunkingOperation extends Operation {
 
 			return new YearCondition();
 		}
-
 		case PATIENT: {
 
 			return new PatientCondition();

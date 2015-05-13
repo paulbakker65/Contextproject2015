@@ -77,5 +77,5 @@ public abstract class Column {
 	@Override
 	public String toString() {
 		return "name: " + name;
-	}	
+	}		
 }
