@@ -23,6 +23,16 @@ public class TimeValue extends Value {
 		this.value = new GregorianCalendar();
 		this.value.setTime(value);
 	}
+	
+	/**
+	 * Constructs a new TimeValue
+	 * @param value the stored time.
+	 * @param targetDate the stored target date.
+	 */
+	public TimeValue(GregorianCalendar value, String targetDate) {
+		this.targetDate = targetDate;
+		this.value = value;
+	}
 
 	/**
 	 * Returns the stored time.

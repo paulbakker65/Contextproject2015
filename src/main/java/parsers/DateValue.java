@@ -20,6 +20,14 @@ public class DateValue extends Value {
 		this.value = new GregorianCalendar();
 		this.setValue(value);
 	}
+	
+	/**
+	 * Constructs a new DateValue
+	 * @param value the stored date.
+	 */
+	public DateValue(GregorianCalendar value) {
+		this.value = value;
+	}
 
 	/**
 	 * Returns the stored date.
