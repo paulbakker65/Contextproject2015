@@ -1,8 +1,8 @@
 package operations;
 
+import input.ChunkColumn;
 import input.Column;
 import input.Settings;
-import input.StringColumn;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,7 +65,8 @@ public class ChunkingOperation extends Operation {
 	 */
 	public ChunkingOperation(Table input) {
 		super(input);
-		cols.add(new StringColumn("Chunk"));
+		this.resultData = new Table();
+		cols.add(new ChunkColumn("Chunk"));
 	}
 
 	/**
@@ -80,8 +81,7 @@ public class ChunkingOperation extends Operation {
 			ChunkComparatorEnum cce, Settings settings) {
 		this.columnName = columnName;
 		this.cond = getCondition(cce);
-		this.resultData = new Table();
-		
+
 		this.settings = settings;
 		this.rc = new RecordComparator(columnName);
 		this.operationParametersSet = true;
@@ -113,7 +113,7 @@ public class ChunkingOperation extends Operation {
 			}
 			output.addAll(temp.getTable());
 		}
-		settings.addColumn(new StringColumn("Chunk"));
+		settings.addColumn(new ChunkColumn("Chunk"));
 		return output;
 	}
 
@@ -124,29 +124,39 @@ public class ChunkingOperation extends Operation {
 	 */
 	@Override
 	public boolean execute() {
-		Collections.sort(inputData, rc);
-		int index = 0;
-		String label = "Chunk " + Integer.toString(index);
-		ChunkValue chunk = new ChunkValue(index, label, new Table());
-		Value check = inputData.get(0).get(columnName);
-		for (Record r : inputData) {
-			if (cond.matches(r.get(columnName), check)) {
-				chunk.addRecord(r);
-			} else {
-				Value[] values = { chunk };
-				resultData.add(new Record(cols, values));
-				index++;
-				label = "Chunk " + Integer.toString(index);
-				chunk = new ChunkValue(index, label, new Table());
-				chunk.addRecord(r);
-				check = r.get(columnName);
+		if (operationParametersSet) {
 
+			Collections.sort(inputData, rc);
+			int index = 0;
+			String label = "Chunk " + Integer.toString(index);
+			ChunkValue chunk = new ChunkValue(index, label, new Table());
+			Value check = inputData.get(0).get(columnName);
+			for (Record r : inputData) {
+				if (cond.matches(r.get(columnName), check)) {
+					chunk.addRecord(r);
+				} else {
+					Value[] values = { chunk };
+					resultData.add(new Record(cols, values));
+					index++;
+					label = "Chunk " + Integer.toString(index);
+					chunk = new ChunkValue(index, label, new Table());
+					chunk.addRecord(r);
+					check = r.get(columnName);
+
+				}
+				
 			}
+			Value[] values = { chunk };
+			resultData.add(new Record(cols, values));
+			
+			
+
+			
+			return true;
 		}
 		return false;
 	}
 
-	
 	public ChunkCondition getCondition(ChunkComparatorEnum cce) {
 		switch (cce) {
 		case DAY: {
@@ -166,9 +176,7 @@ public class ChunkingOperation extends Operation {
 		default:
 			return null;
 		}
-		
-		
+
 	}
-	
-	
+
 }

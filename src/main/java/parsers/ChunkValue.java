@@ -61,5 +61,17 @@ public class ChunkValue extends Value {
 	public boolean isTime() {
 		return false;
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof ChunkValue) {
+			ChunkValue that = (ChunkValue) other;
+			
+			return (this.getTable().equals(that.getTable()));
+		}
+		
+		return false;
+	}
+
 }
 

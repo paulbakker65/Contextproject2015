@@ -51,9 +51,9 @@ public class Main {
 		System.out.println(hospitalVisitPatient);
 		System.out.println();
 		
-		//ChunkingOperation chunker = new ChunkingOperation(patientWebsite);
-		//chunker.setOperationParameters("Date", ChunkComparatorEnum.MONTH, settings_website);
-		//chunker.execute();
+		ChunkingOperation chunker = new ChunkingOperation(patientWebsite);
+		chunker.setOperationParameters("Date", ChunkComparatorEnum.MONTH, settings_website);
+		chunker.execute();
 		
 		ChunkingOperation chunker2 = new ChunkingOperation(website);
 		chunker2.setOperationParameters("UserId", ChunkComparatorEnum.PATIENT, settings_website);
@@ -61,7 +61,7 @@ public class Main {
 
 		
 		//Exporter.export(patientWebsite, new FileWriter("output.csv"), settings_website);
-		//Exporter.export(chunker.getOutput(), new FileWriter("test.csv"), settings_website);
+		Exporter.export(chunker.getOutput(), new FileWriter("test.csv"), settings_website);
 		Exporter.export(chunker2.getOutput(), new FileWriter("test2.csv"), settings_website);
 		
 		Exporter.export(statsensor, new FileWriter("output2.csv"), settings_statsensor);
