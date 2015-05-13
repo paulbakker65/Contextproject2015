@@ -55,7 +55,7 @@ public class Settings {
 		
 		return res;
 	}
-	
+
 	public void readSettings(Element element) throws WrongXMLException {
 		if (!element.getNodeName().equals("settings"))
 			throw new WrongXMLException("Root element wrong! Expected: settings, actual: " + element.getNodeName());
@@ -78,5 +78,18 @@ public class Settings {
 			throw new WrongXMLException("No delimiter specified!");
 		
 		setDelimiter(delimiter);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		Settings that = (Settings) obj;
+		if(this.delimiter.equals(that.delimiter) && this.startLine == that.startLine || this.columns.equals(that.columns)){
+			return true;
+		}
+		return false;
 	}
 }
