@@ -14,8 +14,7 @@ public class MonthCondition extends ChunkCondition {
 		GregorianCalendar currentDate = current.getValue();
 		DateValue record = (DateValue) recordValue;
 		GregorianCalendar recordDate = record.getValue();
-		if (recordDate.get(Calendar.MONTH) == currentDate
-				.get(Calendar.MONTH)
+		if (recordDate.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH)
 				&& recordDate.get(Calendar.YEAR) == currentDate
 						.get(Calendar.YEAR)) {
 

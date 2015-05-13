@@ -88,11 +88,17 @@ public class ChunkingOperation extends Operation {
 		return this.operationParametersSet;
 	}
 
+	/**
+	 * Returns the toString of the result data.
+	 */
 	@Override
 	public String toString() {
 		return resultData.toString();
 	}
 
+	/**
+	 * Get the result data for the next calculation.
+	 */
 	@Override
 	public Table getResult() {
 		return resultData;
@@ -118,9 +124,9 @@ public class ChunkingOperation extends Operation {
 	}
 
 	/**
-	 * We create the chunk with new index and label if chunkingOperation returns
-	 * false. We add the a record to the chunk if chunkingOperation returns
-	 * true.
+	 * We create the chunk with new index and label if the ChunkCondition
+	 * returns false. We add the a record to the chunk if chunkingOperation
+	 * returns true.
 	 */
 	@Override
 	public boolean execute() {
@@ -144,19 +150,22 @@ public class ChunkingOperation extends Operation {
 					check = r.get(columnName);
 
 				}
-				
+
 			}
 			Value[] values = { chunk };
 			resultData.add(new Record(cols, values));
-			
-			
 
-			
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Returns a chunkcondition, which returns true if no new chunk is needed.
+	 * 
+	 * @param cce
+	 *            , on what to chunk
+	 */
 	public ChunkCondition getCondition(ChunkComparatorEnum cce) {
 		switch (cce) {
 		case DAY: {
