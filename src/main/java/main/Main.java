@@ -1,13 +1,11 @@
 package main;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import export.Exporter;
-
+import parsers.ColumnTypeMismatchException;
 import table.Table;
 import input.WrongXMLException;
 
@@ -27,7 +25,13 @@ public class Main {
 		ArrayList<Table> tables = new ArrayList<Table>();
 		
 		for(DataFile f : files){
-			Table t = f.getParser().Parse(f.getReader());
+			Table t = null;
+			try {
+				t = f.getParser().parse(f.getReader());
+			} catch (ColumnTypeMismatchException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			tables.add(t);
 			System.out.println(t);
 		}		
@@ -36,7 +40,7 @@ public class Main {
 		//Read script & execute.
 
 		
-		
+		/*
 		//DEMO START
 		Table patientWebsite = tables.get(0).getPatientByID("admire13", "Login");
 		Table hospitalVisitPatient = tables.get(2).getPatientByID("13", "PatientID");
@@ -53,6 +57,7 @@ public class Main {
 		Exporter.export(hospitalVisitPatient, new FileWriter("output3.csv"), files.get(2).getSettings());
 		System.out.println("Demo finished!");
 		//DEMO END
+		*/
 		
 		System.exit(0);
 	}
