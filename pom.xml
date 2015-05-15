@@ -22,6 +22,12 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.5</version>
 		</dependency>
+		<dependency>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>findbugs-maven-plugin</artifactId>
+	<version>3.0.1</version>
+</dependency>
+		
 	</dependencies>
 	
 	
@@ -81,7 +87,6 @@
          <failsOnError>false</failsOnError>
          <linkXRef>false</linkXRef>
        </configuration>
-          
           <reportSets>
             <reportSet>
               <reports>
@@ -90,6 +95,14 @@
             </reportSet>
           </reportSets>
         </plugin>
+        
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>3.0.1</version>
+      </plugin>        
+        
+        
         </plugins>
     </reporting>
 	
