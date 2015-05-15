@@ -20,7 +20,7 @@ import table.Table;
 public class Parser {
 	protected Settings settings;
 	protected ArrayList<Column> columns;
-	protected int numcolumns;
+	protected int numColumns;
 	
 	/**
 	 * Constructs a new parser given the settings to describe the file.
@@ -30,7 +30,7 @@ public class Parser {
 		super();
 		this.settings = settings;
 		this.columns = settings.getColumns();
-		numcolumns = columns.size();
+		this.numColumns = columns.size();
 	}
 
 	/**
@@ -52,8 +52,8 @@ public class Parser {
 		String[] row = reader.readRow();
 
 		// Read a row, convert the values and store them in the Table.
-		while (row != null && row.length == numcolumns) {			
-			Value[] values = new Value[numcolumns];
+		while (row != null && row.length == numColumns) {			
+			Value[] values = new Value[numColumns];
 			Map<String, String> timeDateLinks = new HashMap<String, String>();
 			
 			for (int i = 0; i < columns.size(); i++) {
@@ -82,5 +82,29 @@ public class Parser {
 			dateValue.addTime(timeValue.getValue());
 			timeValue.setValue(dateValue.getValue());
 		}
+	}
+	
+	/**
+	 * Returns the parser's Settings.
+	 * @return the parser's Settings.
+	 */
+	public Settings getSettings() {
+		return settings;
+	}
+	
+	/**
+	 * Returns the parser's columns.
+	 * @return the parser's columns.
+	 */
+	public ArrayList<Column> getColumns() {
+		return columns;
+	}
+	
+	/**
+	 * Returns the parser's number of columns.
+	 * @return the parser's number of columns.
+	 */
+	public int getNumberOfColumns() {
+		return numColumns;
 	}
 }

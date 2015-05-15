@@ -186,11 +186,22 @@ public class ValueTest {
 	}
 	
 	@Test
-	public void testDateValueConstructor() throws ParseException {
+	public void testDateValueConstructorDate() throws ParseException {
 		GregorianCalendar calendar = new GregorianCalendar();
 		Date date = new SimpleDateFormat("ddMMyy").parse("311214");
 		calendar.setTime(date);
 		DateValue value = new DateValue(date);
+		
+		assertNotNull(value);
+		assertEquals(calendar, value.getValue());
+	}
+	
+	@Test
+	public void testDateValueConstructorCalendar() throws ParseException {
+		GregorianCalendar calendar = new GregorianCalendar();
+		Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+		calendar.setTime(date);
+		DateValue value = new DateValue(calendar);
 		
 		assertNotNull(value);
 		assertEquals(calendar, value.getValue());
@@ -252,11 +263,21 @@ public class ValueTest {
 	}
 	
 	@Test
-	public void testTimeValueConstructor() throws ParseException {
+	public void testTimeValueConstructorDate() throws ParseException {
 		GregorianCalendar calendar = new GregorianCalendar();
 		Date date = new SimpleDateFormat("ddMMyy").parse("311214");
 		calendar.setTime(date);		
 		TimeValue value = new TimeValue(date, "lorem");
+		assertNotNull(value);
+		assertEquals(calendar, value.getValue());
+	}
+	
+	@Test
+	public void testTimeValueConstructorCalendar() throws ParseException {
+		GregorianCalendar calendar = new GregorianCalendar();
+		Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+		calendar.setTime(date);		
+		TimeValue value = new TimeValue(calendar, "lorem");
 		assertNotNull(value);
 		assertEquals(calendar, value.getValue());
 	}
