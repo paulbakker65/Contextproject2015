@@ -37,6 +37,7 @@ public class mainUI extends JDialog {
     private File outputDir;
     private ArrayList<DataFile> files;
 
+    private File previousDirectory;
 
     public mainUI() {
         setSystemLook();
@@ -121,12 +122,13 @@ public class mainUI extends JDialog {
      * Opens a open file dialog for the user to select the script file.
      */
     private void onOpenScript() {
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(previousDirectory);
         chooser.setDialogTitle("Open a script file.");
 
         int of = chooser.showOpenDialog(null);
 
         if (of == JFileChooser.APPROVE_OPTION) {
+        	previousDirectory = chooser.getCurrentDirectory();
             scriptFile = chooser.getSelectedFile();
             textFieldscriptfilepath.setText(scriptFile.getPath());
             System.out.println(scriptFile);
@@ -166,7 +168,8 @@ public class mainUI extends JDialog {
      */
     private void onSelectOutputDir() {
 
-        JFileChooser chooser = new JFileChooser();
+    	
+        JFileChooser chooser = new JFileChooser(previousDirectory); //Passing null is allowed :)
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogTitle("Save output to.");
@@ -174,6 +177,8 @@ public class mainUI extends JDialog {
         int state = chooser.showSaveDialog(null);
 
         if (state == JFileChooser.APPROVE_OPTION) {
+
+        	previousDirectory = chooser.getCurrentDirectory();
             outputDir = chooser.getSelectedFile();
 
             if (!outputDir.isDirectory()) {
@@ -221,7 +226,7 @@ public class mainUI extends JDialog {
         File dataFile;
         File settingsFile;
 
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(previousDirectory);
         chooser.setDialogTitle("Open data file.");
         chooser.setFileFilter(csvfilter);
         //chooser.setFileFilter(xlsfilter);
@@ -229,6 +234,8 @@ public class mainUI extends JDialog {
         int state = chooser.showOpenDialog(null);
 
         if (state == JFileChooser.APPROVE_OPTION) {
+
+        	previousDirectory = chooser.getCurrentDirectory();
             dataFile = chooser.getSelectedFile();
             System.out.println("Selected data file: " + dataFile);
         } else {
@@ -236,13 +243,15 @@ public class mainUI extends JDialog {
         }
 
 
-        JFileChooser chooser2 = new JFileChooser();
+        JFileChooser chooser2 = new JFileChooser(previousDirectory);
         chooser2.setDialogTitle("Open settings file.");
         chooser2.setFileFilter(xmlfilter);
 
         state = chooser2.showOpenDialog(null);
 
         if (state == JFileChooser.APPROVE_OPTION) {
+
+        	previousDirectory = chooser2.getCurrentDirectory();
             settingsFile = chooser2.getSelectedFile();
             System.out.println("Selected settings file: " + settingsFile);
         } else {
