@@ -44,7 +44,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
 
     <module name="RedundantImport">
       <!-- Checks for redundant import statements. -->
-      <property name="erity" value="error"/>
+      <property name="severity" value="error"/>
     </module>
 
     <module name="ImportOrder">
