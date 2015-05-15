@@ -165,22 +165,16 @@ public class mainUI extends JDialog {
      * Opens a open file dialog for the user to select an output directory
      */
     private void onSelectOutputDir() {
-        /*
-         *
-    	 * Needs to be fixed!!!!!!!!!!!!!!!!!
-    	 * Now a user needs to select a file instead of a directory.
-    	 *
-    	 */
 
         JFileChooser chooser = new JFileChooser();
-        chooser.setDialogType(JFileChooser.DIRECTORIES_ONLY);//Not working?
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogTitle("Save output to.");
-        chooser.setAcceptAllFileFilterUsed(false);
 
         int state = chooser.showSaveDialog(null);
 
         if (state == JFileChooser.APPROVE_OPTION) {
-            outputDir = chooser.getCurrentDirectory();
+            outputDir = chooser.getSelectedFile();
 
             if (!outputDir.isDirectory()) {
                 outputDir = null;
