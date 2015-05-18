@@ -61,7 +61,6 @@ public class DataFile {
       settings = XMLReader.readXMLFile(settingsfile.getPath());
     } catch (WrongXMLException e) {
       System.out.println("Error parsing settings file!");
-      e.printStackTrace();
       throw new Exception("XML parse error");
     }
 
@@ -76,21 +75,21 @@ public class DataFile {
    * @param settings
    *          The settings file corresponding to the data file.
    * @return Returns the correct reader for the file.
+   * @throws Exception 
    */
-  private Reader createReader(File file, Settings settings) {
+  private Reader createReader(File file, Settings settings) throws Exception {
 
     String fileextension = findExtension(file);
 
     if (fileextension.equals("xls")) {// excel reader
-      System.out.println("Using following reader: XLSReader");
+      //System.out.println("Using following reader: XLSReader");
     } else {// Default reader = CSVReader
-      System.out.println("Using default reader: CSVReader");
+      //System.out.println("Using default reader: CSVReader");
       try {
         reader = new CSVReader(file.getPath(), settings.getDelimiter());
       } catch (FileNotFoundException e) {
         System.out.println("Error, CSVReader can't find the following file: " + datafile.getPath());
-        e.printStackTrace();
-        System.exit(1);
+        throw new Exception("Data file not found.");
       }
     }
     return reader;
@@ -108,7 +107,11 @@ public class DataFile {
 
   public void setDatafile(File datafile) {
     this.datafile = datafile;
-    reader = createReader(datafile, settings);
+    try {
+      reader = createReader(datafile, settings);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   public File getSettingsfile() {
