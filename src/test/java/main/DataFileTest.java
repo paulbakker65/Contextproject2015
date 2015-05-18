@@ -9,6 +9,7 @@ import input.XMLReader;
 
 import java.io.File;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import parsers.Parser;
@@ -24,8 +25,17 @@ public class DataFileTest {
   private File datafile = new File(datafilename);
   private File settingsfile = new File(settingsfilename);
 
-  private DataFile df = new DataFile(datafile, settingsfile);
+  private DataFile df;
 
+  @Before
+  public void setUp() throws WrongXMLException {
+    try {
+      df = new DataFile(datafile, settingsfile);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  
   @Test
   public void testToString() {
     String expected = "DataFile{datafile='" + datafile.toString() + "\', settingsfile='"

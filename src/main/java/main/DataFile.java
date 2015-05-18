@@ -23,7 +23,7 @@ public class DataFile {
   private Reader reader;
   private Parser parser;
 
-  public DataFile(File datafile, File settingsfile) {
+  public DataFile(File datafile, File settingsfile) throws Exception {
     this.datafile = datafile;
     this.settingsfile = settingsfile;
 
@@ -53,15 +53,16 @@ public class DataFile {
    * @param file
    *          The file (xml) containing the settings.
    * @return Returns a Settings object.
+   * @throws Exception 
    */
-  private Settings readSettings(File file) {
+  private Settings readSettings(File file) throws Exception {
     Settings settings = null;
     try {
       settings = XMLReader.readXMLFile(settingsfile.getPath());
     } catch (WrongXMLException e) {
       System.out.println("Error parsing settings file!");
       e.printStackTrace();
-      System.exit(1);
+      throw new Exception("XML parse error");
     }
 
     return settings;
@@ -116,7 +117,11 @@ public class DataFile {
 
   public void setSettingsfile(File settingsfile) {
     this.settingsfile = settingsfile;
-    settings = readSettings(settingsfile);
+    try {
+      settings = readSettings(settingsfile);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   public Settings getSettings() {
