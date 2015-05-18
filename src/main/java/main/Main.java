@@ -9,8 +9,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import operations.FilterOperation;
+import operations.FilterOperation.ConstraintComparatorEnum;
 import export.Exporter;
 import parsers.ColumnTypeMismatchException;
+import parsers.NumberValue;
+import parsers.StringValue;
 import table.Record;
 import table.RecordComparator;
 import table.Table;
@@ -42,11 +46,19 @@ public class Main {
 			input.addAll(t);
 		}
 		Collections.sort(input, new RecordComparator("Date"));
-		System.out.println(input);
 		Set<String> keys = new HashSet<String>();
 		for(Record r : input) {
 		  keys.addAll(r.keySet());
 		}
+		
+		FilterOperation fo = new FilterOperation(input);
+		fo.setOperationParameters("Login", ConstraintComparatorEnum.EQ, new StringValue("admire13"));
+		fo.execute();
+		input = fo.getResult();
+		FilterOperation fo2 = new FilterOperation(input);
+		fo2.setOperationParameters("PatientID", ConstraintComparatorEnum.EQ, new NumberValue(13));
+		fo2.execute();
+		input = fo2.getResult();
 		Exporter.export(input, new FileWriter(outputDir + "/output.csv"), keys);
 
 

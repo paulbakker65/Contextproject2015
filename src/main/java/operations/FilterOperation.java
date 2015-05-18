@@ -138,6 +138,9 @@ public class FilterOperation extends Operation {
 					this.resultData.add(record);
 				}
 			}
+			else {
+			  this.resultData.add(record);
+			}
 		}
 		return true;
 	}
