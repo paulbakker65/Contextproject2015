@@ -8,16 +8,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import operations.FilterOperation;
 import operations.FilterOperation.ConstraintComparatorEnum;
 import export.Exporter;
 import parsers.ColumnTypeMismatchException;
 import parsers.NumberValue;
 import parsers.StringValue;
-import table.Record;
 import table.RecordComparator;
 import table.Table;
 

@@ -59,7 +59,7 @@ public class ExporterTest {
 		
 		
 		StringWriter w = new StringWriter();
-		Exporter.export(dummydb, w, cols);
+		Exporter.export(dummydb, w);
 		assertEquals(expected, w.toString());
 	}
 
