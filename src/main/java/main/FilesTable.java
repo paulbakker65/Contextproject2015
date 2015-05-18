@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.JTable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * The JTable for displaying the selected files. Used in MainUI.
  */
@@ -16,6 +18,8 @@ public class FilesTable extends JTable {
     super(ftm);
   }
 
+  @SuppressFBWarnings(value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD", 
+      justification = "Required to make the GUI builder work")
   public FilesTable(FilesTableModel model) {
     super(model);
     ftm = model;

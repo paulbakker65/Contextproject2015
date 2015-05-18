@@ -2,8 +2,6 @@ package parsers;
 
 /**
  * Case class for representing that no value is present.
- * 
- * @author Robin
  *
  */
 public class NullValue extends Value {

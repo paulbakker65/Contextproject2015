@@ -65,15 +65,42 @@ public class ChunkValue extends Value {
     return false;
   }
 
+  /**
+   * @see java.lang.Object#hashCode()
+   */
   @Override
-  public boolean equals(Object other) {
-    if (other instanceof ChunkValue) {
-      ChunkValue that = (ChunkValue) other;
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + index;
+    result = prime * result + ((label == null) ? 0 : label.hashCode());
+    result = prime * result + ((table == null) ? 0 : table.hashCode());
+    return result;
+  }
 
-      return (this.getTable().equals(that.getTable()));
+  /**
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-
-    return false;
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ChunkValue other = (ChunkValue) obj;
+    if (table == null) {
+      if (other.table != null) {
+        return false;
+      }
+    } else if (!table.equals(other.table)) {
+      return false;
+    }
+    return true;
   }
 
 }

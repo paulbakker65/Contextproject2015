@@ -60,15 +60,48 @@ public class TimeValue extends Value {
     this.value = value;
   }
 
+  /**
+   * @see java.lang.Object#hashCode()
+   */
   @Override
-  public boolean equals(Object other) {
-    if (other instanceof TimeValue) {
-      TimeValue that = (TimeValue) other;
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((targetDate == null) ? 0 : targetDate.hashCode());
+    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    return result;
+  }
 
-      return (this.value.equals(that.value) && this.targetDate.equals(that.targetDate));
+  /**
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-
-    return false;
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    TimeValue other = (TimeValue) obj;
+    if (targetDate == null) {
+      if (other.targetDate != null) {
+        return false;
+      }
+    } else if (!targetDate.equals(other.targetDate)) {
+      return false;
+    }
+    if (value == null) {
+      if (other.value != null) {
+        return false;
+      }
+    } else if (!value.equals(other.value)) {
+      return false;
+    }
+    return true;
   }
 
   @Override

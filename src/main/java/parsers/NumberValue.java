@@ -2,8 +2,6 @@ package parsers;
 
 /**
  * Case class for representing a numeric Value.
- * 
- * @author Robin
  *
  */
 public class NumberValue extends Value {
@@ -38,15 +36,38 @@ public class NumberValue extends Value {
     this.value = value;
   }
 
+  /**
+   * @see java.lang.Object#hashCode()
+   */
   @Override
-  public boolean equals(Object other) {
-    if (other instanceof NumberValue) {
-      NumberValue that = (NumberValue) other;
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    long temp;
+    temp = Double.doubleToLongBits(value);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    return result;
+  }
 
-      return (this.value == that.value);
+  /**
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-
-    return false;
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    NumberValue other = (NumberValue) obj;
+    if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
+      return false;
+    }
+    return true;
   }
 
   @Override

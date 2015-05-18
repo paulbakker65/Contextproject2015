@@ -7,8 +7,6 @@ import java.util.GregorianCalendar;
 
 /**
  * Case class for representing a date Value.
- * 
- * @author Robin
  *
  */
 public class DateValue extends Value {
@@ -66,15 +64,40 @@ public class DateValue extends Value {
     value.add(Calendar.MILLISECOND, time.get(Calendar.MILLISECOND));
   }
 
+  /**
+   * @see java.lang.Object#hashCode()
+   */
   @Override
-  public boolean equals(Object other) {
-    if (other instanceof DateValue) {
-      DateValue that = (DateValue) other;
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    return result;
+  }
 
-      return (this.value.equals(that.value));
+  /**
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-
-    return false;
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    DateValue other = (DateValue) obj;
+    if (value == null) {
+      if (other.value != null) {
+        return false;
+      }
+    } else if (!value.equals(other.value)) {
+      return false;
+    }
+    return true;
   }
 
   @Override

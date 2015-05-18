@@ -17,6 +17,7 @@ public class FilesTableTest {
   @Before
   public void setUp() {
     ft = new FilesTable(new FilesTableModel());
+    df1 = df2 = df3 = null;
   }
 
   @Test

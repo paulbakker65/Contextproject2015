@@ -87,6 +87,22 @@ public class Settings {
     setDelimiter(delimiter);
   }
 
+  /**
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((columns == null) ? 0 : columns.hashCode());
+    result = prime * result + ((delimiter == null) ? 0 : delimiter.hashCode());
+    result = prime * result + startLine;
+    return result;
+  }
+
+  /**
+   * @see java.lang.Object#equals(Object)
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {

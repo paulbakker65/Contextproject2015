@@ -21,9 +21,7 @@ public class Record extends HashMap<String, Value> {
 
   public Record(ArrayList<Column> col, Value[] val) {
     for (int i = 0; i < col.size(); i++) {
-      if (!val[i].equals("NULL")) {
-        this.put(col.get(i).getName(), val[i]);
-      }
+      this.put(col.get(i).getName(), val[i]);
     }
   }
 

@@ -232,9 +232,6 @@ public class ChunkingOperationTest {
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + (i))) });
       dataTable.add(r);
     }
-
-    System.out.println(dataTable);
-
     co.setOperationParameters("userid", ChunkComparatorEnum.PATIENT, settings);
     co.execute();
     Table temp = new Table();
