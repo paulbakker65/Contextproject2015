@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-public class filesTableTest {
+/**
+ * FileTableTest class testing the main.FileTable class.
+ * 
+ */
+public class FilesTableTest {
   private FilesTable ft;
   private DataFile df1, df2, df3;
 
