@@ -11,8 +11,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import operations.FilterOperation;
+import operations.FilterOperation.ConstraintComparatorEnum;
 import export.Exporter;
 import parsers.ColumnTypeMismatchException;
+import parsers.NumberValue;
+import parsers.StringValue;
 import table.Record;
 import table.RecordComparator;
 import table.Table;
@@ -21,8 +25,7 @@ import table.Table;
  * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
  */
 public class Main {
-<<<<<<< HEAD
-  private static ArrayList<DataFile> files = new ArrayList<DataFile>();
+
   private static File scriptFile;
   private static File outputDir;
 
