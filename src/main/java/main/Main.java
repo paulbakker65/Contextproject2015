@@ -109,7 +109,7 @@ public class Main {
 	 */
 	public static void openGUI(){
 		String windowTitle = "Contextproject 2015 Groep 5/E";
-	    mainUI dialog = new mainUI();
+	    MainUI dialog = new MainUI();
 	    dialog.pack();
 	    dialog.setTitle(windowTitle);
 		dialog.centreWindow();
