@@ -2,15 +2,12 @@ package export;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import input.Column;
-import input.Settings;
 import input.WrongXMLException;
-import input.XMLReader;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,9 +23,7 @@ public class ExporterTest {
 	Record dummyrow2;
 	Table dummydb;
 	
-	String settingsfilepath = "src/test/resources/settings.xml";
-	Settings settings;
-	String[] cols;
+	Set<String> cols;
 	
 	@Before
 	public void setUp() throws WrongXMLException{
@@ -43,14 +38,13 @@ public class ExporterTest {
 		dummydb = new Table();
 		dummydb.add(dummyrow1);
 		dummydb.add(dummyrow2);
-
-		settings = XMLReader.readXMLFile(settingsfilepath);
 		
-		ArrayList<Column> colstemp = settings.getColumns();
-		cols = new String[colstemp.size()];
-		for(int i = 0; i < colstemp.size(); i++) {
-			cols[i] = colstemp.get(i).getName();
-		}
+		cols = new HashSet<String>();
+		cols.add("fruit");
+		cols.add("groente");
+		cols.add("saus");
+
+
 	}
 	
 	@Test
@@ -62,20 +56,20 @@ public class ExporterTest {
 		
 		
 		StringWriter w = new StringWriter();
-		Exporter.export(dummydb, w, settings);
+		Exporter.export(dummydb, w, cols);
 		assertEquals(expected, w.toString());
 	}
 
 	@Test
 	public void testGenerateRow1() {
 		String[] expected = {"", "wortel", "mayonaise"};
-		assertArrayEquals(expected,Exporter.generateRow(dummyrow1, Arrays.asList(cols)));
+		assertArrayEquals(expected,Exporter.generateRow(dummyrow1, cols));
 	}
 	
 	@Test
 	public void testGenerateRow2() {
 		String[] expected = {"banaan", "bloemkool", ""};
-		assertArrayEquals(expected,Exporter.generateRow(dummyrow2, Arrays.asList(cols)));
+		assertArrayEquals(expected,Exporter.generateRow(dummyrow2, cols));
 	}
 
 }
