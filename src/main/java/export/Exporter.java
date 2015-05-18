@@ -3,9 +3,9 @@ package export;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import parsers.Value;
 import table.Record;
@@ -21,7 +21,7 @@ public class Exporter {
 
   public static void export(Table db, Writer writer) throws IOException {
 
-    Set<String> keys = new HashSet<String>();
+    Set<String> keys = new TreeSet<String>();
     for (Record r : db) {
       keys.addAll(r.keySet());
     }
