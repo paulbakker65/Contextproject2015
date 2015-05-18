@@ -3,6 +3,6 @@
 	<column name="Value" type="number" />
 	<column name="Unit" />
 	<column name="Useless" /> 
-	<column name="Date" type="date" format="YYMMDD" /> 
+	<column name="Date" type="date" format="yyMMdd" /> 
 	<column name="Time" type="time" format="hhmm" target="Date"/>  
 </settings>
