@@ -20,9 +20,13 @@ public class Main {
 
   public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
 
-    parseCommandline(args);
+    if (!parseCommandline(args)){
+      return;
+    }
 
-    openGUI();
+    if (!openGUI()){
+      return;
+    }
 
     System.exit(0);
 
@@ -56,7 +60,6 @@ public class Main {
      * files.get(2).getSettings()); System.out.println("Demo finished!"); //DEMO END
      */
 
-    System.exit(0);
   }
 
   /**
@@ -64,7 +67,7 @@ public class Main {
    * 
    * @param argv String[] containing all arguments.
    */
-  public static void parseCommandline(String[] argv) {
+  public static boolean parseCommandline(String[] argv) {
     int argc = argv.length;
     for (int i = 0; i < argc; i++) {
       if (argv[i].equals("-f") && argc - i > 2) {
@@ -83,7 +86,13 @@ public class Main {
           System.exit(1);
         }
 
-        DataFile f = new DataFile(file, settings);
+        DataFile f;
+        try {
+          f = new DataFile(file, settings);
+        } catch (Exception e) {
+          System.out.println(e.getMessage());
+          return false;
+        }
         files.add(f);
         i = i + 2;
       } else if (argv[i].equals("-s") && argc - i > 1) {
@@ -92,15 +101,16 @@ public class Main {
         String usage = "Error in program arguments.\n" + "Available commands are:\n"
             + "    -f <data file> <settings file>\n" + "    -s <script file>\n";
         System.out.println(usage);
-        System.exit(1);
+        return false;
       }
     }
+    return true;
   }
 
   /**
    * openGUI will run the graphical user interface.
    */
-  public static void openGUI() {
+  public static boolean openGUI() {
     String windowTitle = "Contextproject 2015 Groep 5/E";
     MainUI dialog = new MainUI();
     dialog.pack();
@@ -108,13 +118,16 @@ public class Main {
     dialog.centreWindow();
     dialog.setVisible(true);
 
+    if (dialog.isExit()){
+      return false;
+    }
     files = dialog.getFiles();
     scriptFile = dialog.getScriptFile();
     outputDir = dialog.getOutputDir();
 
     if (files == null || scriptFile == null || outputDir == null) {
       System.out.println("Error retrieving data from gui.");
-      System.exit(1);
+      return false;
     }
 
     System.out.println("GUI done\nscriptFile = " + scriptFile.getPath() + "\noutputDir = "
@@ -122,5 +135,6 @@ public class Main {
     for (DataFile file : files) {
       System.out.println(file.toString());
     }
+    return true;
   }
 }
