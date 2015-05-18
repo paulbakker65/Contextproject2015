@@ -58,7 +58,7 @@ public class DataFile {
   private Settings readSettings(File file) throws Exception {
     Settings settings = null;
     try {
-      settings = XMLReader.readXMLFile(settingsfile.getPath());
+      settings = XMLReader.readXMLFile(file.getPath());
     } catch (WrongXMLException e) {
       System.out.println("Error parsing settings file!");
       throw new Exception("XML parse error");
@@ -83,6 +83,7 @@ public class DataFile {
 
     if (fileextension.equals("xls")) {// excel reader
       //System.out.println("Using following reader: XLSReader");
+      return null;
     } else {// Default reader = CSVReader
       //System.out.println("Using default reader: CSVReader");
       try {
