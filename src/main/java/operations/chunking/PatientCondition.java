@@ -3,6 +3,9 @@ package operations.chunking;
 import parsers.NumberValue;
 import parsers.Value;
 
+/**
+ * Chunks on patient ID.
+ */
 public class PatientCondition extends ChunkCondition {
 
   @Override

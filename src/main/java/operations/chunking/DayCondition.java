@@ -6,6 +6,9 @@ import java.util.GregorianCalendar;
 import parsers.DateValue;
 import parsers.Value;
 
+/**
+ * Chunks on each day of the calendar.
+ */
 public class DayCondition extends ChunkCondition {
 
   @Override

@@ -6,6 +6,9 @@ import java.util.GregorianCalendar;
 import parsers.DateValue;
 import parsers.Value;
 
+/**
+ * Chunks on each year.
+ */
 public class YearCondition extends ChunkCondition {
 
   @Override

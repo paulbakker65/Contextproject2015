@@ -1,55 +1,56 @@
 package operations;
 
-import parsers.DateValue;
-import parsers.NumberValue;
 import parsers.Value;
 import table.Record;
 import table.Table;
 
+/**
+ * Filters certain records out of the table.
+ */
 public class FilterOperation extends Operation {
 
   /**
    * 
-   * the enum for constraint types
+   * the enum for constraint types.
    * 
    */
   public enum ConstraintComparatorEnum {
     /**
-     * equal
+     * equal.
      */
     EQ,
     /**
-     * greater than
+     * greater than.
      */
     G,
     /**
-     * greater than or equal
+     * greater than or equal.
      */
     GEQ,
     /**
-     * less than
+     * less than.
      */
     L,
     /**
-     * less than or equal
+     * less than or equal.
      */
     LEQ,
     /**
-     * not defined
+     * not defined.
      */
     ND
   }
 
   /**
-   * the column name relevant for this operation
+   * the column name relevant for this operation.
    */
   String columnName;
   /**
-   * enum for the constraint type
+   * enum for the constraint type.
    */
   ConstraintComparatorEnum constraintType;
   /**
-   * value to meet constraint
+   * value to meet constraint.
    */
   Value constraintValue;
 
@@ -58,7 +59,7 @@ public class FilterOperation extends Operation {
   }
 
   /**
-   * set operation parameters for the constraint operation
+   * set operation parameters for the constraint operation.
    * 
    * @param columnName
    *          the column name to which this constraint applies
@@ -66,8 +67,8 @@ public class FilterOperation extends Operation {
    *          the type of constraint as defined in {@link ConstraintComparatorEnum}
    * @param constraintValue
    *          the value which the constraint must meet
-   * @return <b>true iff this.operationParametersSet is <b>true</b><br>
-   *         <b>false</b> iff this.operationParametersSet is <b>false</br>
+   * @return <b>true</b> iff this.operationParametersSet is <b>true</b><br>
+   *         <b>false</b> iff this.operationParametersSet is <b>false</b></br>
    */
   public boolean setOperationParameters(String columnName, ConstraintComparatorEnum constraintType,
       Value constraintValue) {

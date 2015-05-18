@@ -19,20 +19,21 @@ import table.Record;
 import table.RecordComparator;
 import table.Table;
 
+/**
+ * An operation that outputs a Table of ChunkValues.
+ * Chunks on the basis of a ChunkCondition
+ */
 public class ChunkingOperation extends Operation {
 
   /**
-   * the column name relevant for this operation
+   * the column name relevant for this operation.
    */
   String columnName;
   /**
-   * condition
+   * Condition for chunking.
    */
   ChunkCondition cond;
-  /**
-   * result dataset, after operation
-   */
-  Table resultData;
+
   /**
    * The columns created after chunking.
    */
@@ -104,7 +105,7 @@ public class ChunkingOperation extends Operation {
   }
 
   /**
-   * This method return the data in such a way that it can be used in the Exporter.class
+   * This method return the data in such a way that it can be used in the Exporter.class.
    * 
    * @return
    */
