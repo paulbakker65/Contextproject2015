@@ -3,16 +3,16 @@ package input;
 import java.io.IOException;
 
 public abstract class Reader {
-	protected String filepath = "";
-	
-	public abstract String[] readRow() throws IOException;
+  protected String filepath = "";
 
-	public String getFilepath() {
-		return filepath;
-	}
+  public abstract String[] readRow() throws IOException;
 
-	@Override
-	public String toString() {
-		return "Reader [filepath=" + filepath + "]";
-	}
+  public String getFilepath() {
+    return filepath;
+  }
+
+  @Override
+  public String toString() {
+    return "Reader [filepath=" + filepath + "]";
+  }
 }

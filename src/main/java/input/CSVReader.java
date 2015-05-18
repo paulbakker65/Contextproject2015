@@ -5,50 +5,44 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class CSVReader extends Reader{
-	private String delimiter = ";";
-	
-	private FileReader fr;
-	private BufferedReader br;
-	
-	
-	public CSVReader(String filepath) throws FileNotFoundException {
-		super();
-		this.filepath = filepath;
-		
-		fr = new FileReader(filepath);
-	    br = new BufferedReader(fr);
-	}
-	
-	
+public class CSVReader extends Reader {
+  private String delimiter = ";";
 
-	public CSVReader(String filepath, String delimiter) throws FileNotFoundException {
-		this(filepath);
-		this.delimiter = delimiter;
-	}
+  private FileReader fr;
+  private BufferedReader br;
 
+  public CSVReader(String filepath) throws FileNotFoundException {
+    super();
+    this.filepath = filepath;
 
+    fr = new FileReader(filepath);
+    br = new BufferedReader(fr);
+  }
 
-	public String[] readRow(){
-		String line = null;
-		try {
-			line = br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if(line == null) {
+  public CSVReader(String filepath, String delimiter) throws FileNotFoundException {
+    this(filepath);
+    this.delimiter = delimiter;
+  }
+
+  public String[] readRow() {
+    String line = null;
+    try {
+      line = br.readLine();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (line == null) {
       return null;
     }
-		String[] record = line.split(delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-		return record;
-	}
-	
+    String[] record = line.split(delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+    return record;
+  }
 
-	public String getDelimiter() {
-		return delimiter;
-	}
+  public String getDelimiter() {
+    return delimiter;
+  }
 
-	public void setDelimiter(String delimiter) {
-		this.delimiter = delimiter;
-	}
+  public void setDelimiter(String delimiter) {
+    this.delimiter = delimiter;
+  }
 }
