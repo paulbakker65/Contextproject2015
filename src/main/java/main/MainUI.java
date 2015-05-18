@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * MainUI class implementing the main Graphical User Interface.
+ * 
+ */
 public class MainUI extends JDialog {
   private static final long serialVersionUID = 1L;
 
