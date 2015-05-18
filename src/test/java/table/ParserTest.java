@@ -53,7 +53,6 @@ public class ParserTest {
 	}
 	
 	public String[] getRow() {
-		System.out.println(testFile.size());
 		if (curIndex >= testFile.size())
 			return null;
 		
