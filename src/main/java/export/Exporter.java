@@ -7,12 +7,17 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+
 import parsers.Value;
+import table.Record;
+import table.Table;
 
 import com.opencsv.CSVWriter;
 
-import table.*;
-
+/**
+ * Exporter class that outputs internal datastructures into output files.
+ * 
+ */
 public class Exporter {
 
   public static void export(Table db, Writer writer, Settings settings) throws IOException {
@@ -36,10 +41,11 @@ public class Exporter {
     List<String> items = new ArrayList<String>();
     for (String column : columns) {
       Value value = dr.get(column);
-      if (value == null)
+      if (value == null) {
         items.add("");
-      else
+      } else {
         items.add(value.toString());
+      }
     }
     return items.toArray(new String[items.size()]);
   }
