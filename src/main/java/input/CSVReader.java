@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * CSVReader class is a Reader subclass that implements the reading of CSV files.
  *
@@ -15,6 +17,7 @@ public class CSVReader extends Reader {
   private FileReader fr;
   private BufferedReader br;
 
+  @SuppressFBWarnings(value = "I18N", justification = "Assume unicode")
   public CSVReader(String filepath) throws FileNotFoundException {
     super();
     this.filepath = filepath;

@@ -49,15 +49,17 @@ public class Settings {
 
   @Override
   public String toString() {
-    String res = "startLine:\t" + startLine + "\n";
-    res += "delimiter:\t\"" + delimiter + "\"\n";
-    res += "columns:\t";
-
+    StringBuilder b = new StringBuilder();
+    b.append("startLine:\t" + startLine + "\n");
+    b.append("delimiter:\t\"" + delimiter + "\"\n");
+    b.append("columns:\t");
+    
     for (Column column : columns) {
-      res += column.toString() + "\n\t\t";
+      b.append(column.toString());
+      b.append("\n\t\t");
     }
 
-    return res;
+    return b.toString();
   }
 
   public void readSettings(Element element) throws WrongXMLException {
