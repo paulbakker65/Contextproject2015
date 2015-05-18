@@ -62,19 +62,19 @@ public class ExporterTest {
 		
 		
 		StringWriter w = new StringWriter();
-		Exporter.export(dummydb,w, settings);
+		Exporter.export(dummydb, w, settings);
 		assertEquals(expected, w.toString());
 	}
 
 	@Test
 	public void testGenerateRow1() {
-		String[] expected = {"","wortel","mayonaise"};
+		String[] expected = {"", "wortel", "mayonaise"};
 		assertArrayEquals(expected,Exporter.generateRow(dummyrow1, Arrays.asList(cols)));
 	}
 	
 	@Test
 	public void testGenerateRow2() {
-		String[] expected = {"banaan","bloemkool",""};
+		String[] expected = {"banaan", "bloemkool", ""};
 		assertArrayEquals(expected,Exporter.generateRow(dummyrow2, Arrays.asList(cols)));
 	}
 

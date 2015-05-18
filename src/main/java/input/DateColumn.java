@@ -65,10 +65,11 @@ public class DateColumn extends Column {
 	public void setFormat(String format) {
 		this.formatStr = format;
 		
-		if (formatStr.toLowerCase().equals("excel"))
-			this.format = null;
-		else
-			this.format = new SimpleDateFormat(format);
+		if (formatStr.toLowerCase().equals("excel")) {
+      this.format = null;
+    } else {
+      this.format = new SimpleDateFormat(format);
+    }
 	}
 	
 	@Override
@@ -79,10 +80,12 @@ public class DateColumn extends Column {
 	@Override
 	public Value convertToValue(String text) throws ColumnTypeMismatchException {
 		try {
-			if (text.toLowerCase().equals("null") || text.isEmpty())
-				return new NullValue();
-			if (formatStr.toLowerCase().equals("excel"))
-				return new DateValue(convertExcelDate(text));
+			if (text.toLowerCase().equals("null") || text.isEmpty()) {
+        return new NullValue();
+      }
+			if (formatStr.toLowerCase().equals("excel")) {
+        return new DateValue(convertExcelDate(text));
+      }
 				
 			return new DateValue(format.parse(text));
 		}
@@ -104,8 +107,9 @@ public class DateColumn extends Column {
 	public void read(Element element) throws WrongXMLException {
 		String format = element.getAttribute("format");
 		
-		if (format.isEmpty())
-			throw new WrongXMLException("Format not specified!");
+		if (format.isEmpty()) {
+      throw new WrongXMLException("Format not specified!");
+    }
 		
 		setFormat(format);		
 	}

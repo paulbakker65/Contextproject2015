@@ -59,8 +59,9 @@ public class Parser {
 			for (int i = 0; i < columns.size(); i++) {
 				values[i] = columns.get(i).convertToValue(row[i]);
 				
-				if (values[i].isTime())
-					timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).getTargetDate());
+				if (values[i].isTime()) {
+          timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).getTargetDate());
+        }
 			}
 						
 			Record tuple = new Record(columns, values);

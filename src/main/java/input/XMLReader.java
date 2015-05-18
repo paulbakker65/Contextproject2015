@@ -72,19 +72,22 @@ public class XMLReader {
 			Column newColumn = Column.readColumn((Element) node);	
 			
 			// If a time column is present, the target column should be present as well.
-			if (newColumn instanceof TimeColumn)
-				checkContains.add(((TimeColumn) newColumn).getTargetDate());
+			if (newColumn instanceof TimeColumn) {
+        checkContains.add(((TimeColumn) newColumn).getTargetDate());
+      }
 			
 			settings.addColumn(newColumn);
 		}		
 		
 		for (Column column : settings.getColumns())
-			if (column instanceof DateColumn)
-				checkContains.remove(column.getName());
+			if (column instanceof DateColumn) {
+        checkContains.remove(column.getName());
+      }
 		
 		// If the list is not empty, one or more target column are not present.
-		if (!checkContains.isEmpty())
-			throw new WrongXMLException("Target column(s) not found!");
+		if (!checkContains.isEmpty()) {
+      throw new WrongXMLException("Target column(s) not found!");
+    }
 	}
 	
 	private static void checkDuplicateColumns(ArrayList<Column> columns) throws WrongXMLException {
@@ -94,7 +97,8 @@ public class XMLReader {
 			columnsSet.add(column.getName());
 		}
 		
-		if (columnsSet.size() != columns.size())
-			throw new  WrongXMLException("Duplicate column names found!"); 
+		if (columnsSet.size() != columns.size()) {
+      throw new  WrongXMLException("Duplicate column names found!");
+    } 
 	}
 }
