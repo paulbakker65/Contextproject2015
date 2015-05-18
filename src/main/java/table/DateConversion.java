@@ -33,7 +33,7 @@ public class DateConversion {
       leapDays += 1;
     }
     if (year >= 2000) {
-      leapDays += ((int) (year / 1000) - 1);
+      leapDays += (int) (year / 1000) - 1;
     }
     c.add(GregorianCalendar.DATE, -leapDays);
 
