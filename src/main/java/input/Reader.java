@@ -2,6 +2,10 @@ package input;
 
 import java.io.IOException;
 
+/**
+ * Reader abstract class providing the framework for all filetype-specific Readers.
+ *
+ */
 public abstract class Reader {
   protected String filepath = "";
 

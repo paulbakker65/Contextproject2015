@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Element;
 
+/**
+ * Settings class containing all program-wide settings.
+ * 
+ */
 public class Settings {
   private int startLine;
   private String delimiter;
@@ -85,10 +89,12 @@ public class Settings {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null || getClass() != obj.getClass())
+    }
+    if (obj == null || getClass() != obj.getClass()) {
       return false;
+    }
     Settings that = (Settings) obj;
     if (this.delimiter.equals(that.delimiter) && this.startLine == that.startLine
         || this.columns.equals(that.columns)) {

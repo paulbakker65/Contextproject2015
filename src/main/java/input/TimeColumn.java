@@ -13,8 +13,6 @@ import parsers.Value;
 
 /**
  * Case class for specifying a column with time values.
- * 
- * @author Robin
  *
  */
 public class TimeColumn extends Column {

@@ -9,8 +9,6 @@ import parsers.Value;
 /**
  * Case class for specifying a column with just text.
  * 
- * @author Robin
- *
  */
 public class StringColumn extends Column {
 
