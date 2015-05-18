@@ -3,17 +3,25 @@ package main;
 import input.WrongXMLException;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
+import export.Exporter;
 import parsers.ColumnTypeMismatchException;
+import table.Record;
+import table.RecordComparator;
 import table.Table;
 
 /**
  * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
  */
 public class Main {
+<<<<<<< HEAD
   private static ArrayList<DataFile> files = new ArrayList<DataFile>();
   private static File scriptFile;
   private static File outputDir;
@@ -30,19 +38,24 @@ public class Main {
 
     System.exit(0);
 
-    ArrayList<Table> tables = new ArrayList<Table>();
-
-    for (DataFile f : files) {
-      Table t = null;
-      try {
-        t = f.getParser().parse(f.getReader());
-      } catch (ColumnTypeMismatchException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+      Table input = new Table();
+      for(DataFile f : files){
+          Table t = null;
+          try {
+              t = f.getParser().parse(f.getReader());
+          } catch (ColumnTypeMismatchException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+          }
+          input.addAll(t);
       }
-      tables.add(t);
-      System.out.println(t);
-    }
+      Collections.sort(input, new RecordComparator("Date"));
+      System.out.println(input);
+      Set<String> keys = new HashSet<String>();
+      for(Record r : input) {
+          keys.addAll(r.keySet());
+      }
+      Exporter.export(input, new FileWriter(outputDir + "/output.csv"), keys);
 
     // Read script & execute.
 
