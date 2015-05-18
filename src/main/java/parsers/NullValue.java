@@ -47,7 +47,7 @@ public class NullValue extends Value {
     return false;
   }
 
-  public int compareTo(NullValue o) {
+  public int compareTo(Value o) {
     return 0;
   }
 }

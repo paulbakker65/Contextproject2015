@@ -5,7 +5,7 @@ package parsers;
  * @author unset
  *
  */
-public abstract class Value {
+public abstract class Value implements Comparable<Value> {
 
   /**
    * Returns whether a Value is numeric.

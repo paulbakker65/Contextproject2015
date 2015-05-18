@@ -100,9 +100,9 @@ public class NumberValue extends Value {
     return false;
   }
 
-  public int compareTo(NumberValue o) {
+  public int compareTo(Value o) {
     Double val = new Double(this.value);
-    Double anotherVal = new Double(o.value);
+    Double anotherVal = new Double(((NumberValue) o).value);
 
     return val.compareTo(anotherVal);
   }
