@@ -1,11 +1,18 @@
 package main;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
+import export.Exporter;
 import parsers.ColumnTypeMismatchException;
+import table.Record;
+import table.RecordComparator;
 import table.Table;
 import input.WrongXMLException;
 
@@ -20,10 +27,10 @@ public class Main {
 		
 		openGUI();
 
-		System.exit(0);	    
+		//System.exit(0);	    
 	    
-		ArrayList<Table> tables = new ArrayList<Table>();
 		
+		Table input = new Table();
 		for(DataFile f : files){
 			Table t = null;
 			try {
@@ -32,9 +39,15 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			tables.add(t);
-			System.out.println(t);
-		}		
+			input.addAll(t);
+		}
+		Collections.sort(input, new RecordComparator("Date"));
+		System.out.println(input);
+		Set<String> keys = new HashSet<String>();
+		for(Record r : input) {
+		  keys.addAll(r.keySet());
+		}
+		Exporter.export(input, new FileWriter(outputDir + "/output.csv"), keys);
 
 
 		//Read script & execute.
