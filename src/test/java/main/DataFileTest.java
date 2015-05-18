@@ -13,6 +13,10 @@ import org.junit.Test;
 
 import parsers.Parser;
 
+/**
+ * DataFileTest class testing main.DataFile class.
+ * 
+ */
 public class DataFileTest {
   private final String datafilename = "src/test/resources/csvexample.csv";
   private final String settingsfilename = "src/test/resources/settings.xml";

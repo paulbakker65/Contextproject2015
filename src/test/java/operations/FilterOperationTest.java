@@ -19,6 +19,10 @@ import table.DateConversion;
 import table.Record;
 import table.Table;
 
+/**
+ * FilterOperationTest class testing the operations.FilterOperation.
+ * 
+ */
 public class FilterOperationTest {
 
   Table dataTable;

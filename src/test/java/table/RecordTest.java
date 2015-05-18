@@ -15,6 +15,10 @@ import org.junit.Test;
 import parsers.StringValue;
 import parsers.Value;
 
+/**
+ * RecordTest class testing the table.Record class.
+ * 
+ */
 public class RecordTest {
 
   ArrayList<Column> cols;

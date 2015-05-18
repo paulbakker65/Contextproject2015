@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 
+/**
+ * XMLReader class testing the input.XMLReader class.
+ * 
+ */
 public class XMLReaderTest {
   String folder = "src/main/resources";
 

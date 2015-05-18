@@ -35,6 +35,10 @@ import parsers.StringValue;
 import parsers.TimeValue;
 import parsers.Value;
 
+/**
+ * ParserTest class testing the table.Parser class.
+ * 
+ */
 public class ParserTest {
   private Reader reader = Mockito.mock(Reader.class);
   private String delimiter;
@@ -53,8 +57,9 @@ public class ParserTest {
   }
 
   public String[] getRow() {
-    if (curIndex >= testFile.size())
+    if (curIndex >= testFile.size()) {
       return null;
+    }
 
     return testFile.get(curIndex++).split(delimiter);
   }

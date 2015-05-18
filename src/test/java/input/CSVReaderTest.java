@@ -8,6 +8,10 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * CSVReaderTest class testing the input.CSVReader class.
+ * 
+ */
 public class CSVReaderTest {
   Settings settings;
   String filepath = "src/test/resources/csvexample.csv";

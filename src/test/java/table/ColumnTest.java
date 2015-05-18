@@ -22,6 +22,10 @@ import parsers.StringValue;
 import parsers.TimeValue;
 import parsers.Value;
 
+/**
+ * ColumnTest class testing the table.Column class.
+ * 
+ */
 public class ColumnTest {
 
   @Test

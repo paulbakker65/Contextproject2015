@@ -20,6 +20,10 @@ import parsers.StringValue;
 import parsers.TimeValue;
 import parsers.Value;
 
+/**
+ * ValueTest class testing table.Value class.
+ * 
+ */
 public class ValueTest {
 
   @Test

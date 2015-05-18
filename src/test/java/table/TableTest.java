@@ -15,6 +15,10 @@ import parsers.NumberValue;
 import parsers.StringValue;
 import parsers.Value;
 
+/**
+ * TableTest class testing the table.Table class.
+ * 
+ */
 public class TableTest {
 
   private Table t;

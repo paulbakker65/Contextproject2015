@@ -19,6 +19,10 @@ import parsers.StringValue;
 import table.Record;
 import table.Table;
 
+/**
+ * ExporterTest class testing the export.Export class.
+ * 
+ */
 public class ExporterTest {
 
   Record dummyrow1;

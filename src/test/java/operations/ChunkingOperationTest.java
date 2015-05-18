@@ -24,6 +24,10 @@ import table.DateConversion;
 import table.Record;
 import table.Table;
 
+/**
+ * ChunkingOperationTest class testing operations.ChunkingOperation.
+ * 
+ */
 public class ChunkingOperationTest {
 
   Table dataTable;
