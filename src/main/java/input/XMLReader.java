@@ -1,4 +1,6 @@
 package input;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,7 +37,9 @@ public class XMLReader {
 			// Parse the file.
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(new XMLReader().getClass().getResourceAsStream(xmlFile));
+			
+			File file = new File(xmlFile);
+			Document doc = dBuilder.parse(file);
 			
 			// Get the root element.
 			Element rootElement = doc.getDocumentElement();

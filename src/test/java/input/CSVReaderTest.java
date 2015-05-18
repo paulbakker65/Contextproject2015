@@ -11,10 +11,11 @@ import org.junit.Test;
 public class CSVReaderTest {
 	Settings settings;	
 	String filepath = "src/test/resources/csvexample.csv";
+	String settingsfilepath = "src/test/resources/settings.xml";
 	
 	@Before
 	public void setUp() throws WrongXMLException{
-		settings = XMLReader.readXMLFile("/settings.xml");
+		settings = XMLReader.readXMLFile(settingsfilepath);
 	}
 	
 	@Test

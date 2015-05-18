@@ -26,7 +26,7 @@ public class ExporterTest {
 	Record dummyrow2;
 	Table dummydb;
 	
-	
+	String settingsfilepath = "src/test/resources/settings.xml";
 	Settings settings;
 	String[] cols;
 	
@@ -43,8 +43,9 @@ public class ExporterTest {
 		dummydb = new Table();
 		dummydb.add(dummyrow1);
 		dummydb.add(dummyrow2);
+
+		settings = XMLReader.readXMLFile(settingsfilepath);
 		
-		settings = XMLReader.readXMLFile("/settings.xml");
 		ArrayList<Column> colstemp = settings.getColumns();
 		cols = new String[colstemp.size()];
 		for(int i = 0; i < colstemp.size(); i++) {
