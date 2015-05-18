@@ -5,12 +5,16 @@ import input.Reader;
 import input.Settings;
 import input.WrongXMLException;
 import input.XMLReader;
+import parsers.Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import parsers.Parser;
 
+/**
+ * Stores information about the data file and it's corresponding settings file.
+ * Creates the Reader, Parser and Settings for the data file.
+ */
 public class DataFile {
   private File datafile;
   private File settingsfile;

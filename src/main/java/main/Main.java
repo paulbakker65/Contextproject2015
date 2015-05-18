@@ -1,5 +1,7 @@
 package main;
 
+import input.WrongXMLException;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -7,8 +9,10 @@ import java.util.ArrayList;
 
 import parsers.ColumnTypeMismatchException;
 import table.Table;
-import input.WrongXMLException;
 
+/**
+ * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
+ */
 public class Main {
   private static ArrayList<DataFile> files = new ArrayList<DataFile>();
   private static File scriptFile;
@@ -56,10 +60,9 @@ public class Main {
   }
 
   /**
-   * Parses command line arguments
+   * Parses command line arguments.
    * 
-   * @param argv
-   *          String[] containing all arguments.
+   * @param argv String[] containing all arguments.
    */
   public static void parseCommandline(String[] argv) {
     int argc = argv.length;
@@ -99,7 +102,7 @@ public class Main {
    */
   public static void openGUI() {
     String windowTitle = "Contextproject 2015 Groep 5/E";
-    mainUI dialog = new mainUI();
+    MainUI dialog = new MainUI();
     dialog.pack();
     dialog.setTitle(windowTitle);
     dialog.centreWindow();

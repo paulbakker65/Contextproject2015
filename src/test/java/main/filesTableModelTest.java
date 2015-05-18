@@ -7,7 +7,7 @@ import java.io.File;
 import org.junit.Test;
 
 public class filesTableModelTest {
-  private filesTableModel ftm = new filesTableModel();
+  private FilesTableModel ftm = new FilesTableModel();
   private final String datafilename = "src/test/resources/csvexample.csv";
   private final String settingsfilename = "src/test/resources/settings.xml";
 

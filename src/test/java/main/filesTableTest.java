@@ -7,12 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class filesTableTest {
-  private filesTable ft;
+  private FilesTable ft;
   private DataFile df1, df2, df3;
 
   @Before
   public void setUp() {
-    ft = new filesTable(new filesTableModel());
+    ft = new FilesTable(new FilesTableModel());
   }
 
   @Test

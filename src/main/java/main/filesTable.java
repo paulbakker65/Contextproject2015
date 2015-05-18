@@ -1,18 +1,22 @@
 package main;
 
-import javax.swing.*;
-import javax.swing.table.TableModel;
-
 import java.util.ArrayList;
 
-public class filesTable extends JTable {
-  static filesTableModel ftm = new filesTableModel();
+import javax.swing.JTable;
 
-  public filesTable() {
+/**
+ * The JTable for displaying the selected files. Used in MainUI.
+ */
+public class FilesTable extends JTable {
+  private static final long serialVersionUID = 1L;
+  
+  static FilesTableModel ftm = new FilesTableModel();
+
+  public FilesTable() {
     super(ftm);
   }
 
-  public filesTable(filesTableModel model) {
+  public FilesTable(FilesTableModel model) {
     super(model);
     ftm = model;
   }

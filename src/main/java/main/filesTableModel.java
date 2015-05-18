@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-public class filesTableModel implements TableModel {
+/**
+ * A TableModel used by FilesTable to store the table data.
+ */
+public class FilesTableModel implements TableModel {
   private final String[] columnNames = { "Data filepath", "Settings filepath" };
   private ArrayList<DataFile> files = new ArrayList<DataFile>();
 
