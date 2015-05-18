@@ -6,8 +6,8 @@ import input.WrongXMLException;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class ExporterTest {
 		dummydb.add(dummyrow1);
 		dummydb.add(dummyrow2);
 		
-		cols = new HashSet<String>();
+		cols = new TreeSet<String>();
 		cols.add("fruit");
 		cols.add("groente");
 		cols.add("saus");
