@@ -19,9 +19,14 @@ public class NullValue extends Value {
 
   @Override
   public boolean equals(Object other) {
-    return (other instanceof NullValue);
+    return other instanceof NullValue;
   }
 
+  @Override
+  public int hashCode() {
+    return 0;
+  }
+  
   @Override
   public boolean isNumeric() {
     return false;

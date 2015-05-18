@@ -100,15 +100,15 @@ public class FilterOperation extends Operation {
     int compareResult = recordValue.compareTo(constraintValue);
     switch (constraintComparatorEnum) {
     case EQ:
-      return (compareResult == 0);
+      return compareResult == 0;
     case G:
-      return (compareResult > 0);
+      return compareResult > 0;
     case GEQ:
-      return (compareResult >= 0);
+      return compareResult >= 0;
     case L:
-      return (compareResult < 0);
+      return compareResult < 0;
     case LEQ:
-      return (compareResult <= 0);
+      return compareResult <= 0;
     case ND:
       return false;
     default:
@@ -130,11 +130,10 @@ public class FilterOperation extends Operation {
   @Override
   public boolean execute() {
     for (Record record : this.inputData) {
-      if (record.containsKey(this.columnName)) {
-        if (this.constraintFunction(record.get(this.columnName), this.constraintType,
-            this.constraintValue)) {
-          this.resultData.add(record);
-        }
+      if (record.containsKey(this.columnName)
+          && this.constraintFunction(record.get(this.columnName), this.constraintType,
+              this.constraintValue)) {
+        this.resultData.add(record);
       }
     }
     return true;
