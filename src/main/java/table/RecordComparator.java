@@ -1,6 +1,8 @@
 package table;
 
+import java.io.Serializable;
 import java.util.Comparator;
+
 import parsers.Value;
 
 /**
@@ -8,8 +10,13 @@ import parsers.Value;
  * 
  * @author unset, paulbakker65
  */
-public class RecordComparator implements Comparator<Record> {
+public class RecordComparator implements Serializable, Comparator<Record> {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  
   private String col;
 
   /**

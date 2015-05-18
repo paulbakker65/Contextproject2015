@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import table.Record;
 import table.Table;
@@ -81,9 +82,9 @@ public class Parser {
   }
 
   private void connectLinks(Map<String, String> links, Record record) {
-    for (String time : links.keySet()) {
-      TimeValue timeValue = (TimeValue) record.get(time);
-      DateValue dateValue = (DateValue) record.get(links.get(time));
+    for (Entry<String, String> entry : links.entrySet()) {
+      TimeValue timeValue = (TimeValue) record.get(entry.getKey());
+      DateValue dateValue = (DateValue) record.get(entry.getValue());
 
       dateValue.addTime(timeValue.getValue());
       timeValue.setValue(dateValue.getValue());

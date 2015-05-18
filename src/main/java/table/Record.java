@@ -26,13 +26,11 @@ public class Record extends HashMap<String, Value> {
   }
 
   public String toString() {
-    String res = "";
-
+    StringBuilder b = new StringBuilder();
     for (Value val : values()) {
-      res += val + "\t";
+      b.append(val + "\t");
     }
-
-    return res;
+    return b.toString();
   }
 
 }
