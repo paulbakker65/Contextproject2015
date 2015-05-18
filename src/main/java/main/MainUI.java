@@ -3,6 +3,8 @@ package main;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -303,6 +305,7 @@ public class MainUI extends JDialog {
   /**
    * Exits the program.
    */
+  @SuppressFBWarnings(value="DM_EXIT")
   private void onCancel() {
     dispose();
     System.exit(0);
