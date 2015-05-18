@@ -15,7 +15,7 @@ public class TimeValue extends Value {
   private String targetDate;
 
   /**
-   * Constructs a new TimeValue
+   * Constructs a new TimeValue.
    * 
    * @param value
    *          the stored time.
@@ -29,7 +29,7 @@ public class TimeValue extends Value {
   }
 
   /**
-   * Constructs a new TimeValue
+   * Constructs a new TimeValue.
    * 
    * @param value
    *          the stored time.

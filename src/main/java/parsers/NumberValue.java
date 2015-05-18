@@ -10,7 +10,7 @@ public class NumberValue extends Value {
   private double value;
 
   /**
-   * Constructs a new NumberValue
+   * Constructs a new NumberValue.
    * 
    * @param value
    *          the stored number.

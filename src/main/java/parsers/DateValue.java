@@ -15,7 +15,7 @@ public class DateValue extends Value {
   private GregorianCalendar value;
 
   /**
-   * Constructs a new DateValue
+   * Constructs a new DateValue.
    * 
    * @param value
    *          the stored date.
@@ -26,7 +26,7 @@ public class DateValue extends Value {
   }
 
   /**
-   * Constructs a new DateValue
+   * Constructs a new DateValue.
    * 
    * @param value
    *          the stored date.

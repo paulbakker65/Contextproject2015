@@ -10,7 +10,7 @@ public class StringValue extends Value {
   private String value;
 
   /**
-   * Constructs a new NumberValue
+   * Constructs a new NumberValue.
    * 
    * @param value
    *          the stored string.

@@ -1,5 +1,10 @@
 package parsers;
 
+/**
+ * An abstract class to represent a String Date Time... etc.
+ * @author unset
+ *
+ */
 public abstract class Value {
 
   /**

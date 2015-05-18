@@ -3,6 +3,9 @@ package parsers;
 import table.Record;
 import table.Table;
 
+/**
+ * A chunk contains a table, index and a label.
+ */
 public class ChunkValue extends Value {
 
   private int index;
@@ -13,6 +16,7 @@ public class ChunkValue extends Value {
     index = i;
     label = l;
     table = t;
+      
   }
 
   public void addRecord(Record r) {
