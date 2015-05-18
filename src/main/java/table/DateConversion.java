@@ -3,6 +3,9 @@ package table;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * A class that contains Date utilities.
+ */
 public class DateConversion {
 
   /**
