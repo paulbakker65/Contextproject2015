@@ -44,8 +44,9 @@ public abstract class Column {
   public static Column readColumn(Element element) throws WrongXMLException {
     String name = element.getAttribute("name");
 
-    if (name.isEmpty())
+    if (name.isEmpty()) {
       throw new WrongXMLException("No name specified!");
+    }
 
     Column res = null;
     String type = element.getAttribute("type");

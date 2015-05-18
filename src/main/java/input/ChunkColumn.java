@@ -7,6 +7,10 @@ import parsers.ColumnTypeMismatchException;
 import parsers.Value;
 import table.Table;
 
+/**
+ * ChunkColumn class is a Table column containing ChunkValues.
+ *
+ */
 public class ChunkColumn extends Column {
 
   public ChunkColumn(String name) {

@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class mainUI extends JDialog {
+public class MainUI extends JDialog {
+  private static final long serialVersionUID = 1L;
+
   // All GUI components:
   private JPanel contentPane;
   private JButton buttonRunScript;
@@ -18,7 +20,7 @@ public class mainUI extends JDialog {
   private JTextField textFieldscriptfilepath;
   private JButton openFileButton;
   private JButton editScriptButton;
-  private filesTable filesTable;
+  private FilesTable filesTable;
   private JButton addFileSButton;
   private JButton removeSelectedButton;
   private JPanel filesPanel;
@@ -30,7 +32,7 @@ public class mainUI extends JDialog {
   private FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("XML files", "xml");
   private FileNameExtensionFilter csvfilter = new FileNameExtensionFilter("CSV and TXT files",
       "csv", "txt");
-  private FileNameExtensionFilter xlsfilter = new FileNameExtensionFilter("Excel files", "xls");
+  //private FileNameExtensionFilter xlsfilter = new FileNameExtensionFilter("Excel files", "xls");
 
   private File scriptFile;
   private File outputDir;
@@ -38,7 +40,7 @@ public class mainUI extends JDialog {
 
   private File previousDirectory;
 
-  public mainUI() {
+  public MainUI() {
     setSystemLook();
     setContentPane(contentPane);
     setModal(true);
@@ -164,7 +166,7 @@ public class mainUI extends JDialog {
   }
 
   /**
-   * Opens a open file dialog for the user to select an output directory
+   * Opens a open file dialog for the user to select an output directory.
    */
   private void onSelectOutputDir() {
 
@@ -266,8 +268,9 @@ public class mainUI extends JDialog {
    */
   private void onRemoveFile() {
     int selectedRows[] = filesTable.getSelectedRows();
-    if (selectedRows.length > filesTable.getRowCount())
+    if (selectedRows.length > filesTable.getRowCount()) {
       return;
+    }
 
     // Sort the index list, rows with a higher index should be removed before rows with a lower
     // index to prevent indices from changing.
@@ -392,7 +395,7 @@ public class mainUI extends JDialog {
     gbc.anchor = GridBagConstraints.NORTH;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     filesPanel.add(removeSelectedButton, gbc);
-    filesTable = new filesTable();
+    filesTable = new FilesTable();
     filesTable.setCellSelectionEnabled(true);
     filesTable.setColumnSelectionAllowed(true);
     filesTable.setShowVerticalLines(true);

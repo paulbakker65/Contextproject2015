@@ -16,8 +16,6 @@ import table.DateConversion;
 /**
  * Case class for specifying a column with dates.
  * 
- * @author Robin
- *
  */
 public class DateColumn extends Column {
   /**

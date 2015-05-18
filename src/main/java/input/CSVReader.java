@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * CSVReader class is a Reader subclass that implements the reading of CSV files.
+ *
+ */
 public class CSVReader extends Reader {
   private String delimiter = ";";
 

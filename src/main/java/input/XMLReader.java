@@ -19,8 +19,6 @@ import org.xml.sax.SAXException;
 
 /**
  * Class for reading and parsing an xml file.
- * 
- * @author Robin
  *
  */
 public class XMLReader {
@@ -82,10 +80,11 @@ public class XMLReader {
       settings.addColumn(newColumn);
     }
 
-    for (Column column : settings.getColumns())
+    for (Column column : settings.getColumns()) {
       if (column instanceof DateColumn) {
         checkContains.remove(column.getName());
       }
+    }
 
     // If the list is not empty, one or more target column are not present.
     if (!checkContains.isEmpty()) {

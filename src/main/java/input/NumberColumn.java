@@ -10,8 +10,6 @@ import parsers.Value;
 /**
  * Case class for specifying a column with numbers.
  * 
- * @author Robin
- *
  */
 public class NumberColumn extends Column {
 
