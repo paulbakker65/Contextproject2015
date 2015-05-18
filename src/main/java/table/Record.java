@@ -7,6 +7,10 @@ import java.util.HashMap;
 
 import parsers.Value;
 
+/**
+ * A timed event that can contain various properties ("collumns").
+ * Because it extends a HashMap new properties can be made on the fly.
+ */
 public class Record extends HashMap<String, Value> {
 
   private static final long serialVersionUID = 1L;
