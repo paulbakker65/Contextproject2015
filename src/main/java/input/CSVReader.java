@@ -5,50 +5,51 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class CSVReader extends Reader{
-	private String delimiter = ";";
-	
-	private FileReader fr;
-	private BufferedReader br;
-	
-	
-	public CSVReader(String filepath) throws FileNotFoundException {
-		super();
-		this.filepath = filepath;
-		
-		fr = new FileReader(filepath);
-	    br = new BufferedReader(fr);
-	}
-	
-	
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-	public CSVReader(String filepath, String delimiter) throws FileNotFoundException {
-		this(filepath);
-		this.delimiter = delimiter;
-	}
+/**
+ * CSVReader class is a Reader subclass that implements the reading of CSV files.
+ *
+ */
+public class CSVReader extends Reader {
+  private String delimiter = ";";
 
+  private FileReader fr;
+  private BufferedReader br;
 
+  @SuppressFBWarnings(value = "I18N", justification = "Assume unicode")
+  public CSVReader(String filepath) throws FileNotFoundException {
+    super();
+    this.filepath = filepath;
 
-	public String[] readRow(){
-		String line = null;
-		try {
-			line = br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if(line == null) {
+    fr = new FileReader(filepath);
+    br = new BufferedReader(fr);
+  }
+
+  public CSVReader(String filepath, String delimiter) throws FileNotFoundException {
+    this(filepath);
+    this.delimiter = delimiter;
+  }
+
+  public String[] readRow() {
+    String line = null;
+    try {
+      line = br.readLine();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (line == null) {
       return null;
     }
-		String[] record = line.split(delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-		return record;
-	}
-	
+    String[] record = line.split(delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+    return record;
+  }
 
-	public String getDelimiter() {
-		return delimiter;
-	}
+  public String getDelimiter() {
+    return delimiter;
+  }
 
-	public void setDelimiter(String delimiter) {
-		this.delimiter = delimiter;
-	}
+  public void setDelimiter(String delimiter) {
+    this.delimiter = delimiter;
+  }
 }

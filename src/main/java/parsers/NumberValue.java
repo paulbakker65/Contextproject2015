@@ -2,81 +2,108 @@ package parsers;
 
 /**
  * Case class for representing a numeric Value.
- * @author Robin
  *
  */
 public class NumberValue extends Value {
-	private double value;
-	
-	/**
-	 * Constructs a new NumberValue
-	 * @param value the stored number.
-	 */
-	public NumberValue(double value) {
-		this.setValue(value);
-	}
+  private double value;
 
-	/**
-	 * Returns the stored number.
-	 * @return the stored number.
-	 */
-	public double getValue() {
-		return value;
-	}
+  /**
+   * Constructs a new NumberValue.
+   * 
+   * @param value
+   *          the stored number.
+   */
+  public NumberValue(double value) {
+    this.setValue(value);
+  }
 
-	/**
-	 * Stores a new number value.
-	 * @param value the new number value.
-	 */
-	public void setValue(double value) {
-		this.value = value;
-	}
-	
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof NumberValue) {
-			NumberValue that = (NumberValue) other;
-			
-			return (this.value == that.value);
-		}
-		
-		return false;
-	}
-	
-	@Override
-	public String toString() {
-		return Integer.toString((int) value);
-	}
-	
-	@Override
-	public boolean isNumeric() {
-		return true;
-	}
+  /**
+   * Returns the stored number.
+   * 
+   * @return the stored number.
+   */
+  public double getValue() {
+    return value;
+  }
 
-	@Override
-	public boolean isDate() {
-		return false;
-	}
+  /**
+   * Stores a new number value.
+   * 
+   * @param value
+   *          the new number value.
+   */
+  public void setValue(double value) {
+    this.value = value;
+  }
 
-	@Override
-	public boolean isString() {
-		return false;
-	}
+  /**
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    long temp;
+    temp = Double.doubleToLongBits(value);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    return result;
+  }
 
-	@Override
-	public boolean isNull() {
-		return false;
-	}
-	
-	@Override
-	public boolean isTime() {
-		return false;
-	}
-		
-	public int compareTo(NumberValue o) {
-		Double val = new Double(this.value);
-		Double anotherVal = new Double(o.value);
-		
-		return val.compareTo(anotherVal);
-	}
+  /**
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    NumberValue other = (NumberValue) obj;
+    if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return Integer.toString((int) value);
+  }
+
+  @Override
+  public boolean isNumeric() {
+    return true;
+  }
+
+  @Override
+  public boolean isDate() {
+    return false;
+  }
+
+  @Override
+  public boolean isString() {
+    return false;
+  }
+
+  @Override
+  public boolean isNull() {
+    return false;
+  }
+
+  @Override
+  public boolean isTime() {
+    return false;
+  }
+
+  public int compareTo(Value o) {
+    Double val = new Double(this.value);
+    Double anotherVal = new Double(((NumberValue) o).value);
+
+    return val.compareTo(anotherVal);
+  }
 }

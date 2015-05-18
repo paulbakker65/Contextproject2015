@@ -2,78 +2,106 @@ package parsers;
 
 /**
  * Case class for representing a string Value.
+ * 
  * @author Robin
  *
  */
 public class StringValue extends Value {
-	private String value;
-	
-	/**
-	 * Constructs a new NumberValue
-	 * @param value the stored string.
-	 */
-	public StringValue(String value) {
-		this.setValue(value);
-	}
+  private String value;
 
-	/**
-	 * Returns the stored string.
-	 * @return the stored string.
-	 */
-	public String getValue() {
-		return value;
-	}
+  /**
+   * Constructs a new NumberValue.
+   * 
+   * @param value
+   *          the stored string.
+   */
+  public StringValue(String value) {
+    this.setValue(value);
+  }
 
-	/**
-	 * Stores a new number string.
-	 * @param value the new number string.
-	 */
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof StringValue) {
-			StringValue that = (StringValue) other;
-			
-			return (this.value.equals(that.value));
-		}
-		
-		return false;
-	}
-	
-	@Override
-	public String toString() {
-		return value;
-	}
-	
-	@Override
-	public boolean isNumeric() {
-		return false;
-	}
+  /**
+   * Returns the stored string.
+   * 
+   * @return the stored string.
+   */
+  public String getValue() {
+    return value;
+  }
 
-	@Override
-	public boolean isDate() {
-		return false;
-	}
+  /**
+   * Stores a new number string.
+   * 
+   * @param value
+   *          the new number string.
+   */
+  public void setValue(String value) {
+    this.value = value;
+  }
 
-	@Override
-	public boolean isString() {
-		return true;
-	}
+  /**
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    return value.hashCode();
+  }
 
-	@Override
-	public boolean isNull() {
-		return false;
-	}
-	
-	@Override
-	public boolean isTime() {
-		return false;
-	}
+  /**
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    StringValue other = (StringValue) obj;
+    if (value == null) {
+      if (other.value != null) {
+        return false;
+      }
+    } else if (!value.equals(other.value)) {
+      return false;
+    }
+    return true;
+  }
 
-	public int compareTo(StringValue o) {
-		return this.value.compareTo(o.value);
-	}
+  @Override
+  public String toString() {
+    return value;
+  }
+
+  @Override
+  public boolean isNumeric() {
+    return false;
+  }
+
+  @Override
+  public boolean isDate() {
+    return false;
+  }
+
+  @Override
+  public boolean isString() {
+    return true;
+  }
+
+  @Override
+  public boolean isNull() {
+    return false;
+  }
+
+  @Override
+  public boolean isTime() {
+    return false;
+  }
+
+  public int compareTo(Value o) {
+    return this.value.compareTo(((StringValue) o).value);
+  }
 }

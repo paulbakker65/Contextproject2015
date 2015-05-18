@@ -7,31 +7,17 @@
 what the following rules do, please see the checkstyle configuration
 page at http://checkstyle.sourceforge.net/config.html -->
 
+
+
 <module name="Checker">
+
+  <module name="SuppressionCommentFilter"/>
 
   <module name="NewlineAtEndOfFile">
     <property name="lineSeparator" value="lf"/>
   </module>
 
-  <module name="RegexpSingleline">
-    <!-- Checks that FIXME is not used in comments.  TODO is preferred.
-    -->
-    <property name="format" value="((//.*)|(\*.*))FIXME" />
-    <property name="message" value='TODO is preferred to FIXME.  e.g. "TODO(johndoe): Refactor when v2 is released."' />
-  </module>
 
-  <module name="RegexpSingleline">
-    <!-- Checks that TODOs are named.  (Actually, just that they are followed
-         by an open paren.)
-    -->
-    <property name="format" value="((//.*)|(\*.*))TODO[^(]" />
-    <property name="message" value='All TODOs should be named.  e.g. "TODO(johndoe): Refactor when v2 is released."' />
-  </module>
-
-  <module name="JavadocPackage">
-    <!-- Checks that each Java package has a Javadoc file used for commenting.
-      Only allows a package-info.java, not package.html. -->
-  </module>
 
   <!-- All Java AST specific tests live under TreeWalker module. -->
   <module name="TreeWalker">
@@ -47,15 +33,6 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <property name="severity" value="warning"/>
     </module>
 
-    <module name="ImportOrder">
-      <!-- Checks for out of order import statements. -->
-
-      <property name="severity" value="warning"/>
-      <property name="groups" value="com.google,android,junit,net,org,java,javax"/>
-      <!-- This ensures that static imports go first. -->
-      <property name="option" value="top"/>
-      <property name="tokens" value="STATIC_IMPORT, IMPORT"/>
-    </module>
 
     <!--
 
@@ -181,7 +158,7 @@ page at http://checkstyle.sourceforge.net/config.html -->
 
     <module name="LineLength">
       <!-- Checks if a line is too long. -->
-      <property name="max" value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.max}" default="100"/>
+      <property name="max" value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.max}" default="120"/>
       <property name="severity" value="warning"/>
 
       <!--
@@ -193,32 +170,6 @@ page at http://checkstyle.sourceforge.net/config.html -->
       <property name="ignorePattern"
           value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.ignorePattern}"
           default="^(package .*;\s*)|(import .*;\s*)|( *\* *https?://.*)$"/>
-    </module>
-
-    <module name="LeftCurly">
-      <!-- Checks for placement of the left curly brace ('{'). -->
-      <property name="severity" value="warning"/>
-    </module>
-
-    <module name="RightCurly">
-      <!-- Checks right curlies on CATCH, ELSE, and TRY blocks are on
-      the same line. e.g., the following example is fine:
-      <pre>
-        if {
-          ...
-        } else
-      </pre>
-      -->
-      <!-- This next example is not fine:
-      <pre>
-        if {
-          ...
-        }
-        else
-      </pre>
-      -->
-      <property name="option" value="same"/>
-      <property name="severity" value="warning"/>
     </module>
 
     <!-- Checks for braces around if and else blocks -->
@@ -281,6 +232,8 @@ page at http://checkstyle.sourceforge.net/config.html -->
     </module>
 
     <module name="WhitespaceAfter">
+      
+      <property name="severity" value="warning"/>
       <!-- Checks that commas, semicolons and typecasts are followed by
            whitespace.
       -->
