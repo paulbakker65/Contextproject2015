@@ -52,10 +52,11 @@ public class ExporterTest {
 	
 	@Test
 	public void testExport() throws IOException {
-		String expected = "\"fruit\";\"groente\";\"saus\"\n\"\";\"wortel\";\"mayonaise\"\n\"banaan\";\"bloemkool\";\"\"\n";
-		//"fruit","groente","saus"
-		//"","wortel","mayonaise"
-		//"banaan","bloemkool",""
+    String expected = "\"fruit\";\"groente\";\"saus\"\n\"\";\"wortel\""
+        + ";\"mayonaise\"\n\"banaan\";\"bloemkool\";\"\"\n";
+		//"fruit", "groente", "saus"
+		//"", "wortel", "mayonaise"
+		//"banaan", "bloemkool", ""
 		
 		
 		StringWriter w = new StringWriter();
@@ -66,12 +67,12 @@ public class ExporterTest {
 	@Test
 	public void testGenerateRow1() {
 		String[] expected = {"", "wortel", "mayonaise"};
-		assertArrayEquals(expected,Exporter.generateRow(dummyrow1, cols));
+		assertArrayEquals(expected, Exporter.generateRow(dummyrow1, cols));
 	}
 	
 	@Test
 	public void testGenerateRow2() {
 		String[] expected = {"banaan", "bloemkool", ""};
-		assertArrayEquals(expected,Exporter.generateRow(dummyrow2, cols));
+		assertArrayEquals(expected, Exporter.generateRow(dummyrow2, cols));
 	}
 }

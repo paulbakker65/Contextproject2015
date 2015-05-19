@@ -130,12 +130,13 @@ public class FilterOperation extends Operation {
 	 */
 	@Override
 	public boolean execute() {
-		if(!operationParametersSet)
+		if (!operationParametersSet) {
 		  return false;
-		
+		} 
 	  for (Record record : this.inputData) {
 			if (record.containsKey(this.columnName)) {
-				if (this.constraintFunction(record.get(this.columnName), this.constraintType, this.constraintValue)) {
+        if (this.constraintFunction(record.get(this.columnName), this.constraintType,
+            this.constraintValue)) {
 					this.resultData.add(record);
 				}
 			}

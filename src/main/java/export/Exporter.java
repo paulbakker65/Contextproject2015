@@ -41,12 +41,15 @@ public class Exporter {
     List<String> items = new ArrayList<String>();
     for (String column : columns) {
       Value value = dr.get(column);
-      if (value == null)
+      if (value == null) {
         items.add("");
-      else
+      }  
+      else {
         items.add(value.toString());
+      }    
     }
     return items.toArray(new String[items.size()]);
   }
+}
 
 

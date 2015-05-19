@@ -8,12 +8,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
-import operations.FilterOperation;
-import operations.FilterOperation.ConstraintComparatorEnum;
 import export.Exporter;
 import parsers.ColumnTypeMismatchException;
-import parsers.NumberValue;
-import parsers.StringValue;
 import table.RecordComparator;
 import table.Table;
 
@@ -22,6 +18,7 @@ import table.Table;
  */
 public class Main {
 
+  private static ArrayList<DataFile> files;
   private static File scriptFile;
   private static File outputDir;
 
@@ -38,7 +35,7 @@ public class Main {
     System.exit(0);
 
       Table input = new Table();
-      for(DataFile f : files){
+      for (DataFile f : files){
           Table t = null;
           try {
               t = f.getParser().parse(f.getReader());
@@ -49,12 +46,7 @@ public class Main {
           input.addAll(t);
       }
       Collections.sort(input, new RecordComparator("Date"));
-      System.out.println(input);
-      Set<String> keys = new HashSet<String>();
-      for(Record r : input) {
-          keys.addAll(r.keySet());
-      }
-      Exporter.export(input, new FileWriter(outputDir + "/output.csv"), keys);
+      Exporter.export(input, new FileWriter(outputDir + "/output.csv"));
 
     // Read script & execute.
 
