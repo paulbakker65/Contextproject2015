@@ -67,7 +67,7 @@ public abstract class Value implements Comparable<Value> {
       }
     } else if (this instanceof DateValue) {
       if (o instanceof DateValue) {
-        return ((DateValue) this).compareTo(((DateValue) o));
+        return ((DateValue) this).compareToDate(((DateValue) o));
       } else {
         return Integer.MAX_VALUE;
       }

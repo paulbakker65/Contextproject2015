@@ -8,8 +8,13 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import operations.FilterOperation;
+import operations.FilterOperation.ConstraintComparatorEnum;
 import export.Exporter;
 import parsers.ColumnTypeMismatchException;
+import parsers.NumberValue;
+import parsers.StringValue;
 import table.RecordComparator;
 import table.Table;
 
@@ -32,20 +37,25 @@ public class Main {
       return;
     }
 
-    System.exit(0);
-
       Table input = new Table();
       for (DataFile f : files){
           Table t = null;
           try {
               t = f.getParser().parse(f.getReader());
           } catch (ColumnTypeMismatchException e) {
-              // TODO Auto-generated catch block
               e.printStackTrace();
           }
           input.addAll(t);
       }
       Collections.sort(input, new RecordComparator("Date"));
+      FilterOperation fo = new FilterOperation(input);
+      fo.setOperationParameters("Login", ConstraintComparatorEnum.EQ, new StringValue("admire13"));
+      fo.execute();
+      input = fo.getResult();
+      FilterOperation fo2 = new FilterOperation(input);
+      fo2.setOperationParameters("PatientID", ConstraintComparatorEnum.EQ, new NumberValue(13));
+      fo2.execute();
+      input = fo2.getResult();
       Exporter.export(input, new FileWriter(outputDir + "/output.csv"));
 
     // Read script & execute.
