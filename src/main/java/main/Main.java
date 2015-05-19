@@ -13,10 +13,7 @@ import table.Table;
 /**
  * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
  */
-public class Main {
-  private static ArrayList<DataFile> files = new ArrayList<DataFile>();
-  private static File scriptFile;
-  private static File outputDir;
+public class Main{
 
   public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
 
@@ -32,7 +29,7 @@ public class Main {
 
     ArrayList<Table> tables = new ArrayList<Table>();
 
-    for (DataFile f : files) {
+    for (DataFile f : Input.getFiles()) {
       Table t = null;
       try {
         t = f.getParser().parse(f.getReader());
@@ -77,29 +74,29 @@ public class Main {
         File file = new File(filepath);
         File settings = new File(settingsfilepath);
 
-        if (!file.exists()) {
-          System.out.println(filepath + " does not exist!");
-          System.exit(1);
-        }
-        if (!settings.exists()) {
-          System.out.println(settings + " does not exist!");
-          System.exit(1);
-        }
-
-        DataFile f;
         try {
-          f = new DataFile(file, settings);
+          Input.addDataFile(file, settings);
         } catch (Exception e) {
           System.out.println(e.getMessage());
           return false;
         }
-        files.add(f);
         i = i + 2;
       } else if (argv[i].equals("-s") && argc - i > 1) {
-        scriptFile = new File(argv[i + 1]);
+        if (!Input.setScriptFile(new File(argv[i + 1]))){
+          return false;
+        }
+        i++;
+      } else if (argv[i].equals("-o") && argc - i > 1) {
+        if (!Input.setOutputDir(new File(argv[i + 1]))){
+          return false;
+        }
+        i++;
       } else {
-        String usage = "Error in program arguments.\n" + "Available commands are:\n"
-            + "    -f <data file> <settings file>\n" + "    -s <script file>\n";
+        String usage = "Error in program arguments.\n" + 
+            "Available commands are:\n" + 
+            "    -f <data file> <settings file>\n" + 
+            "    -s <script file>\n" + 
+            "    -o <output directory>\n";
         System.out.println(usage);
         return false;
       }
@@ -118,23 +115,18 @@ public class Main {
     dialog.centreWindow();
     dialog.setVisible(true);
 
-    if (dialog.isExit()){
-      return false;
-    }
-    files = dialog.getFiles();
-    scriptFile = dialog.getScriptFile();
-    outputDir = dialog.getOutputDir();
-
-    if (files == null || scriptFile == null || outputDir == null) {
-      System.out.println("Error retrieving data from gui.");
+    if (dialog.isExit()){//User pressed Cancel or closed the window.
       return false;
     }
 
-    System.out.println("GUI done\nscriptFile = " + scriptFile.getPath() + "\noutputDir = "
-        + outputDir.getPath() + "\nfiles = ");
-    for (DataFile file : files) {
+    System.out.println("GUI done\n" + 
+        "scriptFile = " + Input.scriptFile.getAbsolutePath() + "\n" + 
+        "outputDir = " + Input.outputDir.getAbsolutePath() + "\n" + 
+        "files = ");
+    for (DataFile file : Input.files) {
       System.out.println(file.toString());
     }
+    
     return true;
   }
 }

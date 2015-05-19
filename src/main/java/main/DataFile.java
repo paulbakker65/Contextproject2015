@@ -61,7 +61,7 @@ public class DataFile {
       settings = XMLReader.readXMLFile(file.getPath());
     } catch (WrongXMLException e) {
       System.out.println("Error parsing settings file!");
-      throw new Exception("XML parse error");
+      throw new Exception("XML parse error: Error parsing settings file!");
     }
 
     return settings;

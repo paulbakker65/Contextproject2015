@@ -13,7 +13,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JButton;
@@ -23,6 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
@@ -43,7 +43,7 @@ public class MainUI extends JDialog {
   private JTextField textFieldscriptfilepath;
   private JButton openFileButton;
   private JButton editScriptButton;
-  private FilesTable filesTable;
+  private JTable filesTable;
   private JButton addFileSButton;
   private JButton removeSelectedButton;
   private JPanel filesPanel;
@@ -57,10 +57,6 @@ public class MainUI extends JDialog {
       "csv", "txt");
   //private FileNameExtensionFilter xlsfilter = new FileNameExtensionFilter("Excel files", "xls");
 
-  private File scriptFile;
-  private File outputDir;
-  private ArrayList<DataFile> files;
-
   private File previousDirectory;
   private boolean exit = false;
 
@@ -69,7 +65,7 @@ public class MainUI extends JDialog {
     setContentPane(contentPane);
     setModal(true);
     setModalityType(ModalityType.APPLICATION_MODAL);
-
+    init();
     getRootPane().setDefaultButton(buttonRunScript);
 
     // call onCancel() on ESCAPE
@@ -144,6 +140,14 @@ public class MainUI extends JDialog {
     });
   }
 
+  public void init(){
+    if (Input.hasScript()){
+      textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
+    }
+    if (Input.hasOutput()){
+      this.textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
+    }
+  }
   /**
    * Opens a open file dialog for the user to select the script file.
    */
@@ -155,9 +159,13 @@ public class MainUI extends JDialog {
 
     if (of == JFileChooser.APPROVE_OPTION) {
       previousDirectory = chooser.getCurrentDirectory();
-      scriptFile = chooser.getSelectedFile();
-      textFieldscriptfilepath.setText(scriptFile.getPath());
-      System.out.println(scriptFile);
+      if (!Input.setScriptFile(chooser.getSelectedFile())){
+        JOptionPane.showMessageDialog(this, 
+            "Error opening script file, please select a valid script file.", 
+            "File not found.", JOptionPane.ERROR_MESSAGE);
+        return;
+      }      
+      textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
     }
   }
 
@@ -166,7 +174,7 @@ public class MainUI extends JDialog {
    * will prompt the user to do so.
    */
   private void onEditScript() {
-    if (scriptFile == null) {
+    if (!Input.hasScript()) {
       int option = JOptionPane.showConfirmDialog(null,
           "No scipt file selected.\nWould you like to select one now?", "No script file.",
           JOptionPane.YES_NO_OPTION);
@@ -177,13 +185,14 @@ public class MainUI extends JDialog {
       }
     }
 
-    if (scriptFile == null) {
+    if (!Input.hasScript()) {
       return;
     }
 
     try {
-      Desktop.getDesktop().open(scriptFile);
+      Desktop.getDesktop().open(Input.getScriptFile());
     } catch (IOException e1) {
+      //also gets thrown if system has no defaut editor for the file type.
       System.out.println("Error trying to open default editor.");
       e1.printStackTrace();
     }
@@ -204,14 +213,16 @@ public class MainUI extends JDialog {
     if (state == JFileChooser.APPROVE_OPTION) {
 
       previousDirectory = chooser.getCurrentDirectory();
-      outputDir = chooser.getSelectedFile();
-
-      if (!outputDir.isDirectory()) {
-        outputDir = null;
-        textFieldOutputDir.setText(null);
+      
+      if (!Input.setOutputDir(chooser.getSelectedFile())){
+        JOptionPane.showMessageDialog(this, 
+            "Error with output directory. Selected path is a file or the direcotry could not be made.", 
+            "Directory not found.", JOptionPane.ERROR_MESSAGE);
         return;
       }
-      textFieldOutputDir.setText(outputDir.getPath());
+
+
+      textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
     }
   }
 
@@ -220,7 +231,7 @@ public class MainUI extends JDialog {
    * specified, it will prompt the user to do so.
    */
   private void onViewOutputDir() {
-    if (outputDir == null) {
+    if (!Input.hasOutput()) {
       int option = JOptionPane.showConfirmDialog(null,
           "No output directory selected.\nWould you like to select one now?",
           "No output directory.", JOptionPane.YES_NO_OPTION);
@@ -231,12 +242,12 @@ public class MainUI extends JDialog {
       }
     }
 
-    if (outputDir == null || !outputDir.isDirectory()) {
+    if (!Input.hasOutput()) {
       return;
     }
 
     try {
-      Desktop.getDesktop().open(outputDir);
+      Desktop.getDesktop().open(Input.getOutputDir());
     } catch (IOException e1) {
       System.out.println("Error trying to view the directory.");
       e1.printStackTrace();
@@ -262,6 +273,12 @@ public class MainUI extends JDialog {
 
       previousDirectory = chooser.getCurrentDirectory();
       dataFile = chooser.getSelectedFile();
+      if (!Input.exists(dataFile)){
+        JOptionPane.showMessageDialog(this, 
+            "Error opening data file, the data file can not be found.", 
+            "File not found.", JOptionPane.ERROR_MESSAGE);
+        return;
+      }
       System.out.println("Selected data file: " + dataFile);
     } else {
       return;
@@ -277,21 +294,25 @@ public class MainUI extends JDialog {
 
       previousDirectory = chooser2.getCurrentDirectory();
       settingsFile = chooser2.getSelectedFile();
+      if (!Input.exists(settingsFile)){
+        JOptionPane.showMessageDialog(this, 
+            "Error opening settings file, the settings file can not be found.", 
+            "File not found.", JOptionPane.ERROR_MESSAGE);
+        return;
+      }
       System.out.println("Selected settings file: " + settingsFile);
     } else {
       return;
     }
 
-    // create DataFile and add it to the table.
-    DataFile file;
     try {
-      file = new DataFile(dataFile, settingsFile);
+      Input.addDataFile(dataFile, settingsFile);
     } catch (Exception e) {
+      //createDataFile will throw an exception if an error occurs when creating the Reader and parsing the settings.
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
-    
-    filesTable.addRow(file);
+    filesTable.repaint();
   }
 
   /**
@@ -308,7 +329,7 @@ public class MainUI extends JDialog {
     Arrays.sort(selectedRows);
 
     for (int i = selectedRows.length - 1; i >= 0; i--) {
-      filesTable.removeRow(selectedRows[i]);
+      Input.files.remove(selectedRows[i]);
     }
   }
 
@@ -316,13 +337,9 @@ public class MainUI extends JDialog {
    * Validates that the user has specified the required files and exits the gui.
    */
   private void onRunScript() {
-    files = filesTable.getFiles();
 
-    if (scriptFile == null || scriptFile.exists() == false || outputDir == null
-        || outputDir.exists() == false || files.isEmpty()) {
-      JOptionPane
-          .showMessageDialog(
-              null,
+    if (Input.hasScript() && Input.hasOutput() && Input.files.isEmpty()) {
+      JOptionPane.showMessageDialog(null,
               "Please make sure you have selected a script file, output directory and at least 1 data file.",
               "Wrong input.", JOptionPane.INFORMATION_MESSAGE);
       return;
@@ -366,19 +383,6 @@ public class MainUI extends JDialog {
     }
   }
 
-  public File getScriptFile() {
-    return scriptFile;
-  }
-
-  public File getOutputDir() {
-    return outputDir;
-  }
-
-  public ArrayList<DataFile> getFiles() {
-    return files;
-  }
-
-  
   public boolean isExit() {
     return exit;
   }
@@ -433,7 +437,7 @@ public class MainUI extends JDialog {
     gbc.anchor = GridBagConstraints.NORTH;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     filesPanel.add(removeSelectedButton, gbc);
-    filesTable = new FilesTable();
+    filesTable = new JTable(new FilesTableModel());
     filesTable.setCellSelectionEnabled(true);
     filesTable.setColumnSelectionAllowed(true);
     filesTable.setShowVerticalLines(true);
