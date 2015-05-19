@@ -13,7 +13,7 @@ public class Table extends ArrayList<Record> {
 
   private Set<Chunk> chunks;
   /**
-   * @return A string representation of the Table
+   * @return A string representation of the Table.
    */
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -25,6 +25,10 @@ public class Table extends ArrayList<Record> {
     return sb.toString();
   }
   
+  /**
+   * Adding a chunk to the set of chunk for this table.
+   * @param c
+   */
   public void addChunk(Chunk c) {
     if (chunks == null) {
       chunks = new HashSet<Chunk>();
@@ -32,22 +36,26 @@ public class Table extends ArrayList<Record> {
     chunks.add(c);
   }
   
+  /**
+   * Setter for the set of chunks.
+   * @param set
+   */
   public void setChunks(Set<Chunk> set) {
     this.chunks = set;
   }
   
+  /**
+   * Getter for the set of chunks.
+   * @return
+   */
   public Set<Chunk> getChunks() {
     return this.chunks;
   }
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + ((chunks == null) ? 0 : chunks.hashCode());
-    return result;
-  }
-
+  /**
+   * New equals method that also checks if the set of chunks is equal to that of the 
+   * other table.
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {

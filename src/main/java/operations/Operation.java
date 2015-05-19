@@ -24,7 +24,7 @@ public abstract class Operation {
 
   /**
    * standard constructor setting inputDataset by parameter inputDataset and initialize resultData
-   * to an empty dataset.
+   * to an empty dataset. The chunks from the input data are copied.
    * 
    * @param inputDataset
    *          the input dataset
