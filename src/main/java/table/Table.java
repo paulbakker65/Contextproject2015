@@ -31,6 +31,14 @@ public class Table extends ArrayList<Record> {
     }
     chunks.add(c);
   }
+  
+  public void setChunks(Set<Chunk> set) {
+    this.chunks = set;
+  }
+  
+  public Set<Chunk> getChunks() {
+    return this.chunks;
+  }
 
   @Override
   public int hashCode() {

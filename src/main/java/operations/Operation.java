@@ -33,6 +33,7 @@ public abstract class Operation {
     this.inputData = inputDataset;
     this.operationParametersSet = false;
     this.resultData = new Table();
+    this.resultData.setChunks(inputDataset.getChunks());
   }
 
   /**
