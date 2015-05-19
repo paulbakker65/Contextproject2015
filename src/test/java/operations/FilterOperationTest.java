@@ -311,4 +311,21 @@ public class FilterOperationTest {
 
     assertEquals(resultTable, fo.getResult());
   }
+
+  @Test
+  public void testExecute_field_notfound() {
+    /*
+     * In normal wording: get me all records where the randomStringField is equal to "Pi_is_great"
+     * It doesn't matter if the field is not found or the value is not correct, the equality is
+     * not found and thus the records shouldn't be added to the result set and return an empty
+     * Table()
+     */
+    fo.setOperationParameters("randomStringField", FilterOperation.ConstraintComparatorEnum.EQ,
+        new StringValue("Pi_is_great"));
+    assertEquals(true, fo.execute());
+
+    Table resultTable = new Table();
+
+    assertEquals(resultTable, fo.getResult());
+  }
 }
