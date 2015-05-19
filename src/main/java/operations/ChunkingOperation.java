@@ -1,10 +1,7 @@
 package operations;
 
-import input.ChunkColumn;
-import input.Column;
 import input.Settings;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import operations.chunking.ChunkCondition;
@@ -12,9 +9,8 @@ import operations.chunking.DayCondition;
 import operations.chunking.MonthCondition;
 import operations.chunking.PatientCondition;
 import operations.chunking.YearCondition;
-import parsers.ChunkValue;
-import parsers.StringValue;
 import parsers.Value;
+import table.Chunk;
 import table.Record;
 import table.RecordComparator;
 import table.Table;
@@ -33,11 +29,6 @@ public class ChunkingOperation extends Operation {
    * Condition for chunking.
    */
   ChunkCondition cond;
-
-  /**
-   * The columns created after chunking.
-   */
-  ArrayList<Column> cols = new ArrayList<Column>();
   /**
    * The settings of the inputData. We will add an extra column for the Exporter.class
    */
@@ -65,8 +56,7 @@ public class ChunkingOperation extends Operation {
    */
   public ChunkingOperation(Table input) {
     super(input);
-    this.resultData = new Table();
-    cols.add(new ChunkColumn("Chunk"));
+    this.resultData = (Table) input.clone();
   }
 
   /**
@@ -105,24 +95,6 @@ public class ChunkingOperation extends Operation {
   }
 
   /**
-   * This method return the data in such a way that it can be used in the Exporter.class.
-   * 
-   * @return
-   */
-  public Table getOutput() {
-    Table output = new Table();
-    for (Record r : resultData) {
-      ChunkValue temp = (ChunkValue) r.get("Chunk");
-      for (Record r2 : temp.getTable()) {
-        r2.put("Chunk", new StringValue(temp.getLabel()));
-      }
-      output.addAll(temp.getTable());
-    }
-    settings.addColumn(new ChunkColumn("Chunk"));
-    return output;
-  }
-
-  /**
    * We create the chunk with new index and label if the ChunkCondition returns false. We add the a
    * record to the chunk if chunkingOperation returns true.
    */
@@ -133,25 +105,22 @@ public class ChunkingOperation extends Operation {
       Collections.sort(inputData, rc);
       int index = 0;
       String label = "Chunk " + Integer.toString(index);
-      ChunkValue chunk = new ChunkValue(index, label, new Table());
+      Chunk chunk = new Chunk(index, label);
       Value check = inputData.get(0).get(columnName);
       for (Record r : inputData) {
         if (cond.matches(r.get(columnName), check)) {
-          chunk.addRecord(r);
+          chunk.add(r);
         } else {
-          Value[] values = { chunk };
-          resultData.add(new Record(cols, values));
-          index++;
-          label = "Chunk " + Integer.toString(index);
-          chunk = new ChunkValue(index, label, new Table());
-          chunk.addRecord(r);
+          resultData.addChunk(chunk);
+          label = "Chunk " + Integer.toString(++index);
+          chunk = new Chunk(index, label);
+          chunk.add(r);
           check = r.get(columnName);
 
         }
 
       }
-      Value[] values = { chunk };
-      resultData.add(new Record(cols, values));
+      resultData.addChunk(chunk);
 
       return true;
     }
