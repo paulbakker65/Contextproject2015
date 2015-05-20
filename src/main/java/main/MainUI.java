@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -61,12 +63,9 @@ public class MainUI extends JDialog {
   private boolean exit = false;
 
   public MainUI() {
-    setSystemLook();
-    setContentPane(contentPane);
-    setModal(true);
-    setModalityType(ModalityType.APPLICATION_MODAL);
+    super(null, ModalityType.TOOLKIT_MODAL);
+    
     init();
-    getRootPane().setDefaultButton(buttonRunScript);
 
     // call onCancel() on ESCAPE
     contentPane
@@ -140,14 +139,31 @@ public class MainUI extends JDialog {
     });
   }
 
+  /**
+   * Initializes the GUI. Sets the dialog look to match the system look, loads the icon and sets the file path fields.
+   */
   public void init(){
+    setSystemLook();
+    setContentPane(contentPane);
+    setModal(true);
+
+    getRootPane().setDefaultButton(buttonRunScript);
+
+    try {
+      Image icon = ImageIO.read(ClassLoader.getSystemResource("icon.png"));
+      this.setIconImage(icon);
+    } catch (IOException e1) {
+      System.err.println("Error opening icon from resource.");
+    }
+    
     if (Input.hasScript()){
       textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
     }
     if (Input.hasOutput()){
-      this.textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
+      textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
     }
   }
+  
   /**
    * Opens a open file dialog for the user to select the script file.
    */
@@ -405,7 +421,7 @@ public class MainUI extends JDialog {
   private void setupUI() {
     contentPane = new JPanel();
     contentPane.setLayout(new GridBagLayout());
-    contentPane.setPreferredSize(new Dimension(800, 600));
+    contentPane.setPreferredSize(new Dimension(1000, 600));
     filesPanel = new JPanel();
     filesPanel.setLayout(new GridBagLayout());
     GridBagConstraints gbc;
