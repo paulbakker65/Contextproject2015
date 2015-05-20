@@ -19,11 +19,11 @@ import parsers.Value;
 import table.Record;
 import table.Table;
 
-public class LagOperationTest {
+public class BetweenOperationTest {
 
   Table dataTable;
   Settings settings;
-  LagOperation lo;
+  BetweenOperation lo;
   ArrayList<Column> cols;
   
   
@@ -53,7 +53,7 @@ public class LagOperationTest {
     settings.getColumns().addAll(cols);
     
 
-    lo = new LagOperation(dataTable, "eventtype", "date", new StringValue("A"), new StringValue("B"));
+    lo = new BetweenOperation(dataTable, "eventtype", "date", new StringValue("A"), new StringValue("B"));
   }
   
 

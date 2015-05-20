@@ -19,7 +19,7 @@ import table.Table;
  * @author unset
  *
  */
-public class LagOperation extends Operation {
+public class BetweenOperation extends Operation {
 
   private String datecol, eventcol;
 
@@ -38,7 +38,7 @@ public class LagOperation extends Operation {
    * @param ev2val
    *          Event 2 identifiter
    */
-  public LagOperation(Table inputDataset, String eventcol, String datecol, Value ev1val,
+  public BetweenOperation(Table inputDataset, String eventcol, String datecol, Value ev1val,
       Value ev2val) {
     super(inputDataset);
     this.eventcol = eventcol;
