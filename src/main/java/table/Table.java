@@ -12,6 +12,7 @@ public class Table extends ArrayList<Record> {
   private static final long serialVersionUID = 1L;
 
   private Set<Chunk> chunks;
+  
   /**
    * @return A string representation of the Table.
    */
@@ -25,14 +26,29 @@ public class Table extends ArrayList<Record> {
     return sb.toString();
   }
   
+  
+  /**
+   * Call the ArrayList constructor and initialize chunks.
+   */
+  public Table(){
+    super();
+    chunks = new HashSet<Chunk>();
+  }
+  
+  
+  @Override
+  public Object clone() {
+    Table t = (Table) super.clone();
+    t.chunks = new HashSet<Chunk>(this.chunks);
+    return t;
+  }
+  
+  
   /**
    * Adding a chunk to the set of chunk for this table.
    * @param c
    */
   public void addChunk(Chunk c) {
-    if (chunks == null) {
-      chunks = new HashSet<Chunk>();
-    }
     chunks.add(c);
   }
   
@@ -60,22 +76,15 @@ public class Table extends ArrayList<Record> {
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
-    }  
+    }
     if (!super.equals(obj)) {
       return false;
-    }  
-    if (getClass() != obj.getClass()) {
-      return false;
-    }  
-    Table other = (Table) obj;
-    if (chunks == null) {
-      if (other.chunks != null) {
-        return false;
-      }
-    } else if (!chunks.equals(other.chunks)) {
+    }
+    if (!(obj instanceof Table)){
       return false;
     }
-    return true;
+    Table other = (Table) obj;
+    return chunks.equals(other.chunks);
   }
   
 
