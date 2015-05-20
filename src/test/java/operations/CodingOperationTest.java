@@ -64,7 +64,7 @@ public class CodingOperationTest {
       table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(350), new NullValue()}));
       table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(160), new NullValue()}));
       table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
-
+      table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
   }
 
   @Test
@@ -106,5 +106,29 @@ public class CodingOperationTest {
     co.execute();
     
     assertEquals(co.getResult().getCode("?W").getFrequency(), 4);
+  }
+  
+  @Test
+  public void testMultiplePatternEndNoHasNext() {
+    Pattern pattern = new MultipleOccurrencePattern("StatSensor", new NullPattern());
+
+    CodingOperation co = new CodingOperation(table);
+    co.setOperationParameters(pattern, "?S");
+    co.execute();
+    
+    assertEquals(co.getResult().getCode("?S").getFrequency(), 2);
+  }
+  
+  @Test
+  public void testMultiplePatternNoHasNext() {
+    Pattern endPattern = new MultipleOccurrencePattern("StatSensor");
+    Pattern middlePattern = new SingleOccurrencePattern("StatSensor", endPattern);
+    Pattern firstPattern = new SingleOccurrencePattern("StatSensor", middlePattern);
+
+    CodingOperation co = new CodingOperation(table);
+    co.setOperationParameters(firstPattern, "S?S");
+    co.execute();
+    
+    assertEquals(co.getResult().getCode("S?S").getFrequency(), 0);
   }
 }
