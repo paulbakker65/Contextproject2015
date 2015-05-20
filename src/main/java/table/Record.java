@@ -4,6 +4,7 @@ import input.Column;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import parsers.Value;
 
@@ -19,9 +20,9 @@ public class Record extends HashMap<String, Value> {
     super();
   }
 
-  public Record(ArrayList<Column> col, Value[] val) {
-    for (int i = 0; i < col.size(); i++) {
-      this.put(col.get(i).getName(), val[i]);
+  public Record(List<Column> list, Value[] val) {
+    for (int i = 0; i < list.size(); i++) {
+      this.put(list.get(i).getName(), val[i]);
     }
   }
 
