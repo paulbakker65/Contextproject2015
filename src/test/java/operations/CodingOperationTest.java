@@ -7,6 +7,8 @@ import input.StringColumn;
 
 import java.util.ArrayList;
 
+import operations.coding.MultipleOccurrencePattern;
+import operations.coding.NullPattern;
 import operations.coding.Pattern;
 import operations.coding.SingleOccurrencePattern;
 
@@ -57,6 +59,11 @@ public class CodingOperationTest {
       table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(160), new NullValue()}));
       table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(170), new NullValue()}));
       table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(180), new NullValue()}));
+      table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
+      table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(140), new NullValue()}));
+      table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(350), new NullValue()}));
+      table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(160), new NullValue()}));
+      table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
 
   }
 
@@ -76,5 +83,28 @@ public class CodingOperationTest {
     co.execute();
     
     assertEquals(co.getResult().getCode("1S5W").getFrequency(), 2);
+  }
+  
+  @Test
+  public void testSimpleMultiplePattern() {
+    Pattern endPattern = new MultipleOccurrencePattern("WebsiteValue");
+    Pattern firstPattern = new SingleOccurrencePattern("StatSensor", endPattern);
+
+    CodingOperation co = new CodingOperation(table);
+    co.setOperationParameters(firstPattern, "1S?W");
+    co.execute();
+    
+    assertEquals(co.getResult().getCode("1S?W").getFrequency(), 3);
+  }
+  
+  @Test
+  public void testMultiplePattern() {
+    Pattern pattern = new MultipleOccurrencePattern("WebsiteValue", new NullPattern());
+
+    CodingOperation co = new CodingOperation(table);
+    co.setOperationParameters(pattern, "?W");
+    co.execute();
+    
+    assertEquals(co.getResult().getCode("?W").getFrequency(), 4);
   }
 }
