@@ -1,6 +1,7 @@
 package table;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class Table extends ArrayList<Record> {
 
   private static final long serialVersionUID = 1L;
-
+  private HashMap<String, Code> codes;
   private List<Chunk> chunks;
   /**
    * @return A string representation of the Table.
@@ -25,14 +26,25 @@ public class Table extends ArrayList<Record> {
   }
   
   /**
-   * Adding a chunk to the list of chunk for this table.
-   * @param c
+   * Adding a chunk to the list of chunks for this table.
+   * @param c chunk to add.
    */
   public void addChunk(Chunk c) {
     if (chunks == null) {
       chunks = new ArrayList<Chunk>();
     }
     chunks.add(c);
+  }
+  
+  /**
+   * Adding a code to the hashmap of codes for this table.
+   * @param c code to add.
+   */
+  public void addCode(Code c) {
+    if (codes == null) {
+      codes = new HashMap<String, Code>();
+    }
+    codes.put(c.getName(), c);
   }
   
   /**
@@ -49,6 +61,14 @@ public class Table extends ArrayList<Record> {
    */
   public List<Chunk> getChunks() {
     return this.chunks;
+  }
+  
+  /**
+   * Getter for a code given a name.
+   * @return
+   */
+  public Code getCode(String name) {
+    return codes.get(name);
   }
 
   /**
