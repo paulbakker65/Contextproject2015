@@ -73,7 +73,7 @@ public class Table extends ArrayList<Record> {
 
   /**
    * New equals method that also checks if the list of chunks is equal to that of the 
-   * other table.
+   * other table. The same for the hashmap of codes.
    */
   @Override
   public boolean equals(Object obj) {
@@ -90,12 +90,21 @@ public class Table extends ArrayList<Record> {
     if (chunks == null) {
       if (other.chunks != null) {
         return false;
-      }
+      }  
     } else if (!chunks.equals(other.chunks)) {
+        return false;
+    }
+    if (codes == null) {
+      if (other.codes != null) {
+        return false;
+      }  
+    } else if (!codes.equals(other.codes)) {
       return false;
     }
     return true;
   }
+
+
   
 
 
