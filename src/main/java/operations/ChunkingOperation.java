@@ -1,7 +1,5 @@
 package operations;
 
-import input.Settings;
-
 import java.util.Collections;
 
 import operations.chunking.ChunkCondition;
@@ -29,10 +27,6 @@ public class ChunkingOperation extends Operation {
    * Condition for chunking.
    */
   ChunkCondition cond;
-  /**
-   * The settings of the inputData. We will add an extra column for the Exporter.class
-   */
-  Settings settings;
   /**
    * The comparator needed for the chunking.
    */
@@ -67,12 +61,10 @@ public class ChunkingOperation extends Operation {
    * @param settings
    * @return
    */
-  public boolean setOperationParameters(String columnName, ChunkComparatorEnum cce,
-      Settings settings) {
+  public boolean setOperationParameters(String columnName, ChunkComparatorEnum cce) {
     this.columnName = columnName;
     this.cond = getCondition(cce);
 
-    this.settings = settings;
     this.rc = new RecordComparator(columnName);
     this.operationParametersSet = true;
     return this.operationParametersSet;

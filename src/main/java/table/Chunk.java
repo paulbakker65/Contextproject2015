@@ -57,5 +57,33 @@ public class Chunk extends Table {
     this.label = label;
   }
   
+  
+  /**
+   * New equals method which also checks index and label.
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }  
+    if (!super.equals(obj)) {
+      return false;
+    }  
+    if (getClass() != obj.getClass()) {
+      return false;
+    }  
+    Chunk other = (Chunk) obj;
+    if (index != other.index) {
+      return false;
+    }  
+    if (label == null) {
+      if (other.label != null) {
+        return false;
+      }  
+    } else if (!label.equals(other.label)) {
+      return false;
+    } 
+    return true;
+  }
 
 }

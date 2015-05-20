@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import input.Column;
 import input.DateColumn;
 import input.NumberColumn;
-import input.Settings;
 import input.StringColumn;
 
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ public class ChunkingOperationTest {
 
   Table dataTable;
   ChunkingOperation co;
-  Settings settings;
   ArrayList<Column> cols;
 
   @Before
@@ -44,12 +42,6 @@ public class ChunkingOperationTest {
     // Table with test data
 
     dataTable = new Table();
-
-    settings = new Settings();
-    settings.addColumn(new NumberColumn("userid"));
-    settings.addColumn(new NumberColumn("numberField"));
-    settings.addColumn(new StringColumn("stringField"));
-    settings.addColumn(new DateColumn("dateField"));
   }
 
   @Test
@@ -77,7 +69,7 @@ public class ChunkingOperationTest {
     }
     
     co = new ChunkingOperation(dataTable);
-    co.setOperationParameters("dateField", ChunkComparatorEnum.MONTH, settings);
+    co.setOperationParameters("dateField", ChunkComparatorEnum.MONTH);
     co.execute();
     Table temp = (Table) dataTable.clone();
     
@@ -111,7 +103,7 @@ public class ChunkingOperationTest {
     }
 
     co = new ChunkingOperation(dataTable);
-    co.setOperationParameters("dateField", ChunkComparatorEnum.DAY, settings);
+    co.setOperationParameters("dateField", ChunkComparatorEnum.DAY);
     co.execute();
     Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
@@ -156,7 +148,7 @@ public class ChunkingOperationTest {
     }
 
     co = new ChunkingOperation(dataTable);
-    co.setOperationParameters("dateField", ChunkComparatorEnum.YEAR, settings);
+    co.setOperationParameters("dateField", ChunkComparatorEnum.YEAR);
     co.execute();
     Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
@@ -196,7 +188,7 @@ public class ChunkingOperationTest {
     }
     
     co = new ChunkingOperation(dataTable);
-    co.setOperationParameters("userid", ChunkComparatorEnum.PATIENT, settings);
+    co.setOperationParameters("userid", ChunkComparatorEnum.PATIENT);
     co.execute();
     Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
