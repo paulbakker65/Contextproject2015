@@ -54,7 +54,7 @@ public class LagOperation extends Operation {
 
   @Override
   public boolean execute() {
-    resultData = (Table) inputData.clone();
+    resultData = new Table();
 
     int i = 0;
     while (i < inputData.size()) {
@@ -75,7 +75,7 @@ public class LagOperation extends Operation {
   }
 
   private void addEvent(int i, int j) {
-    int timeDif = (int) (getTimeStamp(j) - getTimeStamp(i));
+    int timeDif = (int) ((getTimeStamp(j) - getTimeStamp(i)) / 1000);
 
     resultData.add(new Record(Arrays.asList(new Column[] { new StringColumn("lag") }),
         new Value[] { new NumberValue(timeDif) }));
