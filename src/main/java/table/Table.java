@@ -1,8 +1,7 @@
 package table;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Special ArrayList that contains the records.
@@ -11,8 +10,7 @@ public class Table extends ArrayList<Record> {
 
   private static final long serialVersionUID = 1L;
 
-  private Set<Chunk> chunks;
-  
+  private List<Chunk> chunks;
   /**
    * @return A string representation of the Table.
    */
@@ -32,20 +30,20 @@ public class Table extends ArrayList<Record> {
    */
   public Table(){
     super();
-    chunks = new HashSet<Chunk>();
+    chunks = new ArrayList<Chunk>();
   }
   
   
   @Override
   public Object clone() {
     Table t = (Table) super.clone();
-    t.chunks = new HashSet<Chunk>(this.chunks);
+    t.chunks = new ArrayList<Chunk>(this.chunks);
     return t;
   }
   
   
   /**
-   * Adding a chunk to the set of chunk for this table.
+   * Adding a chunk to the list of chunk for this table.
    * @param c
    */
   public void addChunk(Chunk c) {
@@ -53,23 +51,23 @@ public class Table extends ArrayList<Record> {
   }
   
   /**
-   * Setter for the set of chunks.
+   * Setter for the list of chunks.
    * @param set
    */
-  public void setChunks(Set<Chunk> set) {
+  public void setChunks(List<Chunk> set) {
     this.chunks = set;
   }
   
   /**
-   * Getter for the set of chunks.
+   * Getter for the list of chunks.
    * @return
    */
-  public Set<Chunk> getChunks() {
+  public List<Chunk> getChunks() {
     return this.chunks;
   }
 
   /**
-   * New equals method that also checks if the set of chunks is equal to that of the 
+   * New equals method that also checks if the list of chunks is equal to that of the 
    * other table.
    */
   @Override
