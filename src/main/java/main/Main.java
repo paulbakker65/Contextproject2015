@@ -21,7 +21,6 @@ import table.Table;
 /**
  * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
  */
-<<<<<<< HEAD
 public class Main{
 
   public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
