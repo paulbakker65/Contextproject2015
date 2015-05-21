@@ -1,0 +1,5 @@
+<settings startLine="2" delimiter=",">
+	<column name="number2" type="number" />
+	<column name="date2" type="date" format="dd/MM/yyyy"  />
+	<column name="string2" type="string" />  
+</settings>
