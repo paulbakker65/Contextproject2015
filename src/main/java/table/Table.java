@@ -35,10 +35,12 @@ public class Table extends ArrayList<Record> {
   }
   
   
+  @SuppressWarnings("unchecked")
   @Override
   public Object clone() {
     Table t = (Table) super.clone();
     t.chunks = new ArrayList<Chunk>(this.chunks);
+    t.codes = (HashMap<String, Code>) codes.clone();
     return t;
   }
   
