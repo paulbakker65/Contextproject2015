@@ -1,14 +1,8 @@
 package operations;
 
-import input.Column;
-import input.StringColumn;
-
-import java.util.Arrays;
-
 import parsers.DateValue;
 import parsers.NumberValue;
 import parsers.Value;
-import table.Record;
 import table.Table;
 
 /**
@@ -54,7 +48,7 @@ public class BetweenOperation extends Operation {
 
   @Override
   public boolean execute() {
-    resultData = new Table();
+    resultData = (Table) inputData.clone();
 
     int i = 0;
     while (i < inputData.size()) {
@@ -76,9 +70,7 @@ public class BetweenOperation extends Operation {
 
   private void addEvent(int i, int j) {
     int timeDif = (int) ((getTimeStamp(j) - getTimeStamp(i)) / 1000);
-
-    resultData.add(new Record(Arrays.asList(new Column[] { new StringColumn("lag") }),
-        new Value[] { new NumberValue(timeDif) }));
+    resultData.get(i).put("time_before_" + ev2val.toString(), new NumberValue(timeDif));
   }
 
   private boolean isFirstEvent(int i) {
@@ -94,8 +86,10 @@ public class BetweenOperation extends Operation {
     if (date.isDate()) {
       return ((DateValue) date).getValue().getTime().getTime();
     }
-    throw new Error("Not a date in the collumn");
+    throw new Error("Not a date in the column");
 
   }
 
 }
+
+

@@ -19,6 +19,9 @@ import parsers.Value;
 import table.Record;
 import table.Table;
 
+/**
+ * Test for BetweenOperation.
+ */
 public class BetweenOperationTest {
 
   Table dataTable;
@@ -61,11 +64,12 @@ public class BetweenOperationTest {
   public void test() {
     lo.execute();
     Table res = lo.getResult();
-    assertEquals(2, res.size());
-    assertEquals(new NumberValue(86400*2), res.get(0).get("lag"));
-    assertEquals(new NumberValue(86400*1), res.get(1).get("lag"));
     
-    System.out.println(res);
+    
+    assertEquals(9, res.size());
+    assertEquals(new NumberValue(86400 * 2), res.get(1).get("time_before_B"));
+    assertEquals(new NumberValue(86400 * 1), res.get(6).get("time_before_B"));
+    
     
   }
 
