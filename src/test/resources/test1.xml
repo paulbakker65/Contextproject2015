@@ -3,4 +3,5 @@
 	<column name="date1" type="date" format="dd/MM/yyyy"  />
 	<column name="string1" type="string" />  
 	<column name="null1" type="null" />
+	<column name="number" type="number" />
 </settings>
