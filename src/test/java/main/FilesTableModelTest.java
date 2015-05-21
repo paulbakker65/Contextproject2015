@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import input.WrongXMLException;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class FilesTableModelTest {
 
   @Before
   public void setUp() throws WrongXMLException {
+    Input.files = new ArrayList<DataFile>();
     try {
       df = new DataFile(datafile, settingsfile);
     } catch (Exception e) {
@@ -52,19 +54,19 @@ public class FilesTableModelTest {
   @Test
   public void testGetRowCount() {
     assertEquals(0, ftm.getRowCount());
-    ftm.addRow(df);
+    Input.files.add(df);
     assertEquals(1, ftm.getRowCount());
-    ftm.addRow(df);
-    ftm.addRow(df);
-    ftm.addRow(df);
+    Input.files.add(df);
+    Input.files.add(df);
+    Input.files.add(df);
     assertEquals(4, ftm.getRowCount());
-    ftm.removeRow(3);
+    Input.files.remove(3);
     assertEquals(3, ftm.getRowCount());
   }
 
   @Test
   public void testGetValueAt() {
-    ftm.addRow(df);
+    Input.files.add(df);
     assertEquals(datafile.getPath(), ftm.getValueAt(0, 0));
     assertEquals(settingsfile.getPath(), ftm.getValueAt(0, 1));
   }
