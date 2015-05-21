@@ -5,6 +5,7 @@ import input.Column;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import parsers.NullValue;
 import parsers.Value;
 
 /**
@@ -31,6 +32,17 @@ public class Record extends HashMap<String, Value> {
       b.append(val + "\t");
     }
     return b.toString();
+  }
+  
+  @Override
+  public Value get(Object key) {
+    Value res = super.get(key);
+    
+    if (res == null) {
+      return new NullValue();
+    }
+    
+    return res;
   }
 
 }

@@ -26,6 +26,23 @@ public class Table extends ArrayList<Record> {
   }
   
   /**
+   * Call the ArrayList constructor and initialize chunks.
+   */
+  public Table(){
+    super();
+    chunks = new ArrayList<Chunk>();
+    codes = new HashMap<String, Code>();
+  }
+  
+  
+  @Override
+  public Object clone() {
+    Table t = (Table) super.clone();
+    t.chunks = new ArrayList<Chunk>(this.chunks);
+    return t;
+  }
+  
+  /**
    * Adding a chunk to the list of chunks for this table.
    * @param c chunk to add.
    */
@@ -41,9 +58,6 @@ public class Table extends ArrayList<Record> {
    * @param c code to add.
    */
   public void addCode(Code c) {
-    if (codes == null) {
-      codes = new HashMap<String, Code>();
-    }
     codes.put(c.getName(), c);
   }
   
@@ -61,6 +75,10 @@ public class Table extends ArrayList<Record> {
    */
   public List<Chunk> getChunks() {
     return this.chunks;
+  }
+  
+  public HashMap<String, Code> getCodes() {
+    return this.codes;
   }
   
   /**

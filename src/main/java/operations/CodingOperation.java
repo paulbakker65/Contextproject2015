@@ -30,6 +30,7 @@ public class CodingOperation extends Operation {
    */
   public CodingOperation(Table inputDataset) {
     super(inputDataset);
+    this.resultData = (Table) inputDataset.clone();
   }
 
   /**
