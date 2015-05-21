@@ -1,6 +1,9 @@
 package operations;
 
-import parsers.Value;
+
+import java.util.ArrayList;
+
+import parsers.NullValue;
 import table.Record;
 import table.RecordComparator;
 import table.Table;
@@ -8,7 +11,6 @@ import table.Table;
 /**
  * ConnectionOperation class providing an Operation to merge tables using a user-defined connection
  * argument.
- * 
  */
 public class ConnectionOperation extends Operation {
 
@@ -19,6 +21,26 @@ public class ConnectionOperation extends Operation {
   public ConnectionOperation(Table inputDataset) {
     super(inputDataset);
   }
+  
+  /**
+   * Connection will merge inputDataset and otherTable.
+   * The inputcolumnName and otherColumnName will be merged into the same column in the result,
+   * with column name inputcolumnName.
+   * If inputDataset and otherTable contain columns with the same name, they will be merged in the result.
+   * If one table has columns the other table has not the column will be added to the table with a NullValue,
+   * before merging into the result.
+   * @param inputDataset The first table to merge.
+   * @param otherTable The second table to merge.
+   * @param inputcolumnName The column name in inputDataset to merge on.
+   * @param otherColumnName The column name in otherTable to merge on.
+   */
+  public ConnectionOperation(Table inputDataset, Table otherTable, String inputcolumnName, String otherColumnName) {
+    super(inputDataset);
+    this.otherTable = otherTable;
+    this.columnName = inputcolumnName;
+    this.otherColumnName = otherColumnName;
+    this.operationParametersSet = true;
+  }
 
   @Override
   public Table getResult() {
@@ -27,46 +49,56 @@ public class ConnectionOperation extends Operation {
 
   @Override
   public boolean execute() {
-    if (!this.operationParametersSet) {
+    if (!this.operationParametersSet || inputData == null || otherTable == null) {
       return false;
     }
+    
+    
+    if (inputData.isEmpty()){
+      resultData.addAll(otherTable);
+      return true;
+    }
+    if (otherTable.isEmpty()){
+      resultData.addAll(inputData);
+      return true;
+    }
 
-    // Sort on target column to speed up searching
-    this.inputData.sort(new RecordComparator(this.columnName));
-    this.otherTable.sort(new RecordComparator(this.otherColumnName));
 
-    for (Record record : this.inputData) {
-      Value value = record.get(columnName);
-      /*
-       * If value == null it makes no sense comparing anything because it will always be false.
-       */
-      if (value == null) {
-        continue;
-      }
-      for (Record otherRecord : this.otherTable) {
-        Value otherValue = otherRecord.get(otherColumnName);
-        /*
-         * If otherValue == null it will never be equal to value, continue to save resources
-         */
-        if (otherValue == null) {
-          continue;
-        }
-
-        if (value.equals(otherValue)) {
-          Record combinedRecord = new Record();
-          combinedRecord.putAll(record);
-          combinedRecord.putAll(otherRecord);
-          
-          this.resultData.add(combinedRecord);
-        }
-        // prevent searching beyond the value that we're looking for
-        else {
-          if (value.compareTo(otherValue) > 0) {
-            continue;
-          }
-        }
+    //If one table has columns that the other table does not, they will be added with a null value.
+    ArrayList<String> t1columns = new ArrayList<String>(inputData.get(0).keySet());
+    ArrayList<String> t2columns = new ArrayList<String>(otherTable.get(0).keySet());
+       
+    if (!t1columns.remove(columnName) || !t2columns.remove(otherColumnName)){
+      return false;
+    }
+ 
+    t1columns.removeAll(t2columns);
+    t2columns.removeAll(t1columns);
+    
+    NullValue nullvalue = new NullValue();
+    for (Record record : inputData){
+      for (String column : t2columns){
+        record.put(column, nullvalue);
       }
     }
+    
+    for (Record record : otherTable){
+      record.rename(otherColumnName, columnName);
+      
+      for (String column : t1columns){
+        record.put(column, nullvalue);
+      }
+    }
+  
+    
+    //merge the 2 tables
+    resultData.addAll(inputData);
+    resultData.addAll(otherTable);
+    
+    
+    //sort on the chosen column
+    resultData.sort(new RecordComparator(this.columnName));
+    
     return true;
   }
 
