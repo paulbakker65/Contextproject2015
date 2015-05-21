@@ -101,7 +101,7 @@ public class InputTest {
     try {
       Input.addDataFile(file, settingsxmlerror);
     } catch (Exception e) {
-      assertEquals("XML parse error: Error parsing settings file!", e.getMessage());
+      assertTrue(e.getMessage().startsWith("XML parse error: "));
     }
     assertTrue(Input.getFiles().isEmpty());
   }
