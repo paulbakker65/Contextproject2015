@@ -5,6 +5,7 @@ import input.NumberColumn;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -136,7 +137,7 @@ class LagTable extends HashMap<Integer, Integer> {
       t.add(new Record(cols, new Value[] { new NumberValue(lag.getKey()),
           new NumberValue(lag.getValue()) }));
     }
-    t.sort(new RecordLagComparator());
+    Collections.sort(t, new RecordLagComparator());
     return t;
   }
   
