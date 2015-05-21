@@ -2,6 +2,7 @@ package operations;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import parsers.NullValue;
 import table.Record;
@@ -97,7 +98,7 @@ public class ConnectionOperation extends Operation {
     
     
     //sort on the chosen column
-    resultData.sort(new RecordComparator(this.columnName));
+    Collections.sort(resultData, new RecordComparator(this.columnName));
     
     return true;
   }
