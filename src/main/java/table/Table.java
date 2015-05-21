@@ -1,6 +1,7 @@
 package table;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class Table extends ArrayList<Record> {
 
   private static final long serialVersionUID = 1L;
-
+  private HashMap<String, Code> codes;
   private List<Chunk> chunks;
   /**
    * @return A string representation of the Table.
@@ -24,30 +25,39 @@ public class Table extends ArrayList<Record> {
     return sb.toString();
   }
   
-  
   /**
    * Call the ArrayList constructor and initialize chunks.
    */
   public Table(){
     super();
     chunks = new ArrayList<Chunk>();
+    codes = new HashMap<String, Code>();
   }
   
   
+  @SuppressWarnings("unchecked")
   @Override
   public Object clone() {
     Table t = (Table) super.clone();
     t.chunks = new ArrayList<Chunk>(this.chunks);
+    t.codes = (HashMap<String, Code>) codes.clone();
     return t;
   }
   
-  
   /**
-   * Adding a chunk to the list of chunk for this table.
-   * @param c
+   * Adding a chunk to the list of chunks for this table.
+   * @param c chunk to add.
    */
   public void addChunk(Chunk c) {
     chunks.add(c);
+  }
+  
+  /**
+   * Adding a code to the hashmap of codes for this table.
+   * @param c code to add.
+   */
+  public void addCode(Code c) {
+    codes.put(c.getName(), c);
   }
   
   /**
@@ -65,10 +75,22 @@ public class Table extends ArrayList<Record> {
   public List<Chunk> getChunks() {
     return this.chunks;
   }
+  
+  public HashMap<String, Code> getCodes() {
+    return this.codes;
+  }
+  
+  /**
+   * Getter for a code given a name.
+   * @return
+   */
+  public Code getCode(String name) {
+    return codes.get(name);
+  }
 
   /**
    * New equals method that also checks if the list of chunks is equal to that of the 
-   * other table.
+   * other table. The same for the hashmap of codes.
    */
   @Override
   public boolean equals(Object obj) {
@@ -77,13 +99,29 @@ public class Table extends ArrayList<Record> {
     }
     if (!super.equals(obj)) {
       return false;
+    }  
+    if (getClass() != obj.getClass()) {
+      return false;
+    }  
+    Table other = (Table) obj;
+    if (chunks == null) {
+      if (other.chunks != null) {
+        return false;
+      }  
+    } else if (!chunks.equals(other.chunks)) {
+        return false;
     }
-    if (!(obj instanceof Table)){
+    if (codes == null) {
+      if (other.codes != null) {
+        return false;
+      }  
+    } else if (!codes.equals(other.codes)) {
       return false;
     }
-    Table other = (Table) obj;
     return chunks.equals(other.chunks);
   }
+
+
   
 
 
