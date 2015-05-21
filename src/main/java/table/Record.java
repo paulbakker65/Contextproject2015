@@ -5,7 +5,6 @@ import input.Column;
 import java.util.HashMap;
 import java.util.List;
 
-import parsers.NullValue;
 import parsers.Value;
 
 /**
@@ -34,22 +33,11 @@ public class Record extends HashMap<String, Value> {
     return b.toString();
   }
   
-<<<<<<< Updated upstream
   public void rename(String oldname, String newname){
     Value value = get(oldname);
     remove(oldname);
     put(newname, value);
-=======
-  @Override
-  public Value get(Object key) {
-    Value res = super.get(key);
-    
-    if (res == null) {
-      return new NullValue();
-    }
-    
-    return res;
->>>>>>> Stashed changes
+
   }
 
 }
