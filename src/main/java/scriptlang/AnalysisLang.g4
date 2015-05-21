@@ -118,7 +118,6 @@ compute_param
 field returns [String tablename, String fieldname]
 : '[' fieldnameparam=ID ']'   { $fieldname = $fieldnameparam.text; }
 | '[' tablenameparam=ID '].[' fieldnameparam=ID ']' { $fieldname = $fieldnameparam.text; 
-                                                      $tablename = $tablenameparam.text; }
 ;
 
 number returns [Value val]
@@ -156,6 +155,38 @@ condition returns [Condition cond]
   { $cond = new Condition($opparam.op, $valueparam.val); }
 | opparam=compare_operator valueparam=value 'AND' anothercond=condition
   { $cond = new Condition($opparam.op, $valueparam.val); }
+;
+
+number
+: num=NUMBER
+;
+
+compare_operator
+: op=EQ
+| op=NEQ
+| op=GEQ
+| op=G
+| op=LEQ
+| op=L
+;
+
+calc_operator
+: op=MULTIPLY
+| op=DIVIDE
+| op=PLUS
+| op=MINUS
+| op=MODULO
+;
+
+formula
+: fieldparam=field opparam=calc_operator anotherfieldparam=field
+| fieldparam=field opparam=calc_operator valueparam=number
+| fieldparam=field opparam=calc_operator formulaparam=formula
+;
+
+condition
+: opparam=compare_operator valueparam=value
+| conparamone=condition 'AND' conparamtwo=condition
 ;
 
 range
