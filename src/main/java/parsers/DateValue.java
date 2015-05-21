@@ -130,7 +130,7 @@ public class DateValue extends Value {
     return false;
   }
 
-  public int compareTo(Value o) {
-    return this.value.compareTo(((DateValue) o).value);
+  public int compareToDate(DateValue o) {
+    return this.value.compareTo(o.value);
   }
 }
