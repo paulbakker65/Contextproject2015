@@ -7,8 +7,8 @@ import table.Table;
 
 /**
  * Generates a table with the lag between two events.
- * Table contains the column lag.
- * Where lag is the difference in seconds between record1 and record2
+ * The first event record contains the column time_before_OTHEREVENT
+ * The value is the difference in seconds between the two events
  * 
  * @author unset
  *
