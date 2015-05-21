@@ -32,5 +32,11 @@ public class Record extends HashMap<String, Value> {
     }
     return b.toString();
   }
+  
+  public void rename(String oldname, String newname){
+    Value value = get(oldname);
+    remove(oldname);
+    put(newname, value);
+  }
 
 }
