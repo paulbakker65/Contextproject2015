@@ -3,7 +3,9 @@ package operations;
 import input.Column;
 import input.NumberColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -111,7 +113,7 @@ class LagTable extends HashMap<Integer, Integer> {
   /**
    * Collumns that will be used when exporting to Table.
    */
-  private static List<Column> cols = Arrays.asList(new Column[] { new NumberColumn("lag"),
+  public static List<Column> cols = Arrays.asList(new Column[] { new NumberColumn("lag"),
       new NumberColumn("occur") });
   
   private static final long serialVersionUID = 1L;
@@ -134,7 +136,22 @@ class LagTable extends HashMap<Integer, Integer> {
       t.add(new Record(cols, new Value[] { new NumberValue(lag.getKey()),
           new NumberValue(lag.getValue()) }));
     }
+    t.sort(new RecordLagComparator());
     return t;
+  }
+  
+}
+
+/**
+ * For internal use only. Sorts on lag.
+ */
+class RecordLagComparator implements Serializable, Comparator<Record>{
+
+  private static final long serialVersionUID = 1L;
+
+  @Override
+  public int compare(Record o1, Record o2) {
+    return o1.get("lag").compareTo(o2.get("lag"));
   }
   
 }
