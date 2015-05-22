@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>370</y>
+      <w>240</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>main::MainUI
+--
+-contentPane: JPanel
+--
++MainUI(): ctor
++init(): void
++getRootComponent(): JComponent
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1030</x>
+      <y>40</y>
+      <w>290</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>main::DataFile
+--
+-datafile: File
+-settingsfile: File
+-settings: Settings
+-reader: Reader
+-parser: Parser
+--
++DataFile(File datafile, File settingsfile): ctor
++getDatafile(): File
++getSettingsfile(): File
++getSettings(): Settings
++getReader(): Reader
++getParser(): Parser
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>40</y>
+      <w>220</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>main::Input
+--
+_~files: ArrayList&lt;DataFile&gt;_
+_~scriptFile = null: File_
+_~outputDir = null: File_
+--
+_+getFiles(): ArrayList&lt;DataFile&gt;_
+_+getScriptFile(): File_
+_+getOutputDir(): File_
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>590</y>
+      <w>260</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>table::Table 
+--
+-codes: HashMap&lt;String, Code&gt;
+-chunks: List&lt;Chunk&gt;
+--
++Table(): ctor
++getChunks(): List&lt;Chunk&gt;
++getCodes(): HashMap&lt;String, Code&gt;
++getCode(String name): Code
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>740</x>
+      <y>370</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>parsers::Parser
+--
+#settings: Settings
+--
++Parser(Settings settings): ctor
++parse(Reader reader): Table
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1060</x>
+      <y>520</y>
+      <w>230</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>input::CSVReader
+--
+-delimiter: String
+--
++CSVReader(String filepath, 
+                      String delimiter): ctor
++readRow(): String[]
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>590</y>
+      <w>240</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>/operations::Operation/
+--
+~inputData: Table
+~resultData: Table
+~operationParametersSet: boolean
+--
++Operation(Table inputDataset): ctor
++getResult(): Table
++execute(): boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1100</x>
+      <y>380</y>
+      <w>140</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>/input::Reader/
+--
+--
++readRow(): String[]
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>40</y>
+      <w>290</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>main::Main
+--
+--
++main(String[] args): void
++parseCommandline(String[] argv): boolean
++openGUI(): boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>310</x>
+      <y>370</y>
+      <w>370</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>export::Exporter
+--
+--
++export(Table db, Writer writer): void
++generateRow(Record dr, Set&lt;String&gt; columns): String[]
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>460</y>
+      <w>190</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=-
+&lt; creates</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>80</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+uses &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;80.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>910</x>
+      <y>100</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1160</x>
+      <y>240</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1160</x>
+      <y>430</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>240</y>
+      <w>170</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=1</panel_attributes>
+    <additional_attributes>150.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>940</x>
+      <y>400</y>
+      <w>180</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+uses &gt;</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>50</x>
+      <y>120</y>
+      <w>440</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=-
+&lt; creates</panel_attributes>
+    <additional_attributes>420.0;10.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>120</y>
+      <w>70</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=-
+uses &gt;</panel_attributes>
+    <additional_attributes>30.0;10.0;30.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>120</y>
+      <w>180</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=-
+calls &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>640</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+uses &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>450</y>
+      <w>70</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-
+uses &gt;</panel_attributes>
+    <additional_attributes>30.0;10.0;30.0;140.0</additional_attributes>
+  </element>
+</diagram>
