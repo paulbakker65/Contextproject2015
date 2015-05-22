@@ -55,8 +55,8 @@
     <panel_attributes>main::Input
 --
 _~files: ArrayList&lt;DataFile&gt;_
-_~scriptFile = null: File_
-_~outputDir = null: File_
+_~scriptFile: File_
+_~outputDir: File_
 --
 _+getFiles(): ArrayList&lt;DataFile&gt;_
 _+getScriptFile(): File_
