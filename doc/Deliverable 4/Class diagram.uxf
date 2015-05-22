@@ -70,7 +70,7 @@ _+getOutputDir(): File_
       <x>410</x>
       <y>730</y>
       <w>260</w>
-      <h>150</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>table::Table 
 --
@@ -90,7 +90,7 @@ _+getOutputDir(): File_
       <x>690</x>
       <y>510</y>
       <w>210</w>
-      <h>100</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>parsers::Parser
 --
@@ -177,14 +177,13 @@ _+getOutputDir(): File_
       <x>260</x>
       <y>510</y>
       <w>370</w>
-      <h>90</h>
+      <h>70</h>
     </coordinates>
     <panel_attributes>export::Exporter
 --
 --
 +export(Table db, Writer writer): void
 +generateRow(Record dr, Set&lt;String&gt; columns): String[]
---
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -192,13 +191,13 @@ _+getOutputDir(): File_
     <id>Relation</id>
     <coordinates>
       <x>550</x>
-      <y>600</y>
+      <y>590</y>
       <w>190</w>
-      <h>150</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=-
 &lt; creates</panel_attributes>
-    <additional_attributes>170.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>170.0;10.0;10.0;140.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -323,13 +322,13 @@ uses &gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>480</x>
-      <y>590</y>
+      <y>570</y>
       <w>70</w>
-      <h>160</h>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=-
 uses &gt;</panel_attributes>
-    <additional_attributes>30.0;10.0;30.0;140.0</additional_attributes>
+    <additional_attributes>30.0;10.0;30.0;160.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

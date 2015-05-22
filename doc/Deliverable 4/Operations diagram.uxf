@@ -115,9 +115,9 @@
     <id>UMLClass</id>
     <coordinates>
       <x>280</x>
-      <y>568</y>
+      <y>576</y>
       <w>288</w>
-      <h>104</h>
+      <h>96</h>
     </coordinates>
     <panel_attributes>operations::ConnectionOperation
 --
@@ -225,10 +225,10 @@ m2=1</panel_attributes>
       <x>328</x>
       <y>136</y>
       <w>240</w>
-      <h>448</h>
+      <h>456</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>280.0;10.0;130.0;100.0;10.0;540.0</additional_attributes>
+    <additional_attributes>280.0;10.0;130.0;100.0;10.0;550.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

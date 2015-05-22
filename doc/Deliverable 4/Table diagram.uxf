@@ -39,9 +39,9 @@
     <id>UMLClass</id>
     <coordinates>
       <x>210</x>
-      <y>30</y>
+      <y>40</y>
       <w>260</w>
-      <h>150</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>table::Table 
 --

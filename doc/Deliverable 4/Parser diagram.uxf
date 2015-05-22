@@ -22,7 +22,7 @@ _+readXMLFile(String xmlFile): Settings_
       <x>50</x>
       <y>210</y>
       <w>210</w>
-      <h>100</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>parsers::Parser
 --
@@ -81,7 +81,7 @@ _+readColumn(Element element): Column_
       <x>630</x>
       <y>400</y>
       <w>240</w>
-      <h>120</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>input::NumberColumn
 --
