@@ -44,21 +44,39 @@ A range is defined to specify a range between two values:
 
 The distance between the two numbers is used to calculate the range width. The range width is used to create appropiate ranges for all records.
 
-# CHUNK operation
+# Sequential Data Analysis Operations
+## CHUNK operation
 CHUNK [field] USING __range__
 
-# CODE operation
+## CODE operation
 CODE [field] ON __condition__
 
-# CONNECT operation
+## CONNECT operation
 CONNECT [field] TO [anotherField]
 
-# COMPARE operation
+## COMPARE operation
 __COMPARE__ [field] _compareoperator_ [anotherField]
 
-# CONSTRAINT operation
+## CONSTRAINT operation
 __CONSTRAINT__ [field] _compareoperator_ [anotherField]  
 __CONSTRIANT__ [field] _compareoperator_ value  
 
-# CONVERT operation
+## CONVERT operation
 __CONVERT__ [field] TO _formula_
+
+# Example Scripts
+## Example 1
+If we would like to get all records with Date's between 2012-01-01 and 2013-01-01, and have a creatine level between 100 and 150 we would create the following script:
+
+    CONSTRAINT [Date] >= 2012-01-01
+    CONSTRAINT [Date] < 2013-01-01
+    CONSTRAINT [creatine] > 100
+    CONSTRAINT [creatine] < 150
+    
+## Example 2
+If we would like to get all records where the second creatine measurement is higher than the first measurement and there was no advice to measure for a second time at all we would create the following script:
+
+    CONNECT [statSensorDate] TO [websiteDate]
+    CONSTRAINT [websiteAdvice] != "Measure Again"
+    COMPARE [creatine_measurement_1] < [creatine_measurement_2]
+
