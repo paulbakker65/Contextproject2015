@@ -1,10 +1,7 @@
 package input;
 
-import static org.junit.Assert.*;
-import input.DataFile;
-import input.FilesTableModel;
-import input.Input;
-import input.WrongXMLException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.File;
 import java.util.ArrayList;
