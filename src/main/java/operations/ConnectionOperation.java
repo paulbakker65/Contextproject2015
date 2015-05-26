@@ -37,10 +37,7 @@ public class ConnectionOperation extends Operation {
    */
   public ConnectionOperation(Table inputDataset, Table otherTable, String inputcolumnName, String otherColumnName) {
     super(inputDataset);
-    this.otherTable = otherTable;
-    this.columnName = inputcolumnName;
-    this.otherColumnName = otherColumnName;
-    this.operationParametersSet = true;
+    setOperationParameters(otherTable, inputcolumnName, otherColumnName);
   }
 
   @Override
@@ -104,7 +101,14 @@ public class ConnectionOperation extends Operation {
     return true;
   }
 
-  public boolean setOperationParameters(Table otherTable, String columnName, String otherColumnName) {
+  /**
+   * Set operation parameters.
+   * @param otherTable
+   * @param columnName
+   * @param otherColumnName
+   * @return
+   */
+  private boolean setOperationParameters(Table otherTable, String columnName, String otherColumnName) {
     this.otherTable = otherTable;
     this.columnName = columnName;
     this.otherColumnName = otherColumnName;
