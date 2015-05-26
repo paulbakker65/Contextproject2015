@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import parsers.NullValue;
+import table.value.NullValue;
 
 public class NullValueTest {
 

@@ -12,8 +12,8 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import parsers.DateValue;
-import parsers.StringValue;
+import table.value.DateValue;
+import table.value.StringValue;
 
 public class DateValueTest {
 

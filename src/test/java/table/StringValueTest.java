@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import parsers.NumberValue;
-import parsers.StringValue;
+import table.value.NumberValue;
+import table.value.StringValue;
 
 public class StringValueTest {
 
