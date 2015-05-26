@@ -8,8 +8,6 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import table.value.DateConversion;
-
 /**
  * DateConversionTest class testing the table.DateConversion class.
  * 

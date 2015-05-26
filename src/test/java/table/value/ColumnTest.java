@@ -8,19 +8,6 @@ import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 
-import table.value.Column;
-import table.value.ColumnTypeMismatchException;
-import table.value.DateColumn;
-import table.value.DateValue;
-import table.value.NullValue;
-import table.value.NumberColumn;
-import table.value.NumberValue;
-import table.value.StringColumn;
-import table.value.StringValue;
-import table.value.TimeColumn;
-import table.value.TimeValue;
-import table.value.Value;
-
 /**
  * ColumnTest class testing the table.Column class.
  * 

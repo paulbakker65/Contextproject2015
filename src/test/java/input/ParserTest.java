@@ -11,10 +11,6 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import input.Parser;
-import input.Reader;
-import input.Settings;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
