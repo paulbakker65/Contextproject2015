@@ -1,66 +1,70 @@
-package parsers;
+package table.value;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Case class for representing a time Value.
- * 
- * @author Robin
+ * Case class for representing a date Value.
  *
  */
-public class TimeValue extends Value {
+public class DateValue extends Value {
   private GregorianCalendar value;
-  private String targetDate;
 
   /**
-   * Constructs a new TimeValue.
+   * Constructs a new DateValue.
    * 
    * @param value
-   *          the stored time.
-   * @param targetDate
-   *          the stored target date.
+   *          the stored date.
    */
-  public TimeValue(Date value, String targetDate) {
-    this.targetDate = targetDate;
-    
+  public DateValue(Date value) {
     if (value != null) {
       this.value = new GregorianCalendar();
-      this.value.setTime(value);
+      this.setValue(value);
     }
   }
 
   /**
-   * Constructs a new TimeValue.
+   * Constructs a new DateValue.
    * 
    * @param value
-   *          the stored time.
-   * @param targetDate
-   *          the stored target date.
+   *          the stored date.
    */
-  public TimeValue(GregorianCalendar value, String targetDate) {
-    this.targetDate = targetDate;
+  public DateValue(GregorianCalendar value) {
     this.value = value;
   }
 
   /**
-   * Returns the stored time.
+   * Returns the stored date.
    * 
-   * @return the stored time.
+   * @return the stored date.
    */
   public GregorianCalendar getValue() {
     return value;
   }
 
   /**
-   * Stores a new time.
+   * Stores a new date.
    * 
    * @param value
-   *          the new time.
+   *          the new date.
    */
-  public void setValue(GregorianCalendar value) {
-    this.value = value;
+  public void setValue(Date value) {
+    this.value.setTime(value);
+  }
+
+  /**
+   * Adds the time (hours, minutes and milliseconds) to the date value.
+   * 
+   * @param time
+   *          a calendar representing the time.
+   */
+  public void addTime(GregorianCalendar time) {
+    value.add(Calendar.HOUR, time.get(Calendar.HOUR));
+    value.add(Calendar.MINUTE, time.get(Calendar.MINUTE));
+    value.add(Calendar.SECOND, time.get(Calendar.SECOND));
+    value.add(Calendar.MILLISECOND, time.get(Calendar.MILLISECOND));
   }
 
   /**
@@ -70,7 +74,6 @@ public class TimeValue extends Value {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((targetDate == null) ? 0 : targetDate.hashCode());
     result = prime * result + ((value == null) ? 0 : value.hashCode());
     return result;
   }
@@ -89,14 +92,7 @@ public class TimeValue extends Value {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    TimeValue other = (TimeValue) obj;
-    if (targetDate == null) {
-      if (other.targetDate != null) {
-        return false;
-      }
-    } else if (!targetDate.equals(other.targetDate)) {
-      return false;
-    }
+    DateValue other = (DateValue) obj;
     if (value == null) {
       if (other.value != null) {
         return false;
@@ -109,7 +105,7 @@ public class TimeValue extends Value {
 
   @Override
   public String toString() {
-    return new SimpleDateFormat("HH:mm").format(getValue().getTime());
+    return new SimpleDateFormat("yyyy-MM-dd").format(getValue().getTime());
   }
 
   @Override
@@ -119,7 +115,7 @@ public class TimeValue extends Value {
 
   @Override
   public boolean isDate() {
-    return false;
+    return true;
   }
 
   @Override
@@ -134,19 +130,10 @@ public class TimeValue extends Value {
 
   @Override
   public boolean isTime() {
-    return true;
+    return false;
   }
 
-  public String getTargetDate() {
-    return targetDate;
-  }
-
-  public void setTargetDate(String targetDate) {
-    this.targetDate = targetDate;
-  }
-  
-  public int compareToTime(TimeValue o) {
+  public int compareToDate(DateValue o) {
     return this.value.compareTo(o.value);
   }
-
 }

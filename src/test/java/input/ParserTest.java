@@ -1,4 +1,4 @@
-package table;
+package input;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -11,13 +11,9 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import input.Column;
-import input.DateColumn;
-import input.NumberColumn;
+import input.Parser;
 import input.Reader;
 import input.Settings;
-import input.StringColumn;
-import input.TimeColumn;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,12 +24,18 @@ import org.mockito.stubbing.Answer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import parsers.ColumnTypeMismatchException;
-import parsers.DateValue;
-import parsers.Parser;
-import parsers.StringValue;
-import parsers.TimeValue;
-import parsers.Value;
+import table.Record;
+import table.Table;
+import table.value.Column;
+import table.value.ColumnTypeMismatchException;
+import table.value.DateColumn;
+import table.value.DateValue;
+import table.value.NumberColumn;
+import table.value.StringColumn;
+import table.value.StringValue;
+import table.value.TimeColumn;
+import table.value.TimeValue;
+import table.value.Value;
 
 /**
  * ParserTest class testing the table.Parser class.

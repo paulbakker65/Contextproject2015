@@ -1,11 +1,10 @@
 package table;
 
-import input.Column;
-
 import java.util.HashMap;
 import java.util.List;
 
-import parsers.Value;
+import table.value.Column;
+import table.value.Value;
 
 /**
  * A timed event that can contain various properties ("collumns").

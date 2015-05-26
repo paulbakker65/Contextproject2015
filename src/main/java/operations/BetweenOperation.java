@@ -1,9 +1,9 @@
 package operations;
 
-import parsers.DateValue;
-import parsers.NumberValue;
-import parsers.Value;
 import table.Table;
+import table.value.DateValue;
+import table.value.NumberValue;
+import table.value.Value;
 
 /**
  * Generates a table with the lag between two events.

@@ -2,8 +2,6 @@ package table;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import input.Column;
-import input.StringColumn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +10,10 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.StringValue;
-import parsers.Value;
+import table.value.Column;
+import table.value.StringColumn;
+import table.value.StringValue;
+import table.value.Value;
 
 /**
  * RecordTest class testing the table.Record class.

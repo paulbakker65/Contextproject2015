@@ -4,10 +4,10 @@ package operations;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import parsers.NullValue;
 import table.Record;
 import table.RecordComparator;
 import table.Table;
+import table.value.NullValue;
 
 /**
  * ConnectionOperation class providing an Operation to merge tables using a user-defined connection
@@ -66,15 +66,16 @@ public class ConnectionOperation extends Operation {
 
 
     //If one table has columns that the other table does not, they will be added with a null value.
+    ArrayList<String> t1temp = new ArrayList<String>(inputData.get(0).keySet());
     ArrayList<String> t1columns = new ArrayList<String>(inputData.get(0).keySet());
     ArrayList<String> t2columns = new ArrayList<String>(otherTable.get(0).keySet());
        
-    if (!t1columns.remove(columnName) || !t2columns.remove(otherColumnName)){
+    if (!t1temp.remove(columnName) || !t1columns.remove(columnName) || !t2columns.remove(otherColumnName)){
       return false;
     }
  
     t1columns.removeAll(t2columns);
-    t2columns.removeAll(t1columns);
+    t2columns.removeAll(t1temp);
     
     NullValue nullvalue = new NullValue();
     for (Record record : inputData){

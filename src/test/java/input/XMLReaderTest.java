@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 
+import table.value.DateColumn;
+import table.value.NumberColumn;
+import table.value.StringColumn;
+
 /**
  * XMLReader class testing the input.XMLReader class.
  * 

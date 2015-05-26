@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import parsers.Value;
 import table.Record;
 import table.Table;
+import table.value.Value;
 
 import com.opencsv.CSVWriter;
 

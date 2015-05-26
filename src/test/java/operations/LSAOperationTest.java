@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import input.Settings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,14 +22,19 @@ import table.value.StringValue;
 import table.value.Value;
 
 /**
- * Test for BetweenOperation.
+ * Test for LSAOperation
+ * LSA stands for Lag Sequential Analysis.
  */
-public class BetweenOperationTest {
+public class LSAOperationTest {
 
+  public static List<Column> rescols = Arrays.asList(new Column[] { new NumberColumn("lag"),
+      new NumberColumn("occur") });
+  
+  
   Table dataTable;
   Settings settings;
-  BetweenOperation lo;
-  ArrayList<Column> cols;
+  LSAOperation lsa;
+  List<Column> cols;
   
   
   @SuppressWarnings("deprecation")
@@ -56,21 +63,20 @@ public class BetweenOperationTest {
     settings.getColumns().addAll(cols);
     
 
-    lo = new BetweenOperation(dataTable, "eventtype", "date", new StringValue("A"), new StringValue("B"));
+    lsa = new LSAOperation(dataTable, "eventtype", -2, 3, new StringValue("A"), new StringValue("B"));
   }
   
-
   @Test
   public void test() {
-    lo.execute();
-    Table res = lo.getResult();
+    lsa.execute();
+    Table res = lsa.getResult();
     
-    
-    assertEquals(9, res.size());
-    assertEquals(new NumberValue(86400 * 2), res.get(1).get("time_before_B"));
-    assertEquals(new NumberValue(86400 * 1), res.get(6).get("time_before_B"));
-    
-    
+    //System.out.println(res);
+    assertEquals(new NumberValue(1), res.get(0).get("occur"));
+    assertEquals(new NumberValue(2), res.get(1).get("occur"));
+    assertEquals(new NumberValue(0), res.get(2).get("occur"));
+    assertEquals(new NumberValue(1), res.get(3).get("occur"));
+    assertEquals(new NumberValue(1), res.get(4).get("occur"));
   }
 
 }

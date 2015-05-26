@@ -1,7 +1,9 @@
-package main;
+package input;
 
 import static org.junit.Assert.*;
 import input.CSVReader;
+import input.DataFile;
+import input.Parser;
 import input.Reader;
 import input.Settings;
 import input.WrongXMLException;
@@ -11,8 +13,6 @@ import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import parsers.Parser;
 
 /**
  * DataFileTest class testing main.DataFile class.

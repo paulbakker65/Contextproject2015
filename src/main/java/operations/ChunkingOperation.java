@@ -7,11 +7,11 @@ import operations.chunking.DayCondition;
 import operations.chunking.MonthCondition;
 import operations.chunking.PatientCondition;
 import operations.chunking.YearCondition;
-import parsers.Value;
 import table.Chunk;
 import table.Record;
 import table.RecordComparator;
 import table.Table;
+import table.value.Value;
 
 /**
  * An operation that outputs a Table of ChunkValues.

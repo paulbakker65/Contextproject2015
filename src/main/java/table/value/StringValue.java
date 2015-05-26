@@ -1,4 +1,4 @@
-package parsers;
+package table.value;
 
 /**
  * Case class for representing a string Value.
