@@ -1,9 +1,6 @@
 package operations;
 
 import static org.junit.Assert.assertEquals;
-import input.Column;
-import input.NumberColumn;
-import input.StringColumn;
 
 import java.util.ArrayList;
 
@@ -15,12 +12,15 @@ import operations.coding.SingleOccurrencePattern;
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.NullValue;
-import parsers.NumberValue;
-import parsers.StringValue;
-import parsers.Value;
 import table.Record;
 import table.Table;
+import table.value.Column;
+import table.value.NullValue;
+import table.value.NumberColumn;
+import table.value.NumberValue;
+import table.value.StringColumn;
+import table.value.StringValue;
+import table.value.Value;
 
 /**
  * Test for the coding operation.

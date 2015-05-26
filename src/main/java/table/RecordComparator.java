@@ -3,7 +3,7 @@ package table;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import parsers.Value;
+import table.value.Value;
 
 /**
  * Compares records based on a column.

@@ -3,8 +3,8 @@ package operations.chunking;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import parsers.DateValue;
-import parsers.Value;
+import table.value.DateValue;
+import table.value.Value;
 
 /**
  * Chunks on each day of the calendar.

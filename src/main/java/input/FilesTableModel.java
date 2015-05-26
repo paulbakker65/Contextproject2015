@@ -1,4 +1,4 @@
-package main;
+package input;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -26,12 +26,12 @@ public class FilesTableModel implements TableModel {
 
   @Override
   public int getRowCount() {
-    return Input.files.size();
+    return Input.getFiles().size();
   }
 
   @Override
   public String getValueAt(int rowIndex, int columnIndex) {
-    DataFile file = Input.files.get(rowIndex);
+    DataFile file = Input.getFiles().get(rowIndex);
     if (columnIndex == 0) {
       return file.getFilepath();
     } else {

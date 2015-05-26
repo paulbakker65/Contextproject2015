@@ -1,9 +1,8 @@
-package input;
+package table.value;
+
+import input.WrongXMLException;
 
 import org.w3c.dom.Element;
-
-import parsers.ColumnTypeMismatchException;
-import parsers.Value;
 
 /**
  * Abstract class for specifying a column type in a table. It specifies how all the values in a

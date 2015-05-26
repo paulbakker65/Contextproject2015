@@ -1,6 +1,9 @@
-package main;
+package input;
 
 import static org.junit.Assert.*;
+import input.DataFile;
+import input.FilesTableModel;
+import input.Input;
 import input.WrongXMLException;
 
 import java.io.File;

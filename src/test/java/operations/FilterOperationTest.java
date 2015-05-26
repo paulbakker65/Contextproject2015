@@ -1,23 +1,23 @@
 package operations;
 
 import static org.junit.Assert.*;
-import input.Column;
-import input.DateColumn;
-import input.NumberColumn;
-import input.StringColumn;
 
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.DateValue;
-import parsers.NumberValue;
-import parsers.StringValue;
-import parsers.Value;
-import table.DateConversion;
 import table.Record;
 import table.Table;
+import table.value.Column;
+import table.value.DateColumn;
+import table.value.DateConversion;
+import table.value.DateValue;
+import table.value.NumberColumn;
+import table.value.NumberValue;
+import table.value.StringColumn;
+import table.value.StringValue;
+import table.value.Value;
 
 /**
  * FilterOperationTest class testing the operations.FilterOperation.

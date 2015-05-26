@@ -1,4 +1,4 @@
-package parsers;
+package table.value;
 
 /**
  * Exception class for the case that a value does not match the column type.

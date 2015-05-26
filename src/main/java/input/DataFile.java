@@ -1,11 +1,4 @@
-package main;
-
-import input.CSVReader;
-import input.Reader;
-import input.Settings;
-import input.WrongXMLException;
-import input.XMLReader;
-import parsers.Parser;
+package input;
 
 import java.io.File;
 import java.io.FileNotFoundException;

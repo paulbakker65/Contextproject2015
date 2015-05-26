@@ -1,29 +1,28 @@
 package operations;
 
 import static org.junit.Assert.*;
-import input.Column;
-import input.DateColumn;
-import input.NumberColumn;
-import input.StringColumn;
+import input.DataFile;
+import input.Input;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import main.DataFile;
-import main.Input;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.DateValue;
-import parsers.NullValue;
-import parsers.NumberValue;
-import parsers.StringValue;
-import parsers.Value;
-import table.DateConversion;
 import table.Record;
 import table.Table;
+import table.value.Column;
+import table.value.DateColumn;
+import table.value.DateConversion;
+import table.value.DateValue;
+import table.value.NullValue;
+import table.value.NumberColumn;
+import table.value.NumberValue;
+import table.value.StringColumn;
+import table.value.StringValue;
+import table.value.Value;
 
 /**
  * ConnectionOperationTest class testing the ConnectionOperation class.

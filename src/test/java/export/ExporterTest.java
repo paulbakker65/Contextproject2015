@@ -12,9 +12,9 @@ import java.util.TreeSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.StringValue;
 import table.Record;
 import table.Table;
+import table.value.StringValue;
 
 /**
  * ExporterTest class testing the export.Export class.

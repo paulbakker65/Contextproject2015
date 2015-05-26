@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Element;
 
+import table.value.Column;
+
 /**
  * Settings class containing all program-wide settings.
  * 

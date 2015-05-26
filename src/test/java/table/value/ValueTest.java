@@ -1,4 +1,4 @@
-package table;
+package table.value;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,12 +13,12 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import parsers.DateValue;
-import parsers.NullValue;
-import parsers.NumberValue;
-import parsers.StringValue;
-import parsers.TimeValue;
-import parsers.Value;
+import table.value.DateValue;
+import table.value.NullValue;
+import table.value.NumberValue;
+import table.value.StringValue;
+import table.value.TimeValue;
+import table.value.Value;
 
 /**
  * ValueTest class testing table.Value class.

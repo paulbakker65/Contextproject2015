@@ -1,10 +1,8 @@
-package input;
+package table.value;
+
+import input.WrongXMLException;
 
 import org.w3c.dom.Element;
-
-import parsers.NullValue;
-import parsers.StringValue;
-import parsers.Value;
 
 /**
  * Case class for specifying a column with just text.
