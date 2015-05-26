@@ -1,4 +1,4 @@
-package table;
+package table.value;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -6,9 +6,9 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import table.value.NumberValue;
-import table.value.StringValue;
-
+/**
+ * Class for testing NumberValue.
+ */
 public class NumberValueTest {
 
   @Test

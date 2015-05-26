@@ -1,4 +1,4 @@
-package table;
+package table.value;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -12,9 +12,11 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import table.value.DateValue;
-import table.value.StringValue;
-
+/**
+ * Class for testing DateValue.
+ * @author Robin
+ *
+ */
 public class DateValueTest {
 
   @Test

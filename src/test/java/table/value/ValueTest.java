@@ -10,13 +10,6 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import table.value.DateValue;
-import table.value.NullValue;
-import table.value.NumberValue;
-import table.value.StringValue;
-import table.value.TimeValue;
-import table.value.Value;
-
 /**
  * ValueTest class testing table.Value class.
  * 
