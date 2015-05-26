@@ -15,8 +15,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.NumberValue;
-import parsers.Value;
+import table.value.NumberValue;
+import table.value.Value;
 import scriptlang.AnalysisLangLexer;
 import scriptlang.AnalysisLangParser;
 import scriptlang.extra.OperationSpec.OperationType;

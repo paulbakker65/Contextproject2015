@@ -6,7 +6,7 @@ import operations.FilterOperation;
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.NumberValue;
+import table.value.NumberValue;
 import scriptlang.extra.OperationSpec.OperationType;
 import table.Table;
 
