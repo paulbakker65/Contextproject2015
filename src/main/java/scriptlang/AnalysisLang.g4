@@ -157,36 +157,41 @@ condition returns [Condition cond]
   { $cond = new Condition($opparam.op, $valueparam.val); }
 ;
 
-number
-: num=NUMBER
+number returns [Value val]
+: numparam=NUMBER                    { $val = new NumberValue($numparam.int); }
 ;
 
-compare_operator
-: op=EQ
-| op=NEQ
-| op=GEQ
-| op=G
-| op=LEQ
-| op=L
+compare_operator returns [CompareOperator op]
+: opparam=EQ                         { $op = CompareOperator.EQ;   }
+| opparam=NEQ                        { $op = CompareOperator.NEQ;  }
+| opparam=GEQ                        { $op = CompareOperator.GEQ;  }
+| opparam=G                          { $op = CompareOperator.G;    }
+| opparam=LEQ                        { $op = CompareOperator.LEQ;  }
+| opparam=L                          { $op = CompareOperator.L;    }
 ;
 
-calc_operator
-: op=MULTIPLY
-| op=DIVIDE
-| op=PLUS
-| op=MINUS
-| op=MODULO
+calc_operator returns [CalcOperator op]
+: opparam=MULTIPLY                   { $op = CalcOperator.MULTIPLY;}
+| opparam=DIVIDE                     { $op = CalcOperator.DIVIDE;  }
+| opparam=PLUS                       { $op = CalcOperator.PLUS;    }
+| opparma=MINUS                      { $op = CalcOperator.MINUS;   }
+| opparam=MODULO                     { $op = CalcOperator.MODULO;  }
 ;
 
-formula
+formula returns [Formula form]
 : fieldparam=field opparam=calc_operator anotherfieldparam=field
+  { $form = new Formula($fieldparam.fieldname, $opparam.op, $anotherfieldparam.fieldname); }
 | fieldparam=field opparam=calc_operator valueparam=number
+  { $form = new Formula($fieldparam.fieldname, $opparam.op, $valueparam.val); }
 | fieldparam=field opparam=calc_operator formulaparam=formula
+  { $form = new Formula($fieldparam.fieldname, $opparam.op, $formulaparam.form); }
 ;
 
-condition
+condition returns [Condition cond]
 : opparam=compare_operator valueparam=value
-| conparamone=condition 'AND' conparamtwo=condition
+  { $cond = new Condition($opparam.op, $valueparam.val); }
+| opparam=compare_operator valueparam=value 'AND' anothercond=condition
+  { $cond = new Condition($opparam.op, $valueparam.val); }
 ;
 
 range
