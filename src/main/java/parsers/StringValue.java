@@ -101,7 +101,7 @@ public class StringValue extends Value {
     return false;
   }
 
-  public int compareTo(Value o) {
-    return this.value.compareTo(((StringValue) o).value);
+  public int compareToString(StringValue o) {
+    return this.value.compareTo(o.value);
   }
 }

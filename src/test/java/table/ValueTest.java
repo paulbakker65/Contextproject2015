@@ -2,14 +2,11 @@ package table;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
@@ -27,7 +24,7 @@ import parsers.Value;
 public class ValueTest {
 
   @Test
-  public void testValueIsNull() {
+  public void testIsNull() {
     Value nullValue = new NullValue();
     Value numberValue = new NumberValue(1.0);
     Value dateValue = new DateValue(new Date());
@@ -42,7 +39,7 @@ public class ValueTest {
   }
 
   @Test
-  public void testValueIsNumeric() {
+  public void testIsNumeric() {
     Value nullValue = new NullValue();
     Value numberValue = new NumberValue(1.0);
     Value dateValue = new DateValue(new Date());
@@ -57,7 +54,7 @@ public class ValueTest {
   }
 
   @Test
-  public void testValueIsDate() {
+  public void testIsDate() {
     Value nullValue = new NullValue();
     Value numberValue = new NumberValue(1.0);
     Value dateValue = new DateValue(new Date());
@@ -72,7 +69,7 @@ public class ValueTest {
   }
 
   @Test
-  public void testValueIsString() {
+  public void testIsString() {
     Value nullValue = new NullValue();
     Value numberValue = new NumberValue(1.0);
     Value dateValue = new DateValue(new Date());
@@ -87,7 +84,7 @@ public class ValueTest {
   }
 
   @Test
-  public void testValueIsTime() {
+  public void testIsTime() {
     Value nullValue = new NullValue();
     Value numberValue = new NumberValue(1.0);
     Value dateValue = new DateValue(new Date());
@@ -100,242 +97,78 @@ public class ValueTest {
     assertFalse(stringValue.isTime());
     assertTrue(timeValue.isTime());
   }
-
+  
   @Test
-  public void testNullValueConstructor() {
-    NullValue value = new NullValue();
-    assertNotNull(value);
+  public void testCompareToString() {
+    StringValue sv1 = new StringValue("a");
+    StringValue sv2 = new StringValue("b");
+    StringValue sv3 = new StringValue("a");
+    NumberValue nv = new NumberValue(1.0);
+    
+    assertEquals(sv1.compareTo(sv2), -1);
+    assertEquals(sv1.compareTo(sv3), 0);
+    assertEquals(sv2.compareTo(sv1), 1);
+    assertEquals(sv1.compareTo(nv), Integer.MAX_VALUE);
+    assertEquals(nv.compareTo(sv1), Integer.MAX_VALUE);
   }
-
+  
   @Test
-  public void testNullValueToString() {
-    NullValue value = new NullValue();
-    assertEquals("", value.toString());
+  public void testCompareToNumber() {
+    NumberValue nv1 = new NumberValue(1.0);
+    NumberValue nv2 = new NumberValue(2.0);
+    NumberValue nv3 = new NumberValue(1.0);
+    DateValue dv = new DateValue(new Date());
+    
+    assertEquals(nv1.compareTo(nv2), -1);
+    assertEquals(nv1.compareTo(nv3), 0);
+    assertEquals(nv2.compareTo(nv1), 1);
+    assertEquals(nv1.compareTo(dv), Integer.MAX_VALUE);
+    assertEquals(dv.compareTo(nv1), Integer.MAX_VALUE);
   }
-
+  
   @Test
-  public void testNullValueEquals() {
-    NullValue value = new NullValue();
-    assertEquals(value, new NullValue());
-    assertEquals(value, value);
-    assertNotEquals(value, null);
+  public void testCompareToDate() throws ParseException {
+    Date d1 = new SimpleDateFormat("yy/MM/dd").parse("15/11/30");
+    Date d2 = new SimpleDateFormat("yy/MM/dd").parse("15/12/10");
+    
+    DateValue dv1 = new DateValue(d1);
+    DateValue dv2 = new DateValue(d2);
+    DateValue dv3 = new DateValue(d1);
+    NullValue nullv = new NullValue();
+    
+    assertEquals(dv1.compareTo(dv2), -1);
+    assertEquals(dv1.compareTo(dv3), 0);
+    assertEquals(dv2.compareTo(dv1), 1);
+    assertEquals(dv1.compareTo(nullv), Integer.MAX_VALUE);
+    assertEquals(nullv.compareTo(dv1), Integer.MAX_VALUE);
   }
-
+  
   @Test
-  public void testStringValueConstructor() {
-    StringValue value = new StringValue("testValue");
-    assertNotNull(value);
-    assertEquals("testValue", value.getValue());
+  public void testCompareToNull() {
+    NullValue nv1 = new NullValue();
+    NullValue nv2 = new NullValue();
+    TimeValue tv = new TimeValue(new Date(), "target");
+    
+    assertEquals(nv1.compareTo(nv2), 0);
+    assertEquals(nv2.compareTo(nv1), 0);
+    assertEquals(nv1.compareTo(tv), Integer.MAX_VALUE);
+    assertEquals(tv.compareTo(nv1), Integer.MAX_VALUE);
   }
-
+  
   @Test
-  public void testStringValueSetGetValue() {
-    StringValue value = new StringValue("testValue");
-    assertEquals("testValue", value.getValue());
-
-    value.setValue("newValue");
-    assertEquals("newValue", value.getValue());
+  public void testCompareToTime() throws ParseException {
+    Date d1 = new SimpleDateFormat("HH:mm").parse("10:20");
+    Date d2 = new SimpleDateFormat("HH:mm").parse("12:10");
+    
+    TimeValue tv1 = new TimeValue(d1, "target");
+    TimeValue tv2 = new TimeValue(d2, "target");
+    TimeValue tv3 = new TimeValue(d1, "target");
+    StringValue sv = new StringValue("text");
+    
+    assertEquals(tv1.compareTo(tv2), -1);
+    assertEquals(tv1.compareTo(tv3), 0);
+    assertEquals(tv2.compareTo(tv1), 1);
+    assertEquals(tv1.compareTo(sv), Integer.MAX_VALUE);
+    assertEquals(sv.compareTo(tv1), Integer.MAX_VALUE);
   }
-
-  @Test
-  public void testStringValueToString() {
-    StringValue value = new StringValue("testValue");
-    assertEquals("testValue", value.toString());
-  }
-
-  @Test
-  public void testStringValueEquals() {
-    StringValue value = new StringValue("testValue");
-    StringValue valueSame = new StringValue("testValue");
-    StringValue valueNotSame = new StringValue("testValue2");
-
-    assertEquals(value, value);
-    assertNotEquals(value, null);
-    assertEquals(value, valueSame);
-    assertNotEquals(value, valueNotSame);
-  }
-
-  @Test
-  public void testNumberValueConstructor() {
-    NumberValue value = new NumberValue(10.0);
-    assertNotNull(value);
-    assertEquals(10.0, value.getValue(), 0);
-  }
-
-  @Test
-  public void testNumberValueSetGetValue() {
-    NumberValue value = new NumberValue(10.0);
-    assertEquals(10.0, value.getValue(), 0);
-
-    value.setValue(20.0);
-    assertEquals(20.0, value.getValue(), 0);
-  }
-
-  @Test
-  public void testNumberValueToString() {
-    NumberValue value = new NumberValue(10.0);
-    assertEquals("10", value.toString());
-  }
-
-  @Test
-  public void testNumberValueEquals() {
-    NumberValue value = new NumberValue(10.0);
-    NumberValue valueSame = new NumberValue(10.0);
-    NumberValue valueNotSame = new NumberValue(20.0);
-
-    assertEquals(value, value);
-    assertNotEquals(value, null);
-    assertEquals(value, valueSame);
-    assertNotEquals(value, valueNotSame);
-  }
-
-  @Test
-  public void testDateValueConstructorDate() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    DateValue value = new DateValue(date);
-
-    assertNotNull(value);
-    assertEquals(calendar, value.getValue());
-  }
-
-  @Test
-  public void testDateValueConstructorCalendar() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    DateValue value = new DateValue(calendar);
-
-    assertNotNull(value);
-    assertEquals(calendar, value.getValue());
-  }
-
-  @Test
-  public void testDateValueSetGetValue() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    DateValue value = new DateValue(date);
-
-    assertEquals(calendar, value.getValue());
-
-    date = new SimpleDateFormat("ddMMyy").parse("311213");
-    calendar.setTime(date);
-    value.setValue(date);
-    assertEquals(calendar, value.getValue());
-  }
-
-  @Test
-  public void testDateValueAddTime() throws ParseException {
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    DateValue value = new DateValue(date);
-
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date time = new SimpleDateFormat("hh:mm").parse("10:20");
-    calendar.setTime(time);
-
-    assertNotEquals(calendar, value.getValue());
-
-    value.addTime(calendar);
-
-    GregorianCalendar resultCalendar = new GregorianCalendar();
-    Date resultDate = new SimpleDateFormat("ddMMyy hh:mm").parse("311214 10:20");
-    resultCalendar.setTime(resultDate);
-    assertEquals(resultCalendar, value.getValue());
-  }
-
-  @Test
-  public void testDateValueToString() throws ParseException {
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    DateValue value = new DateValue(date);
-    assertEquals("2014-12-31", value.toString());
-  }
-
-  @Test
-  public void testDateValueEquals() throws ParseException {
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    Date date2 = new SimpleDateFormat("ddMMyy").parse("311213");
-    DateValue value = new DateValue(date);
-    DateValue valueSame = new DateValue(date);
-    DateValue valueNotSame = new DateValue(date2);
-
-    assertEquals(value, value);
-    assertNotEquals(value, null);
-    assertEquals(value, valueSame);
-    assertNotEquals(value, valueNotSame);
-  }
-
-  @Test
-  public void testTimeValueConstructorDate() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    TimeValue value = new TimeValue(date, "lorem");
-    assertNotNull(value);
-    assertEquals(calendar, value.getValue());
-  }
-
-  @Test
-  public void testTimeValueConstructorCalendar() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    TimeValue value = new TimeValue(calendar, "lorem");
-    assertNotNull(value);
-    assertEquals(calendar, value.getValue());
-  }
-
-  @Test
-  public void testTimeValueSetGetValue() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    TimeValue value = new TimeValue(date, "ipsum");
-
-    assertEquals(calendar, value.getValue());
-
-    date = new SimpleDateFormat("ddMMyy").parse("311213");
-    calendar.setTime(date);
-    value.setValue(calendar);
-    assertEquals(calendar, value.getValue());
-  }
-
-  @Test
-  public void testTimeValueSetGetTargetDate() throws ParseException {
-    Date date = new SimpleDateFormat("hh:mm").parse("10:20");
-    String target = "lorem";
-    TimeValue value = new TimeValue(date, target);
-
-    assertEquals(target, value.getTargetDate());
-
-    target = "ipsum";
-    value.setTargetDate(target);
-    ;
-    assertEquals(target, value.getTargetDate());
-  }
-
-  @Test
-  public void testTimeValueToString() throws ParseException {
-    Date date = new SimpleDateFormat("hh:mm").parse("10:20");
-    TimeValue value = new TimeValue(date, "ipsum");
-    assertEquals("10:20", value.toString());
-  }
-
-  @Test
-  public void testTimeValueEquals() throws ParseException {
-    Date date = new SimpleDateFormat("hh:mm").parse("10:20");
-    Date date2 = new SimpleDateFormat("hh:mm").parse("10:21");
-    TimeValue value = new TimeValue(date, "Target");
-    TimeValue valueSame = new TimeValue(date, "Target");
-    TimeValue valueNotSameDate = new TimeValue(date2, "Target");
-    TimeValue valueNotSameTarget = new TimeValue(date, "Other target");
-
-    assertEquals(value, value);
-    assertNotEquals(value, null);
-    assertEquals(value, valueSame);
-    assertNotEquals(value, valueNotSameDate);
-    assertNotEquals(value, valueNotSameTarget);
-  }
-
 }
