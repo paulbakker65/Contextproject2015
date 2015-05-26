@@ -2,10 +2,12 @@ grammar AnalysisLang;
 
 @header {
 package scriptlang;
-  
+
+import scriptlang.scriptlangObjects.*;
 import parsers.*;
 import operations.FilterOperation;
 import java.util.*;
+import java.text.*;
 }
 
 parse
@@ -68,7 +70,7 @@ chunk_param
 ;
 
 ///////////////////////////////////////
-// Code                             //
+// Code                              //
 ///////////////////////////////////////
 code_param
 : fieldparam=field 'ON' conditionparam=condition
@@ -115,60 +117,70 @@ compute_param
 // Common                            //
 //                                   //
 ///////////////////////////////////////
-field
-: '[' field_name=ID ']'
+field returns [String fieldname]
+: '[' fieldnameparam=ID ']'   { $fieldname = $fieldnameparam.text; }
 ;
 
-number
-: num=NUMBER
+number returns [Value val]
+: numparam=NUMBER                    { $val = new NumberValue($numparam.int); }
 ;
 
-compare_operator
-: op=EQ
-| op=NEQ
-| op=GEQ
-| op=G
-| op=LEQ
-| op=L
+compare_operator returns [CompareOperator op]
+: opparam=EQ                         { $op = CompareOperator.EQ;   }
+| opparam=NEQ                        { $op = CompareOperator.NEQ;  }
+| opparam=GEQ                        { $op = CompareOperator.GEQ;  }
+| opparam=G                          { $op = CompareOperator.G;    }
+| opparam=LEQ                        { $op = CompareOperator.LEQ;  }
+| opparam=L                          { $op = CompareOperator.L;    }
 ;
 
-calc_operator
-: op=MULTIPLY
-| op=DIVIDE
-| op=PLUS
-| op=MINUS
-| op=MODULO
+calc_operator returns [CalcOperator op]
+: opparam=MULTIPLY                   { $op = CalcOperator.MULTIPLY;}
+| opparam=DIVIDE                     { $op = CalcOperator.DIVIDE;  }
+| opparam=PLUS                       { $op = CalcOperator.PLUS;    }
+| opparma=MINUS                      { $op = CalcOperator.MINUS;   }
+| opparam=MODULO                     { $op = CalcOperator.MODULO;  }
 ;
 
-formula
+formula returns [Formula form]
 : fieldparam=field opparam=calc_operator anotherfieldparam=field
+  { $form = new Formula($fieldparam.fieldname, $opparam.op, $anotherfieldparam.fieldname); }
 | fieldparam=field opparam=calc_operator valueparam=number
+  { $form = new Formula($fieldparam.fieldname, $opparam.op, $valueparam.val); }
 | fieldparam=field opparam=calc_operator formulaparam=formula
+  { $form = new Formula($fieldparam.fieldname, $opparam.op, $formulaparam.form); }
 ;
 
-condition
+condition returns [Condition cond]
 : opparam=compare_operator valueparam=value
-| conparamone=condition 'AND' conparamtwo=condition
+  { $cond = new Condition($opparam.op, $valueparam.val); }
+| opparam=compare_operator valueparam=value 'AND' anothercond=condition
+  { $cond = new Condition($opparam.op, $valueparam.val); }
 ;
 
 range
 : '>' g=value 'AND' '<' l=value
 ;
 
-value
-: date
-| number
-| text
+value returns [Value val]
+//: dataparam=date         { $val = $dataparam.val; }
+: numparam=number        { $val = $numparam.val;  }
+| stringparam=text       { $val = new StringValue($stringparam.text); }
 ;
 
-date
-: NUMCHAR NUMCHAR NUMCHAR NUMCHAR DATE_FIELD_SEP
-  NUMCHAR NUMCHAR DATE_FIELD_SEP
-  NUMCHAR NUMCHAR
-;
+//date returns [DateValue val]
+//: yearparam=DATE_FIELD_FOUR monthparam=DATE_FIELD_TWO 
+//  dayparam=DATE_FIELD_TWO
+//    {
+//      GregorianCalendar c = new GregorianCalendar();
+//      c.set($yearparam.int, $monthparam.int, $dayparam.int, 0, 0, 0);
+//      c.setTimeInMillis(0);
+//      $val = new DateValue(c.getTime());
+//    }
+//;
 
 text
-: (ALPHACHAR | NUMCHAR)+
+: 
 ;
 
 ///////////////////////////////////////
@@ -178,10 +190,6 @@ text
 ///////////////////////////////////////
 
 ID  : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
-
-DATE_FIELD_SEP
-: '\\'
-;
 
 EQ  : '==' ;
 NEQ : '!=' ;
@@ -194,14 +202,6 @@ DIVIDE   : '/' ;
 PLUS     : '+' ;
 MINUS    : '-' ;
 MODULO   : '%' ;
-
-ALPHACHAR
-: (('a'..'z' | 'A'..'Z') ~('0'..'9'))
-;
-
-NUMCHAR
-: '0'..'9'
-;
 
 NUMBER
 : INT
