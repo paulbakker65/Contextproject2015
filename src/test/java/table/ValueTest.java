@@ -249,7 +249,7 @@ public class ValueTest {
   public void testDateValueToString() throws ParseException {
     Date date = new SimpleDateFormat("ddMMyy").parse("311214");
     DateValue value = new DateValue(date);
-    assertEquals("2014-12-31", value.toString());
+    assertEquals("2014-12-31T00:00", value.toString());
   }
 
   @Test

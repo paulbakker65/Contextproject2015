@@ -9,6 +9,9 @@ import java.net.URISyntaxException;
 //import java.util.ArrayList;
 //import java.util.Collections;
 
+import parsers.ColumnTypeMismatchException;
+import table.Table;
+
 //import operations.FilterOperation;
 //import operations.FilterOperation.ConstraintComparatorEnum;
 //import export.Exporter;
@@ -19,33 +22,42 @@ import java.net.URISyntaxException;
 //import table.Table;
 
 /**
- * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
+ * Contains the first method that will be run. Main will parse command line arguments and start the
+ * GUI.
  */
-public class Main{
+public class Main {
 
-  public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
+  public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException,
+      ColumnTypeMismatchException {
 
-    if (!parseCommandline(args)){
+    if (!parseCommandline(args)) {
       return;
     }
 
-    if (!openGUI()){
+    if (!openGUI()) {
       return;
     }
+
+    DataFile first = Input.getFiles().get(0);
+    Table t = first.getParser().parse(first.getReader());
+
+    System.out.println("Printing:");
+
+    System.out.println(t.toString());
 
     System.exit(0);
 
-//    ArrayList<Table> tables = new ArrayList<Table>();
-//
-//    for (DataFile f : Input.getFiles()) {
-//      Table t = null;
-//      try {
-//        t = f.getParser().parse(f.getReader());
-//      } catch (ColumnTypeMismatchException e) {
-//        // TODO Auto-generated catch block
-//        e.printStackTrace();
-//      }
-//    }
+    // ArrayList<Table> tables = new ArrayList<Table>();
+    //
+    // for (DataFile f : Input.getFiles()) {
+    // Table t = null;
+    // try {
+    // t = f.getParser().parse(f.getReader());
+    // } catch (ColumnTypeMismatchException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // }
     // Read script & execute.
 
     /*
@@ -67,7 +79,8 @@ public class Main{
   /**
    * Parses command line arguments.
    * 
-   * @param argv String[] containing all arguments.
+   * @param argv
+   *          String[] containing all arguments.
    */
   public static boolean parseCommandline(String[] argv) {
     int argc = argv.length;
@@ -87,21 +100,19 @@ public class Main{
         }
         i = i + 2;
       } else if (argv[i].equals("-s") && argc - i > 1) {
-        if (!Input.setScriptFile(new File(argv[i + 1]))){
+        if (!Input.setScriptFile(new File(argv[i + 1]))) {
           return false;
         }
         i++;
       } else if (argv[i].equals("-o") && argc - i > 1) {
-        if (!Input.setOutputDir(new File(argv[i + 1]))){
+        if (!Input.setOutputDir(new File(argv[i + 1]))) {
           return false;
         }
         i++;
       } else {
-        String usage = "Error in program arguments.\n" + 
-            "Available commands are:\n" + 
-            "    -f <data file> <settings file>\n" + 
-            "    -s <script file>\n" + 
-            "    -o <output directory>\n";
+        String usage = "Error in program arguments.\n" + "Available commands are:\n"
+            + "    -f <data file> <settings file>\n" + "    -s <script file>\n"
+            + "    -o <output directory>\n";
         System.out.println(usage);
         return false;
       }
@@ -120,18 +131,16 @@ public class Main{
     dialog.centreWindow();
     dialog.setVisible(true);
 
-    if (dialog.isExit()){//User pressed Cancel or closed the window.
+    if (dialog.isExit()) {// User pressed Cancel or closed the window.
       return false;
     }
 
-    System.out.println("GUI done\n" + 
-        "scriptFile = " + Input.scriptFile.getAbsolutePath() + "\n" + 
-        "outputDir = " + Input.outputDir.getAbsolutePath() + "\n" + 
-        "files = ");
+    System.out.println("GUI done\n" + "scriptFile = " + Input.scriptFile.getAbsolutePath() + "\n"
+        + "outputDir = " + Input.outputDir.getAbsolutePath() + "\n" + "files = ");
     for (DataFile file : Input.files) {
       System.out.println(file.toString());
     }
-    
+
     return true;
   }
 }

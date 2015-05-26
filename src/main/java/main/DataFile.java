@@ -1,19 +1,20 @@
 package main;
 
 import input.CSVReader;
+import input.ExcelReader;
 import input.Reader;
 import input.Settings;
 import input.WrongXMLException;
 import input.XMLReader;
-import parsers.Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import parsers.Parser;
 
 /**
- * Stores information about the data file and it's corresponding settings file.
- * Creates the Reader, Parser and Settings for the data file.
+ * Stores information about the data file and it's corresponding settings file. Creates the Reader,
+ * Parser and Settings for the data file.
  */
 public class DataFile {
   private File datafile;
@@ -53,7 +54,7 @@ public class DataFile {
    * @param file
    *          The file (xml) containing the settings.
    * @return Returns a Settings object.
-   * @throws Exception 
+   * @throws Exception
    */
   private Settings readSettings(File file) throws Exception {
     Settings settings = null;
@@ -75,17 +76,19 @@ public class DataFile {
    * @param settings
    *          The settings file corresponding to the data file.
    * @return Returns the correct reader for the file.
-   * @throws Exception 
+   * @throws Exception
    */
   private Reader createReader(File file, Settings settings) throws Exception {
 
-    String fileextension = findExtension(file);
+    String fileextension = findExtension(file).toLowerCase();
 
-    if (fileextension.equals("xls")) {// excel reader
-      //System.out.println("Using following reader: XLSReader");
-      return null;
+    if (fileextension.equals("xls")) {
+      throw new Exception(
+          "Old .xls not supported. Please manually convert to the new Excel 2007 format: .xlsx");
+    } else if (fileextension.equals("xlsx")) {// excel reader
+      reader = new ExcelReader(file.getPath(), 0);
     } else {// Default reader = CSVReader
-      //System.out.println("Using default reader: CSVReader");
+      // System.out.println("Using default reader: CSVReader");
       try {
         reader = new CSVReader(file.getPath(), settings.getDelimiter());
       } catch (FileNotFoundException e) {
