@@ -78,8 +78,7 @@ public class CodingOperationTest {
     
     Pattern firstPattern = new SingleOccurrencePattern("StatSensor", prevPattern);
 
-    CodingOperation co = new CodingOperation(table);
-    co.setOperationParameters(firstPattern, "1S5W");
+    CodingOperation co = new CodingOperation(table, firstPattern, "1S5W");
     co.execute();
     
     assertEquals(co.getResult().getCode("1S5W").getFrequency(), 2);
@@ -90,8 +89,7 @@ public class CodingOperationTest {
     Pattern endPattern = new MultipleOccurrencePattern("WebsiteValue");
     Pattern firstPattern = new SingleOccurrencePattern("StatSensor", endPattern);
 
-    CodingOperation co = new CodingOperation(table);
-    co.setOperationParameters(firstPattern, "1S?W");
+    CodingOperation co = new CodingOperation(table, firstPattern, "1S?W");
     co.execute();
     
     assertEquals(co.getResult().getCode("1S?W").getFrequency(), 3);
@@ -101,8 +99,7 @@ public class CodingOperationTest {
   public void testMultiplePattern() {
     Pattern pattern = new MultipleOccurrencePattern("WebsiteValue", new NullPattern());
 
-    CodingOperation co = new CodingOperation(table);
-    co.setOperationParameters(pattern, "?W");
+    CodingOperation co = new CodingOperation(table, pattern, "?W");
     co.execute();
     
     assertEquals(co.getResult().getCode("?W").getFrequency(), 4);
@@ -112,8 +109,7 @@ public class CodingOperationTest {
   public void testMultiplePatternEndNoHasNext() {
     Pattern pattern = new MultipleOccurrencePattern("StatSensor", new NullPattern());
 
-    CodingOperation co = new CodingOperation(table);
-    co.setOperationParameters(pattern, "?S");
+    CodingOperation co = new CodingOperation(table, pattern, "?S");
     co.execute();
     
     assertEquals(co.getResult().getCode("?S").getFrequency(), 2);
@@ -125,8 +121,7 @@ public class CodingOperationTest {
     Pattern middlePattern = new SingleOccurrencePattern("StatSensor", endPattern);
     Pattern firstPattern = new SingleOccurrencePattern("StatSensor", middlePattern);
 
-    CodingOperation co = new CodingOperation(table);
-    co.setOperationParameters(firstPattern, "S?S");
+    CodingOperation co = new CodingOperation(table, firstPattern, "S?S");
     co.execute();
     
     assertEquals(co.getResult().getCode("S?S").getFrequency(), 0);
