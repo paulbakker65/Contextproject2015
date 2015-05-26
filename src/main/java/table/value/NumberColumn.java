@@ -1,11 +1,8 @@
-package input;
+package table.value;
+
+import input.WrongXMLException;
 
 import org.w3c.dom.Element;
-
-import parsers.ColumnTypeMismatchException;
-import parsers.NullValue;
-import parsers.NumberValue;
-import parsers.Value;
 
 /**
  * Case class for specifying a column with numbers.

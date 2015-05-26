@@ -1,15 +1,12 @@
-package input;
+package table.value;
+
+import input.WrongXMLException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.w3c.dom.Element;
-
-import parsers.ColumnTypeMismatchException;
-import parsers.NullValue;
-import parsers.TimeValue;
-import parsers.Value;
 
 /**
  * Case class for specifying a column with time values.

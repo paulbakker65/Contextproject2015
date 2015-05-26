@@ -1,4 +1,4 @@
-package table;
+package table.value;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

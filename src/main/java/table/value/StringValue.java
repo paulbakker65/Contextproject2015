@@ -1,38 +1,40 @@
-package parsers;
+package table.value;
 
 /**
- * Case class for representing a numeric Value.
+ * Case class for representing a string Value.
+ * 
+ * @author Robin
  *
  */
-public class NumberValue extends Value {
-  private double value;
+public class StringValue extends Value {
+  private String value;
 
   /**
    * Constructs a new NumberValue.
    * 
    * @param value
-   *          the stored number.
+   *          the stored string.
    */
-  public NumberValue(double value) {
+  public StringValue(String value) {
     this.setValue(value);
   }
 
   /**
-   * Returns the stored number.
+   * Returns the stored string.
    * 
-   * @return the stored number.
+   * @return the stored string.
    */
-  public double getValue() {
+  public String getValue() {
     return value;
   }
 
   /**
-   * Stores a new number value.
+   * Stores a new number string.
    * 
    * @param value
-   *          the new number value.
+   *          the new number string.
    */
-  public void setValue(double value) {
+  public void setValue(String value) {
     this.value = value;
   }
 
@@ -41,12 +43,7 @@ public class NumberValue extends Value {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    long temp;
-    temp = Double.doubleToLongBits(value);
-    result = prime * result + (int) (temp ^ (temp >>> 32));
-    return result;
+    return value.hashCode();
   }
 
   /**
@@ -63,8 +60,12 @@ public class NumberValue extends Value {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    NumberValue other = (NumberValue) obj;
-    if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
+    StringValue other = (StringValue) obj;
+    if (value == null) {
+      if (other.value != null) {
+        return false;
+      }
+    } else if (!value.equals(other.value)) {
       return false;
     }
     return true;
@@ -72,12 +73,12 @@ public class NumberValue extends Value {
 
   @Override
   public String toString() {
-    return Integer.toString((int) value);
+    return value;
   }
 
   @Override
   public boolean isNumeric() {
-    return true;
+    return false;
   }
 
   @Override
@@ -87,7 +88,7 @@ public class NumberValue extends Value {
 
   @Override
   public boolean isString() {
-    return false;
+    return true;
   }
 
   @Override
@@ -101,9 +102,6 @@ public class NumberValue extends Value {
   }
 
   public int compareTo(Value o) {
-    Double val = new Double(this.value);
-    Double anotherVal = new Double(((NumberValue) o).value);
-
-    return val.compareTo(anotherVal);
+    return this.value.compareTo(((StringValue) o).value);
   }
 }

@@ -1,6 +1,7 @@
 package main;
 
 import static org.junit.Assert.*;
+import input.Input;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -29,9 +30,9 @@ public class MainTest {
     String argv[] = commandline.split(" ");
     boolean actual = Main.parseCommandline(argv);
     assertEquals(true, actual);
-    assertEquals(1, Input.files.size());
-    assertEquals("csvexample.csv", Input.files.get(0).getDatafile().getName());
-    assertEquals("settings.xml", Input.files.get(0).getSettingsfile().getName());
+    assertEquals(1, Input.getFiles().size());
+    assertEquals("csvexample.csv", Input.getFiles().get(0).getDatafile().getName());
+    assertEquals("settings.xml", Input.getFiles().get(0).getSettingsfile().getName());
     
     Input.clean();
     

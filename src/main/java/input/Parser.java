@@ -1,8 +1,4 @@
-package parsers;
-
-import input.Column;
-import input.Reader;
-import input.Settings;
+package input;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +8,11 @@ import java.util.Map.Entry;
 
 import table.Record;
 import table.Table;
+import table.value.Column;
+import table.value.ColumnTypeMismatchException;
+import table.value.DateValue;
+import table.value.TimeValue;
+import table.value.Value;
 
 /**
  * Class for parsing a file into a Table object.

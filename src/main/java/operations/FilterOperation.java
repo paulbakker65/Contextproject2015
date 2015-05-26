@@ -1,8 +1,8 @@
 package operations;
 
-import parsers.Value;
 import table.Record;
 import table.Table;
+import table.value.Value;
 
 /**
  * Filters certain records out of the table.

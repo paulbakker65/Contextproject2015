@@ -1,7 +1,7 @@
 package operations.chunking;
 
-import parsers.NumberValue;
-import parsers.Value;
+import table.value.NumberValue;
+import table.value.Value;
 
 /**
  * Chunks on patient ID.

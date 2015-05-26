@@ -1,9 +1,6 @@
 package operations;
 
 import static org.junit.Assert.assertEquals;
-import input.Column;
-import input.DateColumn;
-import input.NumberColumn;
 import input.Settings;
 
 import java.util.ArrayList;
@@ -12,12 +9,15 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.DateValue;
-import parsers.NumberValue;
-import parsers.StringValue;
-import parsers.Value;
 import table.Record;
 import table.Table;
+import table.value.Column;
+import table.value.DateColumn;
+import table.value.DateValue;
+import table.value.NumberColumn;
+import table.value.NumberValue;
+import table.value.StringValue;
+import table.value.Value;
 
 /**
  * Test for BetweenOperation.

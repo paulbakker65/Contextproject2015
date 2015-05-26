@@ -1,8 +1,5 @@
 package operations;
 
-import input.Column;
-import input.NumberColumn;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,10 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import parsers.NumberValue;
-import parsers.Value;
 import table.Record;
 import table.Table;
+import table.value.Column;
+import table.value.NumberColumn;
+import table.value.NumberValue;
+import table.value.Value;
 
 /**
  * Implements Lag Sequential Analysis according to the slides.

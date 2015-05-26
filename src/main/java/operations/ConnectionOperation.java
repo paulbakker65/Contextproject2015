@@ -4,10 +4,10 @@ package operations;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import parsers.NullValue;
 import table.Record;
 import table.RecordComparator;
 import table.Table;
+import table.value.NullValue;
 
 /**
  * ConnectionOperation class providing an Operation to merge tables using a user-defined connection

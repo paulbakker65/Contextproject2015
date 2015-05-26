@@ -1,4 +1,4 @@
-package table;
+package table.value;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,21 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import input.Column;
-import input.DateColumn;
-import input.NumberColumn;
-import input.StringColumn;
-import input.TimeColumn;
-
 import org.junit.Test;
-
-import parsers.ColumnTypeMismatchException;
-import parsers.DateValue;
-import parsers.NullValue;
-import parsers.NumberValue;
-import parsers.StringValue;
-import parsers.TimeValue;
-import parsers.Value;
 
 /**
  * ColumnTest class testing the table.Column class.

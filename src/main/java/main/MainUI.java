@@ -1,5 +1,8 @@
 package main;
 
+import input.FilesTableModel;
+import input.Input;
+
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -353,7 +356,7 @@ public class MainUI extends JDialog {
     Arrays.sort(selectedRows);
 
     for (int i = selectedRows.length - 1; i >= 0; i--) {
-      Input.files.remove(selectedRows[i]);
+      Input.getFiles().remove(selectedRows[i]);
     }
     filesTable.repaint();
   }

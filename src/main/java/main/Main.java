@@ -1,5 +1,7 @@
 package main;
 
+import input.DataFile;
+import input.Input;
 import input.WrongXMLException;
 
 import java.io.File;
@@ -125,10 +127,10 @@ public class Main{
     }
 
     System.out.println("GUI done\n" + 
-        "scriptFile = " + Input.scriptFile.getAbsolutePath() + "\n" + 
-        "outputDir = " + Input.outputDir.getAbsolutePath() + "\n" + 
+        "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n" + 
+        "outputDir = " + Input.getOutputDir().getAbsolutePath() + "\n" + 
         "files = ");
-    for (DataFile file : Input.files) {
+    for (DataFile file : Input.getFiles()) {
       System.out.println(file.toString());
     }
     

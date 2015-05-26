@@ -1,18 +1,11 @@
-package main;
+package input;
 
-import static org.junit.Assert.*;
-import input.CSVReader;
-import input.Reader;
-import input.Settings;
-import input.WrongXMLException;
-import input.XMLReader;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import parsers.Parser;
 
 /**
  * DataFileTest class testing main.DataFile class.

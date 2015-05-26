@@ -1,6 +1,6 @@
 package operations.chunking;
 
-import parsers.Value;
+import table.value.Value;
 
 /**
  * The abstract class which we use to determine if a new chunk has to be created. The matches method

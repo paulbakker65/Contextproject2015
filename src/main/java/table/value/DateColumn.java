@@ -1,4 +1,6 @@
-package input;
+package table.value;
+
+import input.WrongXMLException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -6,12 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.w3c.dom.Element;
-
-import parsers.ColumnTypeMismatchException;
-import parsers.DateValue;
-import parsers.NullValue;
-import parsers.Value;
-import table.DateConversion;
 
 /**
  * Case class for specifying a column with dates.

@@ -1,4 +1,4 @@
-package parsers;
+package table.value;
 
 /**
  * An abstract class to represent a String Date Time... etc.
