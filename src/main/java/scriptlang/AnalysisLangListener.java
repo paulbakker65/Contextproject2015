@@ -1,7 +1,7 @@
 // Generated from AnalysisLang.g4 by ANTLR 4.5
 package scriptlang;
 
-import scriptlang.scriptlangObjects.*;
+import scriptlang.extra.*;
 import parsers.*;
 import operations.FilterOperation;
 import java.util.*;

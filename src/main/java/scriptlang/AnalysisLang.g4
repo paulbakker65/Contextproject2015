@@ -1,9 +1,7 @@
 grammar AnalysisLang;
 
 @header {
-package scriptlang;
-
-import scriptlang.scriptlangObjects.*;
+import scriptlang.extra.*;
 import parsers.*;
 import operations.FilterOperation;
 import java.util.*;
@@ -109,7 +107,7 @@ convert_param
 // Compute                           //
 ///////////////////////////////////////
 compute_param
-: 
+: fieldparam=field '<-' formulaparam=formula
 ;
 
 ///////////////////////////////////////

@@ -154,4 +154,62 @@ public class FilterOperation extends Operation {
     return this.resultData;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
+    result = prime * result + ((constraintType == null) ? 0 : constraintType.hashCode());
+    result = prime * result + ((constraintValue == null) ? 0 : constraintValue.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    FilterOperation other = (FilterOperation) obj;
+    if (columnName == null) {
+      if (other.columnName != null) {
+        return false;
+      }
+    } else if (!columnName.equals(other.columnName)) {
+      return false;
+    }
+    if (constraintType != other.constraintType) {
+      return false;
+    }
+    if (constraintValue == null) {
+      if (other.constraintValue != null) {
+        return false;
+      }
+    } else if (!constraintValue.equals(other.constraintValue)) {
+      return false;
+    }
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "FilterOperation [columnName=" + columnName + ", constraintType=" + constraintType
+        + ", constraintValue=" + constraintValue + "]";
+  }
+  
+
 }
