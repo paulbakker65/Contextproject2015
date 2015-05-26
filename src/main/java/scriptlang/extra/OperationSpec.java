@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import operations.*;
 import operations.ChunkingOperation.ChunkComparatorEnum;
 import operations.coding.Pattern;
-import table.value.*;
+import parsers.*;
 
 /**
  * OperationSpec is an object to specify the paramters of a parsed script input.
@@ -104,18 +104,10 @@ public class OperationSpec {
       return false;
     }
     OperationSpec other = (OperationSpec) obj;
-    if (operationType != other.operationType) {
-      return false;
-    }
-    
     if (operandList == null) {
       if (other.operandList != null) {
         return false;
       }
-    } else if (other.operandList == null) {
-      return false;
-    } else if (operandList.size() != other.operandList.size()) {
-      return false;
     } else {
       for (int i = 0; i < this.operandList.size(); i++) {
         if (!this.operandList.get(i).toString().equals(other.operandList.get(i).toString())) {
@@ -123,7 +115,9 @@ public class OperationSpec {
         }
       }
     }
-    
+    if (operationType != other.operationType) {
+      return false;
+    }
     return true;
   }
 }

@@ -1,6 +1,6 @@
 package scriptlang.extra;
 
-import table.value.Value;
+import parsers.Value;
 
 /**
  * Representing an Condition.
