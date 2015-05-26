@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import operations.*;
 import operations.ChunkingOperation.ChunkComparatorEnum;
 import operations.coding.Pattern;
-import parsers.*;
+import table.value.*;
 
 /**
  * OperationSpec is an object to specify the paramters of a parsed script input.

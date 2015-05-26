@@ -2,7 +2,7 @@
 package scriptlang;
 
 import scriptlang.extra.*;
-import parsers.*;
+import table.value.*;
 import operations.FilterOperation;
 import java.util.*;
 import java.text.*;
