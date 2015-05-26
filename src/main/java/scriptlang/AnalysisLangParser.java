@@ -1,8 +1,10 @@
 // Generated from AnalysisLang.g4 by ANTLR 4.5
 package scriptlang;
 
+import table.*;
+import table.value.*;
+
 import scriptlang.extra.*;
-import parsers.*;
 import operations.FilterOperation;
 import java.util.*;
 import java.text.*;
