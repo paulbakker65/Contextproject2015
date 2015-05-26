@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import operations.*;
 import operations.ChunkingOperation.ChunkComparatorEnum;
+import operations.coding.Pattern;
 import parsers.*;
 
 public class OperationSpec {
@@ -43,11 +44,12 @@ public class OperationSpec {
       ((ChunkingOperation) o).setOperationParameters((String)this.operandList.get(0),
           (ChunkComparatorEnum)this.operandList.get(1));
     case COMPUTE:
-      
+    
     case COMPARE:
       
     case CODE:
-      
+      ((CodingOperation) o).setOperationParameters((Pattern)this.operandList.get(0)
+          , (String)this.operandList.get(1));
     case CONVERT:
       
     
