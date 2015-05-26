@@ -48,7 +48,7 @@ public class CodingOperation extends Operation {
    * @param name
    * @return true if set
    */
-  private boolean setOperationParameters(Pattern p, String name) {
+  public boolean setOperationParameters(Pattern p, String name) {
     if (p == null) {
       this.operationParametersSet = false;
     }

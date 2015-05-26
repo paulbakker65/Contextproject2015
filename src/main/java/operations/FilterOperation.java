@@ -54,8 +54,10 @@ public class FilterOperation extends Operation {
    */
   Value constraintValue;
 
-  public FilterOperation(Table dataset) {
+  public FilterOperation(Table dataset, String columnName, ConstraintComparatorEnum constraintType,
+      Value constraintValue) {
     super(dataset);
+    setOperationParameters(columnName, constraintType, constraintValue);
   }
 
   /**
@@ -70,7 +72,7 @@ public class FilterOperation extends Operation {
    * @return <b>true</b> iff this.operationParametersSet is <b>true</b><br>
    *         <b>false</b> iff this.operationParametersSet is <b>false</b></br>
    */
-  public boolean setOperationParameters(String columnName, ConstraintComparatorEnum constraintType,
+  private boolean setOperationParameters(String columnName, ConstraintComparatorEnum constraintType,
       Value constraintValue) {
     this.columnName = columnName;
     this.constraintType = constraintType;

@@ -61,7 +61,7 @@ public class ChunkingOperation extends Operation {
    * @param settings
    * @return
    */
-  private boolean setOperationParameters(String columnName, ChunkComparatorEnum cce) {
+  public boolean setOperationParameters(String columnName, ChunkComparatorEnum cce) {
     if (columnName != null && cce != null) {
       this.columnName = columnName;
       this.cond = getCondition(cce);

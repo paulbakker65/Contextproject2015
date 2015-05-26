@@ -108,7 +108,7 @@ public class ConnectionOperation extends Operation {
    * @param otherColumnName
    * @return
    */
-  private boolean setOperationParameters(Table otherTable, String columnName, String otherColumnName) {
+  public boolean setOperationParameters(Table otherTable, String columnName, String otherColumnName) {
     this.otherTable = otherTable;
     this.columnName = columnName;
     this.otherColumnName = otherColumnName;
