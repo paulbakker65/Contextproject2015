@@ -24,8 +24,11 @@ public class TimeValue extends Value {
    */
   public TimeValue(Date value, String targetDate) {
     this.targetDate = targetDate;
-    this.value = new GregorianCalendar();
-    this.value.setTime(value);
+    
+    if (value != null) {
+      this.value = new GregorianCalendar();
+      this.value.setTime(value);
+    }
   }
 
   /**
@@ -106,7 +109,7 @@ public class TimeValue extends Value {
 
   @Override
   public String toString() {
-    return new SimpleDateFormat("hh:mm").format(getValue().getTime());
+    return new SimpleDateFormat("HH:mm").format(getValue().getTime());
   }
 
   @Override
@@ -140,6 +143,10 @@ public class TimeValue extends Value {
 
   public void setTargetDate(String targetDate) {
     this.targetDate = targetDate;
+  }
+  
+  public int compareToTime(TimeValue o) {
+    return this.value.compareTo(o.value);
   }
 
 }

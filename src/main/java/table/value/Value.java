@@ -55,13 +55,13 @@ public abstract class Value implements Comparable<Value> {
   public int compareTo(Value o) {
     if (this instanceof StringValue) {
       if (o instanceof StringValue) {
-        return ((StringValue) this).compareTo(((StringValue) o));
+        return ((StringValue) this).compareToString(((StringValue) o));
       } else {
         return Integer.MAX_VALUE;
       }
     } else if (this instanceof NumberValue) {
       if (o instanceof NumberValue) {
-        return ((NumberValue) this).compareTo(((NumberValue) o));
+        return ((NumberValue) this).compareToNumber(((NumberValue) o));
       } else {
         return Integer.MAX_VALUE;
       }
@@ -73,11 +73,16 @@ public abstract class Value implements Comparable<Value> {
       }
     } else if (this instanceof NullValue) {
       if (o instanceof NullValue) {
-        return ((NullValue) this).compareTo(((NullValue) o));
+        return ((NullValue) this).compareToNull(((NullValue) o));
+      } else {
+        return Integer.MAX_VALUE;
+      }
+    } else { // The only other instance is a TimeValue
+      if (o instanceof TimeValue) {
+        return ((TimeValue) this).compareToTime(((TimeValue) o));
       } else {
         return Integer.MAX_VALUE;
       }
     }
-    return Integer.MAX_VALUE;
   }
 }

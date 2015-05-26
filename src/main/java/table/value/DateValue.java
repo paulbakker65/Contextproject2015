@@ -19,8 +19,10 @@ public class DateValue extends Value {
    *          the stored date.
    */
   public DateValue(Date value) {
-    this.value = new GregorianCalendar();
-    this.setValue(value);
+    if (value != null) {
+      this.value = new GregorianCalendar();
+      this.setValue(value);
+    }
   }
 
   /**
@@ -61,6 +63,7 @@ public class DateValue extends Value {
   public void addTime(GregorianCalendar time) {
     value.add(Calendar.HOUR, time.get(Calendar.HOUR));
     value.add(Calendar.MINUTE, time.get(Calendar.MINUTE));
+    value.add(Calendar.SECOND, time.get(Calendar.SECOND));
     value.add(Calendar.MILLISECOND, time.get(Calendar.MILLISECOND));
   }
 
