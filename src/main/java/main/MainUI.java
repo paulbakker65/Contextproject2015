@@ -336,10 +336,18 @@ public class MainUI extends JDialog {
    */
   private void onRemoveFile() {
     int selectedRows[] = filesTable.getSelectedRows();
-    if (selectedRows.length > filesTable.getRowCount()) {
+    int rowcount = filesTable.getRowCount();
+    if (selectedRows.length > rowcount) {
       return;
     }
 
+    //make sure the selected row index is not out of bound.
+    for (int i : selectedRows){
+      if (i >= rowcount){
+        return;
+      }
+    }
+    
     // Sort the index list, rows with a higher index should be removed before rows with a lower
     // index to prevent indices from changing.
     Arrays.sort(selectedRows);
@@ -347,6 +355,7 @@ public class MainUI extends JDialog {
     for (int i = selectedRows.length - 1; i >= 0; i--) {
       Input.files.remove(selectedRows[i]);
     }
+    filesTable.repaint();
   }
 
   /**
@@ -354,7 +363,7 @@ public class MainUI extends JDialog {
    */
   private void onRunScript() {
 
-    if (Input.hasScript() && Input.hasOutput() && Input.files.isEmpty()) {
+    if (!Input.hasScript() || !Input.hasOutput() || !Input.hasFiles()) {
       JOptionPane.showMessageDialog(null,
               "Please make sure you have selected a script file, output directory and at least 1 data file.",
               "Wrong input.", JOptionPane.INFORMATION_MESSAGE);
@@ -455,7 +464,7 @@ public class MainUI extends JDialog {
     filesPanel.add(removeSelectedButton, gbc);
     filesTable = new JTable(new FilesTableModel());
     filesTable.setCellSelectionEnabled(true);
-    filesTable.setColumnSelectionAllowed(true);
+    filesTable.setColumnSelectionAllowed(false);
     filesTable.setShowVerticalLines(true);
     gbc = new GridBagConstraints();
     gbc.gridx = 0;

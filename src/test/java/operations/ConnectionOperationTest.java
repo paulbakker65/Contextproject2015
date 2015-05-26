@@ -113,6 +113,10 @@ public class ConnectionOperationTest {
       Double current = number.getValue();
       assertTrue(current >= previous);
       previous = number.getValue();
+      
+      NumberValue nv = (NumberValue) v.get("number");
+      current = nv.getValue();
+      assertTrue(current >= previous);
     }
     return result;
   }
@@ -127,7 +131,7 @@ public class ConnectionOperationTest {
     
     Table result = execAndCheck();
     
-    String[] columns = {"number1", "date1", "date2", "string1", "string2", "null1"};
+    String[] columns = {"number1", "date1", "date2", "string1", "string2", "null1", "number"};
     assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));
   }
   
@@ -141,7 +145,7 @@ public class ConnectionOperationTest {
     
     Table result = execAndCheck();
     
-    String[] columns = {"number1", "number2", "date1", "string1", "string2", "null1"};
+    String[] columns = {"number1", "number2", "date1", "string1", "string2", "null1", "number"};
     assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));
   }
   
@@ -155,7 +159,7 @@ public class ConnectionOperationTest {
     
     Table result = execAndCheck();
     
-    String[] columns = {"number1", "number2", "date1", "date2", "string1", "null1"};
+    String[] columns = {"number1", "number2", "date1", "date2", "string1", "null1", "number"};
     assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));    
   }
   
