@@ -1,8 +1,5 @@
 package operations.coding;
 
-import java.util.ListIterator;
-
-import table.Record;
 import table.Table;
 
 /**
@@ -23,7 +20,7 @@ public class NullPattern extends Pattern {
    * This is always true, as no pattern has to be found.
    */
   @Override
-  public boolean findPattern(ListIterator<Record> i, Table records) {
+  public boolean findPattern(Table table, int fromIndex, Table records) {
     return true;
   }
 
