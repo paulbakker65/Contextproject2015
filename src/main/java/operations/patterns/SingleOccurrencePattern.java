@@ -1,8 +1,7 @@
-package operations.coding;
+package operations.patterns;
 
 import table.Record;
 import table.Table;
-import table.value.Value;
 
 /**
  * Single occurrence of an record from a specific file.
@@ -10,26 +9,21 @@ import table.value.Value;
  * @author paulbakker
  *
  */
-public class SingleOccurrenceValuePattern extends Pattern {
+public class SingleOccurrencePattern extends Pattern {
 
   /**
    * The column name on which to look for the pattern.
    */
   private String colName;
-  /**
-   * The value to check.
-   */
-  private Value value;
 
   /**
    * Constructor which creates the pattern without a next pattern.
    * 
    * @param col
    */
-  public SingleOccurrenceValuePattern(String col, Value v) {
+  public SingleOccurrencePattern(String col) {
     super();
     this.colName = col;
-    this.value = v;
   }
 
   /**
@@ -37,10 +31,9 @@ public class SingleOccurrenceValuePattern extends Pattern {
    * 
    * @param col
    */
-  public SingleOccurrenceValuePattern(String col, Value v, Pattern p) {
+  public SingleOccurrencePattern(String col, Pattern p) {
     super(p);
     this.colName = col;
-    this.value = v;
   }
 
   /**
@@ -60,7 +53,7 @@ public class SingleOccurrenceValuePattern extends Pattern {
     }
     
     Record record = table.get(fromIndex++);
-    if (record.get(colName).equals(value)) {
+    if (!record.get(colName).isNull()) {
       records.add(record);
       
       if (nextPattern instanceof NullPattern && 

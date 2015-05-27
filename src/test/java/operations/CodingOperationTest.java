@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-import operations.coding.MultipleOccurrencePattern;
-import operations.coding.NullPattern;
-import operations.coding.Pattern;
-import operations.coding.SingleOccurrencePattern;
+import operations.patterns.MultipleOccurrencePattern;
+import operations.patterns.NullPattern;
+import operations.patterns.Pattern;
+import operations.patterns.SingleOccurrencePattern;
 
 import org.junit.Before;
 import org.junit.Test;
