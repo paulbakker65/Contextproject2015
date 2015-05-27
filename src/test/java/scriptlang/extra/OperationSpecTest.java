@@ -13,6 +13,10 @@ import table.value.NumberValue;
 import scriptlang.extra.OperationSpec.OperationType;
 import table.Table;
 
+/**
+ * JUnit test for OperationSpec class.
+ *
+ */
 public class OperationSpecTest {
 
   OperationSpec operationSpec;
@@ -98,13 +102,40 @@ public class OperationSpecTest {
   
   @Test
   public void testHashCode() {
-    ArrayList<Object> a = operationSpec.operandList;
-    OperationSpec.OperationType b = operationSpec.operationType;
+    operationSpec = new OperationSpec();
+    operationSpec.setOperationType(OperationType.CHUNK);
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((a == null) ? 0 : a.hashCode());
-    result = prime * result + ((b == null) ? 0 : b.hashCode());
+    result = prime * result + ((operationSpec.operandList == null) ? 0 : operationSpec.operandList.hashCode());
+    result = prime * result + ((operationSpec.operationType == null) ? 0 : operationSpec.operationType.hashCode());
+    assertEquals(result, operationSpec.hashCode());
     
+    //
+    operationSpec = new OperationSpec();
+    operationSpec.setOperationType(OperationType.CHUNK);
+    operationSpec.operandList = null;
+    result = 1;
+    result = prime * result + ((operationSpec.operandList == null) ? 0 : operationSpec.operandList.hashCode());
+    result = prime * result + ((operationSpec.operationType == null) ? 0 : operationSpec.operationType.hashCode());
+    assertEquals(result, operationSpec.hashCode());
+    
+    //
+    operationSpec = new OperationSpec();
+    operationSpec.setOperationType(OperationType.CHUNK);
+    operationSpec.operationType = null;
+    result = 1;
+    result = prime * result + ((operationSpec.operandList == null) ? 0 : operationSpec.operandList.hashCode());
+    result = prime * result + ((operationSpec.operationType == null) ? 0 : operationSpec.operationType.hashCode());
+    assertEquals(result, operationSpec.hashCode());
+    
+    //
+    operationSpec = new OperationSpec();
+    operationSpec.setOperationType(OperationType.CHUNK);
+    operationSpec.operandList = null;
+    operationSpec.operationType = null;
+    result = 1;
+    result = prime * result + ((operationSpec.operandList == null) ? 0 : operationSpec.operandList.hashCode());
+    result = prime * result + ((operationSpec.operationType == null) ? 0 : operationSpec.operationType.hashCode());
     assertEquals(result, operationSpec.hashCode());
   }
   
@@ -128,6 +159,13 @@ public class OperationSpecTest {
     operationSpecOther.operandList = null;
     assertEquals(false, operationSpec.equals(operationSpecOther));
 
+    //
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpecOther.operandList = null;
+    operationSpec.operandList = null;
+    assertEquals(true, operationSpec.equals(operationSpecOther));
+    
     //
     operationSpec = new OperationSpec();
     operationSpecOther = new OperationSpec();
@@ -157,5 +195,13 @@ public class OperationSpecTest {
     operationSpec.setOperationType(OperationType.CONSTRAINT);
     operationSpecOther.setOperationType(OperationType.CONSTRAINT);
     assertEquals(true, operationSpec.equals(operationSpecOther));
+    
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpecOther.setOperationType(OperationType.CODE);
+    operationSpecOther.addOperationOperand("field");
+    operationSpec.setOperationType(OperationType.CODE);
+    operationSpec.addOperationOperand("field_diff");
+    assertEquals(false, operationSpec.equals(operationSpecOther));
   }
 }
