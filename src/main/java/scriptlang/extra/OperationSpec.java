@@ -104,10 +104,18 @@ public class OperationSpec {
       return false;
     }
     OperationSpec other = (OperationSpec) obj;
+    if (operationType != other.operationType) {
+      return false;
+    }
+    
     if (operandList == null) {
       if (other.operandList != null) {
         return false;
       }
+    } else if (operandList != null && other.operandList == null) {
+      return false;
+    } else if (operandList.size() != other.operandList.size()) {
+      return false;
     } else {
       for (int i = 0; i < this.operandList.size(); i++) {
         if (!this.operandList.get(i).toString().equals(other.operandList.get(i).toString())) {
@@ -115,9 +123,7 @@ public class OperationSpec {
         }
       }
     }
-    if (operationType != other.operationType) {
-      return false;
-    }
+    
     return true;
   }
 }
