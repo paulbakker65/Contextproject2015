@@ -125,8 +125,7 @@ public class ConnectionOperationTest {
    */
   @Test
   public void testConnectNumberValue(){
-    co = new ConnectionOperation(t1);
-    co.setOperationParameters(t2, "number1", "number2");
+    co = new ConnectionOperation(t1, t2, "number1", "number2");
     
     Table result = execAndCheck();
     
@@ -139,8 +138,7 @@ public class ConnectionOperationTest {
    */
   @Test
   public void testConnectDateValue(){
-    co = new ConnectionOperation(t1);
-    co.setOperationParameters(t2, "date1", "date2");
+    co = new ConnectionOperation(t1, t2, "date1", "date2");
     
     Table result = execAndCheck();
     
@@ -153,8 +151,7 @@ public class ConnectionOperationTest {
    */
   @Test
   public void testConnectStringValue(){
-    co = new ConnectionOperation(t1);
-    co.setOperationParameters(t2, "string1", "string2");
+    co = new ConnectionOperation(t1, t2, "string1", "string2");
     
     Table result = execAndCheck();
     
@@ -190,7 +187,7 @@ public class ConnectionOperationTest {
   @Test
   public void testExecute_connect_on_date() {
     assertEquals(false, co.operationParametersSet);
-    co.setOperationParameters(otherDataTable, "dateField", "otherDateField");
+    co = new ConnectionOperation(dataTable, otherDataTable, "dateField", "otherDateField");
 
     assertEquals(true, co.operationParametersSet);
     assertEquals(true, co.execute());
