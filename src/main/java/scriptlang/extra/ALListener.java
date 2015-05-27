@@ -36,6 +36,9 @@ public class ALListener extends AnalysisLangBaseListener {
     OperationSpec op = new OperationSpec();
     op.setOperationType(OperationType.CHUNK);
     if (ctx.fieldparam != null && ctx.rangeparam != null) {
+      if (ctx.fieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.fieldparam.tablename);
+      }
       op.addOperationOperand(ctx.fieldparam.fieldname);
       op.addOperationOperand(ctx.rangeparam.g.numparam.val);
       op.addOperationOperand(ctx.rangeparam.l.numparam.val);
@@ -49,6 +52,9 @@ public class ALListener extends AnalysisLangBaseListener {
     OperationSpec op = new OperationSpec();
     op.setOperationType(OperationType.CODE);
     if (ctx.fieldparam != null && ctx.conditionparam != null) {
+      if (ctx.fieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.fieldparam.tablename);
+      }
       op.addOperationOperand(ctx.fieldparam.fieldname);
       op.addOperationOperand(ctx.conditionparam.cond);
     }
@@ -61,7 +67,13 @@ public class ALListener extends AnalysisLangBaseListener {
     OperationSpec op = new OperationSpec();
     op.setOperationType(OperationType.CONNECT);
     if (ctx.fieldparam != null && ctx.anotherfieldparam != null) {
+      if (ctx.fieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.fieldparam.tablename);
+      }
       op.addOperationOperand(ctx.fieldparam.fieldname);
+      if (ctx.anotherfieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.anotherfieldparam.tablename);
+      }
       op.addOperationOperand(ctx.anotherfieldparam.fieldname);
     }
     this.opList.add(op);
@@ -73,8 +85,14 @@ public class ALListener extends AnalysisLangBaseListener {
     OperationSpec op = new OperationSpec();
     op.setOperationType(OperationType.COMPARE);
     if (ctx.fieldparam != null && ctx.opparam != null && ctx.anotherfieldparam != null) {
+      if (ctx.fieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.fieldparam.tablename);
+      }
       op.addOperationOperand(ctx.fieldparam.fieldname);
       op.addOperationOperand(ctx.opparam.op);
+      if (ctx.anotherfieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.anotherfieldparam.tablename);
+      }
       op.addOperationOperand(ctx.anotherfieldparam.fieldname);
     }
     this.opList.add(op);
@@ -87,10 +105,16 @@ public class ALListener extends AnalysisLangBaseListener {
     OperationSpec op = new OperationSpec();
     op.setOperationType(OperationType.CONSTRAINT);
     if (ctx.anotherfieldparam != null) {
+      if (ctx.fieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.fieldparam.tablename);
+      }
       op.addOperationOperand(ctx.fieldparam.fieldname);
       op.addOperationOperand(ctx.opparam.op);
       op.addOperationOperand(ctx.anotherfieldparam.fieldname);
     } else if (ctx.valueparam != null) {
+      if (ctx.fieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.fieldparam.tablename);
+      }
       op.addOperationOperand(ctx.fieldparam.fieldname);
       op.addOperationOperand(ctx.opparam.op);
       op.addOperationOperand(ctx.valueparam.val);
@@ -104,6 +128,9 @@ public class ALListener extends AnalysisLangBaseListener {
     OperationSpec op = new OperationSpec();
     op.setOperationType(OperationType.CONVERT);
     if (ctx.fieldparam != null && ctx.formulaparam != null) {
+      if (ctx.fieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.fieldparam.tablename);
+      }
       op.addOperationOperand(ctx.fieldparam.fieldname);
       op.addOperationOperand(ctx.formulaparam.form);
     }
@@ -116,6 +143,9 @@ public class ALListener extends AnalysisLangBaseListener {
     OperationSpec op = new OperationSpec();
     op.setOperationType(OperationType.COMPUTE);
     if (ctx.fieldparam != null && ctx.formulaparam != null) {
+      if (ctx.fieldparam.tablenameparam != null) {
+        op.addOperationOperand(ctx.fieldparam.tablename);
+      }
       op.addOperationOperand(ctx.fieldparam.fieldname);
       op.addOperationOperand(ctx.formulaparam.form);
     }

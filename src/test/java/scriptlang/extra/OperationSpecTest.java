@@ -1,6 +1,9 @@
 package scriptlang.extra;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
 import operations.FilterOperation;
 
 import org.junit.Before;
@@ -91,5 +94,68 @@ public class OperationSpecTest {
     operationSpec.addOperationOperand("field");
     expected = "OperationSpec [operationType=CONSTRAINT, operandList=[field]]";
     assertEquals(expected, operationSpec.toString());
+  }
+  
+  @Test
+  public void testHashCode() {
+    ArrayList<Object> a = operationSpec.operandList;
+    OperationSpec.OperationType b = operationSpec.operationType;
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((a == null) ? 0 : a.hashCode());
+    result = prime * result + ((b == null) ? 0 : b.hashCode());
+    
+    assertEquals(result, operationSpec.hashCode());
+  }
+  
+  @Test
+  public void testEquals() { 
+    OperationSpec operationSpecOther;
+
+    assertEquals(true, operationSpec.equals(operationSpec));
+    assertEquals(false, operationSpec.equals(null));
+    assertEquals(false, operationSpec.equals(new Object()));
+    
+    //
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpec.operandList = null;
+    assertEquals(false, operationSpec.equals(operationSpecOther));
+    
+    //
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpecOther.operandList = null;
+    assertEquals(false, operationSpec.equals(operationSpecOther));
+
+    //
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpec.addOperationOperand("field");
+    assertEquals(false, operationSpec.equals(operationSpecOther));
+
+    //
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpecOther.addOperationOperand("field_2");
+    assertEquals(false, operationSpec.equals(operationSpecOther));
+
+    //
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpec.addOperationOperand("field");
+    operationSpecOther.addOperationOperand("field");
+    assertEquals(true, operationSpec.equals(operationSpecOther));
+    
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpec.setOperationType(OperationType.CHUNK);
+    assertEquals(false, operationSpec.equals(operationSpecOther));
+    
+    operationSpec = new OperationSpec();
+    operationSpecOther = new OperationSpec();
+    operationSpec.setOperationType(OperationType.CONSTRAINT);
+    operationSpecOther.setOperationType(OperationType.CONSTRAINT);
+    assertEquals(true, operationSpec.equals(operationSpecOther));
   }
 }
