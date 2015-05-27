@@ -1,6 +1,7 @@
 package operations;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 
@@ -142,5 +143,11 @@ public class CodingOperationTest {
     co.execute();
     
     assertEquals(co.getResult().getCode("1S4W").getFrequency(), 0);
+  }
+  
+  @Test
+  public void testExecutePatternNull() {
+    CodingOperation co = new CodingOperation(table, null, "1S4W");
+    assertFalse(co.execute());
   }
 }
