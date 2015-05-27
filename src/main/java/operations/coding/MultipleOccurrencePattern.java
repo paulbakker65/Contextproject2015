@@ -1,7 +1,5 @@
 package operations.coding;
 
-import java.util.ListIterator;
-
 import table.Record;
 import table.Table;
 
@@ -41,35 +39,33 @@ public class MultipleOccurrencePattern extends Pattern {
    * The method checks if the pattern is recognized.
    */
   @Override
-  public boolean findPattern(ListIterator<Record> i, Table records) {
-    //Check if the iterator has a next.
-    if (!i.hasNext()) {
+  public boolean findPattern(Table table, int fromIndex, Table records) {
+    // The table must contain at least 2 records.    
+    if  (fromIndex >= table.size() - 1) {         
+      return false;
+    }
+    // Check whether the previous record differs.
+    if (records.isEmpty() && fromIndex > 0 && !table.get(fromIndex - 1).get(colName).isNull()) {
       return false;
     }
     
-    Record current = i.next();
-    
-    if (!i.hasNext()) {
-      return false;
-    }
-    
-    Record next = i.next();
+    Record current = table.get(fromIndex++);    
+    Record next = table.get(fromIndex++);
     
     //Check if the current and next have the same column with values.
     if (!current.get(colName).isNull() && !next.get(colName).isNull()) {
       records.add(current);
    
-      while (i.hasNext() && !next.get(colName).isNull()) {
+      while (fromIndex < table.size() && !next.get(colName).isNull()) {
         records.add(next);
-        next = i.next();
+        next = table.get(fromIndex++);
       }
-      //If a record from another file is found remove it from the records and call previos on the iterator.
+      //If a record from another file is found, decrease the index.
       if (next.get(colName).isNull()) {
-        records.remove(next);
-        i.previous();
+        fromIndex--;
       }
       //Call the next pattern to continue the search.
-      return nextPattern.findPattern(i, records);
+      return nextPattern.findPattern(table, fromIndex, records);
     }
     return false;   
   }

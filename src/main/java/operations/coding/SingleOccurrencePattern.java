@@ -1,7 +1,5 @@
 package operations.coding;
 
-import java.util.ListIterator;
-
 import table.Record;
 import table.Table;
 
@@ -42,14 +40,29 @@ public class SingleOccurrencePattern extends Pattern {
    * Checks if the pattern is found.
    */
   @Override
-  public boolean findPattern(ListIterator<Record> i, Table records) {
-    if (!i.hasNext()) {
+  public boolean findPattern(Table table, int fromIndex, Table records) {
+    // If the end of the table has been reached, return.
+    if  (fromIndex >= table.size()) {         
       return false;
     }
-    Record record = i.next();
+    // Check whether the previous record differs.
+    if (records.isEmpty() && 
+        fromIndex > 0 && 
+        !table.get(fromIndex - 1).get(colName).isNull()) {
+      return false;
+    }
+    
+    Record record = table.get(fromIndex++);
     if (!record.get(colName).isNull()) {
       records.add(record);
-      return nextPattern.findPattern(i, records);
+      
+      if (nextPattern instanceof NullPattern && 
+          fromIndex < table.size() && 
+          !table.get(fromIndex).get(colName).isNull()) {
+        return false;
+      }
+      
+      return nextPattern.findPattern(table, fromIndex, records);
     } else {
       return false;
     }

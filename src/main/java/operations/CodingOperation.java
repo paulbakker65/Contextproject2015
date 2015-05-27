@@ -1,10 +1,7 @@
 package operations;
 
-import java.util.ListIterator;
-
 import operations.coding.Pattern;
 import table.Code;
-import table.Record;
 import table.Table;
 
 /**
@@ -65,19 +62,21 @@ public class CodingOperation extends Operation {
    */
   @Override
   public boolean execute() {
-      ListIterator<Record> iterator = inputData.listIterator();
-      Code code = new Code(name);
-      
-      while (iterator.hasNext()) {
-        Table records = new Table();
-        if (pattern.findPattern(iterator, records)) {
-          code.addEvent(records);
-        }
+    int index = 0;
+    Code code = new Code(name);
+    
+    while (index < inputData.size()) {
+      Table records = new Table();
+      if (pattern.findPattern(inputData, index, records)) {
+        code.addEvent(records);
+        index += (records.size() - 1);
       }
-      
-      resultData.addCode(code);
-      
-      return true;
+      index++;
+    }
+    
+    resultData.addCode(code);
+    
+    return true;
   }
   
   

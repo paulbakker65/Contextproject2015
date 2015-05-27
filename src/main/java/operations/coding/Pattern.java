@@ -1,8 +1,5 @@
 package operations.coding;
 
-import java.util.ListIterator;
-
-import table.Record;
 import table.Table;
 
 /**
@@ -35,22 +32,22 @@ public abstract class Pattern {
    * @param records
    * @return
    */
-  public abstract boolean findPattern(ListIterator<Record> i, Table records);
+  public abstract boolean findPattern(Table table, int fromIndex, Table records);
   
-  /**
-   * Getter for next pattern.
-   * @return
-   */
-  public Pattern getNextPattern() {
-    return nextPattern;
-  }
-  
-  /**
-   * Setter for next pattern.
-   * @param p
-   */
-  public void setPattern(Pattern p) {
-    this.nextPattern = p;
-  }
+//  /**
+//   * Getter for next pattern.
+//   * @return
+//   */
+//  public Pattern getNextPattern() {
+//    return nextPattern;
+//  }
+//  
+//  /**
+//   * Setter for next pattern.
+//   * @param p
+//   */
+//  public void setPattern(Pattern p) {
+//    this.nextPattern = p;
+//  }
   
 }

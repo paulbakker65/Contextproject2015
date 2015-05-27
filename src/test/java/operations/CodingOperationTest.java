@@ -131,4 +131,22 @@ public class CodingOperationTest {
     
     assertEquals(co.getResult().getCode("S?S").getFrequency(), 0);
   }
+  
+  @Test
+  public void testSimplePatternNotRecognized() {
+    Pattern endPattern = new SingleOccurrencePattern("WebsiteValue");
+    Pattern prevPattern = new SingleOccurrencePattern("WebsiteValue", endPattern);
+    
+    for (int i = 0; i < 2; i++) {
+      prevPattern = new SingleOccurrencePattern("WebsiteValue", prevPattern);
+    }
+    
+    Pattern firstPattern = new SingleOccurrencePattern("StatSensor", prevPattern);
+
+    CodingOperation co = new CodingOperation(table);
+    co.setOperationParameters(firstPattern, "1S4W");
+    co.execute();
+    
+    assertEquals(co.getResult().getCode("1S4W").getFrequency(), 0);
+  }
 }
