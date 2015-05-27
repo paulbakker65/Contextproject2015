@@ -7,7 +7,7 @@ import table.value.Value;
 /**
  * Filters certain records out of the table.
  */
-public class FilterOperation extends Operation {
+public class ConstraintOperation extends Operation {
 
   /**
    * 
@@ -54,7 +54,7 @@ public class FilterOperation extends Operation {
    */
   Value constraintValue;
 
-  public FilterOperation(Table dataset) {
+  public ConstraintOperation(Table dataset) {
     super(dataset);
   }
 
