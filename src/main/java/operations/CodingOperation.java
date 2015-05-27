@@ -28,9 +28,10 @@ public class CodingOperation extends Operation {
    * Constructor only calls the super class.
    * @param inputDataset
    */
-  public CodingOperation(Table inputDataset) {
+  public CodingOperation(Table inputDataset, Pattern p, String name) {
     super(inputDataset);
     this.resultData = (Table) inputDataset.clone();
+    setOperationParameters(p, name);
   }
 
   /**

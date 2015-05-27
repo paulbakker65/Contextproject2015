@@ -53,9 +53,15 @@ public class FilterOperation extends Operation {
    * value to meet constraint.
    */
   Value constraintValue;
-
+  
   public FilterOperation(Table dataset) {
     super(dataset);
+  }
+
+  public FilterOperation(Table dataset, String columnName, ConstraintComparatorEnum constraintType,
+      Value constraintValue) {
+    super(dataset);
+    setOperationParameters(columnName, constraintType, constraintValue);
   }
 
   /**

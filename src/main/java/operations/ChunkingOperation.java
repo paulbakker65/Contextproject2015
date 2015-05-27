@@ -14,8 +14,7 @@ import table.Table;
 import table.value.Value;
 
 /**
- * An operation that outputs a Table of ChunkValues.
- * Chunks on the basis of a ChunkCondition
+ * An operation that outputs a Table of ChunkValues. Chunks on the basis of a ChunkCondition
  */
 public class ChunkingOperation extends Operation {
 
@@ -48,9 +47,10 @@ public class ChunkingOperation extends Operation {
    * 
    * @param input
    */
-  public ChunkingOperation(Table input) {
+  public ChunkingOperation(Table input, String columnName, ChunkComparatorEnum cce) {
     super(input);
     this.resultData = (Table) input.clone();
+    setOperationParameters(columnName, cce);
   }
 
   /**
@@ -62,11 +62,13 @@ public class ChunkingOperation extends Operation {
    * @return
    */
   public boolean setOperationParameters(String columnName, ChunkComparatorEnum cce) {
-    this.columnName = columnName;
-    this.cond = getCondition(cce);
+    if (columnName != null && cce != null) {
+      this.columnName = columnName;
+      this.cond = getCondition(cce);
 
-    this.rc = new RecordComparator(columnName);
-    this.operationParametersSet = true;
+      this.rc = new RecordComparator(columnName);
+      this.operationParametersSet = true;
+    }
     return this.operationParametersSet;
   }
 
