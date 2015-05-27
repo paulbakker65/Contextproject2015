@@ -1,4 +1,4 @@
-<settings startLine="1" delimiter=";">
+<settings startLine="1" delimiter=";" name="name">
 	<column name="fruit" />
 	<column name="groente" />
 	<column name="saus" />
