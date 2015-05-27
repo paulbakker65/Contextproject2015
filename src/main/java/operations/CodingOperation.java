@@ -70,7 +70,7 @@ public class CodingOperation extends Operation {
       Table records = new Table();
       if (pattern.findPattern(inputData, index, records)) {
         code.addEvent(records);
-        index += (records.size() - 1);
+        index += records.size() - 1;
       }
       index++;
     }

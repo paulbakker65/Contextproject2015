@@ -138,8 +138,7 @@ public class CodingOperationTest {
     
     Pattern firstPattern = new SingleOccurrencePattern("StatSensor", prevPattern);
 
-    CodingOperation co = new CodingOperation(table);
-    co.setOperationParameters(firstPattern, "1S4W");
+    CodingOperation co = new CodingOperation(table, firstPattern, "1S4W");
     co.execute();
     
     assertEquals(co.getResult().getCode("1S4W").getFrequency(), 0);
