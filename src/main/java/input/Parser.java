@@ -56,6 +56,7 @@ public class Parser {
     }
 
     Table t = new Table();
+    t.setName(settings.getName());
 
     String[] row = reader.readRow();
 

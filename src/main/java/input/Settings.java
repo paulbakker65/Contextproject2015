@@ -13,6 +13,7 @@ import table.value.Column;
 public class Settings {
   private int startLine;
   private String delimiter;
+  private String name;
   private ArrayList<Column> columns;
 
   public Settings() {
@@ -35,6 +36,14 @@ public class Settings {
 
   public void setDelimiter(String delimiter) {
     this.delimiter = delimiter;
+  }
+  
+  public String getName() {
+    return name;
+  }
+  
+  public void setName(String name) {
+    this.name = name;
   }
 
   public ArrayList<Column> getColumns() {
@@ -89,6 +98,14 @@ public class Settings {
     }
 
     setDelimiter(delimiter);
+    
+    String name = element.getAttribute("name");
+
+    if (name.isEmpty()) {
+      throw new WrongXMLException("No name specified!");
+    }
+
+    setName(name);
   }
 
   /**

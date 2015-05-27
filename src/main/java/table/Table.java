@@ -10,6 +10,7 @@ import java.util.List;
 public class Table extends ArrayList<Record> {
 
   private static final long serialVersionUID = 1L;
+  private String name;
   private HashMap<String, Code> codes;
   private List<Chunk> chunks;
   /**
@@ -42,6 +43,22 @@ public class Table extends ArrayList<Record> {
     t.chunks = new ArrayList<Chunk>(this.chunks);
     t.codes = (HashMap<String, Code>) codes.clone();
     return t;
+  }
+  
+  /**
+   * Getter for name.
+   * @return
+   */
+  public String getName() {
+    return name;
+  }
+  
+  /**
+   * Setter for name.
+   * @param name
+   */
+  public void setName(String name) {
+    this.name = name;
   }
   
   /**
