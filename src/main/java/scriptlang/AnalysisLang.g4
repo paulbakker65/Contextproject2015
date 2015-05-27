@@ -107,7 +107,11 @@ convert_param
 // Compute                           //
 ///////////////////////////////////////
 compute_param
+<<<<<<< HEAD
 : fieldparam=field '<-' formulaparam=formula
+=======
+: 
+>>>>>>> 0f84ed750b11775054dbf28fc055b9cd39350db0
 ;
 
 ///////////////////////////////////////
