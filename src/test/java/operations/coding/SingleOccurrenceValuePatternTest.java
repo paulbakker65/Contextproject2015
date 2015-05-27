@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import operations.patterns.PatternFactory;
 import operations.patterns.PatternFactory.PatternEnum;
-import operations.patterns.SingleOccurrencePattern;
 import operations.patterns.SingleOccurrenceValuePattern;
 
 import org.junit.Before;
@@ -30,7 +29,7 @@ import table.value.Value;
 public class SingleOccurrenceValuePatternTest {
   private Table table;
   private ArrayList<Column> cols;
-  
+
   @Before
   public void setUp() {
     table = new Table();
@@ -40,76 +39,87 @@ public class SingleOccurrenceValuePatternTest {
     cols.add(new StringColumn("Useless"));
     cols.add(new StringColumn("Measurement"));
   }
-  
+
   @Test
   public void testFindPatternSingleRecord() {
-    Record record = new Record(cols, new Value[]{new NullValue(), new NullValue(), new NumberValue(1), new StringValue("Crea")});
+    Record record = new Record(cols, new Value[] { new NullValue(), new NullValue(),
+        new NumberValue(1), new StringValue("Crea") });
     table.add(record);
-    
-    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("Useless", new NumberValue(1));
-    Table event = new Table(); 
+
+    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("Useless",
+        new NumberValue(1));
+    Table event = new Table();
     assertTrue(pattern.findPattern(table, 0, event));
     assertEquals(table, event);
   }
-  
-   @Test
-   public void testFindPatternSingleRecordNotFound() {
-   Record record = new Record(cols, new Value[]{new NullValue(), new NullValue(), new NumberValue(1), new StringValue("Crea")});
-   table.add(record);
-  
-   SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("CMI_id", new NumberValue(3556));
-   Table event = new Table();
-   assertFalse(pattern.findPattern(table, 0, event));
-   }
-  
+
   @Test
-   public void testFindPatternTwoDifferentRecords() {
-   Record record = new Record(cols, new Value[]{new NullValue(), new NullValue(), new NumberValue(1), new StringValue("Crea")});
-   table.add(record);
-   record = new Record(cols, new Value[]{new NumberValue(23423), new NullValue(), new NullValue(), new StringValue("Kreatinine")});
-   table.add(record);
-  
-   SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("Useless", new NumberValue(1), new SingleOccurrenceValuePattern("CMI_id", new NumberValue(23423)));
-   Table event = new Table();
-   assertTrue(pattern.findPattern(table, 0, event));
-   assertEquals(2, event.size());
-  
-   event = new Table();
-   assertFalse(pattern.findPattern(table, 1, event));
-   }
-  
+  public void testFindPatternSingleRecordNotFound() {
+    Record record = new Record(cols, new Value[] { new NullValue(), new NullValue(),
+        new NumberValue(1), new StringValue("Crea") });
+    table.add(record);
+
+    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("CMI_id",
+        new NumberValue(3556));
+    Table event = new Table();
+    assertFalse(pattern.findPattern(table, 0, event));
+  }
+
+  @Test
+  public void testFindPatternTwoDifferentRecords() {
+    Record record = new Record(cols, new Value[] { new NullValue(), new NullValue(),
+        new NumberValue(1), new StringValue("Crea") });
+    table.add(record);
+    record = new Record(cols, new Value[] { new NumberValue(23423), new NullValue(),
+        new NullValue(), new StringValue("Kreatinine") });
+    table.add(record);
+
+    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("Useless",
+        new NumberValue(1), new SingleOccurrenceValuePattern("CMI_id", new NumberValue(23423)));
+    Table event = new Table();
+    assertTrue(pattern.findPattern(table, 0, event));
+    assertEquals(2, event.size());
+
+    event = new Table();
+    assertFalse(pattern.findPattern(table, 1, event));
+  }
+
   @Test
   public void testFindActionDonePattern() {
-  Record record = new Record(cols, new Value[]{new NullValue(), new NullValue(), new NumberValue(1), new StringValue("Crea")});
-  Record record1 = new Record(cols, new Value[]{new NullValue(), new NullValue(), new NumberValue(1), new StringValue("Crea")});
-  Record record2 = new Record(cols, new Value[]{new NumberValue(2), new NullValue(), new NullValue(), new StringValue("Gewicht")});
-  Record record3 = new Record(cols, new Value[]{new NumberValue(2), new NullValue(), new NullValue(), new StringValue("Bloeddruk")});
-  Record record4 = new Record(cols, new Value[]{new NumberValue(2), new NullValue(), new NullValue(), new StringValue("Nog wat")});
-  Record record5 = new Record(cols, new Value[]{new NumberValue(2), new NullValue(), new NullValue(), new StringValue("Vergeet dit niet")});
-  Record record6 = new Record(cols, new Value[]{new NumberValue(2), new NumberValue(1), new NullValue(), new StringValue("Kreatinine (stat)")});
-  Record record7 = new Record(cols, new Value[]{new NumberValue(2), new NullValue(), new NullValue(), new StringValue("Kreatinine2 (stat)")});
-  table.add(record2);
-  table.add(record);
-  table.add(record1);
-  table.add(record2);
-  table.add(record3);
-  table.add(record4);
-  table.add(record5);
-  table.add(record6);
-  table.add(record7);
-  table.add(record);
-  
-  PatternFactory pf = new PatternFactory(PatternEnum.ACTION_DONE);
-  Table event = new Table();
-  pf.getPattern().findPattern(table, 1, event);
-  assertEquals(8, event.size());
-  
-  }
-  
+    Record record = new Record(cols, new Value[] { new NullValue(), new NullValue(),
+        new NumberValue(1), new StringValue("Crea") });
+    Record record1 = new Record(cols, new Value[] { new NullValue(), new NullValue(),
+        new NumberValue(1), new StringValue("Crea") });
+    Record record2 = new Record(cols, new Value[] { new NumberValue(2), new NullValue(),
+        new NullValue(), new StringValue("Gewicht") });
+    Record record3 = new Record(cols, new Value[] { new NumberValue(2), new NullValue(),
+        new NullValue(), new StringValue("Bloeddruk") });
+    Record record4 = new Record(cols, new Value[] { new NumberValue(2), new NullValue(),
+        new NullValue(), new StringValue("Nog wat") });
+    Record record5 = new Record(cols, new Value[] { new NumberValue(2), new NullValue(),
+        new NullValue(), new StringValue("Vergeet dit niet") });
+    Record record6 = new Record(cols, new Value[] { new NumberValue(2), new NumberValue(1),
+        new NullValue(), new StringValue("Kreatinine (stat)") });
+    Record record7 = new Record(cols, new Value[] { new NumberValue(2), new NullValue(),
+        new NullValue(), new StringValue("Kreatinine2 (stat)") });
+    table.add(record2);
+    table.add(record);
+    table.add(record1);
+    table.add(record2);
+    table.add(record3);
+    table.add(record4);
+    table.add(record5);
+    table.add(record6);
+    table.add(record7);
+    table.add(record);
 
-  
-  
-  
+    PatternFactory pf = new PatternFactory(PatternEnum.ACTION_DONE);
+    Table event = new Table();
+    pf.getPattern().findPattern(table, 1, event);
+    assertEquals(8, event.size());
+
+  }
+
   // @Test
   // public void testFindPatternTwoDifferentRecordsSecondPattern() {
   // Record record = new Record(cols, new Value[]{new StringValue("Crea"), new NullValue(), new
