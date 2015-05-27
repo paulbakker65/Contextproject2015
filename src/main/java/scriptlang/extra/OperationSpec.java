@@ -112,7 +112,7 @@ public class OperationSpec {
       if (other.operandList != null) {
         return false;
       }
-    } else if (operandList != null && other.operandList == null) {
+    } else if (other.operandList == null) {
       return false;
     } else if (operandList.size() != other.operandList.size()) {
       return false;
