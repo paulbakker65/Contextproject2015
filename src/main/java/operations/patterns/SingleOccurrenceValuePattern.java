@@ -55,7 +55,7 @@ public class SingleOccurrenceValuePattern extends Pattern {
     // Check whether the previous record differs.
     if (records.isEmpty() && 
         fromIndex > 0 && 
-        !table.get(fromIndex - 1).get(colName).isNull()) {
+        !table.get(fromIndex - 1).get(colName).equals(value)) {
       return false;
     }
     
@@ -65,7 +65,7 @@ public class SingleOccurrenceValuePattern extends Pattern {
       
       if (nextPattern instanceof NullPattern && 
           fromIndex < table.size() && 
-          !table.get(fromIndex).get(colName).isNull()) {
+          !table.get(fromIndex).get(colName).equals(value)) {
         return false;
       }
       
