@@ -33,33 +33,6 @@ public class SingleOccurrencePatternTest {
     cols.add(new StringColumn("StatSensor"));
     cols.add(new NumberColumn("WebsiteValue"));
     cols.add(new StringColumn("HospitalVisit"));
-//    table.add(new Record(cols, new Value[]{new StringValue("Crea"), new NullValue(), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(140), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(150), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(160), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(170), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(180), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(140), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(350), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(160), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(470), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(180), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NullValue(), new StringValue("Erg ziek hoor")}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(160), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(170), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(160), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(170), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(180), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(140), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(350), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new NullValue(), new NumberValue(160), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
-//    table.add(new Record(col, new Value[]{new StringValue("Crea2"), new NullValue(), new NullValue()}));
   }
   
   @Test
