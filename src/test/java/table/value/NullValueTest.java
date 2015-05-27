@@ -1,4 +1,4 @@
-package table;
+package table.value;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -6,8 +6,9 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import table.value.NullValue;
-
+/**
+ * Class for testing NullValue.
+ */
 public class NullValueTest {
 
   @Test

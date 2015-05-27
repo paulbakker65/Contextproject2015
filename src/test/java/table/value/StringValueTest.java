@@ -1,12 +1,12 @@
-package table;
+package table.value;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import table.value.NumberValue;
-import table.value.StringValue;
-
+/**
+ * Class for testing StringValue.
+ */
 public class StringValueTest {
 
   @Test
