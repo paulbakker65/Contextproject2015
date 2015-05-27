@@ -2,6 +2,7 @@ package operations.lsa;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class DayGrouper extends Grouper {
 
   @Override
   public List<List<Record>> group(List<Record> recs) {
-    recs.sort(new RecordComparator(datecol));
+    Collections.sort(recs, new RecordComparator(datecol));
 
     days = new ArrayList<List<Record>>();
     curdate = getDate(recs.get(0));
