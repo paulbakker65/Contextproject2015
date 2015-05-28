@@ -35,20 +35,27 @@ public class LSAOperation extends Operation {
 
   private List<List<Record>> groups;
 
-  
-  
   /**
-   * Creates a LSA.
+   * Creates a LSA. The grouper determines in what unit the lag is measured. If records are grouped
+   * in days, the LSA will show lag in days between events.
+   * 
    * @param inputDataset
+   *          the table to extract lag from
    * @param eventcol
+   *          the column where the eventtype of a record is stored
    * @param from
+   *          the lowest lag to measure (inclusive)
    * @param to
+   *          the highest lag to measure (exclusive)
    * @param key
+   *          the eventtype to analyse
    * @param target
+   *          the other eventtype where the lag is calculated between
    * @param grouper
+   *          groups the records, used to calculate the lag of the LSA
    */
-  public LSAOperation(Table inputDataset, String eventcol, int from, int to,
-      Value key, Value target, Grouper grouper) {
+  public LSAOperation(Table inputDataset, String eventcol, int from, int to, Value key,
+      Value target, Grouper grouper) {
     super(inputDataset);
     this.eventcol = eventcol;
     this.from = from;
@@ -57,16 +64,22 @@ public class LSAOperation extends Operation {
     this.target = target;
     this.grouper = grouper;
   }
-  
 
   /**
-   * Creates a normal LSA with SingleGrouper. Lag is measured in records.
+   * Creates a normal LSA with the default grouper. Lag is measured in amount of records.
+   * 
    * @param inputDataset
+   *          the table to extract lag from
    * @param eventcol
+   *          the column where the eventtype of a record is stored
    * @param from
+   *          the lowest lag to measure (inclusive)
    * @param to
+   *          the highest lag to measure (exclusive)
    * @param key
+   *          the eventtype to analyse
    * @param target
+   *          the other eventtype where the lag is calculated between
    */
   public LSAOperation(Table inputDataset, String eventcol, int from, int to, Value key, Value target) {
     super(inputDataset);
