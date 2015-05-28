@@ -3,8 +3,9 @@ package operations;
 import static org.junit.Assert.assertEquals;
 import input.Settings;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,9 +30,8 @@ public class BetweenOperationTest {
   BetweenOperation lo;
   ArrayList<Column> cols;
 
-  @SuppressWarnings("deprecation")
   @Before
-  public void setUp() {
+  public void setUp() throws ParseException {
 
     cols = new ArrayList<Column>();
     cols.add(new NumberColumn("eventtype"));
@@ -41,23 +41,23 @@ public class BetweenOperationTest {
     dataTable = new Table();
 
     dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
-        new DateValue(new Date(99, 05, 11)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("120599")) }));
     dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
-        new DateValue(new Date(99, 05, 12)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("130599")) }));
     dataTable.add(new Record(cols, new Value[] { new StringValue("C"),
-        new DateValue(new Date(99, 05, 13)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("140599")) }));
     dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
-        new DateValue(new Date(99, 05, 14)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("150599")) }));
     dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
-        new DateValue(new Date(99, 05, 15)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("160599")) }));
     dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
-        new DateValue(new Date(99, 05, 16)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("170599")) }));
     dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
-        new DateValue(new Date(99, 05, 17)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("180599")) }));
     dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
-        new DateValue(new Date(99, 05, 18)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("190599")) }));
     dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
-        new DateValue(new Date(99, 05, 19)) }));
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("200599")) }));
 
     settings = new Settings();
     settings.getColumns().addAll(cols);
