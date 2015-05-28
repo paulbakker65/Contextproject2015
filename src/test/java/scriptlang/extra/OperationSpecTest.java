@@ -9,6 +9,8 @@ import operations.FilterOperation;
 import org.junit.Before;
 import org.junit.Test;
 
+import enums.CompareOperator;
+import exceptions.TableNotFoundException;
 import table.value.NumberValue;
 import scriptlang.extra.OperationSpec.OperationType;
 import table.Table;
@@ -71,22 +73,20 @@ public class OperationSpecTest {
   }
 
   @Test
-  public void testSetOperationParametersBySpec() {
-    FilterOperation fo = new FilterOperation(new Table());
+  public void testGetOperationBySpec() throws TableNotFoundException {
+    FilterOperation op = new FilterOperation(new Table(), "field", CompareOperator.EQ, new NumberValue(10));
+    FilterOperation other = new FilterOperation(new Table(), null, null, null);
     operationSpec.setOperationType(OperationType.CONSTRAINT);
+    operationSpec.addOperationOperand("table");
     operationSpec.addOperationOperand("field");
-    operationSpec.addOperationOperand(FilterOperation.ConstraintComparatorEnum.EQ);
+    operationSpec.addOperationOperand(CompareOperator.EQ);
     operationSpec.addOperationOperand(new NumberValue(10));
-    
-    FilterOperation other = new FilterOperation(new Table());
-    assertEquals(other, fo);
-    
-    operationSpec.setOperationParametersBySpec(fo);
-    
-    other.setOperationParameters("field", FilterOperation.ConstraintComparatorEnum.EQ, 
+    other = (FilterOperation) operationSpec.getOperationBySpec();
+        
+    other.setOperationParameters("field", CompareOperator.EQ, 
         new NumberValue(10));
     
-    assertEquals(other, fo);
+    assertEquals(op, other);
   }
 
   @Test
