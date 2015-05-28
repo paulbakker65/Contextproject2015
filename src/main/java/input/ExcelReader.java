@@ -60,9 +60,7 @@ public class ExcelReader extends Reader {
       while (c.getColumnIndex() > pos) {
         pos++;
         values.add("");
-        System.out.print("-");
       }
-      System.out.print("*");
       values.add(cellToString(c));
       pos++;
     }
