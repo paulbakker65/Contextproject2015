@@ -82,6 +82,9 @@ public class Table extends ArrayList<Record> {
    * @param set
    */
   public void setChunks(List<Chunk> set) {
+    if (set == null) {
+      set = new ArrayList<Chunk>();
+    }
     this.chunks = set;
   }
   
@@ -93,6 +96,10 @@ public class Table extends ArrayList<Record> {
     return this.chunks;
   }
   
+  /**
+   * Getter for the map of codes.
+   * @return
+   */
   public HashMap<String, Code> getCodes() {
     return this.codes;
   }
@@ -103,6 +110,18 @@ public class Table extends ArrayList<Record> {
    */
   public Code getCode(String name) {
     return codes.get(name);
+  }
+
+  /**
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + chunks.hashCode();
+    result = prime * result + codes.hashCode();
+    return result;
   }
 
   /**
@@ -121,18 +140,7 @@ public class Table extends ArrayList<Record> {
       return false;
     }  
     Table other = (Table) obj;
-    if (chunks == null) {
-      if (other.chunks != null) {
-        return false;
-      }  
-    } else if (!chunks.equals(other.chunks)) {
-        return false;
-    }
-    if (codes == null) {
-      if (other.codes != null) {
-        return false;
-      }  
-    } else if (!codes.equals(other.codes)) {
+    if (!codes.equals(other.codes)) {
       return false;
     }
     return chunks.equals(other.chunks);
