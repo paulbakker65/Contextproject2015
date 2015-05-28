@@ -1447,20 +1447,12 @@ public class AnalysisLangParser extends org.antlr.v4.runtime.Parser {
 				 ((ValueContext)_localctx).val =  ((ValueContext)_localctx).numparam.val;  
 				}
 				break;
-			case EOF:
-			case T__0:
-			case T__1:
-			case T__2:
-			case T__3:
-			case T__4:
-			case T__5:
-			case T__6:
-			case T__14:
+			case STRING:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(194);
 				((ValueContext)_localctx).stringparam = text();
-				 ((ValueContext)_localctx).val =  new StringValue((((ValueContext)_localctx).stringparam!=null?_input.getText(((ValueContext)_localctx).stringparam.start,((ValueContext)_localctx).stringparam.stop):null)); 
+				 ((ValueContext)_localctx).val =  ((ValueContext)_localctx).stringparam.val; 
 				}
 				break;
 			default:
@@ -1479,6 +1471,9 @@ public class AnalysisLangParser extends org.antlr.v4.runtime.Parser {
 	}
 
 	public static class TextContext extends ParserRuleContext {
+		public Value val;
+		public Token stringparam;
+		public TerminalNode STRING() { return getToken(AnalysisLangParser.STRING, 0); }
 		public TextContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1499,6 +1494,9 @@ public class AnalysisLangParser extends org.antlr.v4.runtime.Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
+			setState(199);
+			((TextContext)_localctx).stringparam = match(STRING);
+			 ((TextContext)_localctx).val =  new StringValue((((TextContext)_localctx).stringparam!=null?((TextContext)_localctx).stringparam.getText():null)); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -1513,7 +1511,7 @@ public class AnalysisLangParser extends org.antlr.v4.runtime.Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3!\u00cc\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3!\u00cd\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -1527,27 +1525,27 @@ public class AnalysisLangParser extends org.antlr.v4.runtime.Parser {
 		"\3\25\3\25\5\25\u009d\n\25\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26"+
 		"\3\26\3\26\3\26\3\26\3\26\3\26\5\26\u00ae\n\26\3\27\3\27\3\27\3\27\3\27"+
 		"\3\27\3\27\3\27\3\27\3\27\5\27\u00ba\n\27\3\30\3\30\3\30\3\30\3\30\3\30"+
-		"\3\31\3\31\3\31\3\31\3\31\3\31\5\31\u00c8\n\31\3\32\3\32\3\32\2\2\33\2"+
-		"\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\2\2\u00c7\2\67\3"+
-		"\2\2\2\4A\3\2\2\2\6C\3\2\2\2\bF\3\2\2\2\nI\3\2\2\2\fL\3\2\2\2\16O\3\2"+
-		"\2\2\20R\3\2\2\2\22U\3\2\2\2\24X\3\2\2\2\26\\\3\2\2\2\30`\3\2\2\2\32d"+
-		"\3\2\2\2\34p\3\2\2\2\36r\3\2\2\2 v\3\2\2\2\"z\3\2\2\2$\u0081\3\2\2\2&"+
-		"\u0090\3\2\2\2(\u009c\3\2\2\2*\u00ad\3\2\2\2,\u00b9\3\2\2\2.\u00bb\3\2"+
-		"\2\2\60\u00c7\3\2\2\2\62\u00c9\3\2\2\2\64\66\5\4\3\2\65\64\3\2\2\2\66"+
-		"9\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28\3\3\2\2\29\67\3\2\2\2:B\5\6\4\2;"+
-		"B\5\b\5\2<B\5\n\6\2=B\5\f\7\2>B\5\16\b\2?B\5\20\t\2@B\5\22\n\2A:\3\2\2"+
-		"\2A;\3\2\2\2A<\3\2\2\2A=\3\2\2\2A>\3\2\2\2A?\3\2\2\2A@\3\2\2\2B\5\3\2"+
-		"\2\2CD\7\3\2\2DE\5\24\13\2E\7\3\2\2\2FG\7\4\2\2GH\5\26\f\2H\t\3\2\2\2"+
-		"IJ\7\5\2\2JK\5\30\r\2K\13\3\2\2\2LM\7\6\2\2MN\5\32\16\2N\r\3\2\2\2OP\7"+
-		"\7\2\2PQ\5\34\17\2Q\17\3\2\2\2RS\7\b\2\2ST\5\36\20\2T\21\3\2\2\2UV\7\t"+
-		"\2\2VW\5 \21\2W\23\3\2\2\2XY\5\"\22\2YZ\7\n\2\2Z[\5.\30\2[\25\3\2\2\2"+
-		"\\]\5\"\22\2]^\7\13\2\2^_\5,\27\2_\27\3\2\2\2`a\5\"\22\2ab\7\f\2\2bc\5"+
-		"\"\22\2c\31\3\2\2\2de\5\"\22\2ef\5&\24\2fg\5\"\22\2g\33\3\2\2\2hi\5\""+
-		"\22\2ij\5&\24\2jk\5\"\22\2kq\3\2\2\2lm\5\"\22\2mn\5&\24\2no\5\60\31\2"+
-		"oq\3\2\2\2ph\3\2\2\2pl\3\2\2\2q\35\3\2\2\2rs\5\"\22\2st\7\f\2\2tu\5*\26"+
-		"\2u\37\3\2\2\2vw\5\"\22\2wx\7\r\2\2xy\5*\26\2y!\3\2\2\2z{\7\16\2\2{|\7"+
-		"\22\2\2|}\7\17\2\2}~\7\22\2\2~\177\7\20\2\2\177\u0080\b\22\1\2\u0080#"+
-		"\3\2\2\2\u0081\u0082\7\36\2\2\u0082\u0083\b\23\1\2\u0083%\3\2\2\2\u0084"+
+		"\3\31\3\31\3\31\3\31\3\31\3\31\5\31\u00c8\n\31\3\32\3\32\3\32\3\32\2\2"+
+		"\33\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\2\2\u00c8\2"+
+		"\67\3\2\2\2\4A\3\2\2\2\6C\3\2\2\2\bF\3\2\2\2\nI\3\2\2\2\fL\3\2\2\2\16"+
+		"O\3\2\2\2\20R\3\2\2\2\22U\3\2\2\2\24X\3\2\2\2\26\\\3\2\2\2\30`\3\2\2\2"+
+		"\32d\3\2\2\2\34p\3\2\2\2\36r\3\2\2\2 v\3\2\2\2\"z\3\2\2\2$\u0081\3\2\2"+
+		"\2&\u0090\3\2\2\2(\u009c\3\2\2\2*\u00ad\3\2\2\2,\u00b9\3\2\2\2.\u00bb"+
+		"\3\2\2\2\60\u00c7\3\2\2\2\62\u00c9\3\2\2\2\64\66\5\4\3\2\65\64\3\2\2\2"+
+		"\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28\3\3\2\2\29\67\3\2\2\2:B\5\6\4"+
+		"\2;B\5\b\5\2<B\5\n\6\2=B\5\f\7\2>B\5\16\b\2?B\5\20\t\2@B\5\22\n\2A:\3"+
+		"\2\2\2A;\3\2\2\2A<\3\2\2\2A=\3\2\2\2A>\3\2\2\2A?\3\2\2\2A@\3\2\2\2B\5"+
+		"\3\2\2\2CD\7\3\2\2DE\5\24\13\2E\7\3\2\2\2FG\7\4\2\2GH\5\26\f\2H\t\3\2"+
+		"\2\2IJ\7\5\2\2JK\5\30\r\2K\13\3\2\2\2LM\7\6\2\2MN\5\32\16\2N\r\3\2\2\2"+
+		"OP\7\7\2\2PQ\5\34\17\2Q\17\3\2\2\2RS\7\b\2\2ST\5\36\20\2T\21\3\2\2\2U"+
+		"V\7\t\2\2VW\5 \21\2W\23\3\2\2\2XY\5\"\22\2YZ\7\n\2\2Z[\5.\30\2[\25\3\2"+
+		"\2\2\\]\5\"\22\2]^\7\13\2\2^_\5,\27\2_\27\3\2\2\2`a\5\"\22\2ab\7\f\2\2"+
+		"bc\5\"\22\2c\31\3\2\2\2de\5\"\22\2ef\5&\24\2fg\5\"\22\2g\33\3\2\2\2hi"+
+		"\5\"\22\2ij\5&\24\2jk\5\"\22\2kq\3\2\2\2lm\5\"\22\2mn\5&\24\2no\5\60\31"+
+		"\2oq\3\2\2\2ph\3\2\2\2pl\3\2\2\2q\35\3\2\2\2rs\5\"\22\2st\7\f\2\2tu\5"+
+		"*\26\2u\37\3\2\2\2vw\5\"\22\2wx\7\r\2\2xy\5*\26\2y!\3\2\2\2z{\7\16\2\2"+
+		"{|\7\22\2\2|}\7\17\2\2}~\7\22\2\2~\177\7\20\2\2\177\u0080\b\22\1\2\u0080"+
+		"#\3\2\2\2\u0081\u0082\7\36\2\2\u0082\u0083\b\23\1\2\u0083%\3\2\2\2\u0084"+
 		"\u0085\7\23\2\2\u0085\u0091\b\24\1\2\u0086\u0087\7\24\2\2\u0087\u0091"+
 		"\b\24\1\2\u0088\u0089\7\25\2\2\u0089\u0091\b\24\1\2\u008a\u008b\7\26\2"+
 		"\2\u008b\u0091\b\24\1\2\u008c\u008d\7\27\2\2\u008d\u0091\b\24\1\2\u008e"+
@@ -1571,8 +1569,8 @@ public class AnalysisLangParser extends org.antlr.v4.runtime.Parser {
 		"\7\21\2\2\u00be\u00bf\7\30\2\2\u00bf\u00c0\5\60\31\2\u00c0/\3\2\2\2\u00c1"+
 		"\u00c2\5$\23\2\u00c2\u00c3\b\31\1\2\u00c3\u00c8\3\2\2\2\u00c4\u00c5\5"+
 		"\62\32\2\u00c5\u00c6\b\31\1\2\u00c6\u00c8\3\2\2\2\u00c7\u00c1\3\2\2\2"+
-		"\u00c7\u00c4\3\2\2\2\u00c8\61\3\2\2\2\u00c9\u00ca\3\2\2\2\u00ca\63\3\2"+
-		"\2\2\n\67Ap\u0090\u009c\u00ad\u00b9\u00c7";
+		"\u00c7\u00c4\3\2\2\2\u00c8\61\3\2\2\2\u00c9\u00ca\7 \2\2\u00ca\u00cb\b"+
+		"\32\1\2\u00cb\63\3\2\2\2\n\67Ap\u0090\u009c\u00ad\u00b9\u00c7";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

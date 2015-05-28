@@ -165,7 +165,7 @@ range
 value returns [Value val]
 //: dataparam=date         { $val = $dataparam.val; }
 : numparam=number        { $val = $numparam.val;  }
-| stringparam=text       { $val = new StringValue($stringparam.text); }
+| stringparam=text       { $val = $stringparam.val; }
 ;
 
 //date returns [DateValue val]
@@ -179,8 +179,8 @@ value returns [Value val]
 //    }
 //;
 
-text
-: 
+text returns [Value val]
+: stringparam=STRING    { $val = new StringValue($stringparam.text); }
 ;
 
 ///////////////////////////////////////
