@@ -1,4 +1,4 @@
-<settings startLine="1" delimiter=";">
+<settings startLine="1" delimiter=";"  name="test">
 	<column name="" />
 	<column name="Value" type="number" />
 	<column name="Date" type="date" format="yyMMdd" />  

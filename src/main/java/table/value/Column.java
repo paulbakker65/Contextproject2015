@@ -59,9 +59,11 @@ public abstract class Column {
     case "time":
       res = new TimeColumn(name);
       break;
-    default:
+    case "":
       res = new StringColumn(name);
       break;
+    default:
+      throw new WrongXMLException("Wrong type specified!");
     }
 
     res.read(element);

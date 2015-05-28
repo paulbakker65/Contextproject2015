@@ -1,4 +1,4 @@
-<settings startLine="1">
+<settings startLine="1"  name="test">
 	<column name="Measurement" />
 	<column name="Value" type="number" />
 	<column name="Date" type="date" format="yyMMdd" />  
