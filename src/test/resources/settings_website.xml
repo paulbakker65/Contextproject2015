@@ -1,0 +1,25 @@
+<settings startLine="2" delimiter=",">
+ <column name="CMI_id" type="number" />
+ <column name="Revision" type="number" /> 
+ <column name="Moment" />
+ <column name="Date" type="date" format="excel" />
+ <column name="Sequence" type="number" />
+ <column name="Value" type="number" />
+ <column name="Value2" type="number" />
+ <column name="IsMaverick" type="number"/>
+ <column name="RegCoef" type="number"/>
+ <column name="KARI" type="number"/>
+ <column name="KAAI" type="number"/>
+ <column name="KADRI" type="number"/>
+ <column name="Comment" />
+ <column name="CreatedBy" />
+ <column name="CreatedDate" type="date" format="dd/MM/yy" />
+ <column name="ModifiedBy" />
+ <column name="ModifiedDate" type="date" format="dd/MM/yy" />
+ <column name="UserId" type="number"/>
+ <column name="CM_Id" type="number"/>
+ <column name="Login" />
+ <column name="CM_Id2" type="number"/>
+ <column name="MeasVar" />
+ <column name="MeasUnit" />
+</settings>
