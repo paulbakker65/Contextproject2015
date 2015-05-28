@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import enums.CompareOperator;
 import table.Record;
 import table.Table;
 import table.value.Column;
@@ -62,7 +63,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_number_eq() {
-    fo.setOperationParameters("userid", FilterOperation.ConstraintComparatorEnum.EQ,
+    fo.setOperationParameters("userid", CompareOperator.EQ,
         new NumberValue(9));
     assertEquals(true, fo.execute());
 
@@ -84,7 +85,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_number_g() {
-    fo.setOperationParameters("userid", FilterOperation.ConstraintComparatorEnum.G,
+    fo.setOperationParameters("userid", CompareOperator.G,
         new NumberValue(2));
     assertEquals(true, fo.execute());
 
@@ -106,7 +107,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_number_geq() {
-    fo.setOperationParameters("userid", FilterOperation.ConstraintComparatorEnum.GEQ,
+    fo.setOperationParameters("userid", CompareOperator.GEQ,
         new NumberValue(17));
     assertEquals(true, fo.execute());
 
@@ -128,7 +129,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_number_l() {
-    fo.setOperationParameters("userid", FilterOperation.ConstraintComparatorEnum.L,
+    fo.setOperationParameters("userid", CompareOperator.L,
         new NumberValue(5));
     assertEquals(true, fo.execute());
 
@@ -150,7 +151,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_number_leq() {
-    fo.setOperationParameters("userid", FilterOperation.ConstraintComparatorEnum.LEQ,
+    fo.setOperationParameters("userid", CompareOperator.LEQ,
         new NumberValue(14));
     assertEquals(true, fo.execute());
 
@@ -172,7 +173,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_date_eq() {
-    fo.setOperationParameters("dateField", FilterOperation.ConstraintComparatorEnum.EQ,
+    fo.setOperationParameters("dateField", CompareOperator.EQ,
         new DateValue(DateConversion.fromExcelSerialToDate(40010)));
     assertEquals(true, fo.execute());
 
@@ -194,7 +195,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_date_g() {
-    fo.setOperationParameters("dateField", FilterOperation.ConstraintComparatorEnum.G,
+    fo.setOperationParameters("dateField", CompareOperator.G,
         new DateValue(DateConversion.fromExcelSerialToDate(40003)));
     assertEquals(true, fo.execute());
 
@@ -216,7 +217,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_date_geq() {
-    fo.setOperationParameters("dateField", FilterOperation.ConstraintComparatorEnum.GEQ,
+    fo.setOperationParameters("dateField", CompareOperator.GEQ,
         new DateValue(DateConversion.fromExcelSerialToDate(40005)));
     assertEquals(true, fo.execute());
 
@@ -238,7 +239,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_date_l() {
-    fo.setOperationParameters("dateField", FilterOperation.ConstraintComparatorEnum.L,
+    fo.setOperationParameters("dateField", CompareOperator.L,
         new DateValue(DateConversion.fromExcelSerialToDate(40013)));
     assertEquals(true, fo.execute());
 
@@ -260,7 +261,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_date_leq() {
-    fo.setOperationParameters("dateField", FilterOperation.ConstraintComparatorEnum.LEQ,
+    fo.setOperationParameters("dateField", CompareOperator.LEQ,
         new DateValue(DateConversion.fromExcelSerialToDate(40013)));
     assertEquals(true, fo.execute());
 
@@ -282,7 +283,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_string_found() {
-    fo.setOperationParameters("stringField", FilterOperation.ConstraintComparatorEnum.EQ,
+    fo.setOperationParameters("stringField", CompareOperator.EQ,
         new StringValue("String:" + 7));
     assertEquals(true, fo.execute());
 
@@ -303,7 +304,7 @@ public class FilterOperationTest {
 
   @Test
   public void testExecute_string_notfound() {
-    fo.setOperationParameters("stringField", FilterOperation.ConstraintComparatorEnum.EQ,
+    fo.setOperationParameters("stringField", CompareOperator.EQ,
         new StringValue("String:" + 25));
     assertEquals(true, fo.execute());
 
@@ -320,7 +321,7 @@ public class FilterOperationTest {
      * not found and thus the records shouldn't be added to the result set and return an empty
      * Table()
      */
-    fo.setOperationParameters("randomStringField", FilterOperation.ConstraintComparatorEnum.EQ,
+    fo.setOperationParameters("randomStringField", CompareOperator.EQ,
         new StringValue("Pi_is_great"));
     assertEquals(true, fo.execute());
 

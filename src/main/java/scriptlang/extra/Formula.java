@@ -1,5 +1,7 @@
 package scriptlang.extra;
 
+import enums.CalcOperator;
+
 /**
  * Formula object representing a formula.
  */

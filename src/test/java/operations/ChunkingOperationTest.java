@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-import operations.ChunkingOperation.ChunkComparatorEnum;
+import enums.ChunkType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,13 +46,13 @@ public class ChunkingOperationTest {
 
   @Test
   public void testGetResult() {
-    co = new ChunkingOperation(dataTable, "dateField", ChunkComparatorEnum.MONTH);
+    co = new ChunkingOperation(dataTable, "dateField", ChunkType.MONTH);
     assertEquals(new Table(), co.getResult());
   }
 
   @Test
   public void testExecute_empty() {
-    co = new ChunkingOperation(dataTable, null, ChunkComparatorEnum.TEST);
+    co = new ChunkingOperation(dataTable, null, ChunkType.TEST);
     co.execute();
     assertEquals(new Table(), co.getResult());
   }
@@ -68,7 +68,7 @@ public class ChunkingOperationTest {
       dataTable.add(r);
     }
     
-    co = new ChunkingOperation(dataTable, "dateField", ChunkComparatorEnum.MONTH);
+    co = new ChunkingOperation(dataTable, "dateField", ChunkType.MONTH);
     co.execute();
     Table temp = (Table) dataTable.clone();
     
@@ -101,7 +101,7 @@ public class ChunkingOperationTest {
       dataTable.add(r);
     }
 
-    co = new ChunkingOperation(dataTable, "dateField", ChunkComparatorEnum.DAY);
+    co = new ChunkingOperation(dataTable, "dateField", ChunkType.DAY);
     co.execute();
     Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
@@ -145,7 +145,7 @@ public class ChunkingOperationTest {
       dataTable.add(r);
     }
 
-    co = new ChunkingOperation(dataTable, "dateField", ChunkComparatorEnum.YEAR);
+    co = new ChunkingOperation(dataTable, "dateField", ChunkType.YEAR);
     co.execute();
     Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
@@ -184,7 +184,7 @@ public class ChunkingOperationTest {
       dataTable.add(r);
     }
     
-    co = new ChunkingOperation(dataTable, "userid", ChunkComparatorEnum.PATIENT);
+    co = new ChunkingOperation(dataTable, "userid", ChunkType.PATIENT);
     co.execute();
     Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
@@ -220,8 +220,8 @@ public class ChunkingOperationTest {
 
   @Test
   public void testInvalidCCE() {
-    co = new ChunkingOperation(dataTable, null, ChunkComparatorEnum.TEST);
-    assertEquals(null, co.getCondition(ChunkComparatorEnum.TEST));
+    co = new ChunkingOperation(dataTable, null, ChunkType.TEST);
+    assertEquals(null, co.getCondition(ChunkType.TEST));
   }
 
 }

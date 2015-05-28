@@ -2,6 +2,7 @@ package operations;
 
 import java.util.Collections;
 
+import enums.ChunkType;
 import operations.chunking.ChunkCondition;
 import operations.chunking.DayCondition;
 import operations.chunking.MonthCondition;
@@ -32,22 +33,12 @@ public class ChunkingOperation extends Operation {
   RecordComparator rc;
 
   /**
-   * The enum on which we want to chunk.
-   * 
-   * @author paulbakker
-   *
-   */
-  public enum ChunkComparatorEnum {
-    DAY, MONTH, YEAR, WEEKEND, PATIENT, TEST
-  }
-
-  /**
    * Constructor that calls the Operation class to set the inputData and create an the colums for
    * the new table.
    * 
    * @param input
    */
-  public ChunkingOperation(Table input, String columnName, ChunkComparatorEnum cce) {
+  public ChunkingOperation(Table input, String columnName, ChunkType cce) {
     super(input);
     this.resultData = (Table) input.clone();
     setOperationParameters(columnName, cce);
@@ -61,7 +52,7 @@ public class ChunkingOperation extends Operation {
    * @param settings
    * @return
    */
-  public boolean setOperationParameters(String columnName, ChunkComparatorEnum cce) {
+  public boolean setOperationParameters(String columnName, ChunkType cce) {
     if (columnName != null && cce != null) {
       this.columnName = columnName;
       this.cond = getCondition(cce);
@@ -127,7 +118,7 @@ public class ChunkingOperation extends Operation {
    * @param cce
    *          , on what to chunk
    */
-  public ChunkCondition getCondition(ChunkComparatorEnum cce) {
+  public ChunkCondition getCondition(ChunkType cce) {
     switch (cce) {
     case DAY: {
       return new DayCondition();

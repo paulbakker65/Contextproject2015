@@ -2,9 +2,12 @@ package scriptlang.extra;
 
 import java.util.ArrayList;
 
+import enums.ChunkType;
+import enums.CompareOperator;
+import exceptions.TableNotFoundException;
 import operations.*;
-import operations.ChunkingOperation.ChunkComparatorEnum;
 import operations.coding.Pattern;
+import table.Table;
 import table.value.*;
 
 /**
@@ -18,13 +21,27 @@ public class OperationSpec {
    * for.
    */
   public enum OperationType {
-    CONSTRAINT, CONNECT, CHUNK, COMPUTE, COMPARE, CODE, CONVERT
+    CONSTRAINT,
+    CONNECT,
+    CHUNK,
+    COMPUTE,
+    COMPARE,
+    CODE,
+    CONVERT
   }
 
+  public ArrayList<Table> tables;
   public ArrayList<Object> operandList;
   public OperationType operationType;
 
   public OperationSpec() {
+    this.tables = new ArrayList<Table>();
+    this.operandList = new ArrayList<Object>();
+    this.operationType = null;
+  }
+  
+  public OperationSpec(ArrayList<Table> tables) {
+    this.tables = tables;
     this.operandList = new ArrayList<Object>();
     this.operationType = null;
   }
@@ -37,39 +54,52 @@ public class OperationSpec {
     this.operandList.add(operand);
   }
 
-  public void setOperationParametersBySpec(Operation o) {
+  public Operation getOperationBySpec() throws TableNotFoundException {
     switch (this.operationType) {
     case CONSTRAINT:
-      ((FilterOperation) o).setOperationParameters((String) this.operandList.get(0),
-          (FilterOperation.ConstraintComparatorEnum) this.operandList.get(1),
-          (Value) this.operandList.get(2));
-      break;
+      return new FilterOperation(this.getTableForTableName((String) operandList.get(0)),
+          (String) operandList.get(1), (CompareOperator) operandList.get(2),
+          (Value) operandList.get(3));
 
     case CHUNK:
-      ((ChunkingOperation) o).setOperationParameters((String) this.operandList.get(0),
-          (ChunkComparatorEnum) this.operandList.get(1));
-      break;
+      return new ChunkingOperation(this.getTableForTableName((String) operandList.get(0)),
+          (String) operandList.get(1), (ChunkType) operandList.get(2));
 
     case COMPUTE:
-      break;
+      return null;
 
     case COMPARE:
-      break;
-      
+      return null;
+
     case CODE:
-      ((CodingOperation) o).setOperationParameters((Pattern) this.operandList.get(0),
-          (String) this.operandList.get(1));
-      break;
-      
+      return new CodingOperation(this.getTableForTableName((String) operandList.get(0)),
+          (Pattern) operandList.get(1), (String) operandList.get(2));
+
     case CONVERT:
-      break;
+      return null;
+
+    case CONNECT:
+      return new ConnectionOperation(this.getTableForTableName((String) operandList.get(0)),
+          this.getTableForTableName((String) operandList.get(2)), (String) operandList.get(1),
+          (String) operandList.get(3));
 
     default:
-      break;
+      return null;
     }
   }
 
-  /* (non-Javadoc)
+  private Table getTableForTableName(String tableName) throws TableNotFoundException {
+    for (int i = 0; i < tables.size(); i++) {
+      if (tables.get(i).getName() == tableName) {
+        return tables.get(i);
+      }
+    }
+    throw new TableNotFoundException(String.format("Table \"%s\" not found", tableName));
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
@@ -77,7 +107,9 @@ public class OperationSpec {
     return "OperationSpec [operationType=" + operationType + ", operandList=" + operandList + "]";
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -89,7 +121,9 @@ public class OperationSpec {
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -107,7 +141,7 @@ public class OperationSpec {
     if (operationType != other.operationType) {
       return false;
     }
-    
+
     if (operandList == null) {
       if (other.operandList != null) {
         return false;
@@ -123,7 +157,7 @@ public class OperationSpec {
         }
       }
     }
-    
+
     return true;
   }
 }

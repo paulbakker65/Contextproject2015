@@ -1,5 +1,6 @@
 package scriptlang.extra;
 
+import enums.CompareOperator;
 import table.value.Value;
 
 /**

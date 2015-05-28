@@ -2,6 +2,7 @@
 package scriptlang;
 
 import scriptlang.extra.*;
+import enums.*;
 import table.value.*;
 import operations.FilterOperation;
 import java.util.*;

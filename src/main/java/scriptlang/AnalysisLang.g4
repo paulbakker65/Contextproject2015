@@ -2,6 +2,7 @@ grammar AnalysisLang;
 
 @header {
 import scriptlang.extra.*;
+import enums.*;
 import table.value.*;
 import operations.FilterOperation;
 import java.util.*;
@@ -116,8 +117,7 @@ compute_param
 //                                   //
 ///////////////////////////////////////
 field returns [String tablename, String fieldname]
-: '[' fieldnameparam=ID ']'   { $fieldname = $fieldnameparam.text; }
-| '[' tablenameparam=ID '].[' fieldnameparam=ID ']' { $fieldname = $fieldnameparam.text; 
+: '[' tablenameparam=ID '].[' fieldnameparam=ID ']' { $fieldname = $fieldnameparam.text; 
                                                       $tablename = $tablenameparam.text; }
 ;
 

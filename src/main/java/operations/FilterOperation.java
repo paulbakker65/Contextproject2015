@@ -1,5 +1,6 @@
 package operations;
 
+import enums.CompareOperator;
 import table.Record;
 import table.Table;
 import table.value.Value;
@@ -48,13 +49,13 @@ public class FilterOperation extends Operation {
   /**
    * enum for the constraint type.
    */
-  ConstraintComparatorEnum constraintType;
+  CompareOperator constraintType;
   /**
    * value to meet constraint.
    */
   Value constraintValue;
   
-  public FilterOperation(Table dataset, String columnName, ConstraintComparatorEnum constraintType,
+  public FilterOperation(Table dataset, String columnName, CompareOperator constraintType,
       Value constraintValue) {
     super(dataset);
     setOperationParameters(columnName, constraintType, constraintValue);
@@ -72,7 +73,7 @@ public class FilterOperation extends Operation {
    * @return <b>true</b> iff this.operationParametersSet is <b>true</b><br>
    *         <b>false</b> iff this.operationParametersSet is <b>false</b></br>
    */
-  public boolean setOperationParameters(String columnName, ConstraintComparatorEnum constraintType,
+  public boolean setOperationParameters(String columnName, CompareOperator constraintType,
       Value constraintValue) {
     this.columnName = columnName;
     this.constraintType = constraintType;
@@ -97,12 +98,14 @@ public class FilterOperation extends Operation {
    *         <b>true</b> if the constraint type is undefined
    */
   private boolean constraintFunction(Value recordValue,
-      ConstraintComparatorEnum constraintComparatorEnum, Value constraintValue) {
+      CompareOperator compareOperator, Value constraintValue) {
 
     int compareResult = recordValue.compareTo(constraintValue);
-    switch (constraintComparatorEnum) {
+    switch (compareOperator) {
     case EQ:
       return compareResult == 0;
+    case NEQ:
+      return compareResult != 0;
     case G:
       return compareResult > 0;
     case GEQ:

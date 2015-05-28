@@ -3,14 +3,22 @@ package scriptlang.extra;
 import java.util.ArrayList;
 
 import scriptlang.AnalysisLangBaseListener;
+import scriptlang.AnalysisLangParser.Calc_operatorContext;
 import scriptlang.AnalysisLangParser.Chunk_paramContext;
 import scriptlang.AnalysisLangParser.Code_paramContext;
+import scriptlang.AnalysisLangParser.Compare_operatorContext;
 import scriptlang.AnalysisLangParser.Compare_paramContext;
 import scriptlang.AnalysisLangParser.Compute_paramContext;
+import scriptlang.AnalysisLangParser.ConditionContext;
 import scriptlang.AnalysisLangParser.Connect_paramContext;
 import scriptlang.AnalysisLangParser.Constraint_paramContext;
 import scriptlang.AnalysisLangParser.Convert_paramContext;
+import scriptlang.AnalysisLangParser.FieldContext;
+import scriptlang.AnalysisLangParser.FormulaContext;
+import scriptlang.AnalysisLangParser.RangeContext;
+import scriptlang.AnalysisLangParser.ValueContext;
 import scriptlang.extra.OperationSpec.OperationType;
+import table.Table;
 
 /**
  * ALListener is the implemented AnalysisLang Listener. It implements
@@ -19,10 +27,13 @@ import scriptlang.extra.OperationSpec.OperationType;
  */
 public class ALListener extends AnalysisLangBaseListener {
   
+  ArrayList<Table> tables;
   ArrayList<OperationSpec> opList;
+  OperationSpec currentOp;
   
-  public ALListener() {
+  public ALListener(ArrayList<Table> tables) {
     super();
+    this.tables = tables;
     this.opList = new ArrayList<OperationSpec>();
   }
   
@@ -33,123 +44,130 @@ public class ALListener extends AnalysisLangBaseListener {
   @Override
   public void enterChunk_param(Chunk_paramContext ctx) {
     // : fieldparam=field 'USING' rangeparam=range
-    OperationSpec op = new OperationSpec();
-    op.setOperationType(OperationType.CHUNK);
-    if (ctx.fieldparam != null && ctx.rangeparam != null) {
-      if (ctx.fieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.fieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.fieldparam.fieldname);
-      op.addOperationOperand(ctx.rangeparam.g.numparam.val);
-      op.addOperationOperand(ctx.rangeparam.l.numparam.val);
-    }
-    this.opList.add(op);
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.CHUNK);
+    
+    this.opList.add(currentOp);
   }
 
   @Override
   public void enterCode_param(Code_paramContext ctx) {
     // : fieldparam=field 'ON' conditionparam=condition
-    OperationSpec op = new OperationSpec();
-    op.setOperationType(OperationType.CODE);
-    if (ctx.fieldparam != null && ctx.conditionparam != null) {
-      if (ctx.fieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.fieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.fieldparam.fieldname);
-      op.addOperationOperand(ctx.conditionparam.cond);
-    }
-    this.opList.add(op);
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.CODE);
+    
+    this.opList.add(currentOp);
   }
 
   @Override
   public void enterConnect_param(Connect_paramContext ctx) {
     // : fieldparam=field 'TO' anotherfieldparam=field
-    OperationSpec op = new OperationSpec();
-    op.setOperationType(OperationType.CONNECT);
-    if (ctx.fieldparam != null && ctx.anotherfieldparam != null) {
-      if (ctx.fieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.fieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.fieldparam.fieldname);
-      if (ctx.anotherfieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.anotherfieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.anotherfieldparam.fieldname);
-    }
-    this.opList.add(op);
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.CONNECT);
+    
+    this.opList.add(currentOp);
   }
 
   @Override
   public void enterCompare_param(Compare_paramContext ctx) {
-    // : fieldparam=field opparam=compare_operator anotherfieldparam=field
-    OperationSpec op = new OperationSpec();
-    op.setOperationType(OperationType.COMPARE);
-    if (ctx.fieldparam != null && ctx.opparam != null && ctx.anotherfieldparam != null) {
-      if (ctx.fieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.fieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.fieldparam.fieldname);
-      op.addOperationOperand(ctx.opparam.op);
-      if (ctx.anotherfieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.anotherfieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.anotherfieldparam.fieldname);
-    }
-    this.opList.add(op);
+    // : fieldparam=field currentOpparam=compare_currentOperator anotherfieldparam=field
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.COMPARE);
+    
+    this.opList.add(currentOp);
   }
   
   @Override
   public void enterConstraint_param(Constraint_paramContext ctx) {
-    // : fieldparam=field opparam=compare_operator anotherfieldparam=field
-    // | fieldparam=field opparam=compare_operator valueparam=value
-    OperationSpec op = new OperationSpec();
-    op.setOperationType(OperationType.CONSTRAINT);
-    if (ctx.anotherfieldparam != null) {
-      if (ctx.fieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.fieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.fieldparam.fieldname);
-      op.addOperationOperand(ctx.opparam.op);
-      op.addOperationOperand(ctx.anotherfieldparam.fieldname);
-    } else if (ctx.valueparam != null) {
-      if (ctx.fieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.fieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.fieldparam.fieldname);
-      op.addOperationOperand(ctx.opparam.op);
-      op.addOperationOperand(ctx.valueparam.val);
-    }
-    this.opList.add(op);
+    // : fieldparam=field currentOpparam=compare_currentOperator anotherfieldparam=field
+    // | fieldparam=field currentOpparam=compare_currentOperator valueparam=value
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.CONSTRAINT);
+
+    this.opList.add(currentOp);
   }
 
   @Override
   public void enterConvert_param(Convert_paramContext ctx) {
     // : fieldparam=field 'TO' formulaparam=formula
-    OperationSpec op = new OperationSpec();
-    op.setOperationType(OperationType.CONVERT);
-    if (ctx.fieldparam != null && ctx.formulaparam != null) {
-      if (ctx.fieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.fieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.fieldparam.fieldname);
-      op.addOperationOperand(ctx.formulaparam.form);
-    }
-    this.opList.add(op);
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.CONVERT);
+    
+    this.opList.add(currentOp);
   }
 
   @Override
   public void enterCompute_param(Compute_paramContext ctx) {
     // : fieldparam=field 'TO' formulaparam=formula
-    OperationSpec op = new OperationSpec();
-    op.setOperationType(OperationType.COMPUTE);
-    if (ctx.fieldparam != null && ctx.formulaparam != null) {
-      if (ctx.fieldparam.tablenameparam != null) {
-        op.addOperationOperand(ctx.fieldparam.tablename);
-      }
-      op.addOperationOperand(ctx.fieldparam.fieldname);
-      op.addOperationOperand(ctx.formulaparam.form);
-    }
-    this.opList.add(op);
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.COMPUTE);
+    
+    this.opList.add(currentOp);
   }
   
+  @Override
+  public void enterField(FieldContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.tablename != null) {
+      currentOp.addOperationOperand(ctx.tablename);
+    }
+    if (ctx.fieldname != null) {
+      currentOp.addOperationOperand(ctx.fieldname);
+    }
+  }
+  
+  @Override
+  public void enterValue(ValueContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.val != null) {
+      currentOp.addOperationOperand(ctx.val);
+    }
+  }
+  
+  @Override
+  public void enterCompare_operator(Compare_operatorContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.op != null) {
+      currentOp.addOperationOperand(ctx.op);
+    }
+  }
+  
+  @Override
+  public void enterCalc_operator(Calc_operatorContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.op != null) {
+      currentOp.addOperationOperand(ctx.op);
+    }
+  }
+  
+  @Override
+  public void enterFormula(FormulaContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.form != null) {
+      currentOp.addOperationOperand(ctx.form);
+      ctx.children.clear();
+    }
+  }
+  
+  @Override
+  public void enterCondition(ConditionContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.cond != null) {
+      currentOp.addOperationOperand(ctx.cond);
+      ctx.children.clear();
+    }
+  }
 }
+
