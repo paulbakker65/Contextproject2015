@@ -22,8 +22,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ExcelReader extends Reader {
 
-  Iterator<Row> rowIterator;
-  XSSFWorkbook workbook;
+  private Iterator<Row> rowIterator;
+  private XSSFWorkbook workbook;
+  private int sheetindex;
 
   /**
    * Creates a new XLS reader.
@@ -36,16 +37,37 @@ public class ExcelReader extends Reader {
    */
   public ExcelReader(String path, int sheetindex) throws IOException {
     super(path);
+    this.sheetindex = sheetindex;
     System.setProperty("org.apache.poi.util.POILogger", "org.apache.commons.logging.impl.NoOpLog");
-    workbook = new XSSFWorkbook(filepath);
-    XSSFSheet sheet = workbook.getSheetAt(sheetindex);
-    rowIterator = sheet.rowIterator();
+  }
+
+  
+  /**
+   * Loads the file, it it hasn't been loaded yet.
+   */
+  private void loadFile() {
+    if (workbook == null) {
+      try {
+        workbook = new XSSFWorkbook(filepath);
+        XSSFSheet sheet = workbook.getSheetAt(sheetindex);
+        rowIterator = sheet.rowIterator();
+      } catch (Exception e) {
+        throw new Error("Loading of xlsx failed: " + e.getMessage());
+      }
+    }
   }
 
   @Override
+  public void close() throws IOException {
+    if (workbook != null){
+      workbook.close();
+    }
+  }
+  
+  @Override
   public String[] readRow() throws IOException {
+    loadFile();
     if (rowIterator.hasNext()) {
-      System.out.println();
       Row r = rowIterator.next();
       return rowToStrings(r);
     } else {
@@ -67,6 +89,7 @@ public class ExcelReader extends Reader {
     return values.toArray(new String[0]);
   }
 
+
   private static String cellToString(Cell c) {
     if (c == null) {
       return "";
@@ -77,11 +100,6 @@ public class ExcelReader extends Reader {
     } else {
       return c.toString();
     }
-  }
-
-  @Override
-  public void close() throws IOException {
-    workbook.close();
   }
 
 }
