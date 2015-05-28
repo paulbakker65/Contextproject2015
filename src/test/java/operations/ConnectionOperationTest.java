@@ -66,7 +66,7 @@ public class ConnectionOperationTest {
       otherDataTable.add(r);
     }
 
-    co = new ConnectionOperation(dataTable);
+    co = new ConnectionOperation(dataTable, null, null, null);
     
     
     String path = "src/test/resources/";
