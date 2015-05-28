@@ -5,27 +5,41 @@ import input.Input;
 import input.WrongXMLException;
 
 import java.io.File;
+import java.io.FileWriter;
 //import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 //import java.util.ArrayList;
 //import java.util.Collections;
 
-//import operations.FilterOperation;
-//import operations.FilterOperation.ConstraintComparatorEnum;
-//import export.Exporter;
-//import parsers.ColumnTypeMismatchException;
-//import parsers.NumberValue;
-//import parsers.StringValue;
-//import table.RecordComparator;
-//import table.Table;
+import java.util.ArrayList;
+
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import demo.*;
+import operations.FilterOperation;
+import operations.FilterOperation.ConstraintComparatorEnum;
+import operations.Operation;
+import enums.CompareOperator;
+import exceptions.TableNotFoundException;
+import export.Exporter;
+import scriptlang.AnalysisLangLexer;
+import scriptlang.AnalysisLangParser;
+import scriptlang.extra.ALListener;
+import scriptlang.extra.OperationSpec;
+import table.value.*;
+import table.RecordComparator;
+import table.Table;
 
 /**
  * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
  */
 public class Main{
 
-  public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
+  public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException, TableNotFoundException {
 
     if (!parseCommandline(args)){
       return;
@@ -34,35 +48,38 @@ public class Main{
     if (!openGUI()){
       return;
     }
+    
+    ArrayList<Table> tables = new ArrayList<Table>();
+    
+    for (DataFile f : Input.getFiles()) {
+      Table t = null; 
+      try {
+        t = f.getParser().parse(f.getReader());
+        tables.add(t);
+      } catch (ColumnTypeMismatchException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    
+    File od = Input.getOutputDir();
 
+    ANTLRInputStream input = new ANTLRFileStream(Input.getScriptFile().getAbsolutePath());
+    AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+    AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    ALListener listener = new ALListener(tables);
+    ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
+    
+    ArrayList<OperationSpec> operationList = listener.getOpList();
+    
+    for (OperationSpec o : operationList) {
+      Operation op = o.getOperationBySpec();
+      op.execute();
+      Exporter.export(op.getResult(), new FileWriter(od.getAbsolutePath() + "/outputOperation.csv"));
+    }
+    
     System.exit(0);
-
-//    ArrayList<Table> tables = new ArrayList<Table>();
-//
-//    for (DataFile f : Input.getFiles()) {
-//      Table t = null;
-//      try {
-//        t = f.getParser().parse(f.getReader());
-//      } catch (ColumnTypeMismatchException e) {
-//        // TODO Auto-generated catch block
-//        e.printStackTrace();
-//      }
-//    }
-    // Read script & execute.
-
-    /*
-     * //DEMO START Table patientWebsite = tables.get(0).getPatientByID("admire13", "Login"); Table
-     * hospitalVisitPatient = tables.get(2).getPatientByID("13", "PatientID"); Table statsensor =
-     * tables.get(1);
-     * 
-     * System.out.println(patientWebsite); System.out.println(); System.out.println(statsensor);
-     * System.out.println(); System.out.println(hospitalVisitPatient);
-     * 
-     * Exporter.export(patientWebsite, new FileWriter("output.csv"), files.get(0).getSettings());
-     * Exporter.export(statsensor, new FileWriter("output2.csv"), files.get(1).getSettings());
-     * Exporter.export(hospitalVisitPatient, new FileWriter("output3.csv"),
-     * files.get(2).getSettings()); System.out.println("Demo finished!"); //DEMO END
-     */
 
   }
 

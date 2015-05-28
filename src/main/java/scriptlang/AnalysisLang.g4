@@ -180,7 +180,10 @@ value returns [Value val]
 //;
 
 text returns [Value val]
-: stringparam=STRING    { $val = new StringValue($stringparam.text); }
+: stringparam=STRING    { String text = $stringparam.text;
+                          text = text.substring(1, text.length()-1);
+                          $val = new StringValue(text);
+}
 ;
 
 ///////////////////////////////////////
