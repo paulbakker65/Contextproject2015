@@ -88,7 +88,7 @@ public class OperationSpec {
     }
   }
 
-  private Table getTableForTableName(String tableName) throws TableNotFoundException {
+  public Table getTableForTableName(String tableName) throws TableNotFoundException {
     for (int i = 0; i < tables.size(); i++) {
       if (tables.get(i).getName().equals(tableName)) {
         return tables.get(i);

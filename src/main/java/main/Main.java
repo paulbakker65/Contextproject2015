@@ -19,7 +19,6 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import demo.*;
 import operations.FilterOperation;
 import operations.FilterOperation.ConstraintComparatorEnum;
 import operations.Operation;
@@ -76,7 +75,13 @@ public class Main{
     for (OperationSpec o : operationList) {
       Operation op = o.getOperationBySpec();
       op.execute();
-      Exporter.export(op.getResult(), new FileWriter(od.getAbsolutePath() + "/outputOperation.csv"));
+      
+      o.getTableForTableName((String) o.operandList.get(0)).clear();
+      o.getTableForTableName((String) o.operandList.get(0)).addAll(op.getResult());
+    }
+    
+    for (Table t : tables) {
+      Exporter.export(t, new FileWriter(od.getAbsolutePath() + "/output_" + t.getName() + ".csv"));
     }
     
     System.exit(0);
