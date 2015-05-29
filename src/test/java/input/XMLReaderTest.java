@@ -20,19 +20,15 @@ public class XMLReaderTest {
   String folder = "src/main/resources";
 
   @Test
-  public void correctXMLTest() {
-    try {
-      Settings settings = XMLReader.readXMLFile(folder + "/correct_xml.xml");
+  public void correctXMLTest() throws WrongXMLException {
+    Settings settings = XMLReader.readXMLFile(folder + "/correct_xml.xml");
 
-      assertEquals(7, settings.getStartLine());
-      assertEquals(";", settings.getDelimiter());
-      assertEquals("name", settings.getName());
-      assertTrue(settings.getColumns().get(0) instanceof StringColumn);
-      assertTrue(settings.getColumns().get(1) instanceof NumberColumn);
-      assertTrue(settings.getColumns().get(2) instanceof DateColumn);
-    } catch (WrongXMLException e) {
-      fail("No exception expected!");
-    }
+    assertEquals(7, settings.getStartLine());
+    assertEquals(";", settings.getDelimiter());
+    assertEquals("test", settings.getName());
+    assertTrue(settings.getColumns().get(0) instanceof StringColumn);
+    assertTrue(settings.getColumns().get(1) instanceof NumberColumn);
+    assertTrue(settings.getColumns().get(2) instanceof DateColumn);    
   }
 
   @Test(expected = WrongXMLException.class)
@@ -77,8 +73,7 @@ public class XMLReaderTest {
 
   @Test(expected = WrongXMLException.class)
   public void emptyFormatXMLTest() throws WrongXMLException {
-    @SuppressWarnings("unused")
-    Settings settings = XMLReader.readXMLFile(folder + "/empty_format.xml");
+    XMLReader.readXMLFile(folder + "/empty_format.xml");
   }
 
   @Test(expected = WrongXMLException.class)
@@ -104,6 +99,11 @@ public class XMLReaderTest {
   @Test(expected = WrongXMLException.class)
   public void duplicateNamesXMLTest() throws WrongXMLException {
     XMLReader.readXMLFile(folder + "/duplicate_names.xml");
+  }
+  
+  @Test(expected = WrongXMLException.class)
+  public void noTableNameXMLTest() throws WrongXMLException {
+    XMLReader.readXMLFile(folder + "/no_table_name.xml");
   }
 
   @Test
