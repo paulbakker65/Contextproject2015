@@ -20,7 +20,7 @@ public class DateColumn extends Column {
   private DateFormat format;
   private String formatStr;
 
-  private static DateFormat iso = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+  private final DateFormat iso = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
   
   /**
    * Constructs a new DateColumn using a default format.
@@ -101,12 +101,14 @@ public class DateColumn extends Column {
         return new DateValue(iso.parse(text));
       }
       catch (ParseException ex){
-
+        throw getException(text);
       }
-      
-      throw new ColumnTypeMismatchException("\"" + text + "\" does not satisfy the format \""
-          + formatStr + "\"");
     }
+  }
+  
+  private ColumnTypeMismatchException getException(String text) {
+    return new ColumnTypeMismatchException("\"" + text + "\" does not satisfy the format \""
+        + formatStr + "\"");
   }
 
   private Date convertExcelDate(String text) throws ColumnTypeMismatchException {

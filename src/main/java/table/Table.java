@@ -42,16 +42,14 @@ public class Table extends ArrayList<Record> {
   @SuppressWarnings("unchecked")
   @Override
   public Object clone() {
-    Table t = (Table) super.clone();
-    t.chunks = new ArrayList<Chunk>(this.chunks);
-    t.codes = (HashMap<String, Code>) codes.clone();
-    return t;
+    Table table = (Table) super.clone();
+    table.chunks = new ArrayList<Chunk>(this.chunks);
+    table.codes = (HashMap<String, Code>) codes.clone();
+    return table;
   }
 
   /**
    * Getter for name.
-   * 
-   * @return
    */
   public String getName() {
     return name;
@@ -59,8 +57,6 @@ public class Table extends ArrayList<Record> {
 
   /**
    * Setter for name.
-   * 
-   * @param name
    */
   public void setName(String name) {
     this.name = name;
@@ -72,8 +68,8 @@ public class Table extends ArrayList<Record> {
    * @param c
    *          chunk to add.
    */
-  public void addChunk(Chunk c) {
-    chunks.add(c);
+  public void addChunk(Chunk chunk) {
+    chunks.add(chunk);
   }
 
   /**
@@ -82,14 +78,12 @@ public class Table extends ArrayList<Record> {
    * @param c
    *          code to add.
    */
-  public void addCode(Code c) {
-    codes.put(c.getName(), c);
+  public void addCode(Code code) {
+    codes.put(code.getName(), code);
   }
 
   /**
    * Setter for the list of chunks.
-   * 
-   * @param set
    */
   public void setChunks(List<Chunk> set) {
     if (set == null) {
@@ -100,8 +94,6 @@ public class Table extends ArrayList<Record> {
 
   /**
    * Getter for the list of chunks.
-   * 
-   * @return
    */
   public List<Chunk> getChunks() {
     return this.chunks;
@@ -109,8 +101,6 @@ public class Table extends ArrayList<Record> {
 
   /**
    * Getter for the map of codes.
-   * 
-   * @return
    */
   public HashMap<String, Code> getCodes() {
     return this.codes;
@@ -118,8 +108,6 @@ public class Table extends ArrayList<Record> {
 
   /**
    * Getter for a code given a name.
-   * 
-   * @return
    */
   public Code getCode(String name) {
     return codes.get(name);

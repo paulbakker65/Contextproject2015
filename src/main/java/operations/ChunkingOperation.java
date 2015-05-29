@@ -36,7 +36,7 @@ public class ChunkingOperation extends Operation {
    * Constructor that calls the Operation class to set the inputData and create an the colums for
    * the new table.
    * 
-   * @param input
+   * @param input Table containing the input data.
    */
   public ChunkingOperation(Table input, String columnName, ChunkType cce) {
     super(input);
@@ -46,11 +46,6 @@ public class ChunkingOperation extends Operation {
 
   /**
    * Setting the parameters for the operation.
-   * 
-   * @param columnName
-   * @param cce
-   * @param settings
-   * @return
    */
   public boolean setOperationParameters(String columnName, ChunkType cce) {
     if (columnName != null && cce != null) {
@@ -120,24 +115,22 @@ public class ChunkingOperation extends Operation {
    */
   public ChunkCondition getCondition(ChunkType cce) {
     switch (cce) {
-    case DAY: {
-      return new DayCondition();
+      case DAY: {
+        return new DayCondition();
+      }
+      case MONTH: {
+        return new MonthCondition();
+      }
+      case YEAR: {
+        return new YearCondition();
+      }
+      case PATIENT: {
+        return new PatientCondition();
+      }
+      default: {
+        return null;
+      }
     }
-    case MONTH: {
-      return new MonthCondition();
-    }
-    case YEAR: {
-
-      return new YearCondition();
-    }
-    case PATIENT: {
-
-      return new PatientCondition();
-    }
-    default:
-      return null;
-    }
-
   }
 
 }
