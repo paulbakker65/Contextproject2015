@@ -41,11 +41,11 @@ public class XMLReader {
 
     try {
       // Parse the file.
-      DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
       File file = new File(xmlFile);
-      Document doc = dBuilder.parse(file);
+      Document doc = documentBuilder.parse(file);
 
       // Get the root element.
       Element rootElement = doc.getDocumentElement();

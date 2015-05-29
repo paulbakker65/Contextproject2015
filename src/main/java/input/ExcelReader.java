@@ -28,20 +28,18 @@ public class ExcelReader extends Reader {
 
   /**
    * Creates a new XLS reader.
-   * 
+   *
    * @param path
    *          path to the file
    * @param sheetindex
    *          sheet number (0-based)
-   * @throws IOException
    */
-  public ExcelReader(String path, int sheetindex) throws IOException {
+  public ExcelReader(String path, int sheetindex) {
     super(path);
     this.sheetindex = sheetindex;
     System.setProperty("org.apache.poi.util.POILogger", "org.apache.commons.logging.impl.NoOpLog");
   }
 
-  
   /**
    * Loads the file, it it hasn't been loaded yet.
    */
@@ -59,26 +57,26 @@ public class ExcelReader extends Reader {
 
   @Override
   public void close() throws IOException {
-    if (workbook != null){
+    if (workbook != null) {
       workbook.close();
     }
   }
-  
+
   @Override
   public String[] readRow() throws IOException {
     loadFile();
     if (rowIterator.hasNext()) {
-      Row r = rowIterator.next();
-      return rowToStrings(r);
+      Row row = rowIterator.next();
+      return rowToStrings(row);
     } else {
       return null;
     }
   }
 
-  private static String[] rowToStrings(Row r) {
+  private static String[] rowToStrings(Row row) {
     List<String> values = new ArrayList<String>();
     int pos = 0;
-    for (Cell c : r) {
+    for (Cell c : row) {
       while (c.getColumnIndex() > pos) {
         pos++;
         values.add("");
@@ -89,16 +87,15 @@ public class ExcelReader extends Reader {
     return values.toArray(new String[0]);
   }
 
-
-  private static String cellToString(Cell c) {
-    if (c == null) {
+  private static String cellToString(Cell cell) {
+    if (cell == null) {
       return "";
-    } else if (c.getCellType() == Cell.CELL_TYPE_NUMERIC && DateUtil.isCellDateFormatted(c)) {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-      Date d = c.getDateCellValue();
-      return df.format(d);
+    } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC && DateUtil.isCellDateFormatted(cell)) {
+      DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+      Date date = cell.getDateCellValue();
+      return dateFormat.format(date);
     } else {
-      return c.toString();
+      return cell.toString();
     }
   }
 

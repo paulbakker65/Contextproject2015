@@ -10,10 +10,10 @@ import java.io.IOException;
 public abstract class Reader implements Closeable {
   protected String filepath = "";
 
-  public Reader(String filepath){
+  public Reader(String filepath) {
     this.filepath = filepath;
   }
-  
+
   public abstract String[] readRow() throws IOException;
 
   public String getFilepath() {

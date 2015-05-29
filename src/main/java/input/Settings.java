@@ -16,6 +16,9 @@ public class Settings {
   private String name;
   private ArrayList<Column> columns;
 
+  /**
+   * Creates a new Settings object.
+   */
   public Settings() {
     startLine = 1;
     delimiter = ",";
@@ -37,11 +40,11 @@ public class Settings {
   public void setDelimiter(String delimiter) {
     this.delimiter = delimiter;
   }
-  
+
   public String getName() {
     return name;
   }
-  
+
   public void setName(String name) {
     this.name = name;
   }
@@ -60,19 +63,27 @@ public class Settings {
 
   @Override
   public String toString() {
-    StringBuilder b = new StringBuilder();
-    b.append("startLine:\t" + startLine + "\n");
-    b.append("delimiter:\t\"" + delimiter + "\"\n");
-    b.append("columns:\t");
-    
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("startLine:\t" + startLine + "\n");
+    stringBuilder.append("delimiter:\t\"" + delimiter + "\"\n");
+    stringBuilder.append("columns:\t");
+
     for (Column column : columns) {
-      b.append(column.toString());
-      b.append("\n\t\t");
+      stringBuilder.append(column.toString());
+      stringBuilder.append("\n\t\t");
     }
 
-    return b.toString();
+    return stringBuilder.toString();
   }
 
+  /**
+   * Reads settings from
+   * 
+   * @param element
+   *          The element to be read.
+   * @throws WrongXMLException
+   *           If the XML file isn't valid a WrongXMLException is thrown.
+   */
   public void readSettings(Element element) throws WrongXMLException {
     if (!element.getNodeName().equals("settings")) {
       throw new WrongXMLException("Root element wrong! Expected: settings, actual: "
@@ -98,7 +109,7 @@ public class Settings {
     }
 
     setDelimiter(delimiter);
-    
+
     String name = element.getAttribute("name");
 
     if (name.isEmpty()) {
