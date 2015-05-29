@@ -1,4 +1,4 @@
-<settings startLine="2" delimiter=",">
+<settings startLine="2" delimiter="," name="website">
  <column name="CMI_id" type="number" />
  <column name="Revision" type="number" /> 
  <column name="Moment" />

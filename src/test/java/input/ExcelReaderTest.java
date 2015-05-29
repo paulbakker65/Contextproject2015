@@ -5,12 +5,10 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.GregorianCalendar;
 
-import main.DataFile;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import parsers.DateValue;
+import table.value.DateValue;
 import table.Table;
 
 /**
