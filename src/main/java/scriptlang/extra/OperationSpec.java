@@ -15,13 +15,13 @@ import table.Table;
 import table.value.*;
 
 /**
- * OperationSpec is an object to specify the paramters of a parsed script input.
+ * OperationSpec is an object to specify the parameters of a parsed script input.
  * 
  */
 public class OperationSpec {
 
   /**
-   * OperationType Enum holds the different types of operations this class can specify the paramters
+   * OperationType enum holds the different types of operations this class can specify the parameters
    * for.
    */
   public enum OperationType {
