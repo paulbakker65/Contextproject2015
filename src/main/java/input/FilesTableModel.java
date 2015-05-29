@@ -7,10 +7,16 @@ import javax.swing.table.TableModel;
  * A TableModel used by FilesTable to store the table data.
  */
 public class FilesTableModel implements TableModel {
-  private final String[] columnNames = { "Data filepath", "Settings filepath" };
+  private final String[] columnNames = {"Data filepath", "Settings filepath"};
 
   @Override
-  public Class<?> getColumnClass(int columnIndex) {
+  public void addTableModelListener(final TableModelListener arg0) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public Class<?> getColumnClass(final int columnIndex) {
     return String.class;
   }
 
@@ -20,7 +26,7 @@ public class FilesTableModel implements TableModel {
   }
 
   @Override
-  public String getColumnName(int columnIndex) {
+  public String getColumnName(final int columnIndex) {
     return columnNames[columnIndex];
   }
 
@@ -30,8 +36,8 @@ public class FilesTableModel implements TableModel {
   }
 
   @Override
-  public String getValueAt(int rowIndex, int columnIndex) {
-    DataFile file = Input.getFiles().get(rowIndex);
+  public String getValueAt(final int rowIndex, final int columnIndex) {
+    final DataFile file = Input.getFiles().get(rowIndex);
     if (columnIndex == 0) {
       return file.getFilepath();
     } else {
@@ -40,24 +46,18 @@ public class FilesTableModel implements TableModel {
   }
 
   @Override
-  public boolean isCellEditable(int rowIndex, int columnIndex) {
+  public boolean isCellEditable(final int rowIndex, final int columnIndex) {
     return false;
   }
 
   @Override
-  public void setValueAt(Object theValue, int rowIndex, int columnIndex) {
+  public void removeTableModelListener(final TableModelListener arg0) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void addTableModelListener(TableModelListener arg0) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void removeTableModelListener(TableModelListener arg0) {
+  public void setValueAt(final Object theValue, final int rowIndex, final int columnIndex) {
     // TODO Auto-generated method stub
 
   }

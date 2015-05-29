@@ -5,97 +5,76 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Test;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.junit.Test;
-
 /**
  * Class for testing DateValue.
+ * 
  * @author Robin
  *
  */
 public class DateValueTest {
 
   @Test
-  public void testDateValueConstructorDate() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    DateValue value = new DateValue(date);
-
-    assertNotNull(value);
-    assertEquals(calendar, value.getValue());
-  }
-
-  @Test
-  public void testDateValueConstructorCalendar() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    DateValue value = new DateValue(calendar);
-
-    assertNotNull(value);
-    assertEquals(calendar, value.getValue());
-  }
-  
-  @Test
-  public void testDateValueConstructorDateNull() {
-    DateValue value = new DateValue((Date) null);
-
-    assertNotNull(value);
-    assertNull(value.getValue());
-  }
-
-  @Test
-  public void testDateValueSetGetValue() throws ParseException {
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    calendar.setTime(date);
-    DateValue value = new DateValue(date);
-
-    assertEquals(calendar, value.getValue());
-
-    date = new SimpleDateFormat("ddMMyy").parse("311213");
-    calendar.setTime(date);
-    value.setValue(date);
-    assertEquals(calendar, value.getValue());
-  }
-
-  @Test
   public void testDateValueAddTime() throws ParseException {
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    DateValue value = new DateValue(date);
+    final Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+    final DateValue value = new DateValue(date);
 
-    GregorianCalendar calendar = new GregorianCalendar();
-    Date time = new SimpleDateFormat("hh:mm").parse("10:20");
+    final GregorianCalendar calendar = new GregorianCalendar();
+    final Date time = new SimpleDateFormat("hh:mm").parse("10:20");
     calendar.setTime(time);
 
     assertNotEquals(calendar, value.getValue());
 
     value.addTime(calendar);
 
-    GregorianCalendar resultCalendar = new GregorianCalendar();
-    Date resultDate = new SimpleDateFormat("ddMMyy hh:mm").parse("311214 10:20");
+    final GregorianCalendar resultCalendar = new GregorianCalendar();
+    final Date resultDate = new SimpleDateFormat("ddMMyy hh:mm").parse("311214 10:20");
     resultCalendar.setTime(resultDate);
     assertEquals(resultCalendar, value.getValue());
   }
 
   @Test
-  public void testDateValueToString() throws ParseException {
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    DateValue value = new DateValue(date);
-    assertEquals("2014-12-31T00:00", value.toString());
+  public void testDateValueConstructorCalendar() throws ParseException {
+    final GregorianCalendar calendar = new GregorianCalendar();
+    final Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+    calendar.setTime(date);
+    final DateValue value = new DateValue(calendar);
+
+    assertNotNull(value);
+    assertEquals(calendar, value.getValue());
+  }
+
+  @Test
+  public void testDateValueConstructorDate() throws ParseException {
+    final GregorianCalendar calendar = new GregorianCalendar();
+    final Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+    calendar.setTime(date);
+    final DateValue value = new DateValue(date);
+
+    assertNotNull(value);
+    assertEquals(calendar, value.getValue());
+  }
+
+  @Test
+  public void testDateValueConstructorDateNull() {
+    final DateValue value = new DateValue((Date) null);
+
+    assertNotNull(value);
+    assertNull(value.getValue());
   }
 
   @Test
   public void testDateValueEquals() throws ParseException {
-    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    Date date2 = new SimpleDateFormat("ddMMyy").parse("311213");
-    DateValue value = new DateValue(date);
-    DateValue valueSame = new DateValue(date);
+    final Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+    final Date date2 = new SimpleDateFormat("ddMMyy").parse("311213");
+    final DateValue value = new DateValue(date);
+    final DateValue valueSame = new DateValue(date);
     final DateValue valueNotSame = new DateValue(date2);
     final DateValue valueNull1 = new DateValue((Date) null);
     final DateValue valueNull2 = new DateValue((Date) null);
@@ -110,14 +89,36 @@ public class DateValueTest {
     assertNotEquals(valueNull1, value);
     assertEquals(valueNull1, valueNull2);
   }
-  
+
+  @Test
+  public void testDateValueSetGetValue() throws ParseException {
+    final GregorianCalendar calendar = new GregorianCalendar();
+    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+    calendar.setTime(date);
+    final DateValue value = new DateValue(date);
+
+    assertEquals(calendar, value.getValue());
+
+    date = new SimpleDateFormat("ddMMyy").parse("311213");
+    calendar.setTime(date);
+    value.setValue(date);
+    assertEquals(calendar, value.getValue());
+  }
+
+  @Test
+  public void testDateValueToString() throws ParseException {
+    final Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+    final DateValue value = new DateValue(date);
+    assertEquals("2014-12-31T00:00", value.toString());
+  }
+
   @Test
   public void testHashCode() {
-    GregorianCalendar calendar = new GregorianCalendar();
-    
-    DateValue value = new DateValue(calendar);
-    DateValue valueNull = new DateValue((Date) null);
-    
+    final GregorianCalendar calendar = new GregorianCalendar();
+
+    final DateValue value = new DateValue(calendar);
+    final DateValue valueNull = new DateValue((Date) null);
+
     assertEquals(value.hashCode(), 31 + calendar.hashCode());
     assertEquals(valueNull.hashCode(), 31);
   }

@@ -3,17 +3,17 @@ package export;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import table.Record;
 import table.Table;
 import table.value.StringValue;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * ExporterTest class testing the export.Export class.
@@ -29,7 +29,7 @@ public class ExporterTest {
 
   /**
    * Creates a table to give to the exporter.
-   *         
+   * 
    */
   @Before
   public void setUp() {
@@ -54,26 +54,27 @@ public class ExporterTest {
 
   @Test
   public void testExport() throws IOException {
-    String expected = "\"fruit\";\"groente\";\"saus\"\n\"\";\"wortel\""
-        + ";\"mayonaise\"\n\"banaan\";\"bloemkool\";\"\"\n";
+    final String expected =
+        "\"fruit\";\"groente\";\"saus\"\n\"\";\"wortel\""
+            + ";\"mayonaise\"\n\"banaan\";\"bloemkool\";\"\"\n";
     // "fruit", "groente", "saus"
     // "", "wortel", "mayonaise"
     // "banaan", "bloemkool", ""
 
-    StringWriter stringWriter = new StringWriter();
+    final StringWriter stringWriter = new StringWriter();
     Exporter.export(dummydb, stringWriter);
     assertEquals(expected, stringWriter.toString());
   }
 
   @Test
   public void testGenerateRow1() {
-    String[] expected = { "", "wortel", "mayonaise" };
+    final String[] expected = {"", "wortel", "mayonaise"};
     assertArrayEquals(expected, Exporter.generateRow(dummyrow1, cols));
   }
 
   @Test
   public void testGenerateRow2() {
-    String[] expected = { "banaan", "bloemkool", "" };
+    final String[] expected = {"banaan", "bloemkool", ""};
     assertArrayEquals(expected, Exporter.generateRow(dummyrow2, cols));
   }
 }

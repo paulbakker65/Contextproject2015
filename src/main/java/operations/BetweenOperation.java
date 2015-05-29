@@ -14,30 +14,25 @@ import table.value.Value;
  */
 public class BetweenOperation extends Operation {
 
-  private String datecol;
-  private String datecol2;
-  private String eventcol;
+  private final String datecol;
+  private final String datecol2;
+  private final String eventcol;
 
-  private Value ev1val;
-  private Value ev2val;
+  private final Value ev1val;
+  private final Value ev2val;
 
   /**
    * Creates a new lag operation that compares the time between each couple of event 1 and 2.
    * 
    * @param inputDataset Table containing the input data.
-   * @param eventcol
-   *          Column where the type of the event is stored
-   * @param datecol
-   *          Column where the timing of the first event is stored
-   * @param datecol2
-   *          Column where the timing of the second event is stored
-   * @param ev1val
-   *          Event 1 identifier
-   * @param ev2val
-   *          Event 2 identifiter
+   * @param eventcol Column where the type of the event is stored
+   * @param datecol Column where the timing of the first event is stored
+   * @param datecol2 Column where the timing of the second event is stored
+   * @param ev1val Event 1 identifier
+   * @param ev2val Event 2 identifiter
    */
-  public BetweenOperation(Table inputDataset, String eventcol, String datecol, String datecol2,
-      Value ev1val, Value ev2val) {
+  public BetweenOperation(final Table inputDataset, final String eventcol, final String datecol,
+      final String datecol2, final Value ev1val, final Value ev2val) {
     super(inputDataset);
     this.eventcol = eventcol;
     this.datecol = datecol;
@@ -50,23 +45,19 @@ public class BetweenOperation extends Operation {
    * Creates a new lag operation that compares the time between each couple of event 1 and 2.
    * 
    * @param inputDataset Table containing the input data.
-   * @param eventcol
-   *          Column where the type of the event is stored
-   * @param datecol
-   *          Column where the timing of the event is stored
-   * @param ev1val
-   *          Event 1 identifier
-   * @param ev2val
-   *          Event 2 identifiter
+   * @param eventcol Column where the type of the event is stored
+   * @param datecol Column where the timing of the event is stored
+   * @param ev1val Event 1 identifier
+   * @param ev2val Event 2 identifiter
    */
-  public BetweenOperation(Table inputDataset, String eventcol, String datecol, Value ev1val,
-      Value ev2val) {
+  public BetweenOperation(final Table inputDataset, final String eventcol, final String datecol,
+      final Value ev1val, final Value ev2val) {
     this(inputDataset, eventcol, datecol, datecol, ev1val, ev2val);
   }
 
-  @Override
-  public Table getResult() {
-    return resultData;
+  private void addEvent(final int index1, final int index2) {
+    final int timeDif = (int) ((getTimeStamp(index2) - getTimeStamp(index1)) / (1000 * 60 * 60));
+    resultData.get(index1).put("time_before_" + ev2val.toString(), new NumberValue(timeDif));
   }
 
   @Override
@@ -91,21 +82,12 @@ public class BetweenOperation extends Operation {
     return true;
   }
 
-  private void addEvent(int index1, int index2) {
-    int timeDif = (int) ((getTimeStamp(index2) - getTimeStamp(index1)) / (1000 * 60 * 60));
-    resultData.get(index1).put("time_before_" + ev2val.toString(), new NumberValue(timeDif));
+  @Override
+  public Table getResult() {
+    return resultData;
   }
 
-  private boolean isFirstEvent(int index) {
-    return ev1val.equals(inputData.get(index).get(eventcol));
-  }
-
-  private boolean isSecondEvent(int index) {
-    return ev2val.equals(inputData.get(index).get(eventcol));
-  }
-
-
-  private long getTimeStamp(int index) {
+  private long getTimeStamp(final int index) {
     Value date = null;
     if (isFirstEvent(index)) {
       date = inputData.get(index).get(datecol);
@@ -117,6 +99,14 @@ public class BetweenOperation extends Operation {
     }
     throw new Error("Not a date in the column");
 
+  }
+
+  private boolean isFirstEvent(final int index) {
+    return ev1val.equals(inputData.get(index).get(eventcol));
+  }
+
+  private boolean isSecondEvent(final int index) {
+    return ev2val.equals(inputData.get(index).get(eventcol));
   }
 
 }

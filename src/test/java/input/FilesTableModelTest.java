@@ -3,41 +3,46 @@ package input;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * FileTableModelTest class testing the main.FileTableModel class.
  * 
  */
 public class FilesTableModelTest {
-  private FilesTableModel ftm = new FilesTableModel();
+  private final FilesTableModel ftm = new FilesTableModel();
   private final String datafilename = "src/test/resources/csvexample.csv";
   private final String settingsfilename = "src/test/resources/settings.xml";
 
-  private File datafile = new File(datafilename);
-  private File settingsfile = new File(settingsfilename);
+  private final File datafile = new File(datafilename);
+  private final File settingsfile = new File(settingsfilename);
 
   private DataFile df;
 
   /**
    * Calls the constructor with the datafile and settings file.
-   * @throws WrongXMLException
-   *         if the settings file is incorrect.
+   * 
+   * @throws WrongXmlException if the settings file is incorrect.
    */
   @Before
-  public void setUp() throws WrongXMLException {
+  public void setUp() throws WrongXmlException {
     Input.files = new ArrayList<DataFile>();
     try {
       df = new DataFile(datafile, settingsfile);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       e.printStackTrace();
     }
   }
-  
+
+  @Test
+  public void testAddTableModelListener() {
+    // Not yet implemented in filesTableModel
+  }
+
   @Test
   public void testGetColumnClass() {
     assertEquals(String.class, ftm.getColumnClass(0));
@@ -51,7 +56,7 @@ public class FilesTableModelTest {
 
   @Test
   public void testGetColumnName() {
-    String[] columnNames = { "Data filepath", "Settings filepath" };
+    final String[] columnNames = {"Data filepath", "Settings filepath"};
     assertEquals(columnNames[0], ftm.getColumnName(0));
     assertEquals(columnNames[1], ftm.getColumnName(1));
   }
@@ -82,17 +87,12 @@ public class FilesTableModelTest {
   }
 
   @Test
-  public void testSetValueAt() {
-    // Not yet implemented in filesTableModel
-  }
-
-  @Test
-  public void testAddTableModelListener() {
-    // Not yet implemented in filesTableModel
-  }
-
-  @Test
   public void testRemoveTableModelListener() {
+    // Not yet implemented in filesTableModel
+  }
+
+  @Test
+  public void testSetValueAt() {
     // Not yet implemented in filesTableModel
   }
 

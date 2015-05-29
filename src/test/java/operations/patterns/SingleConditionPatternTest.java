@@ -15,8 +15,8 @@ public class SingleConditionPatternTest {
     final SingleConditionPattern nextPattern = new SingleOccurrencePattern("Test2");
     final SingleConditionPattern pattern = new SingleOccurrencePattern("Test", nextPattern);
     final SingleConditionPattern patternSame = new SingleOccurrencePattern("Test", nextPattern);
-    final SingleConditionPattern patternNotSame = new SingleOccurrencePattern("Test",
-        new NullPattern());
+    final SingleConditionPattern patternNotSame =
+        new SingleOccurrencePattern("Test", new NullPattern());
     final String otherClass = "";
 
     assertEquals(pattern, pattern);
@@ -28,8 +28,9 @@ public class SingleConditionPatternTest {
 
   @Test
   public void testHashCode() {
-    SingleConditionPattern nextPattern = new SingleOccurrencePattern("Test");
-    SingleConditionPattern nonNullNextPattern = new SingleOccurrencePattern("Test", nextPattern);
+    final SingleConditionPattern nextPattern = new SingleOccurrencePattern("Test");
+    final SingleConditionPattern nonNullNextPattern =
+        new SingleOccurrencePattern("Test", nextPattern);
 
     int expectedHashCode = 31 + nextPattern.hashCode();
     expectedHashCode = expectedHashCode * 31 + nonNullNextPattern.getCondition().hashCode();

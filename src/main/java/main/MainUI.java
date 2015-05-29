@@ -60,7 +60,7 @@ public class MainUI extends JDialog {
   private FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("XML files", "xml");
   private FileNameExtensionFilter csvfilter = new FileNameExtensionFilter("CSV and TXT files",
       "csv", "txt");
-  private FileNameExtensionFilter xlsfilter = new FileNameExtensionFilter("Excel files", "xls", "xlsx");
+  //private FileNameExtensionFilter xlsfilter = new FileNameExtensionFilter("Excel files", "xls");
 
   private File previousDirectory;
   private boolean exit = false;
@@ -283,9 +283,9 @@ public class MainUI extends JDialog {
 
     JFileChooser chooser = new JFileChooser(previousDirectory);
     chooser.setDialogTitle("Open data file.");
-    chooser.setFileFilter(xlsfilter);
     chooser.setFileFilter(csvfilter);
-    
+    // chooser.setFileFilter(xlsfilter);
+
     int state = chooser.showOpenDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {

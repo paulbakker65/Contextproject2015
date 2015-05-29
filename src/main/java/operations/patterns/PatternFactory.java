@@ -24,14 +24,33 @@ public class PatternFactory {
   /**
    * The pattern the factory will create.
    */
-  private PatternEnum pe;
+  private final PatternEnum pe;
 
-  public PatternFactory(PatternEnum pe) {
+  public PatternFactory(final PatternEnum pe) {
     this.pe = pe;
   }
 
   /**
+   * If the website ask for a second measurement, check if the patient does it.
+   * 
+   * @return correct pattern
+   */
+  public Pattern adPattern() {
+    final Pattern endPattern =
+        new SingleOccurrenceValuePattern("Measurement", new StringValue("Kreatinine2 (stat)"));
+    Pattern prevPattern = new SingleOccurrenceValuePattern("KAAI", new NumberValue(1), endPattern);
+
+    for (int i = 0; i < 4; i++) {
+      prevPattern = new SingleOccurrencePattern("CMI_id", prevPattern);
+    }
+
+    return new SingleOccurrencePattern("Useless", new SingleOccurrencePattern("Useless",
+        prevPattern));
+  }
+
+  /**
    * Using a switch statement the correct pattern is created.
+   * 
    * @return correct pattern
    */
   public Pattern getPattern() {
@@ -52,10 +71,11 @@ public class PatternFactory {
 
   /**
    * Returns the normal behavior pattern of one sensor event and five website entries.
+   * 
    * @return normal behavior pattern
    */
   public Pattern nePattern() {
-    Pattern endPattern = new SingleOccurrencePattern("CMI_id");
+    final Pattern endPattern = new SingleOccurrencePattern("CMI_id");
     Pattern prevPattern = new SingleOccurrencePattern("CMI_id", endPattern);
 
     for (int i = 0; i < 3; i++) {
@@ -63,23 +83,6 @@ public class PatternFactory {
     }
 
     return new SingleOccurrencePattern("Useless", prevPattern);
-  }
-
-  /**
-   * If the website ask for a second measurement, check if the patient does it.
-   * @return correct pattern
-   */
-  public Pattern adPattern() {
-    Pattern endPattern = new SingleOccurrenceValuePattern("Measurement",
-        new StringValue("Kreatinine2 (stat)"));
-    Pattern prevPattern = new SingleOccurrenceValuePattern("KAAI", new NumberValue(1), endPattern);
-
-    for (int i = 0; i < 4; i++) {
-      prevPattern = new SingleOccurrencePattern("CMI_id", prevPattern);
-    }
-
-    return new SingleOccurrencePattern("Useless",
-        new SingleOccurrencePattern("Useless", prevPattern));
   }
 
 }

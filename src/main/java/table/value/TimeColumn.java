@@ -1,12 +1,12 @@
 package table.value;
 
-import input.WrongXMLException;
+import input.WrongXmlException;
+
+import org.w3c.dom.Element;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import org.w3c.dom.Element;
 
 /**
  * Case class for specifying a column with time values.
@@ -26,39 +26,46 @@ public class TimeColumn extends Column {
   /**
    * Constructs a new DateColumn using a default format.
    * 
-   * @param name
-   *          the name of the column.
+   * @param name the name of the column.
    */
-  public TimeColumn(String name) {
+  public TimeColumn(final String name) {
     this(name, "hh:mm", null);
   }
 
   /**
    * Constructs a new TimeColumn.
    * 
-   * @param name
-   *          the name of the column.
-   * @param format
-   *          the time format of the column.
+   * @param name the name of the column.
+   * @param format the time format of the column.
    */
-  public TimeColumn(String name, String format) {
+  public TimeColumn(final String name, final String format) {
     this(name, format, null);
   }
 
   /**
    * Constructs a new TimeColumn.
    * 
-   * @param name
-   *          the name of the column.
-   * @param format
-   *          the time format of the column.
-   * @param targetDate
-   *          the date column to link to.
+   * @param name the name of the column.
+   * @param format the time format of the column.
+   * @param targetDate the date column to link to.
    */
-  public TimeColumn(String name, String format, String targetDate) {
+  public TimeColumn(final String name, final String format, final String targetDate) {
     super(name);
     this.setFormat(format);
     this.setTargetDate(targetDate);
+  }
+
+  @Override
+  public Value convertToValue(final String text) throws ColumnTypeMismatchException {
+    try {
+      if (text.toLowerCase().equals("null") || text.isEmpty()) {
+        return new NullValue();
+      }
+      return new TimeValue(format.parse(text), targetDate);
+    } catch (final ParseException e) {
+      throw new ColumnTypeMismatchException("\"" + text + "\" does not satisfy the format \""
+          + formatStr + "\"");
+    }
   }
 
   /**
@@ -80,17 +87,6 @@ public class TimeColumn extends Column {
   }
 
   /**
-   * Gives the column a new time format.
-   * 
-   * @param format
-   *          the new time format.
-   */
-  public void setFormat(String format) {
-    this.formatStr = format;
-    this.format = new SimpleDateFormat(format);
-  }
-
-  /**
    * Returns the column's target date.
    * 
    * @return the column's target date.
@@ -99,50 +95,46 @@ public class TimeColumn extends Column {
     return targetDate;
   }
 
+  @Override
+  public void read(final Element element) throws WrongXmlException {
+    final String format = element.getAttribute("format");
+
+    if (format.isEmpty()) {
+      throw new WrongXmlException("Format not specified!");
+    }
+
+    setFormat(format);
+
+    final String target = element.getAttribute("target");
+
+    if (target.isEmpty()) {
+      throw new WrongXmlException("Target not specified!");
+    }
+
+    setTargetDate(target);
+  }
+
+  /**
+   * Gives the column a new time format.
+   * 
+   * @param format the new time format.
+   */
+  public void setFormat(final String format) {
+    this.formatStr = format;
+    this.format = new SimpleDateFormat(format);
+  }
+
   /**
    * Gives the column a new target date.
    * 
-   * @param targetDate
-   *          the new target date.
+   * @param targetDate the new target date.
    */
-  public void setTargetDate(String targetDate) {
+  public void setTargetDate(final String targetDate) {
     this.targetDate = targetDate;
   }
 
   @Override
   public String toString() {
     return super.toString() + ",\ttype: time,\tformat: " + formatStr + ",\ttarget: " + targetDate;
-  }
-
-  @Override
-  public Value convertToValue(String text) throws ColumnTypeMismatchException {
-    try {
-      if (text.toLowerCase().equals("null") || text.isEmpty()) {
-        return new NullValue();
-      }
-      return new TimeValue(format.parse(text), targetDate);
-    } catch (ParseException e) {
-      throw new ColumnTypeMismatchException("\"" + text + "\" does not satisfy the format \""
-          + formatStr + "\"");
-    }
-  }
-
-  @Override
-  public void read(Element element) throws WrongXMLException {
-    String format = element.getAttribute("format");
-
-    if (format.isEmpty()) {
-      throw new WrongXMLException("Format not specified!");
-    }
-
-    setFormat(format);
-
-    String target = element.getAttribute("target");
-
-    if (target.isEmpty()) {
-      throw new WrongXMLException("Target not specified!");
-    }
-
-    setTargetDate(target);
   }
 }

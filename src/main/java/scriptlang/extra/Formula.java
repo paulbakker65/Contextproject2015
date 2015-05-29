@@ -14,14 +14,11 @@ public class Formula {
   /**
    * Formula constructor creates an Formula object containing two operands and a operator.
    * 
-   * @param operand1
-   *          The first operand
-   * @param operator
-   *          The operator
-   * @param operand2
-   *          The second operand
+   * @param operand1 The first operand
+   * @param operator The operator
+   * @param operand2 The second operand
    */
-  public Formula(Object operand1, CalcOperator operator, Object operand2) {
+  public Formula(final Object operand1, final CalcOperator operator, final Object operand2) {
     this.operand1 = operand1;
     this.operand2 = operand2;
     this.operator = operator;
@@ -30,12 +27,38 @@ public class Formula {
   /*
    * (non-Javadoc)
    * 
-   * @see java.lang.Object#toString()
+   * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
-  public String toString() {
-    return "Formula [operand1=" + operand1 + ", operand2=" + operand2 + ", operator=" + operator
-        + "]";
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final Formula other = (Formula) obj;
+    if (operand1 == null) {
+      if (other.operand1 != null) {
+        return false;
+      }
+    } else if (!operand1.equals(other.operand1)) {
+      return false;
+    }
+    if (operand2 == null) {
+      if (other.operand2 != null) {
+        return false;
+      }
+    } else if (!operand2.equals(other.operand2)) {
+      return false;
+    }
+    if (operator != other.operator) {
+      return false;
+    }
+    return true;
   }
 
   /*
@@ -56,38 +79,12 @@ public class Formula {
   /*
    * (non-Javadoc)
    * 
-   * @see java.lang.Object#equals(java.lang.Object)
+   * @see java.lang.Object#toString()
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    Formula other = (Formula) obj;
-    if (operand1 == null) {
-      if (other.operand1 != null) {
-        return false;
-      }
-    } else if (!operand1.equals(other.operand1)) {
-      return false;
-    }
-    if (operand2 == null) {
-      if (other.operand2 != null) {
-        return false;
-      }
-    } else if (!operand2.equals(other.operand2)) {
-      return false;
-    }
-    if (operator != other.operator) {
-      return false;
-    }
-    return true;
+  public String toString() {
+    return "Formula [operand1=" + operand1 + ", operand2=" + operand2 + ", operator=" + operator
+        + "]";
   }
 
 }

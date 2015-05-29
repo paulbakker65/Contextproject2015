@@ -12,25 +12,17 @@ import org.junit.Test;
 public class NumberValueTest {
 
   @Test
+  public void testHashCode() {
+    final NumberValue value = new NumberValue(10.0);
+
+    assertEquals(value.hashCode(), 1076101151);
+  }
+
+  @Test
   public void testNumberValueConstructor() {
-    NumberValue value = new NumberValue(10.0);
+    final NumberValue value = new NumberValue(10.0);
     assertNotNull(value);
     assertEquals(10.0, value.getValue(), 0);
-  }
-
-  @Test
-  public void testNumberValueSetGetValue() {
-    NumberValue value = new NumberValue(10.0);
-    assertEquals(10.0, value.getValue(), 0);
-
-    value.setValue(20.0);
-    assertEquals(20.0, value.getValue(), 0);
-  }
-
-  @Test
-  public void testNumberValueToString() {
-    NumberValue value = new NumberValue(10.0);
-    assertEquals("10", value.toString());
   }
 
   @Test
@@ -46,12 +38,20 @@ public class NumberValueTest {
     assertNotEquals(value, valueNotSame);
     assertNotEquals(value, otherClass);
   }
-  
-  @Test 
-  public void testHashCode() {
-    NumberValue value = new NumberValue(10.0);
-    
-    assertEquals(value.hashCode(), 1076101151);
+
+  @Test
+  public void testNumberValueSetGetValue() {
+    final NumberValue value = new NumberValue(10.0);
+    assertEquals(10.0, value.getValue(), 0);
+
+    value.setValue(20.0);
+    assertEquals(20.0, value.getValue(), 0);
+  }
+
+  @Test
+  public void testNumberValueToString() {
+    final NumberValue value = new NumberValue(10.0);
+    assertEquals("10", value.toString());
   }
 
 }

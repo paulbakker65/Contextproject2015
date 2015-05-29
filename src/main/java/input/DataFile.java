@@ -13,19 +13,16 @@ public class DataFile {
 
   private Settings settings;
   private Reader reader;
-  private Parser parser;
+  private final Parser parser;
 
   /**
    * Creates a new DataFile object.
    * 
-   * @param datafile
-   *          The data file.
-   * @param settingsfile
-   *          The corresponding settings file for the data file.
-   * @throws Exception
-   *           If the settings cannot be read an Exception is thrown.
+   * @param datafile The data file.
+   * @param settingsfile The corresponding settings file for the data file.
+   * @throws Exception If the settings cannot be read an Exception is thrown.
    */
-  public DataFile(File datafile, File settingsfile) throws Exception {
+  public DataFile(final File datafile, final File settingsfile) throws Exception {
     this.datafile = datafile;
     this.settingsfile = settingsfile;
 
@@ -37,53 +34,16 @@ public class DataFile {
   }
 
   /**
-   * Finds the extension for the given file.
-   * 
-   * @param file
-   *          The file to find the extension for.
-   * @return Returns a String containing the file extension.
-   */
-  private String findExtension(File file) {
-    String filename = file.getName();
-    int dot = filename.lastIndexOf(".");
-    return filename.substring(dot + 1);
-  }
-
-  /**
-   * Opens the settings file using XMLReader.
-   * 
-   * @param file
-   *          The file (xml) containing the settings.
-   * @return Returns a Settings object.
-   * @throws Exception
-   *           If the settings cannot be read an Exception is thrown.
-   */
-  private Settings readSettings(File file) throws Exception {
-    Settings settings = null;
-    try {
-      settings = XMLReader.readXMLFile(file.getPath());
-    } catch (WrongXMLException e) {
-      System.out.println("Error parsing settings file!");
-      throw new Exception("XML parse error: " + e.getMessage());
-    }
-
-    return settings;
-  }
-
-  /**
    * Finds and creates the correct reader for the given file.
    * 
-   * @param file
-   *          The data file to create the reader for.
-   * @param settings
-   *          The settings file corresponding to the data file.
+   * @param file The data file to create the reader for.
+   * @param settings The settings file corresponding to the data file.
    * @return Returns the correct reader for the file.
-   * @throws Exception
-   *           If the data file cannot be found an Exception is thrown.
+   * @throws Exception If the data file cannot be found an Exception is thrown.
    */
-  private Reader createReader(File file, Settings settings) throws Exception {
+  private Reader createReader(final File file, final Settings settings) throws Exception {
 
-    String fileextension = findExtension(file).toLowerCase();
+    final String fileextension = findExtension(file).toLowerCase();
 
     if (fileextension.equals("xls")) {
       throw new Exception(
@@ -92,76 +52,105 @@ public class DataFile {
       reader = new ExcelReader(file.getPath(), 0);
     } else {
       try {
-        reader = new CSVReader(file.getPath(), settings.getDelimiter());
-      } catch (FileNotFoundException e) {
-        System.out.println("Error, CSVReader can't find the following file: " + datafile.getPath());
+        reader = new CsvReader(file.getPath(), settings.getDelimiter());
+      } catch (final FileNotFoundException e) {
+        System.out.println("Error, CsvReader can't find the following file: " + datafile.getPath());
         throw new Exception("Data file not found.");
       }
     }
     return reader;
   }
 
-  @Override
-  public String toString() {
-    return "DataFile{" + "datafile='" + datafile.toString() + '\'' + ", settingsfile='"
-        + settingsfile.toString() + '\'' + '}';
+  /**
+   * Finds the extension for the given file.
+   * 
+   * @param file The file to find the extension for.
+   * @return Returns a String containing the file extension.
+   */
+  private String findExtension(final File file) {
+    final String filename = file.getName();
+    final int dot = filename.lastIndexOf(".");
+    return filename.substring(dot + 1);
   }
 
   public File getDatafile() {
     return datafile;
   }
 
-  /**
-   * Change the data file.
-   * 
-   * @param datafile
-   *          The new data file.
-   */
-  public void setDatafile(File datafile) {
-    this.datafile = datafile;
-    try {
-      reader = createReader(datafile, settings);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
-  }
-
-  public File getSettingsfile() {
-    return settingsfile;
-  }
-
-  /**
-   * Change the settings file.
-   * 
-   * @param settingsfile
-   *          The new settings file.
-   */
-  public void setSettingsfile(File settingsfile) {
-    this.settingsfile = settingsfile;
-    try {
-      settings = readSettings(settingsfile);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
-  }
-
-  public Settings getSettings() {
-    return settings;
-  }
-
-  public Reader getReader() {
-    return reader;
+  public String getFilepath() {
+    return datafile.getPath();
   }
 
   public Parser getParser() {
     return parser;
   }
 
-  public String getFilepath() {
-    return datafile.getPath();
+  public Reader getReader() {
+    return reader;
+  }
+
+  public Settings getSettings() {
+    return settings;
+  }
+
+  public File getSettingsfile() {
+    return settingsfile;
   }
 
   public String getSettingsfilepath() {
     return settingsfile.getPath();
+  }
+
+  /**
+   * Opens the settings file using XmlReader.
+   * 
+   * @param file The file (xml) containing the settings.
+   * @return Returns a Settings object.
+   * @throws Exception If the settings cannot be read an Exception is thrown.
+   */
+  private Settings readSettings(final File file) throws Exception {
+    Settings settings = null;
+    try {
+      settings = XmlReader.readXmlFile(file.getPath());
+    } catch (final WrongXmlException e) {
+      System.out.println("Error parsing settings file!");
+      throw new Exception("XML parse error: " + e.getMessage());
+    }
+
+    return settings;
+  }
+
+  /**
+   * Change the data file.
+   * 
+   * @param datafile The new data file.
+   */
+  public void setDatafile(final File datafile) {
+    this.datafile = datafile;
+    try {
+      reader = createReader(datafile, settings);
+    } catch (final Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
+  /**
+   * Change the settings file.
+   * 
+   * @param settingsfile The new settings file.
+   */
+  public void setSettingsfile(final File settingsfile) {
+    this.settingsfile = settingsfile;
+    try {
+      settings = readSettings(settingsfile);
+    } catch (final Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "DataFile{" + "datafile='" + datafile.toString() + '\'' + ", settingsfile='"
+        + settingsfile.toString() + '\'' + '}';
   }
 }

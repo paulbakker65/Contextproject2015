@@ -1,11 +1,5 @@
 package input;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import table.Record;
 import table.Table;
 import table.value.Column;
@@ -13,6 +7,12 @@ import table.value.ColumnTypeMismatchException;
 import table.value.DateValue;
 import table.value.TimeValue;
 import table.value.Value;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Class for parsing a file into a Table object.
@@ -28,78 +28,23 @@ public class Parser {
   /**
    * Constructs a new parser given the settings to describe the file.
    * 
-   * @param settings
-   *          the settings that describe the file.
+   * @param settings the settings that describe the file.
    */
-  public Parser(Settings settings) {
+  public Parser(final Settings settings) {
     super();
     this.settings = settings;
     this.columns = settings.getColumns();
     this.numColumns = columns.size();
   }
 
-  /**
-   * Parses the file given the Reader that reads the file.
-   * 
-   * @param reader
-   *          the reader that reads the file.
-   * @return a Table object which represents the read file as a table.
-   * @throws IOException
-   *           when something fail during reading.
-   * @throws ColumnTypeMismatchException
-   *           when the read file contains other values than specified by the settings.
-   */
-  public Table parse(Reader reader) throws IOException, ColumnTypeMismatchException {
-    // Skip lines until the start line is reached.
-    for (int i = 0; i < settings.getStartLine() - 1; i++) {
-      reader.readRow();
-    }
-
-    Table table = new Table();
-    table.setName(settings.getName());
-
-    String[] row = reader.readRow();
-
-    // Read a row, convert the values and store them in the Table.
-    while (row != null && row.length == numColumns) {
-      Value[] values = new Value[numColumns];
-      Map<String, String> timeDateLinks = new HashMap<String, String>();
-
-      for (int i = 0; i < columns.size(); i++) {
-        values[i] = columns.get(i).convertToValue(row[i]);
-
-        if (values[i].isTime()) {
-          timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).getTargetDate());
-        }
-      }
-
-      Record tuple = new Record(columns, values);
-      connectLinks(timeDateLinks, tuple);
-      table.add(tuple);
-
-      row = reader.readRow();
-    }
-
-    return table;
-  }
-
-  private void connectLinks(Map<String, String> links, Record record) {
-    for (Entry<String, String> entry : links.entrySet()) {
-      TimeValue timeValue = (TimeValue) record.get(entry.getKey());
-      DateValue dateValue = (DateValue) record.get(entry.getValue());
+  private void connectLinks(final Map<String, String> links, final Record record) {
+    for (final Entry<String, String> entry : links.entrySet()) {
+      final TimeValue timeValue = (TimeValue) record.get(entry.getKey());
+      final DateValue dateValue = (DateValue) record.get(entry.getValue());
 
       dateValue.addTime(timeValue.getValue());
       timeValue.setValue(dateValue.getValue());
     }
-  }
-
-  /**
-   * Returns the parser's Settings.
-   * 
-   * @return the parser's Settings.
-   */
-  public Settings getSettings() {
-    return settings;
   }
 
   /**
@@ -118,5 +63,57 @@ public class Parser {
    */
   public int getNumberOfColumns() {
     return numColumns;
+  }
+
+  /**
+   * Returns the parser's Settings.
+   * 
+   * @return the parser's Settings.
+   */
+  public Settings getSettings() {
+    return settings;
+  }
+
+  /**
+   * Parses the file given the Reader that reads the file.
+   * 
+   * @param reader the reader that reads the file.
+   * @return a Table object which represents the read file as a table.
+   * @throws IOException when something fail during reading.
+   * @throws ColumnTypeMismatchException when the read file contains other values than specified by
+   *         the settings.
+   */
+  public Table parse(final Reader reader) throws IOException, ColumnTypeMismatchException {
+    // Skip lines until the start line is reached.
+    for (int i = 0; i < settings.getStartLine() - 1; i++) {
+      reader.readRow();
+    }
+
+    final Table table = new Table();
+    table.setName(settings.getName());
+
+    String[] row = reader.readRow();
+
+    // Read a row, convert the values and store them in the Table.
+    while (row != null && row.length == numColumns) {
+      final Value[] values = new Value[numColumns];
+      final Map<String, String> timeDateLinks = new HashMap<String, String>();
+
+      for (int i = 0; i < columns.size(); i++) {
+        values[i] = columns.get(i).convertToValue(row[i]);
+
+        if (values[i].isTime()) {
+          timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).getTargetDate());
+        }
+      }
+
+      final Record tuple = new Record(columns, values);
+      connectLinks(timeDateLinks, tuple);
+      table.add(tuple);
+
+      row = reader.readRow();
+    }
+
+    return table;
   }
 }

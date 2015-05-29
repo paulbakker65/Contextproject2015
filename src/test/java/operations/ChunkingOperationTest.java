@@ -2,8 +2,6 @@ package operations;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import enums.ChunkType;
 
 import org.junit.Before;
@@ -21,6 +19,8 @@ import table.value.NumberValue;
 import table.value.StringColumn;
 import table.value.StringValue;
 import table.value.Value;
+
+import java.util.ArrayList;
 
 /**
  * ChunkingOperationTest class testing operations.ChunkingOperation.
@@ -48,69 +48,24 @@ public class ChunkingOperationTest {
   }
 
   @Test
-  public void testGetresult() {
-    co = new ChunkingOperation(dataTable, "dateField", ChunkType.MONTH);
-    assertEquals(new Table(), co.getResult());
-  }
-
-  @Test
-  public void testExecute_empty() {
-    co = new ChunkingOperation(dataTable, null, ChunkType.TEST);
-    co.execute();
-    assertEquals(new Table(), co.getResult());
-  }
-
-  @Test
-  public void testMonthChunkresult() {
-
-    // Create table with 30 user id's.
-    for (int count = 0; count < 30; count++) {
-      Record record = new Record(cols, new Value[] { new NumberValue(count),
-          new NumberValue(count * 10), new StringValue("String:" + count),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + count)) });
-      dataTable.add(record);
-    }
-
-    co = new ChunkingOperation(dataTable, "dateField", ChunkType.MONTH);
-    co.execute();
-    Table temp = (Table) dataTable.clone();
-
-    Chunk chunk1 = new Chunk(0, "Chunk 0");
-    Chunk chunk2 = new Chunk(1, "Chunk 1");
-    int count = 0;
-    while (count < 26) {
-      chunk1.add(dataTable.get(count));
-      count++;
-    }
-    while (count < dataTable.size()) {
-      chunk2.add(dataTable.get(count));
-      count++;
-    }
-    temp.addChunk(chunk1);
-    temp.addChunk(chunk2);
-
-    assertEquals(temp, co.getResult());
-    assertEquals(temp.toString(), co.toString());
-  }
-
-  @Test
   public void testDayChunkresult() {
 
     // Create table with 20 user id's.
     for (int count = 0; count < 20; count++) {
-      Record record = new Record(cols, new Value[] { new NumberValue(count),
-          new NumberValue(count * 10), new StringValue("String:" + count),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + (count / 5))) });
+      final Record record =
+          new Record(cols, new Value[] {new NumberValue(count), new NumberValue(count * 10),
+              new StringValue("String:" + count),
+              new DateValue(DateConversion.fromExcelSerialToDate(40000 + (count / 5)))});
       dataTable.add(record);
     }
 
     co = new ChunkingOperation(dataTable, "dateField", ChunkType.DAY);
     co.execute();
     final Table temp = (Table) dataTable.clone();
-    Chunk chunk1 = new Chunk(0, "Chunk 0");
-    Chunk chunk2 = new Chunk(1, "Chunk 1");
-    Chunk chunk3 = new Chunk(2, "Chunk 2");
-    Chunk chunk4 = new Chunk(3, "Chunk 3");
+    final Chunk chunk1 = new Chunk(0, "Chunk 0");
+    final Chunk chunk2 = new Chunk(1, "Chunk 1");
+    final Chunk chunk3 = new Chunk(2, "Chunk 2");
+    final Chunk chunk4 = new Chunk(3, "Chunk 3");
     int count = 0;
     while (count < 5) {
       chunk1.add(dataTable.get(count));
@@ -138,39 +93,53 @@ public class ChunkingOperationTest {
   }
 
   @Test
-  public void testYearChunkresult() {
+  public void testExecute_empty() {
+    co = new ChunkingOperation(dataTable, null, ChunkType.TEST);
+    co.execute();
+    assertEquals(new Table(), co.getResult());
+  }
 
-    // Create table with 10 user id's.
-    for (int count = 0; count < 10; count++) {
-      Record record = new Record(cols, new Value[] { new NumberValue(count),
-          new NumberValue(count * 10), new StringValue("String:" + count),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + count * 90)) });
+  @Test
+  public void testGetresult() {
+    co = new ChunkingOperation(dataTable, "dateField", ChunkType.MONTH);
+    assertEquals(new Table(), co.getResult());
+  }
+
+  @Test
+  public void testInvalidCce() {
+    co = new ChunkingOperation(dataTable, null, ChunkType.TEST);
+    assertEquals(null, co.getCondition(ChunkType.TEST));
+  }
+
+  @Test
+  public void testMonthChunkresult() {
+
+    // Create table with 30 user id's.
+    for (int count = 0; count < 30; count++) {
+      final Record record =
+          new Record(cols, new Value[] {new NumberValue(count), new NumberValue(count * 10),
+              new StringValue("String:" + count),
+              new DateValue(DateConversion.fromExcelSerialToDate(40000 + count))});
       dataTable.add(record);
     }
 
-    co = new ChunkingOperation(dataTable, "dateField", ChunkType.YEAR);
+    co = new ChunkingOperation(dataTable, "dateField", ChunkType.MONTH);
     co.execute();
     final Table temp = (Table) dataTable.clone();
-    Chunk chunk1 = new Chunk(0, "Chunk 0");
-    Chunk chunk2 = new Chunk(1, "Chunk 1");
-    Chunk chunk3 = new Chunk(2, "Chunk 2");
+
+    final Chunk chunk1 = new Chunk(0, "Chunk 0");
+    final Chunk chunk2 = new Chunk(1, "Chunk 1");
     int count = 0;
-    while (count < 2) {
+    while (count < 26) {
       chunk1.add(dataTable.get(count));
       count++;
     }
-    while (count < 7) {
+    while (count < dataTable.size()) {
       chunk2.add(dataTable.get(count));
       count++;
     }
-    while (count < 10) {
-      chunk3.add(dataTable.get(count));
-      count++;
-    }
-
     temp.addChunk(chunk1);
     temp.addChunk(chunk2);
-    temp.addChunk(chunk3);
 
     assertEquals(temp, co.getResult());
     assertEquals(temp.toString(), co.toString());
@@ -181,19 +150,20 @@ public class ChunkingOperationTest {
 
     // Create table with 20 user id's.
     for (int count = 0; count < 15; count++) {
-      Record record = new Record(cols, new Value[] { new NumberValue(count / 4),
-          new NumberValue(count * 10), new StringValue("String:" + count),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + (count))) });
+      final Record record =
+          new Record(cols, new Value[] {new NumberValue(count / 4), new NumberValue(count * 10),
+              new StringValue("String:" + count),
+              new DateValue(DateConversion.fromExcelSerialToDate(40000 + (count)))});
       dataTable.add(record);
     }
 
     co = new ChunkingOperation(dataTable, "userid", ChunkType.PATIENT);
     co.execute();
     final Table temp = (Table) dataTable.clone();
-    Chunk chunk1 = new Chunk(0, "Chunk 0");
-    Chunk chunk2 = new Chunk(1, "Chunk 1");
-    Chunk chunk3 = new Chunk(2, "Chunk 2");
-    Chunk chunk4 = new Chunk(3, "Chunk 3");
+    final Chunk chunk1 = new Chunk(0, "Chunk 0");
+    final Chunk chunk2 = new Chunk(1, "Chunk 1");
+    final Chunk chunk3 = new Chunk(2, "Chunk 2");
+    final Chunk chunk4 = new Chunk(3, "Chunk 3");
     int count = 0;
     while (count < 4) {
       chunk1.add(dataTable.get(count));
@@ -222,9 +192,43 @@ public class ChunkingOperationTest {
   }
 
   @Test
-  public void testInvalidCCE() {
-    co = new ChunkingOperation(dataTable, null, ChunkType.TEST);
-    assertEquals(null, co.getCondition(ChunkType.TEST));
+  public void testYearChunkresult() {
+
+    // Create table with 10 user id's.
+    for (int count = 0; count < 10; count++) {
+      final Record record =
+          new Record(cols, new Value[] {new NumberValue(count), new NumberValue(count * 10),
+              new StringValue("String:" + count),
+              new DateValue(DateConversion.fromExcelSerialToDate(40000 + count * 90))});
+      dataTable.add(record);
+    }
+
+    co = new ChunkingOperation(dataTable, "dateField", ChunkType.YEAR);
+    co.execute();
+    final Table temp = (Table) dataTable.clone();
+    final Chunk chunk1 = new Chunk(0, "Chunk 0");
+    final Chunk chunk2 = new Chunk(1, "Chunk 1");
+    final Chunk chunk3 = new Chunk(2, "Chunk 2");
+    int count = 0;
+    while (count < 2) {
+      chunk1.add(dataTable.get(count));
+      count++;
+    }
+    while (count < 7) {
+      chunk2.add(dataTable.get(count));
+      count++;
+    }
+    while (count < 10) {
+      chunk3.add(dataTable.get(count));
+      count++;
+    }
+
+    temp.addChunk(chunk1);
+    temp.addChunk(chunk2);
+    temp.addChunk(chunk3);
+
+    assertEquals(temp, co.getResult());
+    assertEquals(temp.toString(), co.toString());
   }
 
 }

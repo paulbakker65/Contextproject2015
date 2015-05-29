@@ -1,10 +1,10 @@
 package operations.chunking;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import table.value.DateValue;
 import table.value.Value;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Chunks on each month of the calendar.
@@ -12,11 +12,11 @@ import table.value.Value;
 public class MonthCondition extends ChunkCondition {
 
   @Override
-  public boolean matches(Value recordValue, Value check) {
-    DateValue current = (DateValue) check;
-    GregorianCalendar currentDate = current.getValue();
-    DateValue record = (DateValue) recordValue;
-    GregorianCalendar recordDate = record.getValue();
+  public boolean matches(final Value recordValue, final Value check) {
+    final DateValue current = (DateValue) check;
+    final GregorianCalendar currentDate = current.getValue();
+    final DateValue record = (DateValue) recordValue;
+    final GregorianCalendar recordDate = record.getValue();
     if (recordDate.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH)
         && recordDate.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)) {
 

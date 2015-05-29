@@ -10,48 +10,26 @@ import org.junit.Test;
  * Class for testing the Chunk class.
  */
 public class ChunkTest {
-  
+
   @Test
   public void testConstructor() {
-    Chunk chunk = new Chunk(1, "test");
-    
+    final Chunk chunk = new Chunk(1, "test");
+
     assertNotNull(chunk);
     assertEquals(chunk.getIndex(), 1);
     assertEquals(chunk.getLabel(), "test");
   }
-  
-  @Test
-  public void testGetSetIndex() {
-    Chunk chunk = new Chunk(5, "");
-    
-    assertEquals(5, chunk.getIndex());
-    
-    chunk.setIndex(1);
-    
-    assertEquals(1, chunk.getIndex());
-  }
-  
-  @Test
-  public void testGetSetLabel() {
-    Chunk chunk = new Chunk(5, "test");
-    
-    assertEquals("test", chunk.getLabel());
-    
-    chunk.setLabel("test2");
-    
-    assertEquals("test2", chunk.getLabel());
-  }
-  
+
   @Test
   public void testEquals() {
-    Chunk chunk = new Chunk(1, "Chunk 1");
-    Chunk chunkSame = new Chunk(1, "Chunk 1");
+    final Chunk chunk = new Chunk(1, "Chunk 1");
+    final Chunk chunkSame = new Chunk(1, "Chunk 1");
     final Chunk chunkNotSameIndex = new Chunk(2, "Chunk 1");
     final Chunk chunkNotSameLabel = new Chunk(1, "Chunk 2");
     final Chunk chunkNullLabel1 = new Chunk(1, null);
     final Chunk chunkNullLabel2 = new Chunk(1, null);
     final Table otherClass = new Table();
-    
+
     assertEquals(chunk, chunk);
     assertNotEquals(chunk, null);
     assertEquals(chunk, chunkSame);
@@ -62,13 +40,35 @@ public class ChunkTest {
     assertEquals(chunkNullLabel1, chunkNullLabel2);
     assertNotEquals(chunk, otherClass);
   }
-  
+
   @Test
-  public void testHashCode() { 
-    int superHashCode = new Table().hashCode();
-    
-    Chunk chunk = new Chunk(1, "Chunk 1");
-    Chunk chunkNullLabel = new Chunk(1, null);
+  public void testGetSetIndex() {
+    final Chunk chunk = new Chunk(5, "");
+
+    assertEquals(5, chunk.getIndex());
+
+    chunk.setIndex(1);
+
+    assertEquals(1, chunk.getIndex());
+  }
+
+  @Test
+  public void testGetSetLabel() {
+    final Chunk chunk = new Chunk(5, "test");
+
+    assertEquals("test", chunk.getLabel());
+
+    chunk.setLabel("test2");
+
+    assertEquals("test2", chunk.getLabel());
+  }
+
+  @Test
+  public void testHashCode() {
+    final int superHashCode = new Table().hashCode();
+
+    final Chunk chunk = new Chunk(1, "Chunk 1");
+    final Chunk chunkNullLabel = new Chunk(1, null);
 
     assertEquals(chunk.hashCode(), (31 * superHashCode + 1) * 31 + "Chunk 1".hashCode());
     assertEquals(chunkNullLabel.hashCode(), (31 * superHashCode + 1) * 31);
