@@ -2,7 +2,6 @@ package operations;
 
 import table.Table;
 import table.value.DateValue;
-import table.value.NullValue;
 import table.value.NumberValue;
 import table.value.Value;
 
@@ -59,12 +58,7 @@ public class BetweenOperation extends Operation {
    */
   public BetweenOperation(Table inputDataset, String eventcol, String datecol, Value ev1val,
       Value ev2val) {
-    super(inputDataset);
-    this.eventcol = eventcol;
-    this.datecol = datecol;
-    this.datecol2 = datecol;
-    this.ev1val = ev1val;
-    this.ev2val = ev2val;
+    this(inputDataset, eventcol, datecol, datecol, ev1val, ev2val);
   }
 
   @Override
@@ -108,7 +102,7 @@ public class BetweenOperation extends Operation {
   }
 
   private long getTimeStamp(int i) {
-    Value date = new NullValue();
+    Value date = null;
     if (isFirstEvent(i)) {
       date = inputData.get(i).get(datecol);
     } else {
