@@ -21,7 +21,7 @@ public class InputTest {
   File settings = new File(resource + "settings.xml");
   File settingsxmlerror = new File(resource + "settings_xmlerror.xml");
   File notexisting = new File(resource + "notexisting.txt");
-  
+
   @Before
   public void setUp() throws Exception {
     Input.clean();
@@ -49,14 +49,14 @@ public class InputTest {
    */
   @Test
   public void testSetOutputDir1() {
-    if (output.exists()){
+    if (output.exists()) {
       output.delete();
     }
     assertNull(Input.getOutputDir());
     assertTrue(Input.setOutputDir(output));
     output.delete();
   }
-  
+
   /**
    * Test output directory is a file.
    */
@@ -81,7 +81,7 @@ public class InputTest {
     Input.addDataFile(notexisting, settings);
     assertTrue(Input.getFiles().isEmpty());
   }
-    
+
   /**
    * Tests settings file not found.
    */
@@ -91,12 +91,12 @@ public class InputTest {
     Input.addDataFile(file, notexisting);
     assertTrue(Input.getFiles().isEmpty());
   }
-  
+
   /**
    * Tests XML error in settings file.
    */
   @Test
-  public void testAddDataFile4(){
+  public void testAddDataFile4() {
     assertTrue(Input.getFiles().isEmpty());
     try {
       Input.addDataFile(file, settingsxmlerror);
@@ -105,7 +105,7 @@ public class InputTest {
     }
     assertTrue(Input.getFiles().isEmpty());
   }
-  
+
   @Test
   public void testHasScript() {
     assertFalse(Input.hasScript());
