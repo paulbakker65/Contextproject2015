@@ -34,6 +34,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="opencsv-3.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/usr/local/lib/antlr-4.5-complete.jar"/>
+	<classpathentry kind="lib" path="antlr-4.5-complete.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
