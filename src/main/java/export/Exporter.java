@@ -16,7 +16,7 @@ import com.opencsv.CSVWriter;
 /**
  * Exporter class that outputs internal datastructures into output files.
  */
-final class Exporter {
+public final class Exporter {
 
   /**
    * Default private constructor.
