@@ -177,7 +177,7 @@ public class LSAOperation extends Operation {
   /**
    * For internal use only. Sorts on lag.
    */
-  class RecordLagComparator implements Comparator<Record> {
+  static class RecordLagComparator implements Comparator<Record> {
 
     @Override
     public int compare(Record o1, Record o2) {
