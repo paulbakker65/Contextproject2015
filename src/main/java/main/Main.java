@@ -8,7 +8,6 @@ import java.io.File;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-
 import java.util.ArrayList;
 
 import table.value.ColumnTypeMismatchException;
@@ -21,8 +20,7 @@ import table.Table;
  */
 public class Main {
 
-  public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException,
-      ColumnTypeMismatchException {
+  public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
 
     if (!parseCommandline(args)) {
       return;

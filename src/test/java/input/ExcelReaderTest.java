@@ -13,9 +13,6 @@ import table.Table;
 
 /**
  * A test that runs a real excel file and checks if the parsing succeeded.
- * 
- * @author unset
- *
  */
 public class ExcelReaderTest {
 
