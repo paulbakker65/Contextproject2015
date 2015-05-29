@@ -5,7 +5,11 @@ import static org.junit.Assert.assertEquals;
 import operations.patterns.PatternFactory.PatternEnum;
 
 import org.junit.Test;
-
+/**
+ * Test for pattern factory.
+ * @author paulbakker
+ *
+ */
 public class PatternFactoryTest {
 
   @Test
