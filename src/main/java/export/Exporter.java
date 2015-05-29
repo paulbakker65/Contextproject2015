@@ -16,7 +16,12 @@ import com.opencsv.CSVWriter;
 /**
  * Exporter class that outputs internal datastructures into output files.
  */
-class Exporter {
+final class Exporter {
+
+  /**
+   * Default private constructor.
+   */
+  private Exporter() { }
 
   /**
    * The export method writes a Table to a writer instance.
@@ -52,14 +57,13 @@ class Exporter {
    * record.
    *
    * @param dr
-   *    The record that we want to convert.
+   *          The record that we want to convert.
    * @param columns
-   *    The columns that the dr record contains.
-   * @return
-   *    String[] containing all the values of the record dr.
+   *          The columns that the dr record contains.
+   * @return String[] containing all the values of the record dr.
    */
-  public static String[] generateRow(final Record dr,
-      final Set<String> columns) {
+  public static String[]
+      generateRow(final Record dr, final Set<String> columns) {
     List<String> items = new ArrayList<String>();
     for (String column : columns) {
       Value value = dr.get(column);
