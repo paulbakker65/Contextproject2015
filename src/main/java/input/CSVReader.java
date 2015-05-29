@@ -19,8 +19,7 @@ public class CSVReader extends Reader {
 
   @SuppressFBWarnings(value = "I18N", justification = "Assume unicode")
   public CSVReader(String filepath) throws FileNotFoundException {
-    super();
-    this.filepath = filepath;
+    super(filepath);
 
     fr = new FileReader(filepath);
     br = new BufferedReader(fr);
@@ -51,5 +50,10 @@ public class CSVReader extends Reader {
 
   public void setDelimiter(String delimiter) {
     this.delimiter = delimiter;
+  }
+
+  @Override
+  public void close() throws IOException {
+    br.close();
   }
 }
