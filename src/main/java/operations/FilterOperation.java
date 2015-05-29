@@ -1,5 +1,6 @@
 package operations;
 
+import enums.CompareOperator;
 import table.Record;
 import table.Table;
 import table.value.Value;
@@ -48,13 +49,13 @@ public class FilterOperation extends Operation {
   /**
    * enum for the constraint type.
    */
-  ConstraintComparatorEnum constraintType;
+  CompareOperator constraintType;
   /**
    * value to meet constraint.
    */
   Value constraintValue;
 
-  public FilterOperation(Table dataset, String columnName, ConstraintComparatorEnum constraintType,
+  public FilterOperation(Table dataset, String columnName, CompareOperator constraintType,
       Value constraintValue) {
     super(dataset);
     setOperationParameters(columnName, constraintType, constraintValue);
@@ -72,7 +73,7 @@ public class FilterOperation extends Operation {
    * @return <b>true</b> iff this.operationParametersSet is <b>true</b><br>
    *         <b>false</b> iff this.operationParametersSet is <b>false</b></br>
    */
-  public boolean setOperationParameters(String columnName, ConstraintComparatorEnum constraintType,
+  public boolean setOperationParameters(String columnName, CompareOperator constraintType,
       Value constraintValue) {
     this.columnName = columnName;
     this.constraintType = constraintType;
@@ -97,12 +98,14 @@ public class FilterOperation extends Operation {
    *         <b>true</b> if the constraint type is undefined
    */
   private boolean constraintFunction(Value recordValue,
-      ConstraintComparatorEnum constraintComparatorEnum, Value constraintValue) {
+      CompareOperator compareOperator, Value constraintValue) {
 
     int compareResult = recordValue.compareTo(constraintValue);
-    switch (constraintComparatorEnum) {
+    switch (compareOperator) {
     case EQ:
       return compareResult == 0;
+    case NEQ:
+      return compareResult != 0;
     case G:
       return compareResult > 0;
     case GEQ:
@@ -151,5 +154,63 @@ public class FilterOperation extends Operation {
   public Table getResult() {
     return this.resultData;
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
+    result = prime * result + ((constraintType == null) ? 0 : constraintType.hashCode());
+    result = prime * result + ((constraintValue == null) ? 0 : constraintValue.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    FilterOperation other = (FilterOperation) obj;
+    if (columnName == null) {
+      if (other.columnName != null) {
+        return false;
+      }
+    } else if (!columnName.equals(other.columnName)) {
+      return false;
+    }
+    if (constraintType != other.constraintType) {
+      return false;
+    }
+    if (constraintValue == null) {
+      if (other.constraintValue != null) {
+        return false;
+      }
+    } else if (!constraintValue.equals(other.constraintValue)) {
+      return false;
+    }
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "FilterOperation [columnName=" + columnName + ", constraintType=" + constraintType
+        + ", constraintValue=" + constraintValue + "]";
+  }
+  
 
 }
