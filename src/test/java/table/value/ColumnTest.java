@@ -98,11 +98,9 @@ public class ColumnTest {
     assertEquals(value, column.convertToValue(""));
   }
 
-  @SuppressWarnings("unused")
   @Test(expected = ColumnTypeMismatchException.class)
   public void testNumberColumnConvertToValueException() throws ColumnTypeMismatchException {
-    NumberColumn column = new NumberColumn("testName");
-    Value value = column.convertToValue("text");
+    new NumberColumn("testName").convertToValue("text");
   }
 
   @Test
@@ -159,20 +157,16 @@ public class ColumnTest {
     assertEquals(value, column.convertToValue(""));
   }
 
-  @SuppressWarnings("unused")
   @Test(expected = ColumnTypeMismatchException.class)
   public void testDateColumnConvertToValueException() throws ColumnTypeMismatchException,
       ParseException {
-    DateColumn column = new DateColumn("testName", "dd-MM-yyyy");
-    Value value = column.convertToValue("2014/12/31");
+    new DateColumn("testName", "dd-MM-yyyy").convertToValue("2014/12/31");
   }
 
-  @SuppressWarnings("unused")
   @Test(expected = ColumnTypeMismatchException.class)
   public void testDateColumnConvertToValueExcelException() throws ColumnTypeMismatchException,
       ParseException {
-    DateColumn column = new DateColumn("testName", "excel");
-    Value value = column.convertToValue("text");
+    new DateColumn("testName", "excel").convertToValue("text");
   }
 
   @Test
@@ -233,12 +227,10 @@ public class ColumnTest {
     assertEquals(value, column.convertToValue(""));
   }
 
-  @SuppressWarnings("unused")
   @Test(expected = ColumnTypeMismatchException.class)
   public void testTimeColumnConvertToValueException() throws ColumnTypeMismatchException,
       ParseException {
-    TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
-    Value value = column.convertToValue("31/12/2014");
+    new TimeColumn("testName", "hhmm", "Date").convertToValue("31/12/2014");
   }
 
   @SuppressWarnings("unused")

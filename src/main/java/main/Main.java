@@ -6,12 +6,9 @@ import input.WrongXMLException;
 
 import java.io.File;
 import java.io.FileWriter;
-//import java.io.FileWriter;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
-//import java.util.ArrayList;
-//import java.util.Collections;
-
 import java.util.ArrayList;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -19,10 +16,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import operations.FilterOperation;
-import operations.FilterOperation.ConstraintComparatorEnum;
 import operations.Operation;
-import enums.CompareOperator;
 import exceptions.TableNotFoundException;
 import export.Exporter;
 import scriptlang.AnalysisLangLexer;
@@ -30,7 +24,6 @@ import scriptlang.AnalysisLangParser;
 import scriptlang.extra.ALListener;
 import scriptlang.extra.OperationSpec;
 import table.value.*;
-import table.RecordComparator;
 import table.Table;
 
 /**
@@ -85,7 +78,6 @@ public class Main{
     }
     
     System.exit(0);
-
   }
 
   /**

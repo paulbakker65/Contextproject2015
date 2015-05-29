@@ -102,7 +102,7 @@ public class Settings {
     String name = element.getAttribute("name");
 
     if (name.isEmpty()) {
-      throw new WrongXMLException("No name specified!");
+      throw new WrongXMLException("No table name specified!");
     }
 
     setName(name);
