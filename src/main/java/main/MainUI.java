@@ -7,9 +7,7 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -19,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -30,13 +27,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * MainUI class implementing the main Graphical User Interface.
- * 
  */
 public class MainUI extends JDialog {
   private static final long serialVersionUID = 1L;
@@ -59,7 +53,7 @@ public class MainUI extends JDialog {
   // Filters for JFileChooser dialog
   private FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("XML files", "xml");
   private FileNameExtensionFilter csvfilter = new FileNameExtensionFilter("CSV and TXT files",
-      "csv", "txt");
+          "csv", "txt");
   private FileNameExtensionFilter xlsfilter = new FileNameExtensionFilter("Excel files", "xls", "xlsx");
 
   private File previousDirectory;
@@ -67,17 +61,17 @@ public class MainUI extends JDialog {
 
   public MainUI() {
     super(null, ModalityType.TOOLKIT_MODAL);
-    
+
     init();
 
     // call onCancel() on ESCAPE
     contentPane
-        .registerKeyboardAction(new ActionListener() {
-          public void actionPerformed(ActionEvent e) {
-            onCancel();
-          }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            .registerKeyboardAction(new ActionListener() {
+                                      public void actionPerformed(ActionEvent e) {
+                                        onCancel();
+                                      }
+                                    }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                    JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
     // call onCancel() when cross is clicked
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -145,28 +139,23 @@ public class MainUI extends JDialog {
   /**
    * Initializes the GUI. Sets the dialog look to match the system look, loads the icon and sets the file path fields.
    */
-  public void init(){
-    setSystemLook();
+  public void init() {
+    GUI.setSystemLook();
     setContentPane(contentPane);
     setModal(true);
 
     getRootPane().setDefaultButton(buttonRunScript);
 
-    try {
-      Image icon = ImageIO.read(ClassLoader.getSystemResource("icon.png"));
-      this.setIconImage(icon);
-    } catch (IOException e1) {
-      System.err.println("Error opening icon from resource.");
-    }
-    
-    if (Input.hasScript()){
+    GUI.setIconImage(this);
+
+    if (Input.hasScript()) {
       textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
     }
-    if (Input.hasOutput()){
+    if (Input.hasOutput()) {
       textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
     }
   }
-  
+
   /**
    * Opens a open file dialog for the user to select the script file.
    */
@@ -178,12 +167,12 @@ public class MainUI extends JDialog {
 
     if (of == JFileChooser.APPROVE_OPTION) {
       previousDirectory = chooser.getCurrentDirectory();
-      if (!Input.setScriptFile(chooser.getSelectedFile())){
-        JOptionPane.showMessageDialog(this, 
-            "Error opening script file, please select a valid script file.", 
-            "File not found.", JOptionPane.ERROR_MESSAGE);
+      if (!Input.setScriptFile(chooser.getSelectedFile())) {
+        JOptionPane.showMessageDialog(this,
+                "Error opening script file, please select a valid script file.",
+                "File not found.", JOptionPane.ERROR_MESSAGE);
         return;
-      }      
+      }
       textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
     }
   }
@@ -195,8 +184,8 @@ public class MainUI extends JDialog {
   private void onEditScript() {
     if (!Input.hasScript()) {
       int option = JOptionPane.showConfirmDialog(null,
-          "No scipt file selected.\nWould you like to select one now?", "No script file.",
-          JOptionPane.YES_NO_OPTION);
+              "No scipt file selected.\nWould you like to select one now?", "No script file.",
+              JOptionPane.YES_NO_OPTION);
       if (option == JOptionPane.YES_OPTION) {
         onOpenScript();
       } else {
@@ -232,11 +221,11 @@ public class MainUI extends JDialog {
     if (state == JFileChooser.APPROVE_OPTION) {
 
       previousDirectory = chooser.getCurrentDirectory();
-      
-      if (!Input.setOutputDir(chooser.getSelectedFile())){
-        JOptionPane.showMessageDialog(this, 
-            "Error with output directory. Selected path is a file or the direcotry could not be made.", 
-            "Directory not found.", JOptionPane.ERROR_MESSAGE);
+
+      if (!Input.setOutputDir(chooser.getSelectedFile())) {
+        JOptionPane.showMessageDialog(this,
+                "Error with output directory. Selected path is a file or the direcotry could not be made.",
+                "Directory not found.", JOptionPane.ERROR_MESSAGE);
         return;
       }
 
@@ -252,8 +241,8 @@ public class MainUI extends JDialog {
   private void onViewOutputDir() {
     if (!Input.hasOutput()) {
       int option = JOptionPane.showConfirmDialog(null,
-          "No output directory selected.\nWould you like to select one now?",
-          "No output directory.", JOptionPane.YES_NO_OPTION);
+              "No output directory selected.\nWould you like to select one now?",
+              "No output directory.", JOptionPane.YES_NO_OPTION);
       if (option == JOptionPane.YES_OPTION) {
         onSelectOutputDir();
       } else {
@@ -285,17 +274,17 @@ public class MainUI extends JDialog {
     chooser.setDialogTitle("Open data file.");
     chooser.setFileFilter(xlsfilter);
     chooser.setFileFilter(csvfilter);
-    
+
     int state = chooser.showOpenDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {
 
       previousDirectory = chooser.getCurrentDirectory();
       dataFile = chooser.getSelectedFile();
-      if (!Input.exists(dataFile)){
-        JOptionPane.showMessageDialog(this, 
-            "Error opening data file, the data file can not be found.", 
-            "File not found.", JOptionPane.ERROR_MESSAGE);
+      if (!Input.exists(dataFile)) {
+        JOptionPane.showMessageDialog(this,
+                "Error opening data file, the data file can not be found.",
+                "File not found.", JOptionPane.ERROR_MESSAGE);
         return;
       }
       System.out.println("Selected data file: " + dataFile);
@@ -313,10 +302,10 @@ public class MainUI extends JDialog {
 
       previousDirectory = chooser2.getCurrentDirectory();
       settingsFile = chooser2.getSelectedFile();
-      if (!Input.exists(settingsFile)){
-        JOptionPane.showMessageDialog(this, 
-            "Error opening settings file, the settings file can not be found.", 
-            "File not found.", JOptionPane.ERROR_MESSAGE);
+      if (!Input.exists(settingsFile)) {
+        JOptionPane.showMessageDialog(this,
+                "Error opening settings file, the settings file can not be found.",
+                "File not found.", JOptionPane.ERROR_MESSAGE);
         return;
       }
       System.out.println("Selected settings file: " + settingsFile);
@@ -345,12 +334,12 @@ public class MainUI extends JDialog {
     }
 
     //make sure the selected row index is not out of bound.
-    for (int i : selectedRows){
-      if (i >= rowcount){
+    for (int i : selectedRows) {
+      if (i >= rowcount) {
         return;
       }
     }
-    
+
     // Sort the index list, rows with a higher index should be removed before rows with a lower
     // index to prevent indices from changing.
     Arrays.sort(selectedRows);
@@ -384,56 +373,28 @@ public class MainUI extends JDialog {
     exit = true;
   }
 
-  /**
-   * This method will place the dialog in the center of the screen.
-   */
-  public void centreWindow() {
-    Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-    int x = (int) dimension.getWidth() / 2 - getWidth() / 2;
-    int y = (int) dimension.getHeight() / 2 - getHeight() / 2;
-    setLocation(x, y);
-  }
-
-  /**
-   * Sets the gui to use visuals similar to the operating system, instead of the java gui visuals.
-   */
-  private void setSystemLook() {
-    try {
-      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (UnsupportedLookAndFeelException e) {
-      e.printStackTrace();
-    }
-  }
-
   public boolean isExit() {
     return exit;
   }
 
-  
   {
-    // GUI initializer generated by IntelliJ IDEA GUI Designer
-    // >>> IMPORTANT!! <<<
-    // DO NOT EDIT OR ADD ANY CODE HERE!
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
     setupUI();
   }
 
   /**
-   * Method generated by IntelliJ IDEA GUI Designer >>> IMPORTANT!! <<< DO NOT edit this method OR
-   * call it in your code!
+   * Method generated by IntelliJ IDEA GUI Designer
+   * IMPORTANT!!
+   * DO NOT edit this method OR call it in your code!
    *
    * @noinspection ALL
    */
-
   private void setupUI() {
     contentPane = new JPanel();
     contentPane.setLayout(new GridBagLayout());
-    contentPane.setPreferredSize(new Dimension(1000, 600));
+    contentPane.setPreferredSize(new Dimension(800, 600));
     filesPanel = new JPanel();
     filesPanel.setLayout(new GridBagLayout());
     GridBagConstraints gbc;
