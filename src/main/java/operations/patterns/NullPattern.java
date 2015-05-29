@@ -1,4 +1,4 @@
-package operations.coding;
+package operations.patterns;
 
 import table.Table;
 
@@ -10,7 +10,7 @@ import table.Table;
 public class NullPattern extends Pattern {
 
   /**
-   * Constroctor only calls the super class with null.
+   * Constructor only calls the super class with null.
    */
   public NullPattern() {
     super(null);

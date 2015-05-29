@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Special ArrayList that contains the records.
  */
+@SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "We dont serialize")
 public class Table extends ArrayList<Record> {
 
   private static final long serialVersionUID = 1L;
   private String name;
   private HashMap<String, Code> codes;
   private List<Chunk> chunks;
+
   /**
    * @return A string representation of the Table.
    */
@@ -25,17 +29,16 @@ public class Table extends ArrayList<Record> {
 
     return sb.toString();
   }
-  
+
   /**
    * Call the ArrayList constructor and initialize chunks.
    */
-  public Table(){
+  public Table() {
     super();
     chunks = new ArrayList<Chunk>();
     codes = new HashMap<String, Code>();
   }
-  
-  
+
   @SuppressWarnings("unchecked")
   @Override
   public Object clone() {
@@ -44,41 +47,48 @@ public class Table extends ArrayList<Record> {
     t.codes = (HashMap<String, Code>) codes.clone();
     return t;
   }
-  
+
   /**
    * Getter for name.
+   * 
    * @return
    */
   public String getName() {
     return name;
   }
-  
+
   /**
    * Setter for name.
+   * 
    * @param name
    */
   public void setName(String name) {
     this.name = name;
   }
-  
+
   /**
    * Adding a chunk to the list of chunks for this table.
-   * @param c chunk to add.
+   * 
+   * @param c
+   *          chunk to add.
    */
   public void addChunk(Chunk c) {
     chunks.add(c);
   }
-  
+
   /**
    * Adding a code to the hashmap of codes for this table.
-   * @param c code to add.
+   * 
+   * @param c
+   *          code to add.
    */
   public void addCode(Code c) {
     codes.put(c.getName(), c);
   }
-  
+
   /**
    * Setter for the list of chunks.
+   * 
    * @param set
    */
   public void setChunks(List<Chunk> set) {
@@ -87,25 +97,28 @@ public class Table extends ArrayList<Record> {
     }
     this.chunks = set;
   }
-  
+
   /**
    * Getter for the list of chunks.
+   * 
    * @return
    */
   public List<Chunk> getChunks() {
     return this.chunks;
   }
-  
+
   /**
    * Getter for the map of codes.
+   * 
    * @return
    */
   public HashMap<String, Code> getCodes() {
     return this.codes;
   }
-  
+
   /**
    * Getter for a code given a name.
+   * 
    * @return
    */
   public Code getCode(String name) {
@@ -125,8 +138,8 @@ public class Table extends ArrayList<Record> {
   }
 
   /**
-   * New equals method that also checks if the list of chunks is equal to that of the 
-   * other table. The same for the hashmap of codes.
+   * New equals method that also checks if the list of chunks is equal to that of the other table.
+   * The same for the hashmap of codes.
    */
   @Override
   public boolean equals(Object obj) {
@@ -135,19 +148,15 @@ public class Table extends ArrayList<Record> {
     }
     if (!super.equals(obj)) {
       return false;
-    }  
+    }
     if (getClass() != obj.getClass()) {
       return false;
-    }  
+    }
     Table other = (Table) obj;
     if (!codes.equals(other.codes)) {
       return false;
     }
     return chunks.equals(other.chunks);
   }
-
-
-  
-
 
 }

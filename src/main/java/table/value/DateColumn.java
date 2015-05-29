@@ -20,6 +20,8 @@ public class DateColumn extends Column {
   private DateFormat format;
   private String formatStr;
 
+  private static DateFormat iso = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+  
   /**
    * Constructs a new DateColumn using a default format.
    * 
@@ -94,6 +96,14 @@ public class DateColumn extends Column {
 
       return new DateValue(format.parse(text));
     } catch (ParseException e) {
+      //Fall back on ISO
+      try {
+        return new DateValue(iso.parse(text));
+      }
+      catch (ParseException ex){
+
+      }
+      
       throw new ColumnTypeMismatchException("\"" + text + "\" does not satisfy the format \""
           + formatStr + "\"");
     }
