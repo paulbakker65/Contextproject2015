@@ -2,4 +2,5 @@
 /medical/
 *.csv
 *.xls
+*.xlsx
 ~$*
