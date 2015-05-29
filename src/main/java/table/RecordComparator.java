@@ -1,29 +1,20 @@
 package table;
 
-import java.io.Serializable;
 import java.util.Comparator;
 
 import table.value.Value;
 
 /**
  * Compares records based on a column.
- * 
- * @author unset, paulbakker65
  */
-public class RecordComparator implements Serializable, Comparator<Record> {
-
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
-  
+public class RecordComparator implements Comparator<Record> {
+ 
   private String col;
 
   /**
    * Makes a new Record comparator.
    * 
-   * @param col
-   *          the column to compare on
+   * @param col the column to compare on
    */
   public RecordComparator(String col) {
     this.col = col;
@@ -37,7 +28,6 @@ public class RecordComparator implements Serializable, Comparator<Record> {
     Value v1 = o1.get(col);
     Value v2 = o2.get(col);
     return v1.compareTo(v2);
-
   }
 
 }

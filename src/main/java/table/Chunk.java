@@ -17,11 +17,11 @@ public class Chunk extends Table {
    * The index of the chunk in the table.
    */
   private int index;
-  
+
   /**
    * Constructor sets the label and index of the chunk.
-   * @param index
-   * @param label
+   * @param index Index of the chunk.
+   * @param label Label of the chunk.
    */
   public Chunk(int index, String label) {
     this.index = index;
