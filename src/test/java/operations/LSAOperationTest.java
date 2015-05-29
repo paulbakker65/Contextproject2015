@@ -40,6 +40,11 @@ public class LSAOperationTest {
   LSAOperation lsa;
   List<Column> cols;
 
+  /**
+   * Creates a dummy table.
+   * @throws ParseException
+   *         if data parsing goes wrong
+   */
   @Before
   public void setUp() throws ParseException {
 

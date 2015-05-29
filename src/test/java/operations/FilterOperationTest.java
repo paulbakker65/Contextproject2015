@@ -1,6 +1,6 @@
 package operations;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
@@ -29,6 +29,11 @@ public class FilterOperationTest {
   Table dataTable;
   FilterOperation fo;
 
+  /**
+   * Creates a dummy table.
+   * @throws Exception
+   *         if file parsing goes wrong
+   */
   @Before
   public void setUp() throws Exception {
     // Table with test data
@@ -41,10 +46,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      dataTable.add(r);
+      dataTable.add(record);
     }
 
     fo = new FilterOperation(dataTable, null, null, null);
@@ -75,10 +80,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -97,10 +102,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -119,10 +124,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -141,10 +146,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -163,10 +168,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -185,10 +190,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -207,10 +212,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -229,10 +234,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -251,10 +256,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -273,10 +278,10 @@ public class FilterOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      resultTable.add(r);
+      resultTable.add(record);
     }
     assertEquals(resultTable, fo.getResult());
   }
@@ -287,17 +292,17 @@ public class FilterOperationTest {
         new StringValue("String:" + 7));
     assertEquals(true, fo.execute());
 
-    Table resultTable = new Table();
+    final Table resultTable = new Table();
 
     ArrayList<Column> cols = new ArrayList<Column>();
     cols.add(new NumberColumn("userid"));
     cols.add(new NumberColumn("numberField"));
     cols.add(new StringColumn("stringField"));
     cols.add(new DateColumn("dateField"));
-    Record r = new Record(cols,
+    Record record = new Record(cols,
         new Value[] { new NumberValue(7), new NumberValue(7 * 10), new StringValue("String:7"),
             new DateValue(DateConversion.fromExcelSerialToDate(40000 + 7)) });
-    resultTable.add(r);
+    resultTable.add(record);
 
     assertEquals(resultTable, fo.getResult());
   }
