@@ -26,6 +26,8 @@ public class OperationSpecTest {
   @Before
   public void setUp() throws Exception {
     operationSpec = new OperationSpec();
+    operationSpec.tables.add(new Table());
+    operationSpec.tables.get(0).setName("table");
   }
 
   @Test
