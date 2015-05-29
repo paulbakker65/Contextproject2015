@@ -5,17 +5,18 @@ import input.Input;
 import input.WrongXMLException;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import table.value.ColumnTypeMismatchException;
 import table.Table;
+import table.value.ColumnTypeMismatchException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
  */
+@SuppressFBWarnings(value = "UC_USELESS_OBJECT")
 public class Main{
 
   public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException {
