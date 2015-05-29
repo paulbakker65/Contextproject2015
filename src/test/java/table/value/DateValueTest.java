@@ -96,10 +96,10 @@ public class DateValueTest {
     Date date2 = new SimpleDateFormat("ddMMyy").parse("311213");
     DateValue value = new DateValue(date);
     DateValue valueSame = new DateValue(date);
-    DateValue valueNotSame = new DateValue(date2);
-    DateValue valueNull1 = new DateValue((Date) null);
-    DateValue valueNull2 = new DateValue((Date) null);
-    StringValue otherClass = new StringValue("text");
+    final DateValue valueNotSame = new DateValue(date2);
+    final DateValue valueNull1 = new DateValue((Date) null);
+    final DateValue valueNull2 = new DateValue((Date) null);
+    final StringValue otherClass = new StringValue("text");
 
     assertEquals(value, value);
     assertNotEquals(value, null);

@@ -46,11 +46,11 @@ public class ChunkTest {
   public void testEquals() {
     Chunk chunk = new Chunk(1, "Chunk 1");
     Chunk chunkSame = new Chunk(1, "Chunk 1");
-    Chunk chunkNotSameIndex = new Chunk(2, "Chunk 1");
-    Chunk chunkNotSameLabel = new Chunk(1, "Chunk 2");
-    Chunk chunkNullLabel1 = new Chunk(1, null);
-    Chunk chunkNullLabel2 = new Chunk(1, null);
-    Table otherClass = new Table();
+    final Chunk chunkNotSameIndex = new Chunk(2, "Chunk 1");
+    final Chunk chunkNotSameLabel = new Chunk(1, "Chunk 2");
+    final Chunk chunkNullLabel1 = new Chunk(1, null);
+    final Chunk chunkNullLabel2 = new Chunk(1, null);
+    final Table otherClass = new Table();
     
     assertEquals(chunk, chunk);
     assertNotEquals(chunk, null);

@@ -15,14 +15,16 @@ public class RecordEqualsValueConditionTest {
 
   @Test
   public void testEquals() {
-    RecordEqualsValueCondition condition = new RecordEqualsValueCondition("Column", new StringValue("Text"));
-    RecordEqualsValueCondition conditionSame = new RecordEqualsValueCondition("Column", new StringValue("Text"));
-    RecordEqualsValueCondition conditionNotSameColumn = new RecordEqualsValueCondition("Column2", 
+    final RecordEqualsValueCondition condition = new RecordEqualsValueCondition("Column",
         new StringValue("Text"));
-    RecordEqualsValueCondition conditionNotSameValue = new RecordEqualsValueCondition("Column", 
-        new StringValue("Text2"));
-    String otherClass = "";
-    
+    final RecordEqualsValueCondition conditionSame = new RecordEqualsValueCondition("Column",
+        new StringValue("Text"));
+    final RecordEqualsValueCondition conditionNotSameColumn = new RecordEqualsValueCondition(
+        "Column2", new StringValue("Text"));
+    final RecordEqualsValueCondition conditionNotSameValue = new RecordEqualsValueCondition(
+        "Column", new StringValue("Text2"));
+    final String otherClass = "";
+
     assertEquals(condition, condition);
     assertEquals(condition, conditionSame);
     assertNotEquals(condition, null);
@@ -30,13 +32,13 @@ public class RecordEqualsValueConditionTest {
     assertNotEquals(condition, conditionNotSameValue);
     assertNotEquals(condition, otherClass);
   }
-  
+
   @Test
   public void testHashCode() {
     String column = "Column";
     Value value = new StringValue("Text");
     RecordEqualsValueCondition condition = new RecordEqualsValueCondition(column, value);
-    
+
     assertEquals((31 + column.hashCode()) * 31 + value.hashCode(), condition.hashCode());
   }
 

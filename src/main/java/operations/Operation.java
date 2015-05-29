@@ -3,9 +3,8 @@ package operations;
 import table.Table;
 
 /**
- * An abstract class for respresenting an operation on a table that returns a table.
- * @author unset
- *
+ * An abstract class for respresenting an operation on a 
+ * table that returns a table.
  */
 public abstract class Operation {
 

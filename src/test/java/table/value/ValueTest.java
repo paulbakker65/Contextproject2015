@@ -19,75 +19,90 @@ public class ValueTest {
   @Test
   public void testIsNull() {
     Value nullValue = new NullValue();
-    Value numberValue = new NumberValue(1.0);
-    Value dateValue = new DateValue(new Date());
-    Value stringValue = new StringValue("text");
-    Value timeValue = new TimeValue(new Date(), "target");
-
     assertTrue(nullValue.isNull());
+    
+    Value numberValue = new NumberValue(1.0);
     assertFalse(numberValue.isNull());
+    
+    Value dateValue = new DateValue(new Date());
     assertFalse(dateValue.isNull());
+    
+    Value stringValue = new StringValue("text");
     assertFalse(stringValue.isNull());
+    
+    Value timeValue = new TimeValue(new Date(), "target");   
     assertFalse(timeValue.isNull());
   }
 
   @Test
   public void testIsNumeric() {
     Value nullValue = new NullValue();
-    Value numberValue = new NumberValue(1.0);
-    Value dateValue = new DateValue(new Date());
-    Value stringValue = new StringValue("text");
-    Value timeValue = new TimeValue(new Date(), "target");
-
     assertFalse(nullValue.isNumeric());
+    
+    Value numberValue = new NumberValue(1.0);
     assertTrue(numberValue.isNumeric());
+    
+    Value dateValue = new DateValue(new Date());
     assertFalse(dateValue.isNumeric());
+
+    Value stringValue = new StringValue("text");
     assertFalse(stringValue.isNumeric());
+    
+    Value timeValue = new TimeValue(new Date(), "target");
     assertFalse(timeValue.isNumeric());
   }
 
   @Test
   public void testIsDate() {
     Value nullValue = new NullValue();
-    Value numberValue = new NumberValue(1.0);
-    Value dateValue = new DateValue(new Date());
-    Value stringValue = new StringValue("text");
-    Value timeValue = new TimeValue(new Date(), "target");
-
     assertFalse(nullValue.isDate());
+    
+    Value numberValue = new NumberValue(1.0);
     assertFalse(numberValue.isDate());
+    
+    Value dateValue = new DateValue(new Date());
     assertTrue(dateValue.isDate());
+    
+    Value stringValue = new StringValue("text");
     assertFalse(stringValue.isDate());
+    
+    Value timeValue = new TimeValue(new Date(), "target");
     assertFalse(timeValue.isDate());
   }
 
   @Test
   public void testIsString() {
     Value nullValue = new NullValue();
-    Value numberValue = new NumberValue(1.0);
-    Value dateValue = new DateValue(new Date());
-    Value stringValue = new StringValue("text");
-    Value timeValue = new TimeValue(new Date(), "target");
-
     assertFalse(nullValue.isString());
+    
+    Value numberValue = new NumberValue(1.0);
     assertFalse(numberValue.isString());
+    
+    Value dateValue = new DateValue(new Date());
     assertFalse(dateValue.isString());
+    
+    Value stringValue = new StringValue("text");
     assertTrue(stringValue.isString());
+    
+    Value timeValue = new TimeValue(new Date(), "target");
     assertFalse(timeValue.isString());
   }
 
   @Test
   public void testIsTime() {
     Value nullValue = new NullValue();
-    Value numberValue = new NumberValue(1.0);
-    Value dateValue = new DateValue(new Date());
-    Value stringValue = new StringValue("text");
-    Value timeValue = new TimeValue(new Date(), "target");
-
     assertFalse(nullValue.isTime());
+    
+    Value numberValue = new NumberValue(1.0);
     assertFalse(numberValue.isTime());
+    
+    Value dateValue = new DateValue(new Date());
     assertFalse(dateValue.isTime());
+    
+    Value stringValue = new StringValue("text");
     assertFalse(stringValue.isTime());
+    
+    Value timeValue = new TimeValue(new Date(), "target");  
     assertTrue(timeValue.isTime());
   }
   
@@ -96,7 +111,7 @@ public class ValueTest {
     StringValue sv1 = new StringValue("a");
     StringValue sv2 = new StringValue("b");
     StringValue sv3 = new StringValue("a");
-    NumberValue nv = new NumberValue(1.0);
+    final NumberValue nv = new NumberValue(1.0);
     
     assertEquals(sv1.compareTo(sv2), -1);
     assertEquals(sv1.compareTo(sv3), 0);
@@ -110,7 +125,7 @@ public class ValueTest {
     NumberValue nv1 = new NumberValue(1.0);
     NumberValue nv2 = new NumberValue(2.0);
     NumberValue nv3 = new NumberValue(1.0);
-    DateValue dv = new DateValue(new Date());
+    final DateValue dv = new DateValue(new Date());
     
     assertEquals(nv1.compareTo(nv2), -1);
     assertEquals(nv1.compareTo(nv3), 0);
@@ -127,7 +142,7 @@ public class ValueTest {
     DateValue dv1 = new DateValue(d1);
     DateValue dv2 = new DateValue(d2);
     DateValue dv3 = new DateValue(d1);
-    NullValue nullv = new NullValue();
+    final NullValue nullv = new NullValue();
     
     assertEquals(dv1.compareTo(dv2), -1);
     assertEquals(dv1.compareTo(dv3), 0);
@@ -156,7 +171,7 @@ public class ValueTest {
     TimeValue tv1 = new TimeValue(d1, "target");
     TimeValue tv2 = new TimeValue(d2, "target");
     TimeValue tv3 = new TimeValue(d1, "target");
-    StringValue sv = new StringValue("text");
+    final StringValue sv = new StringValue("text");
     
     assertEquals(tv1.compareTo(tv2), -1);
     assertEquals(tv1.compareTo(tv3), 0);

@@ -42,14 +42,14 @@ public class PatternTest {
   
   @Test
   public void testEquals() {
-    Pattern nextPattern = new SingleOccurrencePattern("Test2");
-    Pattern pattern = new SingleOccurrencePattern("Test", nextPattern);
-    Pattern patternSame = new SingleOccurrencePattern("Test", nextPattern);
-    Pattern patternNotSame = new SingleOccurrencePattern("Test", new NullPattern());
-    Pattern patternNextNull1 = new SingleOccurrencePattern("Test", null);
-    Pattern patternNextNull2 = new SingleOccurrencePattern("Test", null);
-    Pattern thisPattern = new NullPattern();
-    String otherClass = "";
+    final Pattern nextPattern = new SingleOccurrencePattern("Test2");
+    final Pattern pattern = new SingleOccurrencePattern("Test", nextPattern);
+    final Pattern patternSame = new SingleOccurrencePattern("Test", nextPattern);
+    final Pattern patternNotSame = new SingleOccurrencePattern("Test", new NullPattern());
+    final Pattern patternNextNull1 = new SingleOccurrencePattern("Test", null);
+    final Pattern patternNextNull2 = new SingleOccurrencePattern("Test", null);
+    final Pattern thisPattern = new NullPattern();
+    final String otherClass = "";
     
     assertEquals(thisPattern, thisPattern);
     assertEquals(pattern, patternSame);

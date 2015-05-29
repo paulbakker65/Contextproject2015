@@ -32,6 +32,9 @@ public class ChunkingOperationTest {
   ChunkingOperation co;
   ArrayList<Column> cols;
 
+  /**
+   * Create empty table.
+   */
   @Before
   public void setUp() {
     cols = new ArrayList<Column>();
@@ -45,7 +48,7 @@ public class ChunkingOperationTest {
   }
 
   @Test
-  public void testGetResult() {
+  public void testGetresult() {
     co = new ChunkingOperation(dataTable, "dateField", ChunkType.MONTH);
     assertEquals(new Table(), co.getResult());
   }
@@ -58,30 +61,30 @@ public class ChunkingOperationTest {
   }
 
   @Test
-  public void testMonthChunkResult() {
+  public void testMonthChunkresult() {
 
     // Create table with 30 user id's.
-    for (int i = 0; i < 30; i++) {
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
-          new StringValue("String:" + i),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      dataTable.add(r);
+    for (int count = 0; count < 30; count++) {
+      Record record = new Record(cols, new Value[] { new NumberValue(count),
+          new NumberValue(count * 10), new StringValue("String:" + count),
+          new DateValue(DateConversion.fromExcelSerialToDate(40000 + count)) });
+      dataTable.add(record);
     }
-    
+
     co = new ChunkingOperation(dataTable, "dateField", ChunkType.MONTH);
     co.execute();
     Table temp = (Table) dataTable.clone();
-    
+
     Chunk chunk1 = new Chunk(0, "Chunk 0");
     Chunk chunk2 = new Chunk(1, "Chunk 1");
-    int i = 0;
-    while (i < 26) {
-      chunk1.add(dataTable.get(i));
-      i++;
+    int count = 0;
+    while (count < 26) {
+      chunk1.add(dataTable.get(count));
+      count++;
     }
-    while (i < dataTable.size()) {
-      chunk2.add(dataTable.get(i));
-      i++;
+    while (count < dataTable.size()) {
+      chunk2.add(dataTable.get(count));
+      count++;
     }
     temp.addChunk(chunk1);
     temp.addChunk(chunk2);
@@ -91,41 +94,41 @@ public class ChunkingOperationTest {
   }
 
   @Test
-  public void testDayChunkResult() {
+  public void testDayChunkresult() {
 
     // Create table with 20 user id's.
-    for (int i = 0; i < 20; i++) {
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
-          new StringValue("String:" + i),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + (i / 5))) });
-      dataTable.add(r);
+    for (int count = 0; count < 20; count++) {
+      Record record = new Record(cols, new Value[] { new NumberValue(count),
+          new NumberValue(count * 10), new StringValue("String:" + count),
+          new DateValue(DateConversion.fromExcelSerialToDate(40000 + (count / 5))) });
+      dataTable.add(record);
     }
 
     co = new ChunkingOperation(dataTable, "dateField", ChunkType.DAY);
     co.execute();
-    Table temp = (Table) dataTable.clone();
+    final Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
     Chunk chunk2 = new Chunk(1, "Chunk 1");
     Chunk chunk3 = new Chunk(2, "Chunk 2");
     Chunk chunk4 = new Chunk(3, "Chunk 3");
-    int i = 0;
-    while (i < 5) {
-      chunk1.add(dataTable.get(i));
-      i++;
+    int count = 0;
+    while (count < 5) {
+      chunk1.add(dataTable.get(count));
+      count++;
     }
-    while (i < 10) {
-      chunk2.add(dataTable.get(i));
-      i++;
+    while (count < 10) {
+      chunk2.add(dataTable.get(count));
+      count++;
     }
-    while (i < 15) {
-      chunk3.add(dataTable.get(i));
-      i++;
+    while (count < 15) {
+      chunk3.add(dataTable.get(count));
+      count++;
     }
-    while (i < 20) {
-      chunk4.add(dataTable.get(i));
-      i++;
+    while (count < 20) {
+      chunk4.add(dataTable.get(count));
+      count++;
     }
-   
+
     temp.addChunk(chunk1);
     temp.addChunk(chunk2);
     temp.addChunk(chunk3);
@@ -135,85 +138,85 @@ public class ChunkingOperationTest {
   }
 
   @Test
-  public void testYearChunkResult() {
+  public void testYearChunkresult() {
 
     // Create table with 10 user id's.
-    for (int i = 0; i < 10; i++) {
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
-          new StringValue("String:" + i),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + i * 90)) });
-      dataTable.add(r);
+    for (int count = 0; count < 10; count++) {
+      Record record = new Record(cols, new Value[] { new NumberValue(count),
+          new NumberValue(count * 10), new StringValue("String:" + count),
+          new DateValue(DateConversion.fromExcelSerialToDate(40000 + count * 90)) });
+      dataTable.add(record);
     }
 
     co = new ChunkingOperation(dataTable, "dateField", ChunkType.YEAR);
     co.execute();
-    Table temp = (Table) dataTable.clone();
+    final Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
     Chunk chunk2 = new Chunk(1, "Chunk 1");
     Chunk chunk3 = new Chunk(2, "Chunk 2");
-    int i = 0;
-    while (i < 2) {
-      chunk1.add(dataTable.get(i));
-      i++;
+    int count = 0;
+    while (count < 2) {
+      chunk1.add(dataTable.get(count));
+      count++;
     }
-    while (i < 7) {
-      chunk2.add(dataTable.get(i));
-      i++;
+    while (count < 7) {
+      chunk2.add(dataTable.get(count));
+      count++;
     }
-    while (i < 10) {
-      chunk3.add(dataTable.get(i));
-      i++;
+    while (count < 10) {
+      chunk3.add(dataTable.get(count));
+      count++;
     }
-    
+
     temp.addChunk(chunk1);
     temp.addChunk(chunk2);
     temp.addChunk(chunk3);
-    
+
     assertEquals(temp, co.getResult());
     assertEquals(temp.toString(), co.toString());
   }
 
   @Test
-  public void testPatientChunkResult() {
+  public void testPatientChunkresult() {
 
     // Create table with 20 user id's.
-    for (int i = 0; i < 15; i++) {
-      Record r = new Record(cols, new Value[] { new NumberValue(i / 4), new NumberValue(i * 10),
-          new StringValue("String:" + i),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + (i))) });
-      dataTable.add(r);
+    for (int count = 0; count < 15; count++) {
+      Record record = new Record(cols, new Value[] { new NumberValue(count / 4),
+          new NumberValue(count * 10), new StringValue("String:" + count),
+          new DateValue(DateConversion.fromExcelSerialToDate(40000 + (count))) });
+      dataTable.add(record);
     }
-    
+
     co = new ChunkingOperation(dataTable, "userid", ChunkType.PATIENT);
     co.execute();
-    Table temp = (Table) dataTable.clone();
+    final Table temp = (Table) dataTable.clone();
     Chunk chunk1 = new Chunk(0, "Chunk 0");
     Chunk chunk2 = new Chunk(1, "Chunk 1");
     Chunk chunk3 = new Chunk(2, "Chunk 2");
     Chunk chunk4 = new Chunk(3, "Chunk 3");
-    int i = 0;
-    while (i < 4) {
-      chunk1.add(dataTable.get(i));
-      i++;
+    int count = 0;
+    while (count < 4) {
+      chunk1.add(dataTable.get(count));
+      count++;
     }
-    while (i < 8) {
-      chunk2.add(dataTable.get(i));
-      i++;
+    while (count < 8) {
+      chunk2.add(dataTable.get(count));
+      count++;
     }
-    while (i < 12) {
-      chunk3.add(dataTable.get(i));
-      i++;
+    while (count < 12) {
+      chunk3.add(dataTable.get(count));
+      count++;
     }
-    while (i < 15) {
-      chunk4.add(dataTable.get(i));
-      i++;
+    while (count < 15) {
+      chunk4.add(dataTable.get(count));
+      count++;
     }
-  
+
     temp.addChunk(chunk1);
     temp.addChunk(chunk2);
     temp.addChunk(chunk3);
     temp.addChunk(chunk4);
-    
+
     assertEquals(temp, co.getResult());
     assertEquals(temp.toString(), co.toString());
   }

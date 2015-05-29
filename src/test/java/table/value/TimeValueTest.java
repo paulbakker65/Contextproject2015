@@ -82,17 +82,17 @@ public class TimeValueTest {
 
   @Test
   public void testEquals() throws ParseException {
-    Date date = new SimpleDateFormat("HH:mm").parse("10:20");
-    Date date2 = new SimpleDateFormat("HH:mm").parse("10:21");
-    TimeValue value = new TimeValue(date, "Target");
-    TimeValue valueSame = new TimeValue(date, "Target");
-    TimeValue valueNotSameDate = new TimeValue(date2, "Target");
-    TimeValue valueNotSameTarget = new TimeValue(date, "Other target");
-    TimeValue valueNullTarget1 = new TimeValue(date, null);
-    TimeValue valueNullTarget2 = new TimeValue(date, null);
-    TimeValue valueNullCalendar1 = new TimeValue((GregorianCalendar) null, "Target");
-    TimeValue valueNullCalendar2 = new TimeValue((GregorianCalendar) null, "Target");
-    StringValue otherClass = new StringValue("text");
+    final Date date = new SimpleDateFormat("HH:mm").parse("10:20");
+    final Date date2 = new SimpleDateFormat("HH:mm").parse("10:21");
+    final TimeValue value = new TimeValue(date, "Target");
+    final TimeValue valueSame = new TimeValue(date, "Target");
+    final TimeValue valueNotSameDate = new TimeValue(date2, "Target");
+    final TimeValue valueNotSameTarget = new TimeValue(date, "Other target");
+    final TimeValue valueNullTarget1 = new TimeValue(date, null);
+    final TimeValue valueNullTarget2 = new TimeValue(date, null);
+    final TimeValue valueNullCalendar1 = new TimeValue((GregorianCalendar) null, "Target");
+    final TimeValue valueNullCalendar2 = new TimeValue((GregorianCalendar) null, "Target");
+    final StringValue otherClass = new StringValue("text");
 
     assertEquals(value, value);
     assertNotEquals(value, null);
@@ -110,10 +110,10 @@ public class TimeValueTest {
   public void testHashCode() {
     GregorianCalendar calendar = new GregorianCalendar();
     
-    TimeValue value = new TimeValue(calendar, "Target");
-    TimeValue valueNullDate = new TimeValue((Date) null, "Target");
-    TimeValue valueNullTarget = new TimeValue(calendar, null);
-    TimeValue valueNullNull = new TimeValue((Date) null, null);
+    final TimeValue value = new TimeValue(calendar, "Target");
+    final TimeValue valueNullDate = new TimeValue((Date) null, "Target");
+    final TimeValue valueNullTarget = new TimeValue(calendar, null);
+    final TimeValue valueNullNull = new TimeValue((Date) null, null);
     
     assertEquals(value.hashCode(), (31 + "Target".hashCode()) * 31 + calendar.hashCode());
     assertEquals(valueNullDate.hashCode(), (31 + "Target".hashCode()) * 31);

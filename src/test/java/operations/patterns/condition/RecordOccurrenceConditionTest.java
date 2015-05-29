@@ -12,10 +12,10 @@ public class RecordOccurrenceConditionTest {
 
   @Test
   public void testEquals() {
-    RecordOccurrenceCondition condition = new RecordOccurrenceCondition("Column");
-    RecordOccurrenceCondition conditionSame = new RecordOccurrenceCondition("Column");
-    RecordOccurrenceCondition conditionNotSame = new RecordOccurrenceCondition("Column2");
-    String otherClass = "";
+    final RecordOccurrenceCondition condition = new RecordOccurrenceCondition("Column");
+    final RecordOccurrenceCondition conditionSame = new RecordOccurrenceCondition("Column");
+    final RecordOccurrenceCondition conditionNotSame = new RecordOccurrenceCondition("Column2");
+    final String otherClass = "";
     
     assertEquals(condition, condition);
     assertEquals(condition, conditionSame);

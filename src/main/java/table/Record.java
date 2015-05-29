@@ -14,25 +14,41 @@ public class Record extends HashMap<String, Value> {
 
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Creates a Record.
+   */
   public Record() {
     super();
   }
-
+  
+  /**
+   * Creates a Record.
+   * @param list The list of column names.
+   * @param val An array of values.
+   */
   public Record(List<Column> list, Value[] val) {
     for (int i = 0; i < list.size(); i++) {
       this.put(list.get(i).getName(), val[i]);
     }
   }
 
+  /**
+   * Creates a string containing all the values in this record.
+   */
   public String toString() {
-    StringBuilder b = new StringBuilder();
+    StringBuilder builder = new StringBuilder();
     for (Value val : values()) {
-      b.append(val + "\t");
+      builder.append(val + "\t");
     }
-    return b.toString();
+    return builder.toString();
   }
   
-  public void rename(String oldname, String newname){
+  /**
+   * Renames a column name/key
+   * @param oldname The key to replace.
+   * @param newname The new name to use.
+   */
+  public void rename(String oldname, String newname) {
     Value value = get(oldname);
     remove(oldname);
     put(newname, value);

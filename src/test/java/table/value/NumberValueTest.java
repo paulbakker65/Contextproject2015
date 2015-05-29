@@ -35,10 +35,10 @@ public class NumberValueTest {
 
   @Test
   public void testNumberValueEquals() {
-    NumberValue value = new NumberValue(10.0);
-    NumberValue valueSame = new NumberValue(10.0);
-    NumberValue valueNotSame = new NumberValue(20.0);
-    StringValue otherClass = new StringValue("text");
+    final NumberValue value = new NumberValue(10.0);
+    final NumberValue valueSame = new NumberValue(10.0);
+    final NumberValue valueNotSame = new NumberValue(20.0);
+    final StringValue otherClass = new StringValue("text");
 
     assertEquals(value, value);
     assertNotEquals(value, null);

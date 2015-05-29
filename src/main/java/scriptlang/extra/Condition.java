@@ -8,36 +8,42 @@ import table.value.Value;
  *
  */
 public class Condition {
-  
-  public CompareOperator condOperator;
-  public Value condValue;
-  
-  public Condition(CompareOperator compareo, Value v) {
-    this.condOperator = compareo;
-    this.condValue = v;
+
+  public CompareOperator conditionOperator;
+  public Value conditionValue;
+
+  public Condition(CompareOperator operator, Value value) {
+    this.conditionOperator = operator;
+    this.conditionValue = value;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "Condition [condOperator=" + condOperator + ", condValue=" + condValue + "]";
+    return "Condition [condOperator=" + conditionOperator + ", condValue=" + conditionValue + "]";
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((condOperator == null) ? 0 : condOperator.hashCode());
-    result = prime * result + ((condValue == null) ? 0 : condValue.hashCode());
+    result = prime * result + ((conditionOperator == null) ? 0 : conditionOperator.hashCode());
+    result = prime * result + ((conditionValue == null) ? 0 : conditionValue.hashCode());
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -52,14 +58,14 @@ public class Condition {
       return false;
     }
     Condition other = (Condition) obj;
-    if (condOperator != other.condOperator) {
+    if (conditionOperator != other.conditionOperator) {
       return false;
     }
-    if (condValue == null) {
-      if (other.condValue != null) {
+    if (conditionValue == null) {
+      if (other.conditionValue != null) {
         return false;
       }
-    } else if (!condValue.equals(other.condValue)) {
+    } else if (!conditionValue.equals(other.conditionValue)) {
       return false;
     }
     return true;

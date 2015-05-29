@@ -116,7 +116,7 @@ public class TableTest {
     table.add(record);
     Table tableSame = new Table();
     tableSame.add(record);
-    Table tableNotSameRecords = new Table();
+    final Table tableNotSameRecords = new Table();
     ArrayList<Record> otherClass = new ArrayList<Record>();
     otherClass.add(record);
 

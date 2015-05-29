@@ -30,6 +30,11 @@ public class BetweenOperationTest {
   BetweenOperation lo;
   ArrayList<Column> cols;
 
+  /**
+   * Creates dummy table and creates the operation.
+   * @throws ParseException
+   *         if the date is incorrect
+   */
   @Before
   public void setUp() throws ParseException {
 

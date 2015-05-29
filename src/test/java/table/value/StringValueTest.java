@@ -1,6 +1,9 @@
 package table.value;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
 
 import org.junit.Test;
 
@@ -35,10 +38,10 @@ public class StringValueTest {
   public void testEquals() {
     StringValue value = new StringValue("testValue");
     StringValue valueSame = new StringValue("testValue");
-    StringValue valueNotSame = new StringValue("testValue2");
-    StringValue valueNull1 = new StringValue(null);
-    StringValue valueNull2 = new StringValue(null);
-    NumberValue otherClass = new NumberValue(1.0);
+    final StringValue valueNotSame = new StringValue("testValue2");
+    final StringValue valueNull1 = new StringValue(null);
+    final StringValue valueNull2 = new StringValue(null);
+    final NumberValue otherClass = new NumberValue(1.0);
 
     assertEquals(value, value);
     assertNotEquals(value, null);

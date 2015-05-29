@@ -1,6 +1,7 @@
 package table.value;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.text.ParseException;
@@ -28,6 +29,34 @@ public class ColumnTest {
 
     column.setName("newName");
     assertEquals("newName", column.getName());
+  }
+  
+  @Test
+  public void testColumnEquals() {
+    Column column = new StringColumn("name");
+    Column columnSame = new StringColumn("name");
+    final Column columnNotSameName = new StringColumn("name2");
+    final Column columnNullName1 = new StringColumn(null);
+    final Column columnNullName2 = new StringColumn(null);
+    final String otherClass = "";
+    
+    assertEquals(column, column);
+    assertEquals(column, columnSame);
+    assertNotEquals(column, null);
+    assertNotEquals(column, columnNotSameName);
+    assertNotEquals(column, columnNullName1);
+    assertNotEquals(columnNullName1, column);
+    assertEquals(columnNullName1, columnNullName2);
+    assertNotEquals(column, otherClass);
+  }
+  
+  @Test
+  public void testHashCode() {
+    Column column = new StringColumn("name");
+    Column columnNull = new StringColumn(null);
+    
+    assertEquals(31 + "name".hashCode(), column.hashCode());
+    assertEquals(31, columnNull.hashCode());
   }
 
   @Test

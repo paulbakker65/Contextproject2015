@@ -48,20 +48,20 @@ public class CSVReaderTest {
   public void csvexampleTest() throws IOException {
     CSVReader reader = new CSVReader(filepath, settings.getDelimiter());
 
-    String row1Actual[] = reader.readRow();
-    String row1expected[] = { "appel", "aardappel", "appelmoes" };
+    String[] row1Actual = reader.readRow();
+    String[] row1expected = { "appel", "aardappel", "appelmoes" };
     assertArrayEquals(row1expected, row1Actual);
 
-    String row2Actual[] = reader.readRow();
-    String row2expected[] = { "", "wortel", "mayonaise" };
+    String[] row2Actual = reader.readRow();
+    String[] row2expected = { "", "wortel", "mayonaise" };
     assertArrayEquals(row2expected, row2Actual);
 
-    String row3Actual[] = reader.readRow();
-    String row3expected[] = { "banaan", "bloemkool", "" };
+    String[] row3Actual = reader.readRow();
+    String[] row3expected = { "banaan", "bloemkool", "" };
     assertArrayEquals(row3expected, row3Actual);
 
-    String row4Actual[] = reader.readRow();
-    String row4expected[] = { "\"mango;mango\"", "zuurkool met worst", "appel" };
+    String[] row4Actual = reader.readRow();
+    String[] row4expected = { "\"mango;mango\"", "zuurkool met worst", "appel" };
     assertArrayEquals(row4expected, row4Actual);
 
     reader.close();
