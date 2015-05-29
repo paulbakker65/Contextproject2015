@@ -15,14 +15,17 @@ import table.value.Value;
  */
 public class BetweenOperation extends Operation {
 
-  private String datecol, datecol2, eventcol;
+  private String datecol;
+  private String datecol2;
+  private String eventcol;
 
-  private Value ev1val, ev2val;
+  private Value ev1val;
+  private Value ev2val;
 
   /**
    * Creates a new lag operation that compares the time between each couple of event 1 and 2.
    * 
-   * @param inputDataset
+   * @param inputDataset Table containing the input data.
    * @param eventcol
    *          Column where the type of the event is stored
    * @param datecol
@@ -47,7 +50,7 @@ public class BetweenOperation extends Operation {
   /**
    * Creates a new lag operation that compares the time between each couple of event 1 and 2.
    * 
-   * @param inputDataset
+   * @param inputDataset Table containing the input data.
    * @param eventcol
    *          Column where the type of the event is stored
    * @param datecol
@@ -76,43 +79,43 @@ public class BetweenOperation extends Operation {
   public boolean execute() {
     resultData = (Table) inputData.clone();
 
-    int i = 0;
-    while (i < inputData.size()) {
-      if (isFirstEvent(i)) {
-        int j = i + 1;
-        while (j < inputData.size() && !isFirstEvent(j)) {
-          if (isSecondEvent(j)) {
-            addEvent(i, j);
+    int index1 = 0;
+    while (index1 < inputData.size()) {
+      if (isFirstEvent(index1)) {
+        int index2 = index1 + 1;
+        while (index2 < inputData.size() && !isFirstEvent(index2)) {
+          if (isSecondEvent(index2)) {
+            addEvent(index1, index2);
             break;
           }
-          j++;
+          index2++;
         }
       }
-      i++;
+      index1++;
     }
 
     return true;
   }
 
-  private void addEvent(int i, int j) {
-    int timeDif = (int) ((getTimeStamp(j) - getTimeStamp(i)) / (1000 * 60 * 60));
-    resultData.get(i).put("time_before_" + ev2val.toString(), new NumberValue(timeDif));
+  private void addEvent(int index1, int index2) {
+    int timeDif = (int) ((getTimeStamp(index2) - getTimeStamp(index1)) / (1000 * 60 * 60));
+    resultData.get(index1).put("time_before_" + ev2val.toString(), new NumberValue(timeDif));
   }
 
-  private boolean isFirstEvent(int i) {
-    return ev1val.equals(inputData.get(i).get(eventcol));
+  private boolean isFirstEvent(int index) {
+    return ev1val.equals(inputData.get(index).get(eventcol));
   }
 
-  private boolean isSecondEvent(int i) {
-    return ev2val.equals(inputData.get(i).get(eventcol));
+  private boolean isSecondEvent(int index) {
+    return ev2val.equals(inputData.get(index).get(eventcol));
   }
 
-  private long getTimeStamp(int i) {
+  private long getTimeStamp(int index) {
     Value date = new NullValue();
-    if (isFirstEvent(i)) {
-      date = inputData.get(i).get(datecol);
+    if (isFirstEvent(index)) {
+      date = inputData.get(index).get(datecol);
     } else {
-      date = inputData.get(i).get(datecol2);
+      date = inputData.get(index).get(datecol2);
     }
     if (date.isDate()) {
       return ((DateValue) date).getValue().getTime().getTime();

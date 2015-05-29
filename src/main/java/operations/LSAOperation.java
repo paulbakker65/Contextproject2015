@@ -1,6 +1,5 @@
 package operations;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,14 +21,14 @@ import table.value.Value;
  * https://blackboard.tudelft.nl/bbcswebdav
  * /pid-2443413-dt-content-rid-8386462_2/courses/34575-141504
  * /Health%20Informatics%20project%20-%20SDA-%202015.pdf.
- * 
- *
  */
 public class LSAOperation extends Operation {
 
   private String eventcol;
-  private int from, to;
-  private Value key, target;
+  private int from;
+  private int to;
+  private Value key;
+  private Value target;
   private LagTable lagtable;
   private Grouper grouper;
 
@@ -81,7 +80,8 @@ public class LSAOperation extends Operation {
    * @param target
    *          the other eventtype where the lag is calculated between
    */
-  public LSAOperation(Table inputDataset, String eventcol, int from, int to, Value key, Value target) {
+  public LSAOperation(Table inputDataset, String eventcol, int from, int to, Value key, 
+      Value target) {
     super(inputDataset);
     this.eventcol = eventcol;
     this.from = from;
@@ -125,68 +125,64 @@ public class LSAOperation extends Operation {
     }
   }
 
-  private boolean isKey(Record r) {
-    return key.equals(r.get(eventcol));
+  private boolean isKey(Record record) {
+    return key.equals(record.get(eventcol));
   }
 
-  private boolean isTarget(Record r) {
-    return target.equals(r.get(eventcol));
+  private boolean isTarget(Record record) {
+    return target.equals(record.get(eventcol));
   }
-
-}
-
-/**
- * A special HashMap that contains the lag. The keys are for example -4 until 5, and the values are
- * the occurrences of that lag.
- * 
- */
-class LagTable extends HashMap<Integer, Integer> {
 
   /**
-   * Collumns that will be used when exporting to Table.
+   * A special HashMap that contains the lag. The keys are for example -4 until 5, 
+   * and the values are the occurrences of that lag.
    */
-  public static List<Column> cols = Arrays.asList(new Column[] { new NumberColumn("lag"),
-      new NumberColumn("occur") });
+  class LagTable extends HashMap<Integer, Integer> {
 
-  private static final long serialVersionUID = 1L;
+    /**
+     * Collumns that will be used when exporting to Table.
+     */
+    public List<Column> cols = Arrays.asList(new Column[] { new NumberColumn("lag"),
+        new NumberColumn("occur") });
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Creates a lag table with 0 occurence for lag FROM til lag TO.
+     * 
+     * @param from
+     *          lowest lag to scan (inclusive)
+     * @param to
+     *          highest lag to scan (exclusive)
+     */
+    public LagTable(int from, int to) {
+      super();
+      for (int i = from; i < to; i++) {
+        this.put(i, 0);
+      }
+    }
+
+    public Table toTable() {
+      Table table = new Table();
+      for (Entry<Integer, Integer> lag : this.entrySet()) {
+        table.add(new Record(cols, new Value[] { new NumberValue(lag.getKey()),
+            new NumberValue(lag.getValue()) }));
+      }
+      Collections.sort(table, new RecordLagComparator());
+      return table;
+    }
+
+  }
 
   /**
-   * Creates a lag table with 0 occurence for lag FROM til lag TO.
-   * 
-   * @param from
-   *          lowest lag to scan (inclusive)
-   * @param to
-   *          highest lag to scan (exclusive)
+   * For internal use only. Sorts on lag.
    */
-  public LagTable(int from, int to) {
-    super();
-    for (int i = from; i < to; i++) {
-      this.put(i, 0);
+  class RecordLagComparator implements Comparator<Record> {
+
+    @Override
+    public int compare(Record o1, Record o2) {
+      return o1.get("lag").compareTo(o2.get("lag"));
     }
+
   }
-
-  public Table toTable() {
-    Table t = new Table();
-    for (Entry<Integer, Integer> lag : this.entrySet()) {
-      t.add(new Record(cols, new Value[] { new NumberValue(lag.getKey()),
-          new NumberValue(lag.getValue()) }));
-    }
-    Collections.sort(t, new RecordLagComparator());
-    return t;
-  }
-
-}
-
-/**
- * For internal use only. Sorts on lag.
- */
-class RecordLagComparator implements Serializable, Comparator<Record> {
-
-  private static final long serialVersionUID = 1L;
-
-  @Override
-  public int compare(Record o1, Record o2) {
-    return o1.get("lag").compareTo(o2.get("lag"));
-  }
-
 }
