@@ -43,6 +43,12 @@ public class ParserTest {
   private List<String> testFile;
   private int curIndex;
 
+  /**
+   * Sets up mockito.
+   * 
+   * @throws IOException
+   *           if file not found
+   */
   @Before
   public void setUp() throws IOException {
     testFile = new ArrayList<String>();
@@ -54,6 +60,9 @@ public class ParserTest {
     });
   }
 
+  /**
+   * @return row of the test file.
+   */
   public String[] getRow() {
     if (curIndex >= testFile.size()) {
       return null;
@@ -159,9 +168,9 @@ public class ParserTest {
   @Test
   public void testParseCorrectTimeDateLinks() throws IOException, ColumnTypeMismatchException,
       ParseException {
-    ArrayList<Column> columns = new ArrayList<Column>(Arrays.asList(new TimeColumn("time", "hh:mm",
-        "date"), new DateColumn("date", "ddMMyy")));
-    Table expected = new Table();
+    final ArrayList<Column> columns = new ArrayList<Column>(Arrays.asList(new TimeColumn("time",
+        "hh:mm", "date"), new DateColumn("date", "ddMMyy")));
+    final Table expected = new Table();
     GregorianCalendar dateCalendar = new GregorianCalendar();
     dateCalendar.setTime(new SimpleDateFormat("ddMMyy").parse("311214"));
     DateValue dateValue = new DateValue(dateCalendar);

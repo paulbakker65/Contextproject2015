@@ -2,7 +2,6 @@ package input;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.text.SimpleDateFormat;
 
@@ -113,7 +112,7 @@ public class XMLReaderTest {
     settings.addColumn(new NumberColumn("col2"));
 
     DateColumn dc = new DateColumn("col3", "yyMMdd");
-    SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+    final SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
     settings.addColumn(dc);
 
     String res = "startLine:\t" + 1 + "\n";

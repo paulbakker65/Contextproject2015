@@ -27,17 +27,17 @@ public class ExcelReaderTest {
 
     DataFile df = new DataFile(new File(datafilename), new File(settingsfilename));
 
-    Table t = df.getParser().parse(df.getReader());
+    Table table = df.getParser().parse(df.getReader());
 
-    assertEquals(57, t.size());
+    assertEquals(57, table.size());
 
-    assertEquals("Ochtend", t.get(56).get("Moment").toString());
+    assertEquals("Ochtend", table.get(56).get("Moment").toString());
     
-    GregorianCalendar d = ((DateValue) t.get(56).get("Date")).getValue();
+    GregorianCalendar date = ((DateValue) table.get(56).get("Date")).getValue();
 
-    assertEquals(2011, d.get(GregorianCalendar.YEAR));
-    assertEquals(5, d.get(GregorianCalendar.DAY_OF_MONTH));
-    assertEquals(5, d.get(GregorianCalendar.MONTH));
+    assertEquals(2011, date.get(GregorianCalendar.YEAR));
+    assertEquals(5, date.get(GregorianCalendar.DAY_OF_MONTH));
+    assertEquals(5, date.get(GregorianCalendar.MONTH));
 
   }
 }

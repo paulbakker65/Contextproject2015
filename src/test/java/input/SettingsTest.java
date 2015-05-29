@@ -21,15 +21,15 @@ public class SettingsTest {
     String otherDelimiter = ";";
     ArrayList<Column> columns = new ArrayList<Column>(Arrays.asList(new StringColumn("name")));
     
-    Settings settings = new Settings();
-    Settings settingsSame = new Settings();
+    final Settings settings = new Settings();
+    final Settings settingsSame = new Settings();
     Settings settingsNotSameColumns = new Settings();
     settingsNotSameColumns.setColumns(columns);
     Settings settingsNotSameDelimiter = new Settings();
     settingsNotSameDelimiter.setDelimiter(otherDelimiter);
     Settings settingsNotSameStartLine = new Settings();
     settingsNotSameStartLine.setStartLine(2);
-    String otherClass = "";
+    final String otherClass = "";
     
     assertEquals(settings, settings);
     assertEquals(settings, settingsSame);

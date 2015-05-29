@@ -23,6 +23,11 @@ public class FilesTableModelTest {
 
   private DataFile df;
 
+  /**
+   * Calls the constructor with the datafile and settings file.
+   * @throws WrongXMLException
+   *         if the settings file is incorrect.
+   */
   @Before
   public void setUp() throws WrongXMLException {
     Input.files = new ArrayList<DataFile>();
