@@ -33,21 +33,37 @@ public abstract class Pattern {
    * @return
    */
   public abstract boolean findPattern(Table table, int fromIndex, Table records);
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((nextPattern == null) ? 0 : nextPattern.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    } 
+    if (obj == null) {
+      return false;
+    }  
+    if (getClass() != obj.getClass()) {
+      return false;
+    }  
+    Pattern other = (Pattern) obj;
+    if (nextPattern == null) {
+      if (other.nextPattern != null) {
+        return false;
+      } 
+    } else if (!nextPattern.equals(other.nextPattern)) {
+      return false;
+    }
+    return true;
+  }
   
-//  /**
-//   * Getter for next pattern.
-//   * @return
-//   */
-//  public Pattern getNextPattern() {
-//    return nextPattern;
-//  }
-//  
-//  /**
-//   * Setter for next pattern.
-//   * @param p
-//   */
-//  public void setPattern(Pattern p) {
-//    this.nextPattern = p;
-//  }
+  
   
 }
