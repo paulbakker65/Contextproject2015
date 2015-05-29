@@ -8,8 +8,11 @@ import table.Table;
  * Abstract class for a pattern where a record should satisfy a certain condition.
  */
 public abstract class SingleConditionPattern extends Pattern {
-  private RecordCondition condition;
-  
+  /**
+   * The condition that should hold.
+   */
+  private RecordCondition condition;  
+
   /**
    * Constructor with only the condition.
    * @param condition 
@@ -66,5 +69,33 @@ public abstract class SingleConditionPattern extends Pattern {
   
   private boolean matches(Record record) {
     return condition.matches(record);
+  }
+  
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + condition.hashCode();
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    SingleConditionPattern other = (SingleConditionPattern) obj;
+    return condition.equals(other.condition);
+  }
+  
+  /**
+   * Returns the condition.
+   * @return the condition.
+   */
+  public RecordCondition getCondition() {
+    return condition;
   }
 }

@@ -8,9 +8,11 @@ import table.Table;
  *
  */
 public abstract class Pattern {
+  /**
+   * The next pattern to link to.
+   */
+  protected Pattern nextPattern;  
 
-  protected Pattern nextPattern;
-  
   /**
    * Constructor which sets the next pattern to a null pattern.
    */
@@ -62,6 +64,23 @@ public abstract class Pattern {
       return false;
     }
     return true;
+  }
+  
+  /**
+   * Returns the next pattern.
+   * @return the next pattern.
+   */
+  public Pattern getNextPattern() {
+    return nextPattern;
+  }
+
+  /**
+   * Set the next pattern.
+   * @param nextPattern
+   *        the next pattern.
+   */
+  public void setNextPattern(Pattern nextPattern) {
+    this.nextPattern = nextPattern;
   }
   
   
