@@ -11,9 +11,7 @@ import table.value.Value;
 public class FilterOperation extends Operation {
 
   /**
-   * 
    * the enum for constraint types.
-   * 
    */
   public enum ConstraintComparatorEnum {
     /**
@@ -71,7 +69,7 @@ public class FilterOperation extends Operation {
    * @param constraintValue
    *          the value which the constraint must meet
    * @return <b>true</b> iff this.operationParametersSet is <b>true</b><br>
-   *         <b>false</b> iff this.operationParametersSet is <b>false</b></br>
+   *         <b>false</b> iff this.operationParametersSet is <b>false</b><br>
    */
   public boolean setOperationParameters(String columnName, CompareOperator constraintType,
       Value constraintValue) {
@@ -102,27 +100,26 @@ public class FilterOperation extends Operation {
 
     int compareResult = recordValue.compareTo(constraintValue);
     switch (compareOperator) {
-    case EQ:
-      return compareResult == 0;
-    case NEQ:
-      return compareResult != 0;
-    case G:
-      return compareResult > 0;
-    case GEQ:
-      return compareResult >= 0;
-    case L:
-      return compareResult < 0;
-    case LEQ:
-      return compareResult <= 0;
-    case ND:
-      return false;
-    default:
-      return false;
+      case EQ:
+        return compareResult == 0;
+      case NEQ:
+        return compareResult != 0;
+      case G:
+        return compareResult > 0;
+      case GEQ:
+        return compareResult >= 0;
+      case L:
+        return compareResult < 0;
+      case LEQ:
+        return compareResult <= 0;
+      case ND:
+        return false;
+      default:
+        return false;
     }
   }
 
   /**
-   * 
    * execute the operation. before the operation can be executed the setConstraint() function must
    * be called. this function fails if this.comparator is not set or set to ND
    * 
@@ -148,6 +145,7 @@ public class FilterOperation extends Operation {
   }
 
   /**
+   * Getter for the result data.
    * @return the resulting dataset after applying the operation on the input dataset
    */
   @Override

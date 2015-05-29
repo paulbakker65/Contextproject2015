@@ -6,9 +6,7 @@ import table.Table;
 
 /**
  * The coding operation. Needs a pattern and name in order to function.
- * Pattern is made in <INSERTCLASS> 
- * @author paulbakker
- *
+ * Pattern is made in PatternFactory.
  */
 public class CodingOperation extends Operation {
 
@@ -23,12 +21,12 @@ public class CodingOperation extends Operation {
   
   /**
    * Constructor only calls the super class.
-   * @param inputDataset
+   * @param inputDataset Table containing the input data.
    */
-  public CodingOperation(Table inputDataset, Pattern p, String name) {
+  public CodingOperation(Table inputDataset, Pattern pattern, String name) {
     super(inputDataset);
     this.resultData = (Table) inputDataset.clone();
-    setOperationParameters(p, name);
+    setOperationParameters(pattern, name);
   }
 
   /**
@@ -41,16 +39,15 @@ public class CodingOperation extends Operation {
 
   /**
    * Setting the parameters of the operation.
-   * @param p
-   * @param name
+   * @param pattern The pattern to use.
+   * @param name The name for the coding.
    * @return true if set
    */
-  public boolean setOperationParameters(Pattern p, String name) {
-    if (p == null) {
+  public boolean setOperationParameters(Pattern pattern, String name) {
+    if (pattern == null) {
       this.operationParametersSet = false;
-    }
-    else {
-      this.pattern = p;
+    } else {
+      this.pattern = pattern;
       this.name = name;
       this.operationParametersSet = true;
     }    
@@ -83,8 +80,4 @@ public class CodingOperation extends Operation {
     
     return true;
   }
-  
-  
-  
-
 }
