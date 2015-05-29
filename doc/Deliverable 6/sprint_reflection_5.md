@@ -15,7 +15,7 @@ Group: Health Informatics 5
 | Story 18 | The program should be called by the command line | Julian | 10 hours | High | Julian | 5 hours | Yes
 |		Story 19	| The GUI should show the table after the transformations | Julian | 5 hours | Normal | Julian | 10 hours | Yes
 | Organisation		|	Additional test should be made for some data classes | Robin | 5 hours | Normal | Robin | 5 hours | Yes
-| 	 | Update emerging architecture | Jan | 2 hours | Normal | ? | 2 hours | Yes
+| 	 | Update emerging architecture | Jan | 2 hours | Normal | Jan | 2 hours | Yes
 |  | Make prototype for friday| Jan & Julian | 5 hours each | High | Everyone | 3 hours each | Yes
 |	| Packages should be reorganized | Julian | 2 hours | High | Paul | 2 hours | Yes
 |  | Sprint plan and reflection| Paul (scrum master) | 2 hours | Normal | Paul |2 hours | Yes
