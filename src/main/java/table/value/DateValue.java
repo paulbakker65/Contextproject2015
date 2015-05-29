@@ -105,7 +105,7 @@ public class DateValue extends Value {
 
   @Override
   public String toString() {
-    return new SimpleDateFormat("yyyy-MM-dd").format(getValue().getTime());
+    return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(getValue().getTime());
   }
 
   @Override

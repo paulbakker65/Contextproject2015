@@ -1,8 +1,8 @@
 package input;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.junit.Before;
@@ -23,13 +23,14 @@ public class CSVReaderTest {
   }
 
   @Test
-  public void filepathTest() throws FileNotFoundException {
+  public void filepathTest() throws IOException {
     CSVReader reader = new CSVReader(filepath, settings.getDelimiter());
     assertEquals(reader.getFilepath(), filepath);
+    reader.close();
   }
 
   @Test
-  public void delimiterTest() throws FileNotFoundException {
+  public void delimiterTest() throws IOException {
     CSVReader reader = new CSVReader(filepath, settings.getDelimiter());
     assertEquals(reader.getDelimiter(), settings.getDelimiter());
 
@@ -40,6 +41,7 @@ public class CSVReaderTest {
     newdelimiter = ";";
     reader.setDelimiter(newdelimiter);
     assertEquals(reader.getDelimiter(), newdelimiter);
+    reader.close();
   }
 
   @Test
@@ -62,11 +64,15 @@ public class CSVReaderTest {
     String row4expected[] = { "\"mango;mango\"", "zuurkool met worst", "appel" };
     assertArrayEquals(row4expected, row4Actual);
 
+    reader.close();
+
   }
 
   @Test
-  public void tostringTest() throws FileNotFoundException {
+  public void tostringTest() throws IOException {
     CSVReader reader = new CSVReader(filepath, settings.getDelimiter());
     assertEquals("Reader [filepath=" + filepath + "]", reader.toString());
+
+    reader.close();
   }
 }
