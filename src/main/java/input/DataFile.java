@@ -3,7 +3,6 @@ package input;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-
 /**
  * Stores information about the data file and it's corresponding settings file. Creates the Reader,
  * Parser and Settings for the data file.
@@ -16,6 +15,16 @@ public class DataFile {
   private Reader reader;
   private Parser parser;
 
+  /**
+   * Creates a new DataFile object.
+   * 
+   * @param datafile
+   *          The data file.
+   * @param settingsfile
+   *          The corresponding settings file for the data file.
+   * @throws Exception
+   *           If the settings cannot be read an Exception is thrown.
+   */
   public DataFile(File datafile, File settingsfile) throws Exception {
     this.datafile = datafile;
     this.settingsfile = settingsfile;
@@ -47,6 +56,7 @@ public class DataFile {
    *          The file (xml) containing the settings.
    * @return Returns a Settings object.
    * @throws Exception
+   *           If the settings cannot be read an Exception is thrown.
    */
   private Settings readSettings(File file) throws Exception {
     Settings settings = null;
@@ -69,6 +79,7 @@ public class DataFile {
    *          The settings file corresponding to the data file.
    * @return Returns the correct reader for the file.
    * @throws Exception
+   *           If the data file cannot be found an Exception is thrown.
    */
   private Reader createReader(File file, Settings settings) throws Exception {
 
@@ -77,10 +88,9 @@ public class DataFile {
     if (fileextension.equals("xls")) {
       throw new Exception(
           "Old .xls not supported. Please manually convert to the new Excel 2007 format: .xlsx");
-    } else if (fileextension.equals("xlsx")) {// excel reader
+    } else if (fileextension.equals("xlsx")) {
       reader = new ExcelReader(file.getPath(), 0);
-    } else {// Default reader = CSVReader
-      // System.out.println("Using default reader: CSVReader");
+    } else {
       try {
         reader = new CSVReader(file.getPath(), settings.getDelimiter());
       } catch (FileNotFoundException e) {
@@ -101,6 +111,12 @@ public class DataFile {
     return datafile;
   }
 
+  /**
+   * Change the data file.
+   * 
+   * @param datafile
+   *          The new data file.
+   */
   public void setDatafile(File datafile) {
     this.datafile = datafile;
     try {
@@ -114,6 +130,12 @@ public class DataFile {
     return settingsfile;
   }
 
+  /**
+   * Change the settings file.
+   * 
+   * @param settingsfile
+   *          The new settings file.
+   */
   public void setSettingsfile(File settingsfile) {
     this.settingsfile = settingsfile;
     try {

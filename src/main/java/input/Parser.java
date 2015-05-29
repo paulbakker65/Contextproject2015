@@ -55,8 +55,8 @@ public class Parser {
       reader.readRow();
     }
 
-    Table t = new Table();
-    t.setName(settings.getName());
+    Table table = new Table();
+    table.setName(settings.getName());
 
     String[] row = reader.readRow();
 
@@ -75,12 +75,12 @@ public class Parser {
 
       Record tuple = new Record(columns, values);
       connectLinks(timeDateLinks, tuple);
-      t.add(tuple);
+      table.add(tuple);
 
       row = reader.readRow();
     }
 
-    return t;
+    return table;
   }
 
   private void connectLinks(Map<String, String> links, Record record) {

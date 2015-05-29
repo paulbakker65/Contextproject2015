@@ -8,7 +8,7 @@ import javax.swing.table.TableModel;
  */
 public class FilesTableModel implements TableModel {
   private final String[] columnNames = { "Data filepath", "Settings filepath" };
- 
+
   @Override
   public Class<?> getColumnClass(int columnIndex) {
     return String.class;
@@ -45,7 +45,7 @@ public class FilesTableModel implements TableModel {
   }
 
   @Override
-  public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+  public void setValueAt(Object theValue, int rowIndex, int columnIndex) {
     // TODO Auto-generated method stub
 
   }
