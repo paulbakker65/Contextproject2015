@@ -1,6 +1,6 @@
 package operations;
 
-import operations.coding.Pattern;
+import operations.patterns.Pattern;
 import table.Code;
 import table.Table;
 

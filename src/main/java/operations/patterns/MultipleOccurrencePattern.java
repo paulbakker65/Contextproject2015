@@ -1,4 +1,4 @@
-package operations.coding;
+package operations.patterns;
 
 import table.Record;
 import table.Table;
