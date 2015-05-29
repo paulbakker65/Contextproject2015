@@ -6,18 +6,30 @@ import enums.CalcOperator;
  * Formula object representing a formula.
  */
 public class Formula {
-  
+
   Object operand1;
   Object operand2;
   CalcOperator operator;
-  
-  public Formula(Object o1, CalcOperator calcOp, Object o2) {
-    this.operand1 = o1;
-    this.operand2 = o2;
-    this.operator = calcOp;
+
+  /**
+   * Formula constructor creates an Formula object containing two operands and a operator.
+   * 
+   * @param operand1
+   *          The first operand
+   * @param operator
+   *          The operator
+   * @param operand2
+   *          The second operand
+   */
+  public Formula(Object operand1, CalcOperator operator, Object operand2) {
+    this.operand1 = operand1;
+    this.operand2 = operand2;
+    this.operator = operator;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
@@ -26,7 +38,9 @@ public class Formula {
         + "]";
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -39,7 +53,9 @@ public class Formula {
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -73,5 +89,5 @@ public class Formula {
     }
     return true;
   }
-  
+
 }

@@ -3,6 +3,8 @@ package scriptlang.extra;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.util.ArrayList;
+
 import operations.FilterOperation;
 
 import org.junit.Before;
@@ -28,7 +30,7 @@ public class OperationSpecTest {
    */
   @Before
   public void setUp() {
-    operationSpec = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
     operationSpec.tables.add(new Table());
     operationSpec.tables.get(0).setName("table");
   }
@@ -70,7 +72,7 @@ public class OperationSpecTest {
     assertEquals(1, operationSpec.operandList.size());
     assertEquals("field", operationSpec.operandList.get(0));
 
-    OperationSpec compare = new OperationSpec();
+    OperationSpec compare = new OperationSpec(new ArrayList<Table>());
     compare.setOperationType(OperationType.CHUNK);
     compare.operandList.add("field");
 
@@ -81,13 +83,13 @@ public class OperationSpecTest {
   public void testGetOperationBySpec() throws TableNotFoundException {
     final FilterOperation op = new FilterOperation(new Table(), "field", CompareOperator.EQ,
         new NumberValue(10));
-    
+
     operationSpec.setOperationType(OperationType.CONSTRAINT);
     operationSpec.addOperationOperand("table");
     operationSpec.addOperationOperand("field");
     operationSpec.addOperationOperand(CompareOperator.EQ);
     operationSpec.addOperationOperand(new NumberValue(10));
-    
+
     FilterOperation other = new FilterOperation(new Table(), null, null, null);
     other = (FilterOperation) operationSpec.getOperationBySpec();
     other.setOperationParameters("field", CompareOperator.EQ, new NumberValue(10));
@@ -108,7 +110,7 @@ public class OperationSpecTest {
 
   @Test
   public void testHashCode() {
-    operationSpec = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
     operationSpec.setOperationType(OperationType.CHUNK);
     final int prime = 31;
     int result = 1;
@@ -119,7 +121,7 @@ public class OperationSpecTest {
     assertEquals(result, operationSpec.hashCode());
 
     //
-    operationSpec = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
     operationSpec.setOperationType(OperationType.CHUNK);
     operationSpec.operandList = null;
     result = 1;
@@ -130,7 +132,7 @@ public class OperationSpecTest {
     assertEquals(result, operationSpec.hashCode());
 
     //
-    operationSpec = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
     operationSpec.setOperationType(OperationType.CHUNK);
     operationSpec.operationType = null;
     result = 1;
@@ -141,7 +143,7 @@ public class OperationSpecTest {
     assertEquals(result, operationSpec.hashCode());
 
     //
-    operationSpec = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
     operationSpec.setOperationType(OperationType.CHUNK);
     operationSpec.operandList = null;
     operationSpec.operationType = null;
@@ -156,63 +158,62 @@ public class OperationSpecTest {
   @Test
   public void testEquals() {
 
-
     assertEquals(true, operationSpec.equals(operationSpec));
     assertEquals(false, operationSpec.equals(null));
     assertEquals(false, operationSpec.equals(new Object()));
 
     //
     OperationSpec operationSpecOther;
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpec.operandList = null;
     assertEquals(false, operationSpec.equals(operationSpecOther));
 
     //
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpecOther.operandList = null;
     assertEquals(false, operationSpec.equals(operationSpecOther));
 
     //
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpecOther.operandList = null;
     operationSpec.operandList = null;
     assertEquals(true, operationSpec.equals(operationSpecOther));
 
     //
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpec.addOperationOperand("field");
     assertEquals(false, operationSpec.equals(operationSpecOther));
 
     //
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpecOther.addOperationOperand("field_2");
     assertEquals(false, operationSpec.equals(operationSpecOther));
 
     //
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpec.addOperationOperand("field");
     operationSpecOther.addOperationOperand("field");
     assertEquals(true, operationSpec.equals(operationSpecOther));
 
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpec.setOperationType(OperationType.CHUNK);
     assertEquals(false, operationSpec.equals(operationSpecOther));
 
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpec.setOperationType(OperationType.CONSTRAINT);
     operationSpecOther.setOperationType(OperationType.CONSTRAINT);
     assertEquals(true, operationSpec.equals(operationSpecOther));
 
-    operationSpec = new OperationSpec();
-    operationSpecOther = new OperationSpec();
+    operationSpec = new OperationSpec(new ArrayList<Table>());
+    operationSpecOther = new OperationSpec(new ArrayList<Table>());
     operationSpecOther.setOperationType(OperationType.CODE);
     operationSpecOther.addOperationOperand("field");
     operationSpec.setOperationType(OperationType.CODE);

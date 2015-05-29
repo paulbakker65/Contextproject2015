@@ -52,7 +52,7 @@ public class ALListenerTest {
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
 
-    OperationSpec op = new OperationSpec();
+    OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.CHUNK);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
@@ -74,7 +74,7 @@ public class ALListenerTest {
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
 
-    OperationSpec op = new OperationSpec();
+    OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.CODE);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
@@ -96,7 +96,7 @@ public class ALListenerTest {
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
 
-    OperationSpec op = new OperationSpec();
+    OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.CONNECT);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
@@ -118,7 +118,7 @@ public class ALListenerTest {
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
 
-    OperationSpec op = new OperationSpec();
+    OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.COMPARE);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
@@ -142,7 +142,7 @@ public class ALListenerTest {
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
 
-    OperationSpec op = new OperationSpec();
+    OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.CONSTRAINT);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
@@ -166,7 +166,7 @@ public class ALListenerTest {
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
 
-    OperationSpec op = new OperationSpec();
+    OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.CONSTRAINT);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
@@ -192,7 +192,7 @@ public class ALListenerTest {
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
 
-    OperationSpec op = new OperationSpec();
+    OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.CONVERT);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
@@ -216,7 +216,7 @@ public class ALListenerTest {
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
 
-    OperationSpec op = new OperationSpec();
+    OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.COMPUTE);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
