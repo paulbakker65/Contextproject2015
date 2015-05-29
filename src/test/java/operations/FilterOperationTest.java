@@ -46,7 +46,7 @@ public class FilterOperationTest {
       dataTable.add(r);
     }
 
-    fo = new FilterOperation(dataTable);
+    fo = new FilterOperation(dataTable, null, null, null);
   }
 
   @Test

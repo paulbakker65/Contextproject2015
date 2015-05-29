@@ -26,6 +26,7 @@ public class XMLReaderTest {
 
       assertEquals(7, settings.getStartLine());
       assertEquals(";", settings.getDelimiter());
+      assertEquals("name", settings.getName());
       assertTrue(settings.getColumns().get(0) instanceof StringColumn);
       assertTrue(settings.getColumns().get(1) instanceof NumberColumn);
       assertTrue(settings.getColumns().get(2) instanceof DateColumn);

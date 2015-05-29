@@ -63,6 +63,10 @@ public class CodingOperation extends Operation {
    */
   @Override
   public boolean execute() {
+    if (!this.operationParametersSet) {
+      return false;
+    }
+    
     int index = 0;
     Code code = new Code(name);
     

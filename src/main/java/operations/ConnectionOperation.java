@@ -18,10 +18,6 @@ public class ConnectionOperation extends Operation {
   Table otherTable;
   String columnName;
   String otherColumnName;
-
-  public ConnectionOperation(Table inputDataset) {
-    super(inputDataset);
-  }
   
   /**
    * Connection will merge inputDataset and otherTable.
@@ -109,11 +105,13 @@ public class ConnectionOperation extends Operation {
    * @return
    */
   public boolean setOperationParameters(Table otherTable, String columnName, String otherColumnName) {
-    this.otherTable = otherTable;
-    this.columnName = columnName;
-    this.otherColumnName = otherColumnName;
+    if (otherTable != null && columnName != null && otherColumnName != null){
+      this.otherTable = otherTable;
+      this.columnName = columnName;
+      this.otherColumnName = otherColumnName;
+      this.operationParametersSet = true;
+    }
 
-    this.operationParametersSet = true;
-    return true;
+    return operationParametersSet;
   }
 }
