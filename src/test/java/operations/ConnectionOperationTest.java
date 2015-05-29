@@ -1,6 +1,7 @@
 package operations;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import input.DataFile;
 import input.Input;
 
@@ -33,10 +34,15 @@ public class ConnectionOperationTest {
   Table dataTable;
   Table otherDataTable;
   ConnectionOperation co;
-  
+
   Table t1;
   Table t2;
 
+  /**
+   * Creates two dummy tables.
+   * @throws Exception
+   *         if file parsing goes wrong
+   */
   @Before
   public void setUp() throws Exception {
     // Table with test data
@@ -50,10 +56,10 @@ public class ConnectionOperationTest {
       cols.add(new NumberColumn("numberField"));
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
-      Record r = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
-      dataTable.add(r);
+      dataTable.add(record);
     }
 
     // Create table with the same dates's but with different columns.
@@ -61,20 +67,19 @@ public class ConnectionOperationTest {
       ArrayList<Column> cols = new ArrayList<Column>();
       cols.add(new DateColumn("otherDateField"));
       cols.add(new NumberColumn("someNumberBeingEqualToUserID"));
-      Record r = new Record(cols, new Value[] {
+      Record record = new Record(cols, new Value[] {
           new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)), new NumberValue(i) });
-      otherDataTable.add(r);
+      otherDataTable.add(record);
     }
 
     co = new ConnectionOperation(dataTable, null, null, null);
-    
-    
+
     String path = "src/test/resources/";
     File file1 = new File(path + "test1.csv");
     File file2 = new File(path + "test2.csv");
     File settings1 = new File(path + "test1.xml");
     File settings2 = new File(path + "test2.xml");
-    
+
     Input.clean();
     Input.addDataFile(file1, settings1);
     Input.addDataFile(file2, settings2);
@@ -84,96 +89,96 @@ public class ConnectionOperationTest {
     t2 = f2.getParser().parse(f2.getReader());
 
   }
-  
+
   /**
    * If this test fails, there is something wrong with the required test files.
    */
   @Test
-  public void testTestFiles(){
+  public void testTestFiles() {
     assertEquals(10, t1.size());
     assertEquals(10, t2.size());
   }
- 
+
   /**
    * Executes the connection operation and checks if the output of the test is correct.
    */
-  public Table execAndCheck(){
+  public Table execAndCheck() {
     assertTrue(co.execute());
-    
+
     Table result = co.getResult();
     assertEquals(20, result.size());
     double previous = 0;
-    for (Record v : result){
+    for (Record v : result) {
       Value value = v.get("number1");
-      if (value.isNull()){
+      if (value.isNull()) {
         value = v.get("number2");
       }
       NumberValue number = (NumberValue) value;
       Double current = number.getValue();
       assertTrue(current >= previous);
       previous = number.getValue();
-      
+
       NumberValue nv = (NumberValue) v.get("number");
       current = nv.getValue();
       assertTrue(current >= previous);
     }
     return result;
   }
-  
+
   /**
    * Test connection on 2 NumberValue fields.
    */
   @Test
-  public void testConnectNumberValue(){
+  public void testConnectNumberValue() {
     co = new ConnectionOperation(t1, t2, "number1", "number2");
-    
+
     Table result = execAndCheck();
-    
-    String[] columns = {"number1", "date1", "date2", "string1", "string2", "null1", "number"};
+
+    String[] columns = { "number1", "date1", "date2", "string1", "string2", "null1", "number" };
     assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));
   }
-  
+
   /**
    * Test connection on 2 DateValueValue fields.
    */
   @Test
-  public void testConnectDateValue(){
+  public void testConnectDateValue() {
     co = new ConnectionOperation(t1, t2, "date1", "date2");
-    
+
     Table result = execAndCheck();
-    
-    String[] columns = {"number1", "number2", "date1", "string1", "string2", "null1", "number"};
+
+    String[] columns = { "number1", "number2", "date1", "string1", "string2", "null1", "number" };
     assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));
   }
-  
+
   /**
    * Test connection on 2 StringValue fields.
    */
   @Test
-  public void testConnectStringValue(){
+  public void testConnectStringValue() {
     co = new ConnectionOperation(t1, t2, "string1", "string2");
-    
+
     Table result = execAndCheck();
-    
-    String[] columns = {"number1", "number2", "date1", "date2", "string1", "null1", "number"};
-    assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));    
+
+    String[] columns = { "number1", "number2", "date1", "date2", "string1", "null1", "number" };
+    assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));
   }
-  
+
   /**
    * Test when inputDataset table contains no records.
    */
   @Test
-  public void testEmptyInputTable(){
+  public void testEmptyInputTable() {
     co = new ConnectionOperation(new Table(), t2, "number1", "number2");
     assertTrue(co.execute());
     assertEquals(t2, co.getResult());
   }
-  
+
   /**
    * Tests when the otherTable contains no records.
    */
   @Test
-  public void testEmptyOtherTable(){
+  public void testEmptyOtherTable() {
     co = new ConnectionOperation(t2, new Table(), "number1", "number2");
     assertTrue(co.execute());
     assertEquals(t2, co.getResult());
@@ -201,26 +206,18 @@ public class ConnectionOperationTest {
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
       cols.add(new NumberColumn("someNumberBeingEqualToUserID"));
-      Record r = new Record(cols, new Value[] {
-          new NumberValue(i),
-          new NumberValue(i * 10),
+      Record record = new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
           new StringValue("String:" + i),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)),
-          new NullValue()
-          });
-      
-      resultTable.add(r);
-      Record r2 = new Record(cols, new Value[] {
-          new NullValue(),
-          new NullValue(),
-          new NullValue(),
-          new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)),
-          new NumberValue(i)
-          });
+          new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)), new NullValue() });
+
+      resultTable.add(record);
+      Record r2 = new Record(cols, new Value[] { new NullValue(), new NullValue(), new NullValue(),
+          new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)), new NumberValue(i) });
       resultTable.add(r2);
     }
 
-    String[] columns = {"userid", "numberField", "stringField", "dateField", "someNumberBeingEqualToUserID"};
+    String[] columns = { "userid", "numberField", "stringField", "dateField",
+        "someNumberBeingEqualToUserID" };
     assertTrue(resultTable.get(0).keySet().containsAll(Arrays.asList(columns)));
     assertEquals(resultTable, co.getResult());
   }
