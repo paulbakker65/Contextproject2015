@@ -115,8 +115,8 @@ public class Settings {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((columns == null) ? 0 : columns.hashCode());
-    result = prime * result + ((delimiter == null) ? 0 : delimiter.hashCode());
+    result = prime * result + columns.hashCode();
+    result = prime * result + delimiter.hashCode();
     result = prime * result + startLine;
     return result;
   }
@@ -134,7 +134,7 @@ public class Settings {
     }
     Settings that = (Settings) obj;
     if (this.delimiter.equals(that.delimiter) && this.startLine == that.startLine
-        || this.columns.equals(that.columns)) {
+        && this.columns.equals(that.columns)) {
       return true;
     }
     return false;
