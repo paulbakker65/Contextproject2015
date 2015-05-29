@@ -23,6 +23,9 @@ public class RecordTest {
 
   ArrayList<Column> cols;
 
+  /**
+   * Creates list of column names.
+   */
   @Before
   public void setUp() {
     cols = new ArrayList<Column>();
@@ -43,9 +46,9 @@ public class RecordTest {
 
   @Test
   public void testToString() {
-    Record r = new Record(cols, new StringValue[] { new StringValue("banana"),
+    Record record = new Record(cols, new StringValue[] { new StringValue("banana"),
         new StringValue("milk") });
-    String result = r.toString();
+    String result = record.toString();
     if (result.indexOf("banana") == -1 || result.indexOf("milk") == -1) {
       fail(result);
     }

@@ -35,10 +35,10 @@ public class ColumnTest {
   public void testColumnEquals() {
     Column column = new StringColumn("name");
     Column columnSame = new StringColumn("name");
-    Column columnNotSameName = new StringColumn("name2");
-    Column columnNullName1 = new StringColumn(null);
-    Column columnNullName2 = new StringColumn(null);
-    String otherClass = "";
+    final Column columnNotSameName = new StringColumn("name2");
+    final Column columnNullName1 = new StringColumn(null);
+    final Column columnNullName2 = new StringColumn(null);
+    final String otherClass = "";
     
     assertEquals(column, column);
     assertEquals(column, columnSame);

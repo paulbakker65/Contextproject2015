@@ -3,8 +3,6 @@ package scriptlang.extra;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import java.util.ArrayList;
-
 import operations.FilterOperation;
 
 import org.junit.Before;
@@ -157,13 +155,14 @@ public class OperationSpecTest {
 
   @Test
   public void testEquals() {
-    OperationSpec operationSpecOther;
+
 
     assertEquals(true, operationSpec.equals(operationSpec));
     assertEquals(false, operationSpec.equals(null));
     assertEquals(false, operationSpec.equals(new Object()));
 
     //
+    OperationSpec operationSpecOther;
     operationSpec = new OperationSpec();
     operationSpecOther = new OperationSpec();
     operationSpec.operandList = null;

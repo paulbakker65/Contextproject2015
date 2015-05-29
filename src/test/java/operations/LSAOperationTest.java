@@ -42,8 +42,9 @@ public class LSAOperationTest {
 
   /**
    * Creates a dummy table.
+   * 
    * @throws ParseException
-   *         if data parsing goes wrong
+   *           if data parsing goes wrong
    */
   @Before
   public void setUp() throws ParseException {
@@ -107,14 +108,18 @@ public class LSAOperationTest {
     assertEquals(new NumberValue(1), res.get(3).get("occur"));
     assertEquals(new NumberValue(1), res.get(4).get("occur"));
   }
-  
-  @Test 
+
+  @Test
   public void testDayGrouperSameDay() throws ParseException {
-    GregorianCalendar calendar = new DateValue(new SimpleDateFormat("yyMMdd").parse("121110")).getValue();
-    GregorianCalendar calendar2 = new DateValue(new SimpleDateFormat("yyMMdd").parse("121109")).getValue();
-    GregorianCalendar calendar3 = new DateValue(new SimpleDateFormat("yyMMdd").parse("121010")).getValue();
-    GregorianCalendar calendar4 = new DateValue(new SimpleDateFormat("yyMMdd").parse("111110")).getValue();
-    
+    final GregorianCalendar calendar = new DateValue(new SimpleDateFormat("yyMMdd").parse("121110"))
+        .getValue();
+    final GregorianCalendar calendar2 = new DateValue(
+        new SimpleDateFormat("yyMMdd").parse("121109")).getValue();
+    final GregorianCalendar calendar3 = new DateValue(
+        new SimpleDateFormat("yyMMdd").parse("121010")).getValue();
+    final GregorianCalendar calendar4 = new DateValue(
+        new SimpleDateFormat("yyMMdd").parse("111110")).getValue();
+
     assertTrue(DayGrouper.sameDay(calendar, calendar));
     assertFalse(DayGrouper.sameDay(calendar, calendar2));
     assertFalse(DayGrouper.sameDay(calendar, calendar3));
