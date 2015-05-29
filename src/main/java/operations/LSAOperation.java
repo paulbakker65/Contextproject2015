@@ -104,7 +104,7 @@ public class LSAOperation extends Operation {
     for (int keygroup = 0; keygroup < groups.size(); keygroup++) {
       for (Record r : groups.get(keygroup)) {
         if (isKey(r)) {
-          calcLag(r, keygroup);
+          calcLag(keygroup);
         }
       }
     }
@@ -112,7 +112,7 @@ public class LSAOperation extends Operation {
     return true;
   }
 
-  private void calcLag(Record r, int keygroup) {
+  private void calcLag(int keygroup) {
     for (Entry<Integer, Integer> lag : lagtable.entrySet()) {
       int targetgroup = keygroup + lag.getKey();
       if (targetgroup >= 0 && targetgroup < groups.size()) {

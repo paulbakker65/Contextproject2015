@@ -53,7 +53,7 @@ public class FilterOperation extends Operation {
    * value to meet constraint.
    */
   Value constraintValue;
-  
+
   public FilterOperation(Table dataset, String columnName, ConstraintComparatorEnum constraintType,
       Value constraintValue) {
     super(dataset);
@@ -118,33 +118,31 @@ public class FilterOperation extends Operation {
     }
   }
 
-	/**
-	 * 
-	 * execute the operation. before the operation can be executed the
-	 * setConstraint() function must be called. this function fails if
-	 * this.comparator is not set or set to ND
-	 * 
-	 * @return <b>true</b> iff the operation executed correctly<br>
-	 *         <b>false</b> iff the operation did not execute correctly<br>
-	 * 
-	 * @see {@link setConstraint()}
-	 * 
-	 */
-	@Override
-	public boolean execute() {
-		if (!operationParametersSet) {
-		  return false;
-		} 
-	  for (Record record : this.inputData) {
-			if (record.containsKey(this.columnName)) {
-        if (this.constraintFunction(record.get(this.columnName), this.constraintType,
-            this.constraintValue)) {
-					this.resultData.add(record);
-				}
-			}
-		}
-		return true;
-	}
+  /**
+   * 
+   * execute the operation. before the operation can be executed the setConstraint() function must
+   * be called. this function fails if this.comparator is not set or set to ND
+   * 
+   * @return <b>true</b> iff the operation executed correctly<br>
+   *         <b>false</b> iff the operation did not execute correctly<br>
+   * 
+   * @see {@link setConstraint()}
+   * 
+   */
+  @Override
+  public boolean execute() {
+    if (!operationParametersSet) {
+      return false;
+    }
+    for (Record record : this.inputData) {
+      if (record.containsKey(this.columnName)
+          && this.constraintFunction(record.get(this.columnName), this.constraintType,
+              this.constraintValue)) {
+        this.resultData.add(record);
+      }
+    }
+    return true;
+  }
 
   /**
    * @return the resulting dataset after applying the operation on the input dataset
