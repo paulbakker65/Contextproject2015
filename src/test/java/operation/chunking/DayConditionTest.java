@@ -17,10 +17,10 @@ public class DayConditionTest {
 
   @Test
   public void testMatches() throws ParseException {
-    Date date = new SimpleDateFormat("yyMMdd").parse("121110");    
-    Date date2 = new SimpleDateFormat("yyMMdd").parse("121109");
-    Date date3 = new SimpleDateFormat("yyMMdd").parse("121010");
-    Date date4 = new SimpleDateFormat("yyMMdd").parse("111110");
+    final Date date = new SimpleDateFormat("yyMMdd").parse("121110");    
+    final Date date2 = new SimpleDateFormat("yyMMdd").parse("121109");
+    final Date date3 = new SimpleDateFormat("yyMMdd").parse("121010");
+    final Date date4 = new SimpleDateFormat("yyMMdd").parse("111110");
     
     assertTrue(new DayCondition().matches(new DateValue(date), new DateValue(date)));
     assertFalse(new DayCondition().matches(new DateValue(date), new DateValue(date2)));
