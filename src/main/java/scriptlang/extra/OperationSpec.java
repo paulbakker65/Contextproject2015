@@ -2,11 +2,15 @@ package scriptlang.extra;
 
 import java.util.ArrayList;
 
+import operations.ChunkingOperation;
+import operations.CodingOperation;
+import operations.ConnectionOperation;
+import operations.FilterOperation;
+import operations.Operation;
+import operations.patterns.*;
 import enums.ChunkType;
 import enums.CompareOperator;
 import exceptions.TableNotFoundException;
-import operations.*;
-import operations.coding.Pattern;
 import table.Table;
 import table.value.*;
 
