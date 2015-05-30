@@ -9,7 +9,7 @@ import table.value.Value;
 /**
  * Filters certain records out of the table.
  */
-public class FilterOperation extends Operation {
+public class ConstraintOperation extends Operation {
 
   /**
    * the enum for constraint types.
@@ -54,7 +54,7 @@ public class FilterOperation extends Operation {
    */
   Value constraintValue;
 
-  public FilterOperation(final Table dataset, final String columnName,
+  public ConstraintOperation(final Table dataset, final String columnName,
       final CompareOperator constraintType, final Value constraintValue) {
     super(dataset);
     setOperationParameters(columnName, constraintType, constraintValue);
@@ -111,7 +111,7 @@ public class FilterOperation extends Operation {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final FilterOperation other = (FilterOperation) obj;
+    final ConstraintOperation other = (ConstraintOperation) obj;
     if (columnName == null) {
       if (other.columnName != null) {
         return false;
@@ -208,7 +208,7 @@ public class FilterOperation extends Operation {
    */
   @Override
   public String toString() {
-    return "FilterOperation [columnName=" + columnName + ", constraintType=" + constraintType
+    return "ConstraintOperation [columnName=" + columnName + ", constraintType=" + constraintType
         + ", constraintValue=" + constraintValue + "]";
   }
 

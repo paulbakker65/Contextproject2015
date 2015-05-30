@@ -8,7 +8,7 @@ import exceptions.TableNotFoundException;
 import operations.ChunkingOperation;
 import operations.CodingOperation;
 import operations.ConnectionOperation;
-import operations.FilterOperation;
+import operations.ConstraintOperation;
 import operations.Operation;
 import operations.patterns.Pattern;
 
@@ -103,7 +103,7 @@ public class OperationSpec {
   public Operation getOperationBySpec() throws TableNotFoundException {
     switch (this.operationType) {
       case CONSTRAINT:
-        return new FilterOperation(this.getTableForTableName((String) operandList.get(0)),
+        return new ConstraintOperation(this.getTableForTableName((String) operandList.get(0)),
             (String) operandList.get(1), (CompareOperator) operandList.get(2),
             (Value) operandList.get(3));
 

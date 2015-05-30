@@ -22,13 +22,13 @@ import table.value.Value;
 import java.util.ArrayList;
 
 /**
- * FilterOperationTest class testing the operations.FilterOperation.
+ * ConstraintOperationTest class testing the operations.ConstraintOperation.
  * 
  */
-public class FilterOperationTest {
+public class ConstraintOperationTest {
 
   Table dataTable;
-  FilterOperation fo;
+  ConstraintOperation fo;
 
   /**
    * Creates a dummy table.
@@ -54,7 +54,7 @@ public class FilterOperationTest {
       dataTable.add(record);
     }
 
-    fo = new FilterOperation(dataTable, null, null, null);
+    fo = new ConstraintOperation(dataTable, null, null, null);
   }
 
   @Test

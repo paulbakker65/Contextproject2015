@@ -7,7 +7,7 @@ import enums.CompareOperator;
 
 import exceptions.TableNotFoundException;
 
-import operations.FilterOperation;
+import operations.ConstraintOperation;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -121,8 +121,8 @@ public class OperationSpecTest {
 
   @Test
   public void testGetOperationBySpec() throws TableNotFoundException {
-    final FilterOperation op =
-        new FilterOperation(new Table(), "field", CompareOperator.EQ, new NumberValue(10));
+    final ConstraintOperation op =
+        new ConstraintOperation(new Table(), "field", CompareOperator.EQ, new NumberValue(10));
 
     operationSpec.setOperationType(OperationType.CONSTRAINT);
     operationSpec.addOperationOperand("table");
@@ -130,8 +130,8 @@ public class OperationSpecTest {
     operationSpec.addOperationOperand(CompareOperator.EQ);
     operationSpec.addOperationOperand(new NumberValue(10));
 
-    FilterOperation other = new FilterOperation(new Table(), null, null, null);
-    other = (FilterOperation) operationSpec.getOperationBySpec();
+    ConstraintOperation other = new ConstraintOperation(new Table(), null, null, null);
+    other = (ConstraintOperation) operationSpec.getOperationBySpec();
     other.setOperationParameters("field", CompareOperator.EQ, new NumberValue(10));
 
     assertEquals(op, other);
