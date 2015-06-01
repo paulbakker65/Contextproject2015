@@ -2,40 +2,21 @@ package main;
 
 import input.DataFile;
 import input.Input;
-import input.WrongXMLException;
 
 import java.io.File;
-import java.io.FileWriter;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
-import operations.Operation;
-import exceptions.TableNotFoundException;
-import export.Exporter;
-import scriptlang.AnalysisLangLexer;
-import scriptlang.AnalysisLangParser;
-import scriptlang.extra.ALListener;
-import scriptlang.extra.OperationSpec;
-import table.Table;
-import table.value.ColumnTypeMismatchException;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Contains the first method that will be run. Main will parse command line arguments and start the GUI.
+ * Contains the first method that will be run.
+ * Main will parse command line arguments and start the GUI.
  */
-@SuppressFBWarnings(value = "UC_USELESS_OBJECT")
-public class Main {
-
-  public static void main(String[] args) throws IOException, URISyntaxException, WrongXMLException,
-      TableNotFoundException {
-
+public class Main{
+  
+  /**
+   * Main
+   * @param args A array of arguments.
+   */
+  public static void main(String[] args) {
     if (!parseCommandline(args)) {
       return;
     }
@@ -44,49 +25,16 @@ public class Main {
       return;
     }
 
-    ArrayList<Table> tables = new ArrayList<Table>();
 
-    for (DataFile f : Input.getFiles()) {
-      Table t = null;
-      try {
-        t = f.getParser().parse(f.getReader());
-        tables.add(t);
-      } catch (ColumnTypeMismatchException e) {
-        e.printStackTrace();
-      }
-    }
+    ProgressGui.init();
 
-    File od = Input.getOutputDir();
-
-    ANTLRInputStream input = new ANTLRFileStream(Input.getScriptFile().getAbsolutePath());
-    AnalysisLangLexer lexer = new AnalysisLangLexer(input);
-    CommonTokenStream tokens = new CommonTokenStream(lexer);
-    AnalysisLangParser parser = new AnalysisLangParser(tokens);
-    ALListener listener = new ALListener(tables);
-    ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
-
-    ArrayList<OperationSpec> operationList = listener.getOpList();
-
-    for (OperationSpec o : operationList) {
-      Operation op = o.getOperationBySpec();
-      op.execute();
-
-      o.getTableForTableName((String) o.operandList.get(0)).clear();
-      o.getTableForTableName((String) o.operandList.get(0)).addAll(op.getResult());
-    }
-
-    for (Table t : tables) {
-      Exporter.export(t, new FileWriter(od.getAbsolutePath() + "/output_" + t.getName() + ".csv"));
-    }
-
-    System.exit(0);
+    return;
   }
 
   /**
    * Parses command line arguments.
    * 
-   * @param argv
-   *          String[] containing all arguments.
+   * @param argv String[] containing all arguments.
    */
   public static boolean parseCommandline(String[] argv) {
     int argc = argv.length;
@@ -116,8 +64,11 @@ public class Main {
         }
         i++;
       } else {
-        String usage = "Error in program arguments.\n" + "Available commands are:\n"
-            + "    -f <data file> <settings file>\n" + "    -s <script file>\n" + "    -o <output directory>\n";
+        String usage = "Error in program arguments.\n"
+            + "Available commands are:\n" 
+            + "    -f <data file> <settings file>\n" 
+            + "    -s <script file>\n" 
+            + "    -o <output directory>\n";
         System.out.println(usage);
         return false;
       }
@@ -133,19 +84,21 @@ public class Main {
     MainUI dialog = new MainUI();
     dialog.pack();
     dialog.setTitle(windowTitle);
-    dialog.centreWindow();
+    GUI.centreWindow(dialog);
     dialog.setVisible(true);
 
-    if (dialog.isExit()) {// User pressed Cancel or closed the window.
+    if (dialog.isExit()) {
       return false;
     }
 
-    System.out.println("GUI done\n" + "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n" + "outputDir = "
-        + Input.getOutputDir().getAbsolutePath() + "\n" + "files = ");
+    System.out.println("GUI done\n" 
+        + "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n" 
+        + "outputDir = " + Input.getOutputDir().getAbsolutePath() + "\n" 
+        + "files = ");
     for (DataFile file : Input.getFiles()) {
       System.out.println(file.toString());
     }
-
+    
     return true;
   }
 }
