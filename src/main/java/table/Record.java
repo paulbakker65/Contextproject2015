@@ -7,30 +7,61 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * A timed event that can contain various properties ("collumns"). Because it extends a HashMap new
+ * A timed event that can contain various properties ("columns"). Because it extends a HashMap new
  * properties can be made on the fly.
  */
 public class Record extends HashMap<String, Value> {
-
   private static final long serialVersionUID = 1L;
+  private String tableName;
 
   /**
    * Creates a Record.
+   * 
+   * @param tableName
+   *        the original file name.
    */
   public Record() {
+    this("");
+  }
+  
+  /**
+   * Creates a Record.
+   */
+  public Record(String tableName) {
     super();
+    this.tableName = tableName;
   }
 
   /**
    * Creates a Record.
    * 
-   * @param list The list of column names.
-   * @param val An array of values.
+   * @param columns 
+   *        The list of column names.
+   * @param values 
+   *        An array of values.
+   * @param tableName
+   *        the original file name.
    */
-  public Record(final List<Column> list, final Value[] val) {
-    for (int i = 0; i < list.size(); i++) {
-      this.put(list.get(i).getName(), val[i]);
+  public Record(final List<Column> columns, final Value[] values) {
+    this(columns, values, "");
+  }
+  
+  /**
+   * Creates a Record.
+   * 
+   * @param columns 
+   *        The list of column names.
+   * @param values 
+   *        An array of values.
+   * @param tableName
+   *        the original file name.
+   */
+  public Record(final List<Column> columns, final Value[] values, String tableName) {
+    super();
+    for (int i = 0; i < columns.size(); i++) {
+      this.put(columns.get(i).getName(), values[i]);
     }
+    this.tableName = tableName;
   }
 
   /**
@@ -58,4 +89,11 @@ public class Record extends HashMap<String, Value> {
     return builder.toString();
   }
 
+  /**
+   * Returns the original file name.
+   * @return the original file name.
+   */
+  public String getTableName() {
+    return tableName;
+  }
 }
