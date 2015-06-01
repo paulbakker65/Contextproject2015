@@ -3,19 +3,48 @@ package main;
 import input.DataFile;
 import input.Input;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import table.Table;
 import table.value.ColumnTypeMismatchException;
 
-import java.beans.*;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingWorker;
+
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import operations.Operation;
+import exceptions.TableNotFoundException;
+import export.Exporter;
+import scriptlang.AnalysisLangLexer;
+import scriptlang.AnalysisLangParser;
+import scriptlang.extra.ALListener;
+import scriptlang.extra.OperationSpec;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  
 /**
  * A GUI that shows a progress bar and a text area to show a log.
@@ -110,10 +139,10 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   }
   
   class Task extends SwingWorker<Void, Void> {
-    ArrayList<Table> tables = null;;
+    ArrayList<Table> tables = null;
 
     @Override
-    public Void doInBackground() {
+    public Void doInBackground() throws TableNotFoundException {
       setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
       
       
@@ -121,17 +150,63 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
       tables = new ArrayList<Table>();
 
       for (DataFile f : Input.getFiles()) {
-        Table t = null;
+        Table table = null;
         try {
           log.append("Parsing " + f.toString() + "\n");
-          t = f.getParser().parse(f.getReader());
-          tables.add(t);
+          table = f.getParser().parse(f.getReader());
+          tables.add(table);
         } catch (ColumnTypeMismatchException | IOException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }
       }
       log.append("Done parsing input files.\n\n");
+      
+      setProgress(30);
+      
+      log.append("Executing script.\n");
+      
+      File od = Input.getOutputDir();
+
+      ANTLRInputStream input = null;
+      try {
+        input = new ANTLRFileStream(Input.getScriptFile().getAbsolutePath());
+      } catch (IOException e) {
+        log.append("Error reading script file.");
+        e.printStackTrace();
+        return null;
+      }
+      AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+      CommonTokenStream tokens = new CommonTokenStream(lexer);
+      AnalysisLangParser parser = new AnalysisLangParser(tokens);
+      ALListener listener = new ALListener(tables);
+      ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
+
+      ArrayList<OperationSpec> operationList = listener.getOpList();
+
+      for (OperationSpec o : operationList) {
+        Operation op = o.getOperationBySpec();
+        op.execute();
+
+        o.getTableForTableName((String) o.operandList.get(0)).clear();
+        o.getTableForTableName((String) o.operandList.get(0)).addAll(op.getResult());
+      }
+      
+      log.append("Done executing script.\n\n");
+      
+      setProgress(80);
+      
+      log.append("Writing output files.\n");
+      for (Table t : tables) {
+        try {
+          Exporter.export(t, new FileWriter(od.getAbsolutePath() 
+              + "/output_" + t.getName() + ".csv"));
+        } catch (IOException e) {
+          log.append("Error writing file.");
+          e.printStackTrace();
+        }
+      }
+      log.append("Done writing output files.\n\n");
       
       setProgress(100);
 
@@ -146,21 +221,21 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
       previewButton.setEnabled(true);
     }
     
-    public Table getTable(){
+    public Table getTable() {
       return tables.get(0);
     }
     
-    public void setProg(int percent){
+    public void setProg(int percent) {
       setProgress(percent);
     }
   }
   
   
-  public void onPreview(){
+  public void onPreview() {
     DisplayTableGui.init(task.getTable());
   }
   
-  public void onExit(){
+  public void onExit() {
     dialog.dispose();
   }
 }
