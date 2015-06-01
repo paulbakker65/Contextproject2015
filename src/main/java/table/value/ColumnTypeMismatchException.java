@@ -19,10 +19,9 @@ public class ColumnTypeMismatchException extends Exception {
   /**
    * Constructs a new ColumnTypeMismatchException.
    * 
-   * @param msg
-   *          the message of the exception.
+   * @param msg the message of the exception.
    */
-  public ColumnTypeMismatchException(String msg) {
+  public ColumnTypeMismatchException(final String msg) {
     super(msg);
   }
 }

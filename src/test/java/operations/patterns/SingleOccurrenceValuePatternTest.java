@@ -4,10 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
-import operations.patterns.SingleOccurrenceValuePattern;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +16,8 @@ import table.value.NumberValue;
 import table.value.StringColumn;
 import table.value.StringValue;
 import table.value.Value;
+
+import java.util.ArrayList;
 
 /**
  * Class for testing SingleOccurrenceValuePattern.
@@ -41,41 +39,80 @@ public class SingleOccurrenceValuePatternTest {
   }
 
   @Test
-  public void testFindPatternSingleRecord() {
-    Record record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
+  public void testFindPatternEndOfTable() {
+    Record record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
+    table.add(record);
+    record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
     table.add(record);
 
-    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("StatSensor",
-        new StringValue("Crea"));
-    Table event = new Table();
+    final SingleOccurrenceValuePattern pattern =
+        new SingleOccurrenceValuePattern("StatSensor", new StringValue("Crea"));
+    final Table event = new Table();
+    assertFalse(pattern.findPattern(table, 2, event));
+    assertFalse(pattern.findPattern(table, 3, event));
+  }
+
+  @Test
+  public void testFindPatternSingleRecord() {
+    final Record record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
+    table.add(record);
+
+    final SingleOccurrenceValuePattern pattern =
+        new SingleOccurrenceValuePattern("StatSensor", new StringValue("Crea"));
+    final Table event = new Table();
     assertTrue(pattern.findPattern(table, 0, event));
     assertEquals(table, event);
   }
 
   @Test
   public void testFindPatternSingleRecordNotFound() {
-    Record record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
+    final Record record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
     table.add(record);
 
-    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("StatSensor",
-        new StringValue("Crea2"));
-    Table event = new Table();
+    final SingleOccurrenceValuePattern pattern =
+        new SingleOccurrenceValuePattern("StatSensor", new StringValue("Crea2"));
+    final Table event = new Table();
     assertFalse(pattern.findPattern(table, 0, event));
   }
 
   @Test
-  public void testFindPatternTwoDifferentRecords() {
-    Record record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
+  public void testFindPatternThreeSameRecords() {
+    Record record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
     table.add(record);
-    record = new Record(cols,
-        new Value[] { new NullValue(), new NumberValue(140), new NullValue() });
+    record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
+    table.add(record);
+    record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
     table.add(record);
 
-    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("StatSensor",
-        new StringValue("Crea"));
+    final SingleOccurrenceValuePattern pattern =
+        new SingleOccurrenceValuePattern("StatSensor", new StringValue("Crea"));
+    Table event = new Table();
+    assertFalse(pattern.findPattern(table, 0, event));
+
+    event = new Table();
+    assertFalse(pattern.findPattern(table, 1, event));
+
+    event = new Table();
+    assertFalse(pattern.findPattern(table, 2, event));
+  }
+
+  @Test
+  public void testFindPatternTwoDifferentRecords() {
+    Record record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
+    table.add(record);
+    record = new Record(cols, new Value[] {new NullValue(), new NumberValue(140), new NullValue()});
+    table.add(record);
+
+    final SingleOccurrenceValuePattern pattern =
+        new SingleOccurrenceValuePattern("StatSensor", new StringValue("Crea"));
     Table event = new Table();
     assertTrue(pattern.findPattern(table, 0, event));
     assertEquals(1, event.size());
@@ -86,93 +123,52 @@ public class SingleOccurrenceValuePatternTest {
 
   @Test
   public void testFindPatternTwoDifferentRecordsSecondPattern() {
-    Record record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
+    Record record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
     table.add(record);
-    record = new Record(cols,
-        new Value[] { new NullValue(), new NumberValue(140), new NullValue() });
+    record = new Record(cols, new Value[] {new NullValue(), new NumberValue(140), new NullValue()});
     table.add(record);
 
-    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("WebsiteValue",
-        new NumberValue(140));
-    Table event = new Table();
+    final SingleOccurrenceValuePattern pattern =
+        new SingleOccurrenceValuePattern("WebsiteValue", new NumberValue(140));
+    final Table event = new Table();
     assertTrue(pattern.findPattern(table, 1, event));
     assertEquals(1, event.size());
   }
 
   @Test
-  public void testFindPatternTwoSameRecords() {
-    Record record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
-    table.add(record);
-    record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
-    table.add(record);
-
-    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("StatSensor",
-        new StringValue("Crea"));
-    Table event = new Table();
-    assertFalse(pattern.findPattern(table, 0, event));
-
-    event = new Table();
-    assertFalse(pattern.findPattern(table, 1, event));
-  }
-
-  @Test
-  public void testFindPatternEndOfTable() {
-    Record record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
-    table.add(record);
-    record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
-    table.add(record);
-
-    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("StatSensor",
-        new StringValue("Crea"));
-    Table event = new Table();
-    assertFalse(pattern.findPattern(table, 2, event));
-    assertFalse(pattern.findPattern(table, 3, event));
-  }
-
-  @Test
   public void testFindPatternTwoPatterns() {
-    Record record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
+    Record record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
     table.add(record);
-    record = new Record(cols, new Value[] { new StringValue("Crea2"), new NullValue(),
-        new NullValue() });
+    record =
+        new Record(cols, new Value[] {new StringValue("Crea2"), new NullValue(), new NullValue()});
     table.add(record);
 
-    SingleOccurrenceValuePattern endPattern = new SingleOccurrenceValuePattern("StatSensor",
-        new StringValue("Crea2"));
-    SingleOccurrenceValuePattern firstPattern = new SingleOccurrenceValuePattern("StatSensor",
-        new StringValue("Crea"), endPattern);
-    Table event = new Table();
+    final SingleOccurrenceValuePattern endPattern =
+        new SingleOccurrenceValuePattern("StatSensor", new StringValue("Crea2"));
+    final SingleOccurrenceValuePattern firstPattern =
+        new SingleOccurrenceValuePattern("StatSensor", new StringValue("Crea"), endPattern);
+    final Table event = new Table();
     assertTrue(firstPattern.findPattern(table, 0, event));
     assertEquals(table, event);
   }
 
   @Test
-  public void testFindPatternThreeSameRecords() {
-    Record record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
+  public void testFindPatternTwoSameRecords() {
+    Record record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
     table.add(record);
-    record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
-    table.add(record);
-    record = new Record(cols, new Value[] { new StringValue("Crea"), new NullValue(),
-        new NullValue() });
+    record =
+        new Record(cols, new Value[] {new StringValue("Crea"), new NullValue(), new NullValue()});
     table.add(record);
 
-    SingleOccurrenceValuePattern pattern = new SingleOccurrenceValuePattern("StatSensor",
-        new StringValue("Crea"));
+    final SingleOccurrenceValuePattern pattern =
+        new SingleOccurrenceValuePattern("StatSensor", new StringValue("Crea"));
     Table event = new Table();
     assertFalse(pattern.findPattern(table, 0, event));
 
     event = new Table();
     assertFalse(pattern.findPattern(table, 1, event));
-
-    event = new Table();
-    assertFalse(pattern.findPattern(table, 2, event));
   }
 }

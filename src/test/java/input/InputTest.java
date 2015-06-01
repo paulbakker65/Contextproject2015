@@ -5,10 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
 
 /**
  * Tests Input class functionality.
@@ -25,44 +25,6 @@ public class InputTest {
   @Before
   public void setUp() throws Exception {
     Input.clean();
-  }
-
-  @Test
-  public void testExists() {
-    assertTrue(Input.exists(script));
-    assertTrue(Input.exists(file));
-    assertTrue(Input.exists(settings));
-    assertEquals(false, Input.exists(notexisting));
-  }
-
-  @Test
-  public void testSetScriptFile() {
-    assertNull(Input.getScriptFile());
-    assertFalse(Input.setScriptFile(notexisting));
-    assertNull(Input.getScriptFile());
-    assertTrue(Input.setScriptFile(script));
-    assertEquals(script, Input.getScriptFile());
-  }
-
-  /**
-   * Test directory creation.
-   */
-  @Test
-  public void testSetOutputDir1() {
-    if (output.exists()) {
-      output.delete();
-    }
-    assertNull(Input.getOutputDir());
-    assertTrue(Input.setOutputDir(output));
-    output.delete();
-  }
-
-  /**
-   * Test output directory is a file.
-   */
-  @Test
-  public void testSetOutputDir2() {
-    assertFalse(Input.setOutputDir(script));
   }
 
   @Test
@@ -100,17 +62,25 @@ public class InputTest {
     assertTrue(Input.getFiles().isEmpty());
     try {
       Input.addDataFile(file, settingsxmlerror);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       assertTrue(e.getMessage().startsWith("XML parse error: "));
     }
     assertTrue(Input.getFiles().isEmpty());
   }
 
   @Test
-  public void testHasScript() {
-    assertFalse(Input.hasScript());
-    Input.setScriptFile(script);
-    assertTrue(Input.hasScript());
+  public void testExists() {
+    assertTrue(Input.exists(script));
+    assertTrue(Input.exists(file));
+    assertTrue(Input.exists(settings));
+    assertEquals(false, Input.exists(notexisting));
+  }
+
+  @Test
+  public void testHasFiles() throws Exception {
+    assertFalse(Input.hasFiles());
+    Input.addDataFile(file, settings);
+    assertTrue(Input.hasFiles());
   }
 
   @Test
@@ -121,10 +91,40 @@ public class InputTest {
   }
 
   @Test
-  public void testHasFiles() throws Exception {
-    assertFalse(Input.hasFiles());
-    Input.addDataFile(file, settings);
-    assertTrue(Input.hasFiles());
+  public void testHasScript() {
+    assertFalse(Input.hasScript());
+    Input.setScriptFile(script);
+    assertTrue(Input.hasScript());
+  }
+
+  /**
+   * Test directory creation.
+   */
+  @Test
+  public void testSetOutputDir1() {
+    if (output.exists()) {
+      output.delete();
+    }
+    assertNull(Input.getOutputDir());
+    assertTrue(Input.setOutputDir(output));
+    output.delete();
+  }
+
+  /**
+   * Test output directory is a file.
+   */
+  @Test
+  public void testSetOutputDir2() {
+    assertFalse(Input.setOutputDir(script));
+  }
+
+  @Test
+  public void testSetScriptFile() {
+    assertNull(Input.getScriptFile());
+    assertFalse(Input.setScriptFile(notexisting));
+    assertNull(Input.getScriptFile());
+    assertTrue(Input.setScriptFile(script));
+    assertEquals(script, Input.getScriptFile());
   }
 
 }

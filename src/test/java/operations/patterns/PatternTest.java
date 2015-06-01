@@ -10,36 +10,24 @@ import org.junit.Test;
  * Class for testing the Pattern class.
  */
 public class PatternTest {
-  
+
   @Test
   public void testConstructorEmpty() {
-    Pattern pattern = new SingleOccurrencePattern("Test");
-    
+    final Pattern pattern = new SingleOccurrencePattern("Test");
+
     assertNotNull(pattern);
     assertEquals(new NullPattern(), pattern.getNextPattern());
   }
-  
+
   @Test
   public void testConstructorNonEmpty() {
-    Pattern nextPattern = new SingleOccurrencePattern("Test2");
-    Pattern pattern = new SingleOccurrencePattern("Test", nextPattern);
-    
+    final Pattern nextPattern = new SingleOccurrencePattern("Test2");
+    final Pattern pattern = new SingleOccurrencePattern("Test", nextPattern);
+
     assertNotNull(pattern);
     assertEquals(nextPattern, pattern.getNextPattern());
   }
-  
-  @Test
-  public void testGetSetNextPattern() {
-    Pattern nextPattern = new SingleOccurrencePattern("Test2");
-    Pattern pattern = new SingleOccurrencePattern("Test");
-    
-    assertNotEquals(nextPattern, pattern.getNextPattern());
-    
-    pattern.setNextPattern(nextPattern);
-    
-    assertEquals(nextPattern, pattern.getNextPattern());
-  }
-  
+
   @Test
   public void testEquals() {
     final Pattern nextPattern = new SingleOccurrencePattern("Test2");
@@ -50,7 +38,7 @@ public class PatternTest {
     final Pattern patternNextNull2 = new SingleOccurrencePattern("Test", null);
     final Pattern thisPattern = new NullPattern();
     final String otherClass = "";
-    
+
     assertEquals(thisPattern, thisPattern);
     assertEquals(pattern, patternSame);
     assertNotEquals(pattern, null);
@@ -60,11 +48,23 @@ public class PatternTest {
     assertEquals(patternNextNull1, patternNextNull2);
     assertNotEquals(pattern, otherClass);
   }
-  
+
+  @Test
+  public void testGetSetNextPattern() {
+    final Pattern nextPattern = new SingleOccurrencePattern("Test2");
+    final Pattern pattern = new SingleOccurrencePattern("Test");
+
+    assertNotEquals(nextPattern, pattern.getNextPattern());
+
+    pattern.setNextPattern(nextPattern);
+
+    assertEquals(nextPattern, pattern.getNextPattern());
+  }
+
   @Test
   public void testHashCode() {
-    Pattern pattern = new NullPattern();  
-    
+    final Pattern pattern = new NullPattern();
+
     assertEquals(31, pattern.hashCode());
   }
 }

@@ -1,6 +1,7 @@
 package operations;
 
 import enums.CompareOperator;
+
 import table.Record;
 import table.Table;
 import table.value.Value;
@@ -8,7 +9,7 @@ import table.value.Value;
 /**
  * Filters certain records out of the table.
  */
-public class FilterOperation extends Operation {
+public class ConstraintOperation extends Operation {
 
   /**
    * the enum for constraint types.
@@ -53,52 +54,27 @@ public class FilterOperation extends Operation {
    */
   Value constraintValue;
 
-  public FilterOperation(Table dataset, String columnName, CompareOperator constraintType,
-      Value constraintValue) {
+  public ConstraintOperation(final Table dataset, final String columnName,
+      final CompareOperator constraintType, final Value constraintValue) {
     super(dataset);
     setOperationParameters(columnName, constraintType, constraintValue);
-  }
-
-  /**
-   * set operation parameters for the constraint operation.
-   * 
-   * @param columnName
-   *          the column name to which this constraint applies
-   * @param constraintType
-   *          the type of constraint as defined in {@link ConstraintComparatorEnum}
-   * @param constraintValue
-   *          the value which the constraint must meet
-   * @return <b>true</b> iff this.operationParametersSet is <b>true</b><br>
-   *         <b>false</b> iff this.operationParametersSet is <b>false</b><br>
-   */
-  public boolean setOperationParameters(String columnName, CompareOperator constraintType,
-      Value constraintValue) {
-    this.columnName = columnName;
-    this.constraintType = constraintType;
-    this.constraintValue = constraintValue;
-
-    this.operationParametersSet = true;
-    return true;
   }
 
   /**
    * calculates whether a record value meets a constraint or not, this function uses the compareTo
    * function of Value which in turn chooses which compareTo it uses based on the actual subclass.
    * 
-   * @param recordValue
-   *          record value, type generic Value
-   * @param constraintComparatorEnum
-   *          used constraint type (ENUM)
-   * @param constraintValue
-   *          constraint value to meet, type generic Value
+   * @param recordValue record value, type generic Value
+   * @param constraintComparatorEnum used constraint type (ENUM)
+   * @param constraintValue constraint value to meet, type generic Value
    * @return <b>false</b> iff the record value does not meet the constraint, <br>
    *         <b>true</b> if the record value meets the constraint, <br>
    *         <b>true</b> if the constraint type is undefined
    */
-  private boolean constraintFunction(Value recordValue,
-      CompareOperator compareOperator, Value constraintValue) {
+  private boolean constraintFunction(final Value recordValue,
+      final CompareOperator compareOperator, final Value constraintValue) {
 
-    int compareResult = recordValue.compareTo(constraintValue);
+    final int compareResult = recordValue.compareTo(constraintValue);
     switch (compareOperator) {
       case EQ:
         return compareResult == 0;
@@ -119,58 +95,13 @@ public class FilterOperation extends Operation {
     }
   }
 
-  /**
-   * execute the operation. before the operation can be executed the setConstraint() function must
-   * be called. this function fails if this.comparator is not set or set to ND
+  /*
+   * (non-Javadoc)
    * 
-   * @return <b>true</b> iff the operation executed correctly<br>
-   *         <b>false</b> iff the operation did not execute correctly<br>
-   * 
-   * @see {@link setConstraint()}
-   * 
-   */
-  @Override
-  public boolean execute() {
-    if (!operationParametersSet) {
-      return false;
-    }
-    for (Record record : this.inputData) {
-      if (record.containsKey(this.columnName)
-          && this.constraintFunction(record.get(this.columnName), this.constraintType,
-              this.constraintValue)) {
-        this.resultData.add(record);
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Getter for the result data.
-   * @return the resulting dataset after applying the operation on the input dataset
-   */
-  @Override
-  public Table getResult() {
-    return this.resultData;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
-    result = prime * result + ((constraintType == null) ? 0 : constraintType.hashCode());
-    result = prime * result + ((constraintValue == null) ? 0 : constraintValue.hashCode());
-    return result;
-  }
-
-  /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj) {
       return true;
     }
@@ -180,7 +111,7 @@ public class FilterOperation extends Operation {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    FilterOperation other = (FilterOperation) obj;
+    final ConstraintOperation other = (ConstraintOperation) obj;
     if (columnName == null) {
       if (other.columnName != null) {
         return false;
@@ -201,14 +132,84 @@ public class FilterOperation extends Operation {
     return true;
   }
 
-  /* (non-Javadoc)
+  /**
+   * execute the operation. before the operation can be executed the setConstraint() function must
+   * be called. this function fails if this.comparator is not set or set to ND
+   * 
+   * @return <b>true</b> iff the operation executed correctly<br>
+   *         <b>false</b> iff the operation did not execute correctly<br>
+   * 
+   * @see {@link setConstraint()}
+   * 
+   */
+  @Override
+  public boolean execute() {
+    if (!operationParametersSet) {
+      return false;
+    }
+    for (final Record record : this.inputData) {
+      if (record.containsKey(this.columnName)
+          && this.constraintFunction(record.get(this.columnName), this.constraintType,
+              this.constraintValue)) {
+        this.resultData.add(record);
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Getter for the result data.
+   * 
+   * @return the resulting dataset after applying the operation on the input dataset
+   */
+  @Override
+  public Table getResult() {
+    return this.resultData;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
+    result = prime * result + ((constraintType == null) ? 0 : constraintType.hashCode());
+    result = prime * result + ((constraintValue == null) ? 0 : constraintValue.hashCode());
+    return result;
+  }
+
+  /**
+   * set operation parameters for the constraint operation.
+   * 
+   * @param columnName the column name to which this constraint applies
+   * @param constraintType the type of constraint as defined in {@link ConstraintComparatorEnum}
+   * @param constraintValue the value which the constraint must meet
+   * @return <b>true</b> iff this.operationParametersSet is <b>true</b><br>
+   *         <b>false</b> iff this.operationParametersSet is <b>false</b><br>
+   */
+  public boolean setOperationParameters(final String columnName,
+      final CompareOperator constraintType, final Value constraintValue) {
+    this.columnName = columnName;
+    this.constraintType = constraintType;
+    this.constraintValue = constraintValue;
+
+    this.operationParametersSet = true;
+    return true;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return "FilterOperation [columnName=" + columnName + ", constraintType=" + constraintType
+    return "ConstraintOperation [columnName=" + columnName + ", constraintType=" + constraintType
         + ", constraintValue=" + constraintValue + "]";
   }
-  
 
 }

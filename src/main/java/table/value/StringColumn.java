@@ -1,6 +1,6 @@
 package table.value;
 
-import input.WrongXMLException;
+import input.WrongXmlException;
 
 import org.w3c.dom.Element;
 
@@ -13,20 +13,14 @@ public class StringColumn extends Column {
   /**
    * Constructs a new StringColumn.
    * 
-   * @param name
-   *          the name of the column.
+   * @param name the name of the column.
    */
-  public StringColumn(String name) {
+  public StringColumn(final String name) {
     super(name);
   }
 
   @Override
-  public String toString() {
-    return super.toString() + ",\ttype: text";
-  }
-
-  @Override
-  public Value convertToValue(String text) {
+  public Value convertToValue(final String text) {
     if (text.toLowerCase().equals("null") || text.isEmpty()) {
       return new NullValue();
     }
@@ -35,6 +29,10 @@ public class StringColumn extends Column {
   }
 
   @Override
-  public void read(Element element) throws WrongXMLException {
+  public void read(final Element element) throws WrongXmlException {}
+
+  @Override
+  public String toString() {
+    return super.toString() + ",\ttype: text";
   }
 }

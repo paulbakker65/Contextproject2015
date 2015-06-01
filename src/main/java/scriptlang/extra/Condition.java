@@ -1,6 +1,7 @@
 package scriptlang.extra;
 
 import enums.CompareOperator;
+
 import table.value.Value;
 
 /**
@@ -12,7 +13,7 @@ public class Condition {
   public CompareOperator conditionOperator;
   public Value conditionValue;
 
-  public Condition(CompareOperator operator, Value value) {
+  public Condition(final CompareOperator operator, final Value value) {
     this.conditionOperator = operator;
     this.conditionValue = value;
   }
@@ -20,11 +21,31 @@ public class Condition {
   /*
    * (non-Javadoc)
    * 
-   * @see java.lang.Object#toString()
+   * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
-  public String toString() {
-    return "Condition [condOperator=" + conditionOperator + ", condValue=" + conditionValue + "]";
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final Condition other = (Condition) obj;
+    if (conditionOperator != other.conditionOperator) {
+      return false;
+    }
+    if (conditionValue == null) {
+      if (other.conditionValue != null) {
+        return false;
+      }
+    } else if (!conditionValue.equals(other.conditionValue)) {
+      return false;
+    }
+    return true;
   }
 
   /*
@@ -44,30 +65,10 @@ public class Condition {
   /*
    * (non-Javadoc)
    * 
-   * @see java.lang.Object#equals(java.lang.Object)
+   * @see java.lang.Object#toString()
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    Condition other = (Condition) obj;
-    if (conditionOperator != other.conditionOperator) {
-      return false;
-    }
-    if (conditionValue == null) {
-      if (other.conditionValue != null) {
-        return false;
-      }
-    } else if (!conditionValue.equals(other.conditionValue)) {
-      return false;
-    }
-    return true;
+  public String toString() {
+    return "Condition [condOperator=" + conditionOperator + ", condValue=" + conditionValue + "]";
   }
 }

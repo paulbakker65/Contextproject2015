@@ -12,13 +12,52 @@ public class Input {
   static File outputDir = null;
 
   /**
+   * Validates the input files before creating the DataFile.
+   * 
+   * @param file The data file.
+   * @param settings The settings file.
+   * @throws Exception Throws an exception if input can not be found or if reading the data file and
+   *         settings fails.
+   */
+  public static void addDataFile(final File file, final File settings) throws Exception {
+    if (!exists(file) || !file.isFile()) {
+      final String message = "Data file not found or is not a valid file.";
+      System.out.println(message);
+      throw new Exception(message);
+    }
+    if (!exists(settings) || !file.isFile()) {
+      final String message = "Settings file not found or is not a valid file.";
+      System.out.println(message);
+      throw new Exception(message);
+    }
+
+    DataFile df = null;
+    try {
+      df = new DataFile(file, settings);
+    } catch (final Exception e) {
+      System.out.println(e.getMessage());
+      throw e;
+    }
+
+    files.add(df);
+  }
+
+  /**
+   * Resets the object clearing all the set fields.
+   */
+  public static void clean() {
+    Input.files = new ArrayList<DataFile>();
+    Input.outputDir = null;
+    Input.scriptFile = null;
+  }
+
+  /**
    * Checks whether file exist, if not it prints this to the system.out.
    *
-   * @param file
-   *          The file to check.
+   * @param file The file to check.
    * @return Returns true if the file exists, false if it does not.
    */
-  public static boolean exists(File file) {
+  public static boolean exists(final File file) {
     if (!file.exists()) {
       System.out.println(file.getAbsolutePath() + " does not exist!");
       return false;
@@ -30,73 +69,34 @@ public class Input {
     return files;
   }
 
-  /**
-   * Validates the input files before creating the DataFile.
-   * 
-   * @param file
-   *          The data file.
-   * @param settings
-   *          The settings file.
-   * @throws Exception
-   *           Throws an exception if input can not be found or if reading the data file and
-   *           settings fails.
-   */
-  public static void addDataFile(File file, File settings) throws Exception {
-    if (!exists(file) || !file.isFile()) {
-      String message = "Data file not found or is not a valid file.";
-      System.out.println(message);
-      throw new Exception(message);
-    }
-    if (!exists(settings) || !file.isFile()) {
-      String message = "Settings file not found or is not a valid file.";
-      System.out.println(message);
-      throw new Exception(message);
-    }
-
-    DataFile df = null;
-    try {
-      df = new DataFile(file, settings);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      throw e;
-    }
-
-    files.add(df);
+  public static File getOutputDir() {
+    return outputDir;
   }
 
   public static File getScriptFile() {
     return scriptFile;
   }
 
-  /**
-   * Set the script file.
-   * 
-   * @param scriptFile
-   *          The script file.
-   * @return true iff the script file was succesfully set. <br>
-   *         false iff the script file was not set.
-   */
-  public static boolean setScriptFile(File scriptFile) {
-    if (scriptFile == null || !exists(scriptFile)) {
-      return false;
-    }
-    Input.scriptFile = scriptFile;
-    return true;
+  public static boolean hasFiles() {
+    return !files.isEmpty();
   }
 
-  public static File getOutputDir() {
-    return outputDir;
+  public static boolean hasOutput() {
+    return outputDir != null;
+  }
+
+  public static boolean hasScript() {
+    return scriptFile != null;
   }
 
   /**
    * Set the output directory.
    * 
-   * @param outputDir
-   *          The output directory.
+   * @param outputDir The output directory.
    * @return true iff the output directory was succesfully set. <br>
    *         false iff the output directory was not set.
    */
-  public static boolean setOutputDir(File outputDir) {
+  public static boolean setOutputDir(final File outputDir) {
     if (outputDir == null) {
       return false;
     }
@@ -106,7 +106,7 @@ public class Input {
     }
     if (!exists(outputDir)) {
       System.out.println("Trying to create directory.");
-      boolean ret = outputDir.mkdir();
+      final boolean ret = outputDir.mkdir();
       if (!ret) {
         System.out.println("Error creating direcotry '" + outputDir.getAbsolutePath() + "'.");
         return false;
@@ -116,24 +116,18 @@ public class Input {
     return true;
   }
 
-  public static boolean hasScript() {
-    return scriptFile != null;
-  }
-
-  public static boolean hasOutput() {
-    return outputDir != null;
-  }
-
-  public static boolean hasFiles() {
-    return !files.isEmpty();
-  }
-
   /**
-   * Resets the object clearing all the set fields.
+   * Set the script file.
+   * 
+   * @param scriptFile The script file.
+   * @return true iff the script file was succesfully set. <br>
+   *         false iff the script file was not set.
    */
-  public static void clean() {
-    Input.files = new ArrayList<DataFile>();
-    Input.outputDir = null;
-    Input.scriptFile = null;
+  public static boolean setScriptFile(final File scriptFile) {
+    if (scriptFile == null || !exists(scriptFile)) {
+      return false;
+    }
+    Input.scriptFile = scriptFile;
+    return true;
   }
 }

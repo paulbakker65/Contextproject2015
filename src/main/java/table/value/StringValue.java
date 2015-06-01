@@ -12,11 +12,39 @@ public class StringValue extends Value {
   /**
    * Constructs a new NumberValue.
    * 
-   * @param value
-   *          the stored string.
+   * @param value the stored string.
    */
-  public StringValue(String value) {
+  public StringValue(final String value) {
     this.setValue(value);
+  }
+
+  public int compareToString(final StringValue other) {
+    return this.value.compareTo(other.value);
+  }
+
+  /**
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final StringValue other = (StringValue) obj;
+    if (value == null) {
+      if (other.value != null) {
+        return false;
+      }
+    } else if (!value.equals(other.value)) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -29,16 +57,6 @@ public class StringValue extends Value {
   }
 
   /**
-   * Stores a new number string.
-   * 
-   * @param value
-   *          the new number string.
-   */
-  public void setValue(String value) {
-    this.value = value;
-  }
-
-  /**
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -46,43 +64,18 @@ public class StringValue extends Value {
     return value.hashCode();
   }
 
-  /**
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    StringValue other = (StringValue) obj;
-    if (value == null) {
-      if (other.value != null) {
-        return false;
-      }
-    } else if (!value.equals(other.value)) {
-      return false;
-    }
-    return true;
-  }
-
-  @Override
-  public String toString() {
-    return value;
-  }
-
-  @Override
-  public boolean isNumeric() {
+  public boolean isDate() {
     return false;
   }
 
   @Override
-  public boolean isDate() {
+  public boolean isNull() {
+    return false;
+  }
+
+  @Override
+  public boolean isNumeric() {
     return false;
   }
 
@@ -92,16 +85,21 @@ public class StringValue extends Value {
   }
 
   @Override
-  public boolean isNull() {
-    return false;
-  }
-
-  @Override
   public boolean isTime() {
     return false;
   }
 
-  public int compareToString(StringValue o) {
-    return this.value.compareTo(o.value);
+  /**
+   * Stores a new number string.
+   * 
+   * @param value the new number string.
+   */
+  public void setValue(final String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
   }
 }

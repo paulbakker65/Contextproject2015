@@ -1,6 +1,7 @@
 package operations.patterns;
 
 import operations.patterns.condition.RecordEqualsValueCondition;
+
 import table.value.Value;
 
 /**
@@ -8,26 +9,24 @@ import table.value.Value;
  */
 public class SingleOccurrenceValuePattern extends SingleConditionPattern {
   /**
-   * Constructor which creates the pattern without a next pattern.   * 
-   * @param column
-   *        the column name.
-   * @param value
-   *        the value to compare with.
+   * Constructor which creates the pattern without a next pattern. *
+   * 
+   * @param column the column name.
+   * @param value the value to compare with.
    */
-  public SingleOccurrenceValuePattern(String column, Value value) {
+  public SingleOccurrenceValuePattern(final String column, final Value value) {
     super(new RecordEqualsValueCondition(column, value));
   }
 
   /**
-   * Constructor which creates the pattern with a next pattern.   * 
-   * @param column
-   *        the column name.
-   * @param value
-   *        the value to compare with.
-   * @param nextPattern
-   *        the next pattern to link to.
+   * Constructor which creates the pattern with a next pattern. *
+   * 
+   * @param column the column name.
+   * @param value the value to compare with.
+   * @param nextPattern the next pattern to link to.
    */
-  public SingleOccurrenceValuePattern(String column, Value value, Pattern nextPattern) {
+  public SingleOccurrenceValuePattern(final String column, final Value value,
+      final Pattern nextPattern) {
     super(new RecordEqualsValueCondition(column, value), nextPattern);
-  }  
+  }
 }

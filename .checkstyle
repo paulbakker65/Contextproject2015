@@ -7,7 +7,12 @@
   <fileset name="all" enabled="false" check-config-name="Google Checks" local="false">
     <file-match-pattern match-pattern="." include-pattern="true"/>
   </fileset>
-  <fileset name="hi5" enabled="true" check-config-name="checkstyle.xml" local="true">
+  <fileset name="local" enabled="true" check-config-name="checkstyle.xml" local="true">
     <file-match-pattern match-pattern=".java$" include-pattern="true"/>
   </fileset>
+  <filter name="DerivedFiles" enabled="true"/>
+  <filter name="FilesFromPackage" enabled="true">
+    <filter-data value="src/main/resources"/>
+    <filter-data value="src/test/resources"/>
+  </filter>
 </fileset-config>

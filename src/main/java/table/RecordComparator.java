@@ -1,22 +1,22 @@
 package table;
 
-import java.util.Comparator;
-
 import table.value.Value;
+
+import java.util.Comparator;
 
 /**
  * Compares records based on a column.
  */
 public class RecordComparator implements Comparator<Record> {
- 
-  private String col;
+
+  private final String col;
 
   /**
    * Makes a new Record comparator.
    * 
    * @param col the column to compare on
    */
-  public RecordComparator(String col) {
+  public RecordComparator(final String col) {
     this.col = col;
   }
 
@@ -24,9 +24,9 @@ public class RecordComparator implements Comparator<Record> {
    * Compares the values using their own compareTo methods.
    */
   @Override
-  public int compare(Record o1, Record o2) {
-    Value v1 = o1.get(col);
-    Value v2 = o2.get(col);
+  public int compare(final Record o1, final Record o2) {
+    final Value v1 = o1.get(col);
+    final Value v2 = o2.get(col);
     return v1.compareTo(v2);
   }
 

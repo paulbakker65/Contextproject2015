@@ -20,43 +20,54 @@ public class Chunk extends Table {
 
   /**
    * Constructor sets the label and index of the chunk.
+   * 
    * @param index Index of the chunk.
    * @param label Label of the chunk.
    */
-  public Chunk(int index, String label) {
+  public Chunk(final int index, final String label) {
     this.index = index;
     this.label = label;
   }
-  
+
+  /**
+   * New equals method which also checks index and label.
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    final Chunk other = (Chunk) obj;
+    if (index != other.index) {
+      return false;
+    }
+    if (label == null) {
+      if (other.label != null) {
+        return false;
+      }
+    } else if (!label.equals(other.label)) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * @return index of the chunk in the table.
    */
   public int getIndex() {
     return index;
   }
-  
-  /**
-   * 
-   * @param index of the chunk in the table which to set.
-   */
-  public void setIndex(int index) {
-    this.index = index;
-  }
-  
+
   /**
    * @return label of the chunk.
    */
   public String getLabel() {
     return label;
   }
-  
-  /**
-   * @param label of the chunk which to set.
-   */
-  public void setLabel(String label) {
-    this.label = label;
-  }
-  
+
   /**
    * @see java.lang.Object#hashCode()
    */
@@ -70,28 +81,18 @@ public class Chunk extends Table {
   }
 
   /**
-   * New equals method which also checks index and label.
+   * 
+   * @param index of the chunk in the table which to set.
    */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }  
-    if (!super.equals(obj)) {
-      return false;
-    } 
-    Chunk other = (Chunk) obj;
-    if (index != other.index) {
-      return false;
-    }  
-    if (label == null) {
-      if (other.label != null) {
-        return false;
-      }  
-    } else if (!label.equals(other.label)) {
-      return false;
-    } 
-    return true;
+  public void setIndex(final int index) {
+    this.index = index;
+  }
+
+  /**
+   * @param label of the chunk which to set.
+   */
+  public void setLabel(final String label) {
+    this.label = label;
   }
 
 }

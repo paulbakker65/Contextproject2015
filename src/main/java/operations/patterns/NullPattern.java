@@ -20,7 +20,7 @@ public class NullPattern extends Pattern {
    * This is always true, as no pattern has to be found.
    */
   @Override
-  public boolean findPattern(Table table, int fromIndex, Table records) {
+  public boolean findPattern(final Table table, final int fromIndex, final Table records) {
     return true;
   }
 

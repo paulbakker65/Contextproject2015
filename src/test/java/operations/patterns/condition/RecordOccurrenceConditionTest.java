@@ -16,19 +16,19 @@ public class RecordOccurrenceConditionTest {
     final RecordOccurrenceCondition conditionSame = new RecordOccurrenceCondition("Column");
     final RecordOccurrenceCondition conditionNotSame = new RecordOccurrenceCondition("Column2");
     final String otherClass = "";
-    
+
     assertEquals(condition, condition);
     assertEquals(condition, conditionSame);
     assertNotEquals(condition, null);
     assertNotEquals(condition, conditionNotSame);
     assertNotEquals(condition, otherClass);
   }
-  
+
   @Test
   public void testHashCode() {
-    String column = "Column";
-    RecordOccurrenceCondition condition = new RecordOccurrenceCondition(column);
-    
+    final String column = "Column";
+    final RecordOccurrenceCondition condition = new RecordOccurrenceCondition(column);
+
     assertEquals(31 + column.hashCode(), condition.hashCode());
   }
 

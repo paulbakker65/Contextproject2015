@@ -1,10 +1,10 @@
 package table;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Special ArrayList that contains the records.
@@ -18,19 +18,6 @@ public class Table extends ArrayList<Record> {
   private List<Chunk> chunks;
 
   /**
-   * @return A string representation of the Table.
-   */
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    for (Record record : this) {
-      sb.append(record.toString());
-      sb.append(System.getProperty("line.separator"));
-    }
-
-    return sb.toString();
-  }
-
-  /**
    * Call the ArrayList constructor and initialize chunks.
    */
   public Table() {
@@ -39,57 +26,53 @@ public class Table extends ArrayList<Record> {
     codes = new HashMap<String, Code>();
   }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public Object clone() {
-    Table table = (Table) super.clone();
-    table.chunks = new ArrayList<Chunk>(this.chunks);
-    table.codes = (HashMap<String, Code>) codes.clone();
-    return table;
-  }
-
-  /**
-   * Getter for name.
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Setter for name.
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
   /**
    * Adding a chunk to the list of chunks for this table.
    * 
-   * @param c
-   *          chunk to add.
+   * @param c chunk to add.
    */
-  public void addChunk(Chunk chunk) {
+  public void addChunk(final Chunk chunk) {
     chunks.add(chunk);
   }
 
   /**
    * Adding a code to the hashmap of codes for this table.
    * 
-   * @param c
-   *          code to add.
+   * @param c code to add.
    */
-  public void addCode(Code code) {
+  public void addCode(final Code code) {
     codes.put(code.getName(), code);
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public Object clone() {
+    final Table table = (Table) super.clone();
+    table.chunks = new ArrayList<Chunk>(this.chunks);
+    table.codes = (HashMap<String, Code>) codes.clone();
+    return table;
+  }
+
   /**
-   * Setter for the list of chunks.
+   * New equals method that also checks if the list of chunks is equal to that of the other table.
+   * The same for the hashmap of codes.
    */
-  public void setChunks(List<Chunk> set) {
-    if (set == null) {
-      set = new ArrayList<Chunk>();
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
     }
-    this.chunks = set;
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final Table other = (Table) obj;
+    if (!codes.equals(other.codes)) {
+      return false;
+    }
+    return chunks.equals(other.chunks);
   }
 
   /**
@@ -100,6 +83,13 @@ public class Table extends ArrayList<Record> {
   }
 
   /**
+   * Getter for a code given a name.
+   */
+  public Code getCode(final String name) {
+    return codes.get(name);
+  }
+
+  /**
    * Getter for the map of codes.
    */
   public HashMap<String, Code> getCodes() {
@@ -107,10 +97,10 @@ public class Table extends ArrayList<Record> {
   }
 
   /**
-   * Getter for a code given a name.
+   * Getter for name.
    */
-  public Code getCode(String name) {
-    return codes.get(name);
+  public String getName() {
+    return name;
   }
 
   /**
@@ -126,25 +116,34 @@ public class Table extends ArrayList<Record> {
   }
 
   /**
-   * New equals method that also checks if the list of chunks is equal to that of the other table.
-   * The same for the hashmap of codes.
+   * Setter for the list of chunks.
+   */
+  public void setChunks(List<Chunk> set) {
+    if (set == null) {
+      set = new ArrayList<Chunk>();
+    }
+    this.chunks = set;
+  }
+
+  /**
+   * Setter for name.
+   */
+  public void setName(final String name) {
+    this.name = name;
+  }
+
+  /**
+   * @return A string representation of the Table.
    */
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    for (final Record record : this) {
+      sb.append(record.toString());
+      sb.append(System.getProperty("line.separator"));
     }
-    if (!super.equals(obj)) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    Table other = (Table) obj;
-    if (!codes.equals(other.codes)) {
-      return false;
-    }
-    return chunks.equals(other.chunks);
+
+    return sb.toString();
   }
 
 }

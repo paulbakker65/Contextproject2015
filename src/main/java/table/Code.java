@@ -9,38 +9,37 @@ import java.util.List;
 public class Code {
 
   /**
-   * Each table represents an event.
-   * The event is for example a single device measurement – single 
-   * web entry event. 
+   * Each table represents an event. The event is for example a single device measurement – single
+   * web entry event.
    */
-  private List<Table> events;
+  private final List<Table> events;
   /**
    * Name of the code.
    */
   private String name;
-  
+
   /**
    * Constructor which sets the name and initializes the events list.
    */
-  public Code(String name) {
+  public Code(final String name) {
     this.setName(name);
     this.events = new ArrayList<Table>();
   }
-  
+
   /**
    * Adding an event to the list of events.
    */
-  public void addEvent(Table table) {
+  public void addEvent(final Table table) {
     events.add(table);
   }
-  
+
   /**
    * Getter of events.
    */
   public List<Table> getEvents() {
     return events;
   }
-  
+
   /**
    * Getter of the number of events.
    */
@@ -58,8 +57,8 @@ public class Code {
   /**
    * Setter of the name of the code.
    */
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
-  
+
 }

@@ -1,10 +1,10 @@
 package input;
 
-import java.util.ArrayList;
-
 import org.w3c.dom.Element;
 
 import table.value.Column;
+
+import java.util.ArrayList;
 
 /**
  * Settings class containing all program-wide settings.
@@ -25,98 +25,43 @@ public class Settings {
     setColumns(new ArrayList<Column>());
   }
 
-  public int getStartLine() {
-    return startLine;
+  public void addColumn(final Column column) {
+    columns.add(column);
   }
 
-  public void setStartLine(int startLine) {
-    this.startLine = startLine;
-  }
-
-  public String getDelimiter() {
-    return delimiter;
-  }
-
-  public void setDelimiter(String delimiter) {
-    this.delimiter = delimiter;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  /**
+   * @see java.lang.Object#equals(Object)
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    final Settings that = (Settings) obj;
+    if (this.delimiter.equals(that.delimiter) && this.startLine == that.startLine
+        && this.columns.equals(that.columns)) {
+      return true;
+    }
+    return false;
   }
 
   public ArrayList<Column> getColumns() {
     return columns;
   }
 
-  public void setColumns(ArrayList<Column> columns) {
-    this.columns = columns;
+  public String getDelimiter() {
+    return delimiter;
   }
 
-  public void addColumn(Column column) {
-    columns.add(column);
+  public String getName() {
+    return name;
   }
 
-  @Override
-  public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("startLine:\t" + startLine + "\n");
-    stringBuilder.append("delimiter:\t\"" + delimiter + "\"\n");
-    stringBuilder.append("columns:\t");
-
-    for (Column column : columns) {
-      stringBuilder.append(column.toString());
-      stringBuilder.append("\n\t\t");
-    }
-
-    return stringBuilder.toString();
-  }
-
-  /**
-   * Reads settings from
-   * 
-   * @param element
-   *          The element to be read.
-   * @throws WrongXMLException
-   *           If the XML file isn't valid a WrongXMLException is thrown.
-   */
-  public void readSettings(Element element) throws WrongXMLException {
-    if (!element.getNodeName().equals("settings")) {
-      throw new WrongXMLException("Root element wrong! Expected: settings, actual: "
-          + element.getNodeName());
-    }
-
-    String startLine = element.getAttribute("startLine");
-
-    if (startLine.isEmpty()) {
-      throw new WrongXMLException("No startLine specified!");
-    }
-
-    try {
-      setStartLine(Integer.parseInt(startLine));
-    } catch (NumberFormatException e) {
-      throw new WrongXMLException("StartLine should be a number!");
-    }
-
-    String delimiter = element.getAttribute("delimiter");
-
-    if (delimiter.isEmpty()) {
-      throw new WrongXMLException("No delimiter specified!");
-    }
-
-    setDelimiter(delimiter);
-
-    String name = element.getAttribute("name");
-
-    if (name.isEmpty()) {
-      throw new WrongXMLException("No table name specified!");
-    }
-
-    setName(name);
+  public int getStartLine() {
+    return startLine;
   }
 
   /**
@@ -133,21 +78,74 @@ public class Settings {
   }
 
   /**
-   * @see java.lang.Object#equals(Object)
+   * Reads settings from
+   * 
+   * @param element The element to be read.
+   * @throws WrongXmlException If the XML file isn't valid a WrongXmlException is thrown.
    */
+  public void readSettings(final Element element) throws WrongXmlException {
+    if (!element.getNodeName().equals("settings")) {
+      throw new WrongXmlException("Root element wrong! Expected: settings, actual: "
+          + element.getNodeName());
+    }
+
+    final String startLine = element.getAttribute("startLine");
+
+    if (startLine.isEmpty()) {
+      throw new WrongXmlException("No startLine specified!");
+    }
+
+    try {
+      setStartLine(Integer.parseInt(startLine));
+    } catch (final NumberFormatException e) {
+      throw new WrongXmlException("StartLine should be a number!");
+    }
+
+    final String delimiter = element.getAttribute("delimiter");
+
+    if (delimiter.isEmpty()) {
+      throw new WrongXmlException("No delimiter specified!");
+    }
+
+    setDelimiter(delimiter);
+
+    final String name = element.getAttribute("name");
+
+    if (name.isEmpty()) {
+      throw new WrongXmlException("No table name specified!");
+    }
+
+    setName(name);
+  }
+
+  public void setColumns(final ArrayList<Column> columns) {
+    this.columns = columns;
+  }
+
+  public void setDelimiter(final String delimiter) {
+    this.delimiter = delimiter;
+  }
+
+  public void setName(final String name) {
+    this.name = name;
+  }
+
+  public void setStartLine(final int startLine) {
+    this.startLine = startLine;
+  }
+
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
+  public String toString() {
+    final StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("startLine:\t" + startLine + "\n");
+    stringBuilder.append("delimiter:\t\"" + delimiter + "\"\n");
+    stringBuilder.append("columns:\t");
+
+    for (final Column column : columns) {
+      stringBuilder.append(column.toString());
+      stringBuilder.append("\n\t\t");
     }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    Settings that = (Settings) obj;
-    if (this.delimiter.equals(that.delimiter) && this.startLine == that.startLine
-        && this.columns.equals(that.columns)) {
-      return true;
-    }
-    return false;
+
+    return stringBuilder.toString();
   }
 }

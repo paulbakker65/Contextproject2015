@@ -1,6 +1,6 @@
 package table.value;
 
-import input.WrongXMLException;
+import input.WrongXmlException;
 
 import org.w3c.dom.Element;
 
@@ -13,32 +13,30 @@ public class NumberColumn extends Column {
   /**
    * Constructs a new NumberColumn.
    * 
-   * @param name
-   *          the name of the column.
+   * @param name the name of the column.
    */
-  public NumberColumn(String name) {
+  public NumberColumn(final String name) {
     super(name);
   }
 
   @Override
-  public String toString() {
-    return super.toString() + ",\ttype: number";
-  }
-
-  @Override
-  public Value convertToValue(String text) throws ColumnTypeMismatchException {
+  public Value convertToValue(final String text) throws ColumnTypeMismatchException {
     try {
       if (text.toLowerCase().equals("null") || text.isEmpty()) {
         return new NullValue();
       }
 
       return new NumberValue(Double.parseDouble(text));
-    } catch (NumberFormatException e) {
+    } catch (final NumberFormatException e) {
       throw new ColumnTypeMismatchException("\"" + text + "\" is not a numeric value");
     }
   }
 
   @Override
-  public void read(Element element) throws WrongXMLException {
+  public void read(final Element element) throws WrongXmlException {}
+
+  @Override
+  public String toString() {
+    return super.toString() + ",\ttype: number";
   }
 }

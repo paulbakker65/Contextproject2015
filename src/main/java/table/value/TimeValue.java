@@ -17,14 +17,12 @@ public class TimeValue extends Value {
   /**
    * Constructs a new TimeValue.
    * 
-   * @param value
-   *          the stored time.
-   * @param targetDate
-   *          the stored target date.
+   * @param value the stored time.
+   * @param targetDate the stored target date.
    */
-  public TimeValue(Date value, String targetDate) {
+  public TimeValue(final Date value, final String targetDate) {
     this.targetDate = targetDate;
-    
+
     if (value != null) {
       this.value = new GregorianCalendar();
       this.value.setTime(value);
@@ -34,52 +32,23 @@ public class TimeValue extends Value {
   /**
    * Constructs a new TimeValue.
    * 
-   * @param value
-   *          the stored time.
-   * @param targetDate
-   *          the stored target date.
+   * @param value the stored time.
+   * @param targetDate the stored target date.
    */
-  public TimeValue(GregorianCalendar value, String targetDate) {
+  public TimeValue(final GregorianCalendar value, final String targetDate) {
     this.targetDate = targetDate;
     this.value = value;
   }
 
-  /**
-   * Returns the stored time.
-   * 
-   * @return the stored time.
-   */
-  public GregorianCalendar getValue() {
-    return value;
-  }
-
-  /**
-   * Stores a new time.
-   * 
-   * @param value
-   *          the new time.
-   */
-  public void setValue(GregorianCalendar value) {
-    this.value = value;
-  }
-
-  /**
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((targetDate == null) ? 0 : targetDate.hashCode());
-    result = prime * result + ((value == null) ? 0 : value.hashCode());
-    return result;
+  public int compareToTime(final TimeValue other) {
+    return this.value.compareTo(other.value);
   }
 
   /**
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj) {
       return true;
     }
@@ -89,7 +58,7 @@ public class TimeValue extends Value {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    TimeValue other = (TimeValue) obj;
+    final TimeValue other = (TimeValue) obj;
     if (targetDate == null) {
       if (other.targetDate != null) {
         return false;
@@ -107,23 +76,33 @@ public class TimeValue extends Value {
     return true;
   }
 
-  @Override
-  public String toString() {
-    return new SimpleDateFormat("HH:mm").format(getValue().getTime());
+  public String getTargetDate() {
+    return targetDate;
   }
 
+  /**
+   * Returns the stored time.
+   * 
+   * @return the stored time.
+   */
+  public GregorianCalendar getValue() {
+    return value;
+  }
+
+  /**
+   * @see java.lang.Object#hashCode()
+   */
   @Override
-  public boolean isNumeric() {
-    return false;
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((targetDate == null) ? 0 : targetDate.hashCode());
+    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    return result;
   }
 
   @Override
   public boolean isDate() {
-    return false;
-  }
-
-  @Override
-  public boolean isString() {
     return false;
   }
 
@@ -133,20 +112,36 @@ public class TimeValue extends Value {
   }
 
   @Override
+  public boolean isNumeric() {
+    return false;
+  }
+
+  @Override
+  public boolean isString() {
+    return false;
+  }
+
+  @Override
   public boolean isTime() {
     return true;
   }
 
-  public String getTargetDate() {
-    return targetDate;
-  }
-
-  public void setTargetDate(String targetDate) {
+  public void setTargetDate(final String targetDate) {
     this.targetDate = targetDate;
   }
-  
-  public int compareToTime(TimeValue o) {
-    return this.value.compareTo(o.value);
+
+  /**
+   * Stores a new time.
+   * 
+   * @param value the new time.
+   */
+  public void setValue(final GregorianCalendar value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return new SimpleDateFormat("HH:mm").format(getValue().getTime());
   }
 
 }

@@ -7,22 +7,21 @@ import operations.patterns.condition.RecordOccurrenceCondition;
  */
 public class SingleOccurrencePattern extends SingleConditionPattern {
   /**
-   * Constructor which creates the pattern without a next pattern.   * 
-   * @param column
-   *        the column name that always exists.
+   * Constructor which creates the pattern without a next pattern. *
+   * 
+   * @param column the column name that always exists.
    */
-  public SingleOccurrencePattern(String column) {
+  public SingleOccurrencePattern(final String column) {
     super(new RecordOccurrenceCondition(column));
   }
 
   /**
-   * Constructor which creates the pattern with a next pattern.   * 
-   * @param column
-   *        the column name that always exists.
-   * @param nextPattern
-   *        the next pattern to link to.
+   * Constructor which creates the pattern with a next pattern. *
+   * 
+   * @param column the column name that always exists.
+   * @param nextPattern the next pattern to link to.
    */
-  public SingleOccurrencePattern(String column, Pattern nextPattern) {
+  public SingleOccurrencePattern(final String column, final Pattern nextPattern) {
     super(new RecordOccurrenceCondition(column), nextPattern);
   }
 }

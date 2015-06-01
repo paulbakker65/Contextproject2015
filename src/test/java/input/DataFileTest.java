@@ -2,10 +2,10 @@ package input;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
 
 /**
  * DataFileTest class testing main.DataFile class.
@@ -15,104 +15,105 @@ public class DataFileTest {
   private final String datafilename = "src/test/resources/csvexample.csv";
   private final String settingsfilename = "src/test/resources/settings.xml";
 
-  private File datafile = new File(datafilename);
-  private File settingsfile = new File(settingsfilename);
+  private final File datafile = new File(datafilename);
+  private final File settingsfile = new File(settingsfilename);
 
   private DataFile df;
 
+  @Test
+  public void getSettingsfilepath() {
+    final String actual = df.getSettingsfilepath();
+    assertEquals(settingsfile.getPath(), actual);
+  }
+
   /**
    * Calls the constructor with the datafile and settings file.
-   * @throws WrongXMLException
-   *         if the settings file is incorrect.
+   * 
+   * @throws WrongXmlException if the settings file is incorrect.
    */
   @Before
-  public void setUp() throws WrongXMLException {
+  public void setUp() throws WrongXmlException {
     try {
       df = new DataFile(datafile, settingsfile);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       e.printStackTrace();
     }
-  }
-  
-  @Test
-  public void testToString() {
-    String expected = "DataFile{datafile='" + datafile.toString() + "\', settingsfile='"
-        + settingsfile.toString() + "\'}";
-    String actual = df.toString();
-    assertEquals(expected, actual);
   }
 
   @Test
   public void testGetDatafile() {
-    File file = df.getDatafile();
+    final File file = df.getDatafile();
     assertEquals(datafile, file);
   }
 
   @Test
-  public void testSetDatafile() {
-    File newfile = new File(datafilename);
-    df.setDatafile(newfile);
-
-    File file = df.getDatafile();
-    assertEquals(newfile, file);
+  public void testgetFilepath() {
+    final String actual = df.getFilepath();
+    assertEquals(datafile.getPath(), actual);
   }
 
   @Test
-  public void testGetSettingsfile() {
-    File file = df.getSettingsfile();
-    assertEquals(settingsfile, file);
+  public void testGetParser() {
+    final Parser parser = df.getParser();
+    assert (parser instanceof Parser);
   }
 
   @Test
-  public void testSetSettingsfile() {
-    File newfile = new File(settingsfilename);
-    df.setSettingsfile(newfile);
+  public void testGetReader() {
+    final Reader reader = df.getReader();
+    assert (reader instanceof CsvReader);
 
-    File file = df.getSettingsfile();
-    assertEquals(newfile, file);
+    final String expected = ";";
+    final String actual = ((CsvReader) reader).getDelimiter();
+    assertEquals(expected, actual);
+
+    final String filepath = reader.getFilepath();
+    assertEquals(datafile.getPath(), filepath);
   }
 
   @Test
   public void testGetSettings() {
     Settings expected = null;
     try {
-      expected = XMLReader.readXMLFile(settingsfile.getAbsolutePath());
-    } catch (WrongXMLException e) {
+      expected = XmlReader.readXmlFile(settingsfile.getAbsolutePath());
+    } catch (final WrongXmlException e) {
       assert (false);
       e.printStackTrace();
     }
-    Settings actual = df.getSettings();
+    final Settings actual = df.getSettings();
     assertEquals(expected, actual);
   }
 
   @Test
-  public void testGetReader() {
-    Reader reader = df.getReader();
-    assert (reader instanceof CSVReader);
+  public void testGetSettingsfile() {
+    final File file = df.getSettingsfile();
+    assertEquals(settingsfile, file);
+  }
 
-    String expected = ";";
-    String actual = ((CSVReader) reader).getDelimiter();
+  @Test
+  public void testSetDatafile() {
+    final File newfile = new File(datafilename);
+    df.setDatafile(newfile);
+
+    final File file = df.getDatafile();
+    assertEquals(newfile, file);
+  }
+
+  @Test
+  public void testSetSettingsfile() {
+    final File newfile = new File(settingsfilename);
+    df.setSettingsfile(newfile);
+
+    final File file = df.getSettingsfile();
+    assertEquals(newfile, file);
+  }
+
+  @Test
+  public void testToString() {
+    final String expected =
+        "DataFile{datafile='" + datafile.toString() + "\', settingsfile='"
+            + settingsfile.toString() + "\'}";
+    final String actual = df.toString();
     assertEquals(expected, actual);
-
-    String filepath = reader.getFilepath();
-    assertEquals(datafile.getPath(), filepath);
-  }
-
-  @Test
-  public void testGetParser() {
-    Parser parser = df.getParser();
-    assert (parser instanceof Parser);
-  }
-
-  @Test
-  public void testgetFilepath() {
-    String actual = df.getFilepath();
-    assertEquals(datafile.getPath(), actual);
-  }
-
-  @Test
-  public void getSettingsfilepath() {
-    String actual = df.getSettingsfilepath();
-    assertEquals(settingsfile.getPath(), actual);
   }
 }
