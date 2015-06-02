@@ -53,9 +53,9 @@ public class StateTransitionMatrix extends Table {
     for (Record record : table) {
       Value code = record.get(column);
       if (!code.isNull()) {
-        if (!code.toString().equals(codename) && codename.equals("")) {
+        if (codename.equals("")) {
           codename = code.toString();
-        } else if (!code.toString().equals(codename)) {
+        } else {
           for (Record rec : this) {
             if (rec.get("id").toString().equals(codename)) {
               NumberValue num = (NumberValue) rec.get(code.toString());

@@ -71,13 +71,13 @@ public class StateTransitionMatrixTest {
     for (Record record : stMatrix) {
       switch (record.get("id").toString()) {
         case "1S5W":
-          assertEquals(record, createRecord("1S5W", 0, 1, 2, 1, 0));
+          assertEquals(record, createRecord("1S5W", 1, 1, 2, 1, 0));
           break;
         case "2S5W":
           assertEquals(record, createRecord("2S5W", 2, 0, 0, 0, 0));
           break;
         case "3S5W": 
-          assertEquals(record, createRecord("3S5W", 0, 1, 0, 1, 0));
+          assertEquals(record, createRecord("3S5W", 0, 1, 3, 1, 0));
           break;
         case "4S5W":
           assertEquals(record, createRecord("4S5W", 1, 0, 0, 0, 1));
