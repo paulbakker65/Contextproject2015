@@ -8,7 +8,6 @@ import table.value.StringValue;
 import table.value.Value;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class StateTransitionMatrix extends Table {
 
@@ -27,7 +26,13 @@ public class StateTransitionMatrix extends Table {
    * Create the transitions matrix.
    */
   public void create(String column) {
-    Set<String> keyset = table.getCodes().keySet();
+    ArrayList<String> keyset = new ArrayList<String>();
+    for (Record record : table) {
+      Value value = record.get(column);
+      if (!keyset.contains(value.toString()) && !value.isNull()) {
+        keyset.add(value.toString());
+      }
+    }
     ArrayList<Column> col = new ArrayList<Column>();
 
     col.add(new StringColumn("id"));
