@@ -67,7 +67,7 @@ public class StateTransitionMatrixTest {
   @Test
   public void testMatrix() {
 
-    StateTransitionMatrix stMatrix = new StateTransitionMatrix(table);
+    StateTransitionMatrix stMatrix = new StateTransitionMatrix(table, "Code");
     for (Record record : stMatrix) {
       switch (record.get("id").toString()) {
         case "1S5W":

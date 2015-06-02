@@ -18,15 +18,15 @@ public class StateTransitionMatrix extends Table {
   private static final long serialVersionUID = 1L;
   Table table;
 
-  public StateTransitionMatrix(Table input) {
+  public StateTransitionMatrix(Table input, String column) {
     this.table = input;
-    create();
+    create(column);
   }
 
   /**
    * Create the transitions matrix.
    */
-  public void create() {
+  public void create(String column) {
     Set<String> keyset = table.getCodes().keySet();
     ArrayList<Column> col = new ArrayList<Column>();
 
@@ -46,10 +46,10 @@ public class StateTransitionMatrix extends Table {
     String codename = "";
 
     for (Record record : table) {
-      Value code = record.get("Code");
+      Value code = record.get(column);
       if (!code.isNull()) {
         if (!code.toString().equals(codename) && codename.equals("")) {
-          codename = record.get("Code").toString();
+          codename = code.toString();
         } else if (!code.toString().equals(codename)) {
           for (Record rec : this) {
             if (rec.get("id").toString().equals(codename)) {
