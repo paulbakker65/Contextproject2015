@@ -10,8 +10,8 @@ import table.value.Value;
  */
 public class Condition {
 
-  public CompareOperator conditionOperator;
-  public Value conditionValue;
+  CompareOperator conditionOperator;
+  Value conditionValue;
 
   public Condition(final CompareOperator operator, final Value value) {
     this.conditionOperator = operator;
@@ -29,6 +29,10 @@ public class Condition {
    *         <b>true</b> if the constraint type is undefined
    */
   public boolean matches(Value recordValue) {
+    if (recordValue == null) {
+      return false;
+    }
+    
     int compareResult = recordValue.compareTo(conditionValue);
     switch (conditionOperator) {
       case EQ:
@@ -99,6 +103,14 @@ public class Condition {
    */
   @Override
   public String toString() {
-    return "Condition [condOperator=" + conditionOperator + ", condValue=" + conditionValue + "]";
+    switch (conditionOperator) {
+      case EQ:  return "== " + conditionValue.toString();
+      case NEQ: return "!= " + conditionValue.toString();
+      case LEQ: return "<= " + conditionValue.toString();
+      case L:   return "< " + conditionValue.toString();
+      case GEQ: return ">= " + conditionValue.toString();
+      case G:   return "> " + conditionValue.toString();
+      default:  return "? " + conditionValue.toString();
+    }
   }
 }
