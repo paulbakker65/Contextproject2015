@@ -114,5 +114,4 @@ public class NumberValue extends Value {
   public String toString() {
     return Integer.toString((int) value);
   }
-  
 }
