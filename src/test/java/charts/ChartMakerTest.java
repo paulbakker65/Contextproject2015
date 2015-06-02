@@ -46,6 +46,7 @@ public class ChartMakerTest extends JFrame {
     RefineryUtilities.centerFrameOnScreen(this);
     setVisible(true);
 
+    Thread.sleep(15000);
     
     
   }
