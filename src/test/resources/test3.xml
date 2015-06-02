@@ -1,0 +1,4 @@
+<settings startLine="2" delimiter="," name="name">
+	<column name="Soort"/>
+	<column name="Persoon"/> 
+</settings>
