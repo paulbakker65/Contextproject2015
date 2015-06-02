@@ -18,7 +18,6 @@ import scriptlang.AnalysisLangParser.FormulaContext;
 import scriptlang.AnalysisLangParser.Lsa_paramContext;
 import scriptlang.AnalysisLangParser.NumberContext;
 import scriptlang.AnalysisLangParser.TextContext;
-import scriptlang.AnalysisLangParser.ValueContext;
 import scriptlang.extra.OperationSpec.OperationType;
 
 import table.Table;
