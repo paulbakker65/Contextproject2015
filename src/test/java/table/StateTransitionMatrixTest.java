@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import table.value.Column;
+import table.value.NullValue;
 import table.value.NumberColumn;
 import table.value.NumberValue;
 import table.value.StringColumn;
@@ -37,6 +38,7 @@ public class StateTransitionMatrixTest {
     table.add(new Record(col, new Value[] { new StringValue("3S5W") }));
     table.add(new Record(col, new Value[] { new StringValue("2S5W") }));
     table.add(new Record(col, new Value[] { new StringValue("1S5W") }));
+    table.add(new Record(col, new Value[] { new NullValue() }));
     table.add(new Record(col, new Value[] { new StringValue("3S5W") }));
     table.add(new Record(col, new Value[] { new StringValue("3S5W") }));
     table.add(new Record(col, new Value[] { new StringValue("4S5W") }));
