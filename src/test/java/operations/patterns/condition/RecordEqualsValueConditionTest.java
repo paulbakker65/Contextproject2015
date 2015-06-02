@@ -42,7 +42,8 @@ public class RecordEqualsValueConditionTest {
     final String column = "Column";    
     final Value value = new StringValue("Text");
     final Condition valueCondition = new Condition(CompareOperator.EQ, value);
-    final RecordMatchesConditionCondition condition = new RecordMatchesConditionCondition(column, value);
+    final RecordMatchesConditionCondition condition = 
+        new RecordMatchesConditionCondition(column, value);
 
     assertEquals((31 + column.hashCode()) * 31 + valueCondition.hashCode(), condition.hashCode());
   }
