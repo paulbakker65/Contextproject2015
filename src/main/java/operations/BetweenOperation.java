@@ -109,4 +109,81 @@ public class BetweenOperation extends Operation {
     return ev2val.equals(inputData.get(index).get(eventcol));
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "BetweenOperation [datecol=" + datecol + ", datecol2=" + datecol2 + ", eventcol="
+        + eventcol + ", ev1val=" + ev1val + ", ev2val=" + ev2val + "]";
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((datecol == null) ? 0 : datecol.hashCode());
+    result = prime * result + ((datecol2 == null) ? 0 : datecol2.hashCode());
+    result = prime * result + ((ev1val == null) ? 0 : ev1val.hashCode());
+    result = prime * result + ((ev2val == null) ? 0 : ev2val.hashCode());
+    result = prime * result + ((eventcol == null) ? 0 : eventcol.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    BetweenOperation other = (BetweenOperation) obj;
+    if (datecol == null) {
+      if (other.datecol != null) {
+        return false;
+      }
+    } else if (!datecol.equals(other.datecol)) {
+      return false;
+    }
+    if (datecol2 == null) {
+      if (other.datecol2 != null) {
+        return false;
+      }
+    } else if (!datecol2.equals(other.datecol2)) {
+      return false;
+    }
+    if (ev1val == null) {
+      if (other.ev1val != null) {
+        return false;
+      }
+    } else if (!ev1val.equals(other.ev1val)) {
+      return false;
+    }
+    if (ev2val == null) {
+      if (other.ev2val != null) {
+        return false;
+      }
+    } else if (!ev2val.equals(other.ev2val)) {
+      return false;
+    }
+    if (eventcol == null) {
+      if (other.eventcol != null) {
+        return false;
+      }
+    } else if (!eventcol.equals(other.eventcol)) {
+      return false;
+    }
+    return true;
+  }
+
 }

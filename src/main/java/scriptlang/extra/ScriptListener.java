@@ -1,6 +1,7 @@
 package scriptlang.extra;
 
 import scriptlang.AnalysisLangBaseListener;
+import scriptlang.AnalysisLangParser.Between_paramContext;
 import scriptlang.AnalysisLangParser.Calc_operatorContext;
 import scriptlang.AnalysisLangParser.Chunk_paramContext;
 import scriptlang.AnalysisLangParser.Code_paramContext;
@@ -11,8 +12,12 @@ import scriptlang.AnalysisLangParser.ConditionContext;
 import scriptlang.AnalysisLangParser.Connect_paramContext;
 import scriptlang.AnalysisLangParser.Constraint_paramContext;
 import scriptlang.AnalysisLangParser.Convert_paramContext;
+import scriptlang.AnalysisLangParser.DateContext;
 import scriptlang.AnalysisLangParser.FieldContext;
 import scriptlang.AnalysisLangParser.FormulaContext;
+import scriptlang.AnalysisLangParser.Lsa_paramContext;
+import scriptlang.AnalysisLangParser.NumberContext;
+import scriptlang.AnalysisLangParser.TextContext;
 import scriptlang.AnalysisLangParser.ValueContext;
 import scriptlang.extra.OperationSpec.OperationType;
 
@@ -140,7 +145,32 @@ public class ScriptListener extends AnalysisLangBaseListener {
 
     this.opList.add(currentOp);
   }
+  
+  @Override
+  public void enterLsa_param(final Lsa_paramContext ctx) {
+    // : fieldparam=field from=number to=number key=value target=value
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.LSA);
+    
+    this.opList.add(currentOp);
+  }
+  
+  @Override
+  public void enterBetween_param(final Between_paramContext ctx) {
+    // : eventcol=field datecol1=value datecol2=value value1=value value2=value
+    // | eventcol=field datecol1=value value1=value value2=value
+    currentOp = new OperationSpec(tables);
+    currentOp.setOperationType(OperationType.BETWEEN);
+    
+    this.opList.add(currentOp);
+  }
 
+  /*
+   * 
+   * COMMON
+   *
+   */
+  
   @Override
   public void enterField(final FieldContext ctx) {
     if (ctx == null) {
@@ -164,9 +194,29 @@ public class ScriptListener extends AnalysisLangBaseListener {
       ctx.children.clear();
     }
   }
-
+  
   @Override
-  public void enterValue(final ValueContext ctx) {
+  public void enterNumber(final NumberContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.val != null) {
+      currentOp.addOperationOperand(ctx.val);
+    }
+  }
+  
+  @Override
+  public void enterDate(final DateContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.val != null) {
+      currentOp.addOperationOperand(ctx.val);
+    }
+  }
+  
+  @Override
+  public void enterText(final TextContext ctx) {
     if (ctx == null) {
       return;
     }

@@ -5,14 +5,18 @@ import enums.CompareOperator;
 
 import exceptions.TableNotFoundException;
 
+import operations.BetweenOperation;
 import operations.ChunkingOperation;
 import operations.CodingOperation;
 import operations.ConnectionOperation;
 import operations.ConstraintOperation;
+import operations.LsaOperation;
 import operations.Operation;
+import operations.lsa.Grouper;
 import operations.patterns.Pattern;
 
 import table.Table;
+import table.value.NumberValue;
 import table.value.Value;
 
 import java.util.ArrayList;
@@ -28,7 +32,7 @@ public class OperationSpec {
    * parameters for.
    */
   public enum OperationType {
-    CONSTRAINT, CONNECT, CHUNK, COMPUTE, COMPARE, CODE, CONVERT
+    CONSTRAINT, CONNECT, CHUNK, COMPUTE, COMPARE, CODE, CONVERT, LSA, BETWEEN
   }
 
   public ArrayList<Table> tables;
@@ -93,14 +97,14 @@ public class OperationSpec {
   }
 
   /**
-   * The getOperationBySpec method takes the operands that are in the operand list and parses them
-   * to a Operation object.
+   * The getOperationForThisSpec method takes the operands that are in the operand list and parses
+   * them to a Operation object.
    *
    * @return The Operation object defined by the operand list.
    * @throws TableNotFoundException If the operand list specifies an Table that is not available a
    *         TableNotFoundException is thrown.
    */
-  public Operation getOperationBySpec() throws TableNotFoundException {
+  public Operation getOperationForThisSpec() throws TableNotFoundException {
     switch (this.operationType) {
       case CONSTRAINT:
         return new ConstraintOperation(this.getTableForTableName((String) operandList.get(0)),
@@ -129,8 +133,56 @@ public class OperationSpec {
             this.getTableForTableName((String) operandList.get(2)), (String) operandList.get(1),
             (String) operandList.get(3));
 
+      case BETWEEN:
+        return this.getBetweenOperationForThisSpec();
+
+      case LSA:
+        return this.getLsaOperationForThisSpec();
+
       default:
         return null;
+    }
+  }
+
+  /**
+   * Create a BetweenOperation object according to the operation specification that this object
+   * represents.
+   *
+   * @return A BetweenOperation.
+   * @throws TableNotFoundException If one of the requested tables is not found by name a
+   *         TableNotFoundException is thrown.
+   */
+  private BetweenOperation getBetweenOperationForThisSpec() throws TableNotFoundException {
+    if (this.operandList.size() == 6) {
+      return new BetweenOperation(this.getTableForTableName((String) operandList.get(0)),
+          (String) operandList.get(1), (String) operandList.get(3), (Value) operandList.get(4),
+          (Value) operandList.get(5));
+    } else {
+      return new BetweenOperation(this.getTableForTableName((String) operandList.get(0)),
+          (String) operandList.get(1), (String) operandList.get(3), (String) operandList.get(5),
+          (Value) operandList.get(6), (Value) operandList.get(7));
+    }
+  }
+
+  /**
+   * Create a LsaOperation object according to the operation specification that this object
+   * represents.
+   *
+   * @return A LsaOperation.
+   * @throws TableNotFoundException If one of the requested tables is not found by name a
+   *         TableNotFoundException is thrown.
+   */
+  private LsaOperation getLsaOperationForThisSpec() throws TableNotFoundException {
+    if (this.operandList.size() == 6) {
+      return new LsaOperation(this.getTableForTableName((String) operandList.get(0)),
+          (String) operandList.get(1), (int) ((NumberValue) operandList.get(2)).getValue(),
+          (int) ((NumberValue) operandList.get(3)).getValue(), (Value) operandList.get(4),
+          (Value) operandList.get(5));
+    } else {
+      return new LsaOperation(this.getTableForTableName((String) operandList.get(0)),
+          (String) operandList.get(1), (int) ((NumberValue) operandList.get(2)).getValue(),
+          (int) ((NumberValue) operandList.get(3)).getValue(), (Value) operandList.get(4),
+          (Value) operandList.get(5), (Grouper) operandList.get(6));
     }
   }
 

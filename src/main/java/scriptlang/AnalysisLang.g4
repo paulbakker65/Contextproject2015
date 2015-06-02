@@ -4,7 +4,6 @@ grammar AnalysisLang;
 import scriptlang.extra.*;
 import enums.*;
 import table.value.*;
-import operations.FilterOperation;
 import java.util.*;
 import java.text.*;
 }
@@ -19,13 +18,15 @@ parse
 //                                   //
 ///////////////////////////////////////
 operation
-: chunk_operation
+: between_operation
+| chunk_operation
 | code_operation
 | connect_operation
 | compare_operation
 | constraint_operation
 | convert_operation
 | compute_operation
+| lsa_operation
 ;
 
 ///////////////////////////////////////
@@ -33,6 +34,10 @@ operation
 // Operation Definitions             //
 //                                   //
 ///////////////////////////////////////
+between_operation
+: 'BETWEEN' param=between_param
+;
+
 chunk_operation
 : 'CHUNK' param=chunk_param
 ;
@@ -41,12 +46,16 @@ code_operation
 : 'CODE' param=code_param
 ;
 
-connect_operation
-: 'CONNECT' param=connect_param
-;
-
 compare_operation
 : 'COMPARE' param=compare_param
+;
+
+compute_operation
+: 'COMPUTE' param=compute_param
+;
+
+connect_operation
+: 'CONNECT' param=connect_param
 ;
 
 constraint_operation
@@ -57,8 +66,16 @@ convert_operation
 : 'CONVERT' param=convert_param
 ;
 
-compute_operation
-: 'COMPUTE' param=compute_param
+lsa_operation
+: 'LSA' param=lsa_param
+;
+
+///////////////////////////////////////
+// Between                           //
+///////////////////////////////////////
+between_param
+: eventcol=field datecol1=field datecol2=field value1=value value2=value
+| eventcol=field datecol1=field value1=value value2=value
 ;
 
 ///////////////////////////////////////
@@ -76,17 +93,24 @@ code_param
 ;
 
 ///////////////////////////////////////
-// Connect                           //
-///////////////////////////////////////
-connect_param
-: fieldparam=field 'TO' anotherfieldparam=field
-;
-
-///////////////////////////////////////
 // Compare                           //
 ///////////////////////////////////////
 compare_param
 : fieldparam=field opparam=compare_operator anotherfieldparam=field
+;
+
+///////////////////////////////////////
+// Compute                           //
+///////////////////////////////////////
+compute_param
+: fieldparam=field '<-' formulaparam=formula
+;
+
+///////////////////////////////////////
+// Connect                           //
+///////////////////////////////////////
+connect_param
+: fieldparam=field 'TO' anotherfieldparam=field
 ;
 
 ///////////////////////////////////////
@@ -105,10 +129,10 @@ convert_param
 ;
 
 ///////////////////////////////////////
-// Compute                           //
+// Lsa                               //
 ///////////////////////////////////////
-compute_param
-: fieldparam=field '<-' formulaparam=formula
+lsa_param
+: fieldparam=field from=number to=number key=value target=value
 ;
 
 ///////////////////////////////////////
@@ -117,7 +141,7 @@ compute_param
 //                                   //
 ///////////////////////////////////////
 field returns [String tablename, String fieldname]
-: '[' tablenameparam=ID '].[' fieldnameparam=ID ']' { $fieldname = $fieldnameparam.text; 
+: '[' tablenameparam=ID '].[' fieldnameparam=ID ']' { $fieldname = $fieldnameparam.text;
                                                       $tablename = $tablenameparam.text; }
 ;
 
@@ -163,21 +187,17 @@ range
 ;
 
 value returns [Value val]
-//: dataparam=date         { $val = $dataparam.val; }
-: numparam=number        { $val = $numparam.val;  }
+: dataparam=date         { $val = $dataparam.val; }
+| numparam=number        { $val = $numparam.val;  }
 | stringparam=text       { $val = $stringparam.val; }
 ;
 
-//date returns [DateValue val]
-//: yearparam=DATE_FIELD_FOUR monthparam=DATE_FIELD_TWO 
-//  dayparam=DATE_FIELD_TWO
-//    {
-//      GregorianCalendar c = new GregorianCalendar();
-//      c.set($yearparam.int, $monthparam.int, $dayparam.int, 0, 0, 0);
-//      c.setTimeInMillis(0);
-//      $val = new DateValue(c.getTime());
-//    }
-//;
+date returns [Value val]
+: 'DATE(' yearparam=NUMBER '-' monthparam=NUMBER '-' dayparam=NUMBER ')' { 
+                                           GregorianCalendar calObj = new GregorianCalendar();
+                                           calObj.set($yearparam.int, $monthparam.int, $dayparam.int); 
+                                           $val = new DateValue(calObj); }
+;
 
 text returns [Value val]
 : stringparam=STRING    { String text = $stringparam.text;
@@ -213,7 +233,7 @@ NUMBER
 
 fragment
 INT
-: '0'..'9'+ 
+: '0'..'9'+
 ;
 
 fragment
