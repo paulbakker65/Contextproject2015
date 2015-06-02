@@ -10,7 +10,7 @@ import table.value.Value;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class StateTransistionMatrix extends Table {
+public class StateTransitionMatrix extends Table {
 
   /**
    * Default serial version ID.
@@ -18,11 +18,14 @@ public class StateTransistionMatrix extends Table {
   private static final long serialVersionUID = 1L;
   Table table;
 
-  public StateTransistionMatrix(Table input) {
+  public StateTransitionMatrix(Table input) {
     this.table = input;
     create();
   }
 
+  /**
+   * Create the transitions matrix.
+   */
   public void create() {
     Set<String> keyset = table.getCodes().keySet();
     ArrayList<Column> col = new ArrayList<Column>();
@@ -47,11 +50,12 @@ public class StateTransistionMatrix extends Table {
       if (!code.isNull()) {
         if (!code.toString().equals(codename) && codename.equals("")) {
           codename = record.get("Code").toString();
-        } else if (!code.isNull()) {
+        } else if (!code.toString().equals(codename)) {
           for (Record rec : this) {
-            if (rec.get("id").equals(codename)) {
+            if (rec.get("id").toString().equals(codename)) {
               NumberValue num = (NumberValue) rec.get(code.toString());
               num.plusNumber(1);
+              rec.put(code.toString(), num);
             }
           }
           codename = code.toString();
