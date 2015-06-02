@@ -83,7 +83,7 @@ public class Main {
     final ArrayList<OperationSpec> operationList = listener.getOpList();
 
     for (final OperationSpec o : operationList) {
-      final Operation op = o.getOperationBySpec();
+      final Operation op = o.getOperationForThisSpec();
       op.execute();
 
       o.getTableForTableName((String) o.operandList.get(0)).clear();
