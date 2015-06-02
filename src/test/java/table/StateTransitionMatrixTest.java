@@ -15,7 +15,6 @@ import table.value.StringValue;
 import table.value.Value;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class StateTransitionMatrixTest {
 
@@ -53,15 +52,16 @@ public class StateTransitionMatrixTest {
   }
 
   private Record createRecord(String id, int i1, int i2, int i3, int i4, int i5) {
-    Set<String> keyset = table.getCodes().keySet();
     ArrayList<Column> col = new ArrayList<Column>();
-
     col.add(new StringColumn("id"));
-    for (String code : keyset) {
-      col.add(new NumberColumn(code));
-    }
+    col.add(new NumberColumn("1S5W"));
+    col.add(new NumberColumn("2S5W"));
+    col.add(new NumberColumn("3S5W"));
+    col.add(new NumberColumn("4S5W"));
+    col.add(new NumberColumn("5S5W"));
+    
     return new Record(col, new Value[] {new StringValue(id), new NumberValue(i1),
-        new NumberValue(i2),  new NumberValue(i4), new NumberValue(i5), new NumberValue(i3)});
+        new NumberValue(i2),  new NumberValue(i3), new NumberValue(i4), new NumberValue(i5)});
   }
 
   @Test
