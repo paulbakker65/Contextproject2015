@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import operations.patterns.condition.RecordOccurrenceCondition;
+
 import org.junit.Test;
 
 /**
@@ -13,7 +15,7 @@ public class PatternTest {
 
   @Test
   public void testConstructorEmpty() {
-    final Pattern pattern = new SingleOccurrencePattern("Test");
+    final Pattern pattern = getSingleOccurrencePattern("Test");
 
     assertNotNull(pattern);
     assertEquals(new NullPattern(), pattern.getNextPattern());
@@ -21,8 +23,8 @@ public class PatternTest {
 
   @Test
   public void testConstructorNonEmpty() {
-    final Pattern nextPattern = new SingleOccurrencePattern("Test2");
-    final Pattern pattern = new SingleOccurrencePattern("Test", nextPattern);
+    final Pattern pattern = PatternFactory.createPattern("1 Test", "1 Test2");
+    final Pattern nextPattern = PatternFactory.createPattern("1 Test2");
 
     assertNotNull(pattern);
     assertEquals(nextPattern, pattern.getNextPattern());
@@ -30,12 +32,13 @@ public class PatternTest {
 
   @Test
   public void testEquals() {
-    final Pattern nextPattern = new SingleOccurrencePattern("Test2");
-    final Pattern pattern = new SingleOccurrencePattern("Test", nextPattern);
-    final Pattern patternSame = new SingleOccurrencePattern("Test", nextPattern);
-    final Pattern patternNotSame = new SingleOccurrencePattern("Test", new NullPattern());
-    final Pattern patternNextNull1 = new SingleOccurrencePattern("Test", null);
-    final Pattern patternNextNull2 = new SingleOccurrencePattern("Test", null);
+    final Pattern pattern = PatternFactory.createPattern("1 Test", "1 Test2");
+    final Pattern patternSame = PatternFactory.createPattern("1 Test", "1 Test2");
+    final Pattern patternNotSame = PatternFactory.createPattern("1 Test");
+    final Pattern patternNextNull1 = PatternFactory.createPattern("1 Test");
+    final Pattern patternNextNull2 = PatternFactory.createPattern("1 Test");
+    patternNextNull1.setNextPattern(null);
+    patternNextNull2.setNextPattern(null);
     final Pattern thisPattern = new NullPattern();
     final String otherClass = "";
 
@@ -51,8 +54,8 @@ public class PatternTest {
 
   @Test
   public void testGetSetNextPattern() {
-    final Pattern nextPattern = new SingleOccurrencePattern("Test2");
-    final Pattern pattern = new SingleOccurrencePattern("Test");
+    final Pattern nextPattern = getSingleOccurrencePattern("Test2");
+    final Pattern pattern = getSingleOccurrencePattern("Test");
 
     assertNotEquals(nextPattern, pattern.getNextPattern());
 
@@ -66,5 +69,9 @@ public class PatternTest {
     final Pattern pattern = new NullPattern();
 
     assertEquals(31, pattern.hashCode());
+  }
+  
+  private Pattern getSingleOccurrencePattern(String name) {
+    return new SingleConditionPattern(new RecordOccurrenceCondition(name));
   }
 }

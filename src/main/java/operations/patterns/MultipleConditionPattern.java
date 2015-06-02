@@ -1,5 +1,6 @@
 package operations.patterns;
 
+import operations.patterns.condition.RecordCondition;
 import operations.patterns.condition.RecordOccurrenceCondition;
 
 import table.Record;
@@ -8,18 +9,42 @@ import table.Table;
 /**
  * Multiple occurrences of a record from the same file.
  */
-public class MultipleOccurrencePattern extends Pattern {
-  private final RecordOccurrenceCondition condition;
+public class MultipleConditionPattern extends Pattern {
+  private final RecordCondition condition;
 
+  /**
+   * Constructor which creates the pattern without a next pattern.
+   * 
+   * @param condition
+   *        the condition for the pattern.
+   */
+  public MultipleConditionPattern(final RecordCondition condition) {
+    super();
+    this.condition = condition;
+  }
+  
   /**
    * Constructor which creates the pattern without a next pattern.
    * 
    * @param tableName
    *        the name of the original table.
    */
-  public MultipleOccurrencePattern(final String tableName) {
+  public MultipleConditionPattern(final String tableName) {
     super();
     this.condition = new RecordOccurrenceCondition(tableName);
+  }
+  
+  /**
+   * Constructor which creates the pattern without a next pattern.
+   * 
+   * @param condition
+   *        the condition for the pattern.
+   * @param pattern
+   *        the pattern to use as next pattern.
+   */
+  public MultipleConditionPattern(final RecordCondition condition, final Pattern pattern) {
+    super(pattern);
+    this.condition = condition;
   }
 
   /**
@@ -30,7 +55,7 @@ public class MultipleOccurrencePattern extends Pattern {
    * @param pattern
    *        the pattern to use as next pattern.
    */
-  public MultipleOccurrencePattern(final String tableName, final Pattern pattern) {
+  public MultipleConditionPattern(final String tableName, final Pattern pattern) {
     super(pattern);
     this.condition = new RecordOccurrenceCondition(tableName);
   }

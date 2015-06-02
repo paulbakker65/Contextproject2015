@@ -3,7 +3,11 @@ package operations.patterns.condition;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import enums.CompareOperator;
+
 import org.junit.Test;
+
+import scriptlang.extra.Condition;
 
 import table.value.StringValue;
 import table.value.Value;
@@ -15,14 +19,14 @@ public class RecordEqualsValueConditionTest {
 
   @Test
   public void testEquals() {
-    final RecordEqualsValueCondition condition =
-        new RecordEqualsValueCondition("Column", new StringValue("Text"));
-    final RecordEqualsValueCondition conditionSame =
-        new RecordEqualsValueCondition("Column", new StringValue("Text"));
-    final RecordEqualsValueCondition conditionNotSameColumn =
-        new RecordEqualsValueCondition("Column2", new StringValue("Text"));
-    final RecordEqualsValueCondition conditionNotSameValue =
-        new RecordEqualsValueCondition("Column", new StringValue("Text2"));
+    final RecordMatchesConditionCondition condition =
+        new RecordMatchesConditionCondition("Column", new StringValue("Text"));
+    final RecordMatchesConditionCondition conditionSame =
+        new RecordMatchesConditionCondition("Column", new StringValue("Text"));
+    final RecordMatchesConditionCondition conditionNotSameColumn =
+        new RecordMatchesConditionCondition("Column2", new StringValue("Text"));
+    final RecordMatchesConditionCondition conditionNotSameValue =
+        new RecordMatchesConditionCondition("Column", new StringValue("Text2"));
     final String otherClass = "";
 
     assertEquals(condition, condition);
@@ -35,11 +39,12 @@ public class RecordEqualsValueConditionTest {
 
   @Test
   public void testHashCode() {
-    final String column = "Column";
+    final String column = "Column";    
     final Value value = new StringValue("Text");
-    final RecordEqualsValueCondition condition = new RecordEqualsValueCondition(column, value);
+    final Condition valueCondition = new Condition(CompareOperator.EQ, value);
+    final RecordMatchesConditionCondition condition = new RecordMatchesConditionCondition(column, value);
 
-    assertEquals((31 + column.hashCode()) * 31 + value.hashCode(), condition.hashCode());
+    assertEquals((31 + column.hashCode()) * 31 + valueCondition.hashCode(), condition.hashCode());
   }
 
 }
