@@ -16,38 +16,62 @@ public class StateTransitionMatrix extends Table {
    */
   private static final long serialVersionUID = 1L;
   Table table;
+  String column;
+  ArrayList<String> uniqueValues; 
 
+  /**
+   * Creates a state transition matrix of the given table looking at the column specified.
+   * @param input
+   *        table on which to check 
+   * @param column
+   *        column where the unique values are.
+   */
   public StateTransitionMatrix(Table input, String column) {
     this.table = input;
-    create(column);
+    this.column = column;
+    determineUniqueValues();
+    createTable();
+    countTransitions();
+    
   }
 
   /**
-   * Create the transitions matrix.
+   * Look at the column for unique values and add them to an arraylist.
    */
-  public void create(String column) {
-    ArrayList<String> keyset = new ArrayList<String>();
+  public void determineUniqueValues() {
+    uniqueValues = new ArrayList<String>();
     for (Record record : table) {
       Value value = record.get(column);
-      if (!keyset.contains(value.toString()) && !value.isNull()) {
-        keyset.add(value.toString());
+      if (!uniqueValues.contains(value.toString()) && !value.isNull()) {
+        uniqueValues.add(value.toString());
       }
     }
+  }
+  
+  /**
+   * Create the table with all the values set to zero. 
+   */
+  public void createTable() {
     ArrayList<Column> col = new ArrayList<Column>();
 
     col.add(new StringColumn("id"));
-    for (String id : keyset) {
+    for (String id : uniqueValues) {
       col.add(new NumberColumn(id));
     }
-    for (String id : keyset) {
-      Value[] values = new Value[keyset.size() + 1];
-      for (int i = 1; i <= keyset.size(); i++) {
+    for (String id : uniqueValues) {
+      Value[] values = new Value[uniqueValues.size() + 1];
+      for (int i = 1; i <= uniqueValues.size(); i++) {
         values[i] = new NumberValue(0);
       }
       values[0] = new StringValue(id);
       this.add(new Record(col, values));
     }
-
+  }
+  
+  /**
+   * Look at every transition and add one to the right value.
+   */
+  public void countTransitions() {
     String codename = "";
 
     for (Record record : table) {
@@ -67,7 +91,5 @@ public class StateTransitionMatrix extends Table {
         }
       }
     }
-
   }
-
 }
