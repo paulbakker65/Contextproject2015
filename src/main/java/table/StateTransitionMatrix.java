@@ -17,14 +17,15 @@ public class StateTransitionMatrix extends Table {
   private static final long serialVersionUID = 1L;
   Table table;
   String column;
-  ArrayList<String> uniqueValues; 
+  ArrayList<String> uniqueValues;
 
   /**
    * Creates a state transition matrix of the given table looking at the column specified.
+   * 
    * @param input
-   *        table on which to check 
+   *          table on which to check
    * @param column
-   *        column where the unique values are.
+   *          column where the unique values are.
    */
   public StateTransitionMatrix(Table input, String column) {
     this.table = input;
@@ -32,7 +33,6 @@ public class StateTransitionMatrix extends Table {
     determineUniqueValues();
     createTable();
     countTransitions();
-    
   }
 
   /**
@@ -47,9 +47,9 @@ public class StateTransitionMatrix extends Table {
       }
     }
   }
-  
+
   /**
-   * Create the table with all the values set to zero. 
+   * Create the table with all the values set to zero.
    */
   public void createTable() {
     ArrayList<Column> col = new ArrayList<Column>();
@@ -67,7 +67,7 @@ public class StateTransitionMatrix extends Table {
       this.add(new Record(col, values));
     }
   }
-  
+
   /**
    * Look at every transition and add one to the right value.
    */
@@ -77,7 +77,7 @@ public class StateTransitionMatrix extends Table {
     for (Record record : table) {
       Value code = record.get(column);
       if (!code.isNull()) {
-        if (codename.equals("")) {
+        if (codename.isEmpty()) {
           codename = code.toString();
         } else {
           for (Record rec : this) {
