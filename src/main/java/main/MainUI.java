@@ -34,7 +34,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class MainUI extends JDialog {
   private static final long serialVersionUID = 1L;
-
+ 
   // All GUI components:
   private JPanel contentPane;
   private JButton buttonRunScript;
@@ -51,12 +51,15 @@ public class MainUI extends JDialog {
   private JButton viewDirectoryButton;
 
   // Filters for JFileChooser dialog
-  private FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("XML files", "xml");
-  private FileNameExtensionFilter csvfilter = new FileNameExtensionFilter("CSV and TXT files",
-      "csv", "txt");
-  private FileNameExtensionFilter xlsfilter = new FileNameExtensionFilter("Excel files", "xls", "xlsx");
+  private static FileNameExtensionFilter xmlfilter = 
+      new FileNameExtensionFilter("XML files", "xml");
+  private static FileNameExtensionFilter csvfilter = 
+      new FileNameExtensionFilter("CSV and TXT files", "csv", "txt");
+  private static FileNameExtensionFilter xlsfilter = 
+      new FileNameExtensionFilter("Excel files", "xls", "xlsx");
 
-  private File previousDirectory;
+  private static File previousDirectory;
+
   private boolean exit = false;
 
   public MainUI() {
@@ -263,13 +266,10 @@ public class MainUI extends JDialog {
   }
 
   /**
-   * Opens a open file dialog for the user to select a data file and a settings file. When the user
-   * is done, the file wil be displayed in the files table.
+   * Shows a file dialog for the user to select the data file.
    */
-  private void onAddNewFile() {
-    File dataFile;
-    File settingsFile;
-
+  public static File openDataFile(){
+    File file;
     JFileChooser chooser = new JFileChooser(previousDirectory);
     chooser.setDialogTitle("Open data file.");
     chooser.setFileFilter(csvfilter);
@@ -281,43 +281,71 @@ public class MainUI extends JDialog {
     if (state == JFileChooser.APPROVE_OPTION) {
 
       previousDirectory = chooser.getCurrentDirectory();
-      dataFile = chooser.getSelectedFile();
-      if (!Input.exists(dataFile)) {
-        JOptionPane.showMessageDialog(this,
+      file = chooser.getSelectedFile();
+      if (!Input.exists(file)) {
+        JOptionPane.showMessageDialog(null,
                 "Error opening data file, the data file can not be found.",
                 "File not found.", JOptionPane.ERROR_MESSAGE);
-        return;
+        return null;
       }
-      System.out.println("Selected data file: " + dataFile);
-    } else {
-      return;
+      System.out.println("Selected data file: " + file);
+      return file;
     }
+    
+    return null;
+  }
+  
+  /**
+   * Shows a file dialog for the user to select the settings file.
+   */
+  public static File openSettingsFile() {
+    File file;
+    JFileChooser chooser = new JFileChooser(previousDirectory);
+    chooser.setDialogTitle("Open settings file.");
+    chooser.setFileFilter(xmlfilter);
 
-    JFileChooser chooser2 = new JFileChooser(previousDirectory);
-    chooser2.setDialogTitle("Open settings file.");
-    chooser2.setFileFilter(xmlfilter);
-
-    state = chooser2.showOpenDialog(null);
+    int state = chooser.showOpenDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {
 
-      previousDirectory = chooser2.getCurrentDirectory();
-      settingsFile = chooser2.getSelectedFile();
-      if (!Input.exists(settingsFile)) {
-        JOptionPane.showMessageDialog(this,
+      previousDirectory = chooser.getCurrentDirectory();
+      file = chooser.getSelectedFile();
+      if (!Input.exists(file)) {
+        JOptionPane.showMessageDialog(null,
                 "Error opening settings file, the settings file can not be found.",
                 "File not found.", JOptionPane.ERROR_MESSAGE);
-        return;
+        return null;
       }
-      System.out.println("Selected settings file: " + settingsFile);
-    } else {
+      System.out.println("Selected settings file: " + file);
+      return file;
+    }
+
+    return null;
+  }
+  
+  /**
+   * Opens a open file dialog for the user to select a data file and a settings file. When the user
+   * is done, the file wil be displayed in the files table.
+   */
+  private void onAddNewFile() {
+    File dataFile;
+    File settingsFile;
+
+    dataFile = openDataFile();
+    if (dataFile == null) {
+      return;
+    }
+
+    settingsFile = openSettingsFile();
+    if (settingsFile == null) {
       return;
     }
 
     try {
       Input.addDataFile(dataFile, settingsFile);
     } catch (Exception e) {
-      //createDataFile will throw an exception if an error occurs when creating the Reader and parsing the settings.
+      //addDataFile will throw an exception if an error occurs when 
+      //creating the Reader and parsing the settings.
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
@@ -328,7 +356,7 @@ public class MainUI extends JDialog {
    * Removes the selected row from the files table.
    */
   private void onRemoveFile() {
-    int selectedRows[] = filesTable.getSelectedRows();
+    int[] selectedRows = filesTable.getSelectedRows();
     int rowcount = filesTable.getRowCount();
     if (selectedRows.length > rowcount) {
       return;
@@ -358,7 +386,8 @@ public class MainUI extends JDialog {
 
     if (!Input.hasScript() || !Input.hasOutput() || !Input.hasFiles()) {
       JOptionPane.showMessageDialog(null,
-              "Please make sure you have selected a script file, output directory and at least 1 data file.",
+              "Please make sure you have selected a script file, " 
+                  + "output directory and at least 1 data file.",
               "Wrong input.", JOptionPane.INFORMATION_MESSAGE);
       return;
     }
@@ -378,6 +407,7 @@ public class MainUI extends JDialog {
     return exit;
   }
 
+ 
   {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
 // >>> IMPORTANT!! <<<
