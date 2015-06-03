@@ -1,11 +1,16 @@
 package table;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import table.value.Column;
+import table.value.NullValue;
 import table.value.NumberColumn;
 import table.value.NumberValue;
+import table.value.StringColumn;
+import table.value.StringValue;
 import table.value.Value;
 
 import java.util.ArrayList;
@@ -33,6 +38,7 @@ public class StemLeafPlotTest {
     table.add(new Record(col, new Value[]{new NumberValue(56)}));
     table.add(new Record(col, new Value[]{new NumberValue(45)}));
     table.add(new Record(col, new Value[]{new NumberValue(45)}));
+    table.add(new Record(col, new Value[]{new NullValue()}));
     table.add(new Record(col, new Value[]{new NumberValue(45)}));
     table.add(new Record(col, new Value[]{new NumberValue(34)}));
     table.add(new Record(col, new Value[]{new NumberValue(5)}));
@@ -46,6 +52,19 @@ public class StemLeafPlotTest {
   public void testslPlot() {
     StemLeafPlot plot = new StemLeafPlot(table, "numbers", 2);
     System.out.println(plot);
+    ArrayList<Column> column = new ArrayList<Column>();
+    column.add(new StringColumn("Stem"));
+    column.add(new StringColumn("Leaf"));
+    
+    Table test = new Table();
+    test.add(new Record(column, new Value[]{new StringValue("1"), new StringValue("133")}));
+    test.add(new Record(column, new Value[]{new StringValue("2"), new StringValue("2833")}));
+    test.add(new Record(column, new Value[]{new StringValue("4"), new StringValue("465558")}));
+    test.add(new Record(column, new Value[]{new StringValue("5"), new StringValue("60")}));
+    test.add(new Record(column, new Value[]{new StringValue("3"), new StringValue("4")}));
+    test.add(new Record(column, new Value[]{new StringValue("0"), new StringValue("5")}));
+    
+    assertEquals(plot.toString(), test.toString());
   }
   
   

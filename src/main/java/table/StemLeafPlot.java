@@ -44,8 +44,6 @@ public class StemLeafPlot extends Table {
       if (record.get(column).isNumeric()) {
         NumberValue number = (NumberValue) record.get(column);
         values.add(Integer.toString((int) number.getValue()));
-      } else {
-        throw new ColumnTypeMismatchException("Expected a number value in the number column");
       }
     }
 
