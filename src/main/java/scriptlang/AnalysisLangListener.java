@@ -146,6 +146,16 @@ public interface AnalysisLangListener extends ParseTreeListener {
 	 */
 	void exitChunk_param(AnalysisLangParser.Chunk_paramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AnalysisLangParser#chunk_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterChunk_type(AnalysisLangParser.Chunk_typeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AnalysisLangParser#chunk_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitChunk_type(AnalysisLangParser.Chunk_typeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AnalysisLangParser#code_param}.
 	 * @param ctx the parse tree
 	 */
@@ -216,6 +226,16 @@ public interface AnalysisLangListener extends ParseTreeListener {
 	 */
 	void exitLsa_param(AnalysisLangParser.Lsa_paramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AnalysisLangParser#table}.
+	 * @param ctx the parse tree
+	 */
+	void enterTable(AnalysisLangParser.TableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AnalysisLangParser#table}.
+	 * @param ctx the parse tree
+	 */
+	void exitTable(AnalysisLangParser.TableContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AnalysisLangParser#field}.
 	 * @param ctx the parse tree
 	 */
@@ -225,6 +245,36 @@ public interface AnalysisLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitField(AnalysisLangParser.FieldContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AnalysisLangParser#pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterPattern(AnalysisLangParser.PatternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AnalysisLangParser#pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitPattern(AnalysisLangParser.PatternContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AnalysisLangParser#record_condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterRecord_condition(AnalysisLangParser.Record_conditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AnalysisLangParser#record_condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitRecord_condition(AnalysisLangParser.Record_conditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AnalysisLangParser#count_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void enterCount_pattern(AnalysisLangParser.Count_patternContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AnalysisLangParser#count_pattern}.
+	 * @param ctx the parse tree
+	 */
+	void exitCount_pattern(AnalysisLangParser.Count_patternContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AnalysisLangParser#number}.
 	 * @param ctx the parse tree

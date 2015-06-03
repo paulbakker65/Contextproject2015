@@ -14,6 +14,7 @@ import operations.LsaOperation;
 import operations.Operation;
 import operations.lsa.Grouper;
 import operations.patterns.Pattern;
+import operations.patterns.PatternFactory;
 
 import table.Table;
 import table.value.NumberValue;
@@ -123,7 +124,7 @@ public class OperationSpec {
 
       case CODE:
         return new CodingOperation(this.getTableForTableName((String) operandList.get(0)),
-            (Pattern) operandList.get(1), (String) operandList.get(2));
+            PatternFactory., (String) operandList.get(2));
 
       case CONVERT:
         return null;

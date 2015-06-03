@@ -83,6 +83,13 @@ between_param
 ///////////////////////////////////////
 chunk_param
 : fieldparam=field 'USING' rangeparam=range
+| fieldparam=field 'USING' type=chunk_type numberparam=number
+;
+
+chunk_type returns [int i]
+: 'YEAR'  { $i = 0; }
+| 'MONTH' { $i = 1; }
+| 'DAY'   { $i = 2; }
 ;
 
 ///////////////////////////////////////
@@ -90,6 +97,7 @@ chunk_param
 ///////////////////////////////////////
 code_param
 : fieldparam=field 'ON' conditionparam=condition
+| fieldparam=field 'ON' patternparam=pattern
 ;
 
 ///////////////////////////////////////
@@ -140,9 +148,27 @@ lsa_param
 // Common                            //
 //                                   //
 ///////////////////////////////////////
+table returns [String tablename]
+: '[' tablenameparam=ID ']'                         { $tablename = $tablenameparam.text;  }
+;
+
 field returns [String tablename, String fieldname]
 : '[' tablenameparam=ID '].[' fieldnameparam=ID ']' { $fieldname = $fieldnameparam.text;
                                                       $tablename = $tablenameparam.text; }
+;
+
+pattern
+: '{' countparam=count_pattern recordconditionparam=record_condition '}'
+;
+
+record_condition
+: tableparam=table
+| conditionparam=condition
+;
+
+count_pattern
+: wildcard='*'
+| numberparam=number
 ;
 
 number returns [Value val]

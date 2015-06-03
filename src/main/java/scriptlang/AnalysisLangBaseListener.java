@@ -180,6 +180,18 @@ public class AnalysisLangBaseListener implements AnalysisLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterChunk_type(AnalysisLangParser.Chunk_typeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitChunk_type(AnalysisLangParser.Chunk_typeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCode_param(AnalysisLangParser.Code_paramContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -264,6 +276,18 @@ public class AnalysisLangBaseListener implements AnalysisLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTable(AnalysisLangParser.TableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTable(AnalysisLangParser.TableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterField(AnalysisLangParser.FieldContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -271,6 +295,42 @@ public class AnalysisLangBaseListener implements AnalysisLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitField(AnalysisLangParser.FieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPattern(AnalysisLangParser.PatternContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPattern(AnalysisLangParser.PatternContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRecord_condition(AnalysisLangParser.Record_conditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRecord_condition(AnalysisLangParser.Record_conditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCount_pattern(AnalysisLangParser.Count_patternContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCount_pattern(AnalysisLangParser.Count_patternContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
