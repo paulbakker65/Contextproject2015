@@ -86,7 +86,7 @@ public class ChartMaker {
   }
 
   private List<Chunk> extractChunks(Table table) {
-    if (table.getChunks().size()==0) {
+    if (table.getChunks().size() == 0) {
       System.out.println("Regen chunks");
       // regen chunks
       HashMap<String, List<Record>> chunkhm = new HashMap<String, List<Record>>();
