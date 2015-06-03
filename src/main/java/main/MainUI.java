@@ -62,85 +62,88 @@ public class MainUI extends JDialog {
 
   private boolean exit = false;
 
+  /**
+   * 
+   */
   public MainUI() {
     super(null, ModalityType.TOOLKIT_MODAL);
 
     init();
 
     // call onCancel() on ESCAPE
-    contentPane
-            .registerKeyboardAction(new ActionListener() {
-                                      public void actionPerformed(ActionEvent e) {
-                                        onCancel();
-                                      }
-                                    }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-                    JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    contentPane.registerKeyboardAction(new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        onCancel();
+      }
+      }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+      JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
     // call onCancel() when cross is clicked
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     addWindowListener(new WindowAdapter() {
-      public void windowClosing(WindowEvent e) {
+      public void windowClosing(WindowEvent event) {
         onCancel();
       }
     });
 
     openFileButton.addActionListener(new ActionListener() {
       @Override
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent event) {
         onOpenScript();
       }
     });
 
     editScriptButton.addActionListener(new ActionListener() {
       @Override
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent event) {
         onEditScript();
       }
     });
 
     browseButton.addActionListener(new ActionListener() {
       @Override
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent event) {
         onSelectOutputDir();
       }
     });
 
     viewDirectoryButton.addActionListener(new ActionListener() {
       @Override
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent event) {
         onViewOutputDir();
       }
     });
 
     addFileSButton.addActionListener(new ActionListener() {
       @Override
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent event) {
         onAddNewFile();
       }
     });
 
     removeSelectedButton.addActionListener(new ActionListener() {
       @Override
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent event) {
         onRemoveFile();
       }
     });
 
     buttonRunScript.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent event) {
         onRunScript();
       }
     });
 
     buttonCancel.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent event) {
         onCancel();
       }
     });
   }
 
   /**
-   * Initializes the GUI. Sets the dialog look to match the system look, loads the icon and sets the file path fields.
+   * Initializes the GUI. Sets the dialog look to match the system look, 
+   * loads the icon and sets the file path fields.
    */
   public void init() {
     GUI.setSystemLook();
@@ -227,7 +230,8 @@ public class MainUI extends JDialog {
 
       if (!Input.setOutputDir(chooser.getSelectedFile())) {
         JOptionPane.showMessageDialog(this,
-                "Error with output directory. Selected path is a file or the direcotry could not be made.",
+                "Error with output directory. "
+                    + "Selected path is a file or the direcotry could not be made.",
                 "Directory not found.", JOptionPane.ERROR_MESSAGE);
         return;
       }
@@ -268,13 +272,13 @@ public class MainUI extends JDialog {
   /**
    * Shows a file dialog for the user to select the data file.
    */
-  public static File openDataFile(){
+  public static File openDataFile() {
     File file;
     JFileChooser chooser = new JFileChooser(previousDirectory);
     chooser.setDialogTitle("Open data file.");
-    chooser.setFileFilter(csvfilter);
     chooser.setFileFilter(xlsfilter);
-
+    chooser.setFileFilter(csvfilter);
+    
     int state = chooser.showOpenDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {

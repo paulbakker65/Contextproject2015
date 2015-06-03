@@ -1,7 +1,12 @@
 package main;
 
+import input.DataFile;
 import input.Input;
+
+import table.StateTransitionMatrix;
+import table.Table;
 import table.value.Column;
+import table.value.ColumnTypeMismatchException;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -12,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -45,6 +51,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   private JComboBox<String> comboStateT;
   private JButton buttonStateT;
 
+  private Table table;
   /**
    * Creates the Visualizations GUI.
    */
@@ -238,9 +245,25 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     if (Input.getFiles().size() > 1) {
       Input.getFiles().remove(0);
     }
+    
+    
+    DataFile df = Input.getFiles().get(0);
+    try {
+      table = df.getParser().parse(df.getReader());
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      return;
+    } catch (ColumnTypeMismatchException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      return;
+    }
+    
+    
     datafile.setText(dataFile.getAbsolutePath());
     settings.setText(settingsFile.getAbsolutePath());
-    
+        
     updateTabbedPane();
   }
 
@@ -263,16 +286,18 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   }
   
   private void onStateT() {
-    
+    String column = (String)comboStateT.getSelectedItem();
+    StateTransitionMatrix stm = new StateTransitionMatrix(table, column);
+    DisplayTableGui.init(stm);
   }
   
 
 
   
   private static ImageIcon createImageIcon(String path) {
-    java.net.URL imgURL = ClassLoader.getSystemResource(path);
-    if (imgURL != null) {
-      return new ImageIcon(imgURL);
+    java.net.URL imgUrl = ClassLoader.getSystemResource(path);
+    if (imgUrl != null) {
+      return new ImageIcon(imgUrl);
     } else {
       System.err.println("Couldn't find file: " + path);
       return null;
