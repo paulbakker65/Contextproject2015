@@ -9,19 +9,22 @@ public class SingleOccurrencePattern extends SingleConditionPattern {
   /**
    * Constructor which creates the pattern without a next pattern. *
    * 
-   * @param column the column name that always exists.
+   * @param tableName
+   *        the name of the original table.
    */
-  public SingleOccurrencePattern(final String column) {
-    super(new RecordOccurrenceCondition(column));
+  public SingleOccurrencePattern(final String tableName) {
+    super(new RecordOccurrenceCondition(tableName));
   }
 
   /**
    * Constructor which creates the pattern with a next pattern. *
    * 
-   * @param column the column name that always exists.
-   * @param nextPattern the next pattern to link to.
+   * @param tableName
+   *        the name of the original table.
+   * @param nextPattern 
+   *        the next pattern to link to.
    */
-  public SingleOccurrencePattern(final String column, final Pattern nextPattern) {
-    super(new RecordOccurrenceCondition(column), nextPattern);
+  public SingleOccurrencePattern(final String tableName, final Pattern nextPattern) {
+    super(new RecordOccurrenceCondition(tableName), nextPattern);
   }
 }
