@@ -275,7 +275,6 @@ public class MainUI extends JDialog {
     chooser.setFileFilter(csvfilter);
     chooser.setFileFilter(xlsfilter);
 
-
     int state = chooser.showOpenDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {
