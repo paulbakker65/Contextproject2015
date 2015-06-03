@@ -38,12 +38,16 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import operations.Operation;
+
 import exceptions.TableNotFoundException;
+
 import export.Exporter;
+
 import scriptlang.AnalysisLangLexer;
 import scriptlang.AnalysisLangParser;
-import scriptlang.extra.ALListener;
 import scriptlang.extra.OperationSpec;
+import scriptlang.extra.ScriptListener;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  
 /**
@@ -179,7 +183,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
       AnalysisLangLexer lexer = new AnalysisLangLexer(input);
       CommonTokenStream tokens = new CommonTokenStream(lexer);
       AnalysisLangParser parser = new AnalysisLangParser(tokens);
-      ALListener listener = new ALListener(tables);
+      ScriptListener listener = new ScriptListener(tables);
       ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
       ArrayList<OperationSpec> operationList = listener.getOpList();
