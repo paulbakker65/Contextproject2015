@@ -1,6 +1,7 @@
 package table;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -63,7 +64,30 @@ public class StemLeafPlotTest {
     test.add(new Record(column, new Value[] { new StringValue("3"), new StringValue("4") }));
     test.add(new Record(column, new Value[] { new StringValue("0"), new StringValue("5") }));
 
-    assertEquals(plot.toString(), test.toString());
+    for (Record record : plot) {
+      switch (record.get("Stem").toString()) {
+        case "1" :
+          assertEquals(record, test.get(0));
+          break;
+        case "2" :
+          assertEquals(record, test.get(1));
+          break;
+        case "4" :
+          assertEquals(record, test.get(2));
+          break;
+        case "5" :
+          assertEquals(record, test.get(3));
+          break;
+        case "3" :
+          assertEquals(record, test.get(4));
+          break;
+        case "0" :
+          assertEquals(record, test.get(5));
+          break;
+        default :
+          assertTrue(false);
+      }
+    }
   }
 
   @Test
@@ -78,7 +102,18 @@ public class StemLeafPlotTest {
         new StringValue("1122424544430451") }));
     test.add(new Record(column, new Value[] { new StringValue("1"), new StringValue("2") }));
 
-    assertEquals(plot.toString(), test.toString());
+    for (Record record : plot) {
+      switch (record.get("Stem").toString()) {
+        case "0" :
+          assertEquals(record, test.get(0));
+          break;
+        case "1" :
+          assertEquals(record, test.get(1));
+          break;
+        default :
+          assertTrue(false);
+      }
+    }  
   }
 
 }
