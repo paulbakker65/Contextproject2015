@@ -21,6 +21,7 @@ import scriptlang.AnalysisLangParser.FieldContext;
 import scriptlang.AnalysisLangParser.FormulaContext;
 import scriptlang.AnalysisLangParser.Lsa_paramContext;
 import scriptlang.AnalysisLangParser.NumberContext;
+import scriptlang.AnalysisLangParser.PatternContext;
 import scriptlang.AnalysisLangParser.TableContext;
 import scriptlang.AnalysisLangParser.TextContext;
 import scriptlang.extra.OperationSpec.OperationType;
@@ -175,19 +176,25 @@ public class ScriptListener extends AnalysisLangBaseListener {
   /*
    * COMMON
    */
+  
+  @Override
+  public void enterPattern(final PatternContext ctx) {
+    if (ctx == null) {
+      return;
+    }
+    if (ctx.patterndesc != null) {
+      currentOp.addOperationOperand(ctx.patterndesc);
+      ctx.children.clear();
+    }
+  }
 
   @Override
   public void enterCount_pattern(final Count_patternContext ctx) {
     if (ctx == null) {
       return;
     }
-    if (ctx.numberparam != null) {
-      if (ctx.numberparam.val != null) {
-        currentOp.addOperationOperand(ctx.numberparam);
-      }
-    }
-    if (ctx.wildcard != null) {
-      currentOp.addOperationOperand(ctx.wildcard);
+    if (ctx.count != null) {
+      currentOp.addOperationOperand(ctx.count);
     }
   }
 

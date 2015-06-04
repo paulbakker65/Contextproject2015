@@ -13,11 +13,12 @@ import operations.ConstraintOperation;
 import operations.LsaOperation;
 import operations.Operation;
 import operations.lsa.Grouper;
-import operations.patterns.Pattern;
+import operations.patterns.PatternDescription;
 import operations.patterns.PatternFactory;
 
 import table.Table;
 import table.value.NumberValue;
+import table.value.StringValue;
 import table.value.Value;
 
 import java.util.ArrayList;
@@ -98,6 +99,10 @@ public class OperationSpec {
   }
 
   /**
+   * Warning cannot be solved without solving the universe.
+   */
+  @SuppressWarnings("unchecked")
+  /**
    * The getOperationForThisSpec method takes the operands that are in the operand list and parses
    * them to a Operation object.
    *
@@ -124,7 +129,9 @@ public class OperationSpec {
 
       case CODE:
         return new CodingOperation(this.getTableForTableName((String) operandList.get(0)),
-            PatternFactory., (String) operandList.get(2));
+            PatternFactory.createPattern((ArrayList<PatternDescription>) operandList.get(1)),
+            ((StringValue) operandList.get(2)).getValue());
+
 
       case CONVERT:
         return null;

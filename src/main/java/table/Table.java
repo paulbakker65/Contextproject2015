@@ -1,8 +1,8 @@
 package table;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class Table extends ArrayList<Record> {
 
   /**
    * Adding a chunk to the list of chunks for this table.
-   * 
+   *
    * @param c chunk to add.
    */
   public void addChunk(final Chunk chunk) {
@@ -37,7 +37,7 @@ public class Table extends ArrayList<Record> {
 
   /**
    * Adding a code to the hashmap of codes for this table.
-   * 
+   *
    * @param c code to add.
    */
   public void addCode(final Code code) {
@@ -54,8 +54,8 @@ public class Table extends ArrayList<Record> {
   }
 
   /**
-   * New equals method that also checks if the list of chunks is equal to that of the other table.
-   * The same for the hashmap of codes.
+   * New equals method that also checks if the list of chunks is equal to that
+   * of the other table. The same for the hashmap of codes.
    */
   @Override
   public boolean equals(final Object obj) {
@@ -144,6 +144,17 @@ public class Table extends ArrayList<Record> {
     }
 
     return sb.toString();
+  }
+
+  @Override
+  public boolean addAll(Collection<? extends Record> collection) {
+    super.addAll(collection);
+
+    if (collection instanceof Table) {
+      this.chunks.addAll(((Table) collection).chunks);
+      this.codes.putAll(((Table) collection).codes);
+    }
+    return true;
   }
 
 }

@@ -5,7 +5,8 @@ import scriptlang.extra.*;
 import enums.*;
 import table.value.*;
 import java.util.*;
-import java.text.*;
+import operations.patterns.*;
+import operations.patterns.condition.*;
 }
 
 parse
@@ -96,8 +97,7 @@ chunk_type returns [int i]
 // Code                              //
 ///////////////////////////////////////
 code_param
-: fieldparam=field 'ON' conditionparam=condition
-| fieldparam=field 'ON' patternparam=pattern
+: tableparam=table 'ON' patternparam=pattern 'AS' codenameparam=text
 ;
 
 ///////////////////////////////////////
@@ -157,18 +157,21 @@ field returns [String tablename, String fieldname]
                                                       $tablename = $tablenameparam.text; }
 ;
 
-pattern
-: '{' countparam=count_pattern recordconditionparam=record_condition '}'
+pattern returns [ArrayList<PatternDescription> patterndesc]
+@init {
+  $patterndesc = new ArrayList<PatternDescription>();
+}
+: ( '{' countparam=count_pattern recordconditionparam=record_condition '}'  { $patterndesc.add(new PatternDescription($countparam.count, $recordconditionparam.recordcondition)); } )+
 ;
 
-record_condition
-: tableparam=table
-| conditionparam=condition
+record_condition returns [RecordCondition recordcondition]
+: tableparam=table                            { $recordcondition = new RecordOccurrenceCondition($tableparam.tablename); }
+| fieldparam=field conditionparam=condition   { $recordcondition = new RecordMatchesConditionCondition($field.fieldname, $conditionparam.cond); }
 ;
 
-count_pattern
-: wildcard='*'
-| numberparam=number
+count_pattern returns [Count count]
+: wildcard='*'          { $count = new MultipleCount(); }
+| numberparam=NUMBER    { $count = new SingleCount($numberparam.int); }
 ;
 
 number returns [Value val]

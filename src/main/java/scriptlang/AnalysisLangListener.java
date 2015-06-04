@@ -5,7 +5,8 @@ import scriptlang.extra.*;
 import enums.*;
 import table.value.*;
 import java.util.*;
-import java.text.*;
+import operations.patterns.*;
+import operations.patterns.condition.*;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
