@@ -2,8 +2,11 @@ package export;
 
 import com.opencsv.CSVWriter;
 
+import table.Code;
 import table.Record;
 import table.Table;
+import table.value.NullValue;
+import table.value.StringValue;
 import table.value.Value;
 
 import java.io.IOException;
@@ -27,6 +30,19 @@ public final class Exporter {
    */
   public static void export(final Table db, final Writer writer) throws IOException {
 
+    if (!db.getCodes().isEmpty()) {
+      for (Record r : db) {
+        r.put("Code", new NullValue());
+      }
+      for (Code c : db.getCodes().values()) {
+        for (Table t : c.getEvents()) {
+          for (Record r : t) {
+            r.put("Code", new StringValue(c.getName()));
+          }
+        }
+      }
+    }
+    
     final Set<String> keys = new TreeSet<String>();
     for (final Record r : db) {
       keys.addAll(r.keySet());
