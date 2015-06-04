@@ -1,7 +1,6 @@
 package table;
 
 import table.value.Column;
-import table.value.ColumnTypeMismatchException;
 import table.value.NumberValue;
 import table.value.StringColumn;
 import table.value.StringValue;
@@ -16,6 +15,9 @@ public class StemLeafPlot extends Table {
    */
   private static final long serialVersionUID = 1L;
   private Table table;
+  private ArrayList<Column> columns;
+  private String column;
+  private int order;
 
   /**
    * Creates a stem leaf plot based on the give table.
@@ -28,17 +30,16 @@ public class StemLeafPlot extends Table {
   public StemLeafPlot(Table table, String column, int order) {
     super();
     this.table = table;
-    try {
-      create(column, order);
-    } catch (ColumnTypeMismatchException e) {
-    }
-  }
-
-  private void create(String column, int order) throws ColumnTypeMismatchException {
-    ArrayList<Column> columns = new ArrayList<Column>();
+    this.column = column;
+    this.order = order;
+    columns = new ArrayList<Column>();
     columns.add(new StringColumn("Stem"));
     columns.add(new StringColumn("Leaf"));
+    addStemLeafValues(makeStringofNumbers());
 
+  }
+
+  private ArrayList<String> makeStringofNumbers() {
     ArrayList<String> values = new ArrayList<String>();
     for (Record record : table) {
       if (record.get(column).isNumeric()) {
@@ -47,30 +48,53 @@ public class StemLeafPlot extends Table {
       }
     }
 
+    return values;
+  }
+
+  /**
+   * If the order is greater then the length of the number, add zeros.
+   * 
+   * @param number
+   *          number represented as string.
+   * @return String array with the number supplemented with zero's
+   */
+  public String[] createSupplementArray(String number) {
+
+    String[] characters = number.split("");
+    String[] supplementedCharacters;
+
+    if (characters.length < order) {
+      supplementedCharacters = new String[order];
+      int count = 0;
+      while (count < order - characters.length) {
+        supplementedCharacters[count] = "0";
+        count++;
+      }
+      int characterCount = 0;
+      while (count < order) {
+        supplementedCharacters[count] = characters[characterCount];
+        count++;
+        characterCount++;
+      }
+    } else {
+      supplementedCharacters = characters;
+    }
+    return supplementedCharacters;
+  }
+
+  /**
+   * Picks the stem and leaf for each record and adds it to the stem leaf plot.
+   * 
+   * @param values
+   *          All the values to be checked.
+   */
+  public void addStemLeafValues(ArrayList<String> values) {
     for (String number : values) {
-      String[] characters = number.split("");
-      String[] supplementedCharacters;
+      String[] array = createSupplementArray(number);
       boolean added = false;
 
-      if (characters.length < order) {
-        supplementedCharacters = new String[order];
-        int count = 0;
-        while (count < order - characters.length) {
-          supplementedCharacters[count] = "0";
-          count++;
-        }
-        int characterCount = 0;
-        while (count < order) {
-          supplementedCharacters[count] = characters[characterCount];
-          count++;
-          characterCount++;
-        }
-      } else {
-        supplementedCharacters = characters;
-      }
-
-      String stem = supplementedCharacters[supplementedCharacters.length - order];
-      String leaf = supplementedCharacters[supplementedCharacters.length - order + 1];
+      String stem = array[array.length - order];
+      String leaf = array[array.length - order + 1];
 
       for (Record record : this) {
         if (record.get("Stem").toString().equals(stem)) {
