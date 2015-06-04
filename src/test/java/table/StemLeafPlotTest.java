@@ -63,10 +63,7 @@ public class StemLeafPlotTest {
     test.add(new Record(column, new Value[] { new StringValue("5"), new StringValue("60") }));
     test.add(new Record(column, new Value[] { new StringValue("3"), new StringValue("4") }));
     test.add(new Record(column, new Value[] { new StringValue("0"), new StringValue("5") }));
-
-    System.out.println("plot");
-    System.out.println(plot);
-    System.out.println("plot");
+    test.add(new Record(column, new Value[] { new StringValue(""), new StringValue("5") }));
      
     for (Record record : plot) {
       switch (record.get("Stem").toString()) {
@@ -89,7 +86,8 @@ public class StemLeafPlotTest {
           assertEquals(record, test.get(5));
           break;
         case "" :
-          assertEquals(record, test.get(5));
+          assertEquals(record, test.get(6));
+          break;
         default :
           assertTrue(false);
       }
@@ -107,6 +105,8 @@ public class StemLeafPlotTest {
     test.add(new Record(column, new Value[] { new StringValue("0"),
         new StringValue("1122424544430451") }));
     test.add(new Record(column, new Value[] { new StringValue("1"), new StringValue("2") }));
+    test.add(new Record(column, new Value[] { new StringValue(""),
+        new StringValue("1122424544430451") }));
 
     for (Record record : plot) {
       switch (record.get("Stem").toString()) {
@@ -117,7 +117,8 @@ public class StemLeafPlotTest {
           assertEquals(record, test.get(1));
           break;
         case "" :
-          assertEquals(record, test.get(0));  
+          assertEquals(record, test.get(2));
+          break;
         default :
           assertTrue(false);
       }
