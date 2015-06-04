@@ -45,4 +45,11 @@ public class RecordOccurrenceCondition implements RecordCondition {
     return record.getTableName().equals(tableName);
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "RecordOccurrenceCondition [tableName=" + tableName + "]";
+  }
 }

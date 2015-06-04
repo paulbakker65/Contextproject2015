@@ -22,4 +22,12 @@ public class MultipleCount implements Count {
     }
     return (other instanceof MultipleCount);
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "MultipleCount []";
+  }
 }
