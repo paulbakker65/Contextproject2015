@@ -2,6 +2,7 @@ package export;
 
 import com.opencsv.CSVWriter;
 
+import table.Chunk;
 import table.Code;
 import table.Record;
 import table.Table;
@@ -29,12 +30,23 @@ public final class Exporter {
    * @throws IOException If the writing fails an IOException is thrown.
    */
   public static void export(final Table db, final Writer writer) throws IOException {
-
-    if (!db.getCodes().isEmpty()) {
+    
+    if (!db.getChunks().isEmpty()) {
+      for (Chunk c : db.getChunks()) {
+        for (Record r : c) {
+          r.put("Chunk", new StringValue(c.getLabel()));
+        }
+      }
+    }
+    
+    if (!db.getCodes().isEmpty()) {      
       for (Record r : db) {
         r.put("Code", new NullValue());
       }
       for (Code c : db.getCodes().values()) {
+        Record codeRecord = new Record();
+        codeRecord.put("Code", new StringValue(c.getName() + "=" + c.getFrequency()));
+        db.add(0, codeRecord);
         for (Table t : c.getEvents()) {
           for (Record r : t) {
             r.put("Code", new StringValue(c.getName()));
