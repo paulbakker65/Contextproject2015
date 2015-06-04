@@ -1,18 +1,27 @@
 package operations.patterns.condition;
 
+import enums.CompareOperator;
+
+import scriptlang.extra.Condition;
+
 import table.Record;
 import table.value.Value;
 
 /**
  * Class for representing the condition that a record equals a certain Value.
  */
-public class RecordEqualsValueCondition implements RecordCondition {
+public class RecordMatchesConditionCondition implements RecordCondition {
   private final String column;
-  private final Value toCompare;
+  private final Condition condition;
 
-  public RecordEqualsValueCondition(final String column, final Value toCompare) {
+  public RecordMatchesConditionCondition(String column, Condition condition) {
     this.column = column;
-    this.toCompare = toCompare;
+    this.condition = condition;
+  }
+  
+  public RecordMatchesConditionCondition(final String column, final Value toCompare) {
+    this.column = column;
+    this.condition = new Condition(CompareOperator.EQ, toCompare);
   }
 
   @Override
@@ -26,11 +35,11 @@ public class RecordEqualsValueCondition implements RecordCondition {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final RecordEqualsValueCondition other = (RecordEqualsValueCondition) obj;
+    final RecordMatchesConditionCondition other = (RecordMatchesConditionCondition) obj;
     if (!column.equals(other.column)) {
       return false;
     }
-    return toCompare.equals(other.toCompare);
+    return condition.equals(other.condition);
   }
 
   @Override
@@ -38,13 +47,13 @@ public class RecordEqualsValueCondition implements RecordCondition {
     final int prime = 31;
     int result = 1;
     result = prime * result + column.hashCode();
-    result = prime * result + toCompare.hashCode();
+    result = prime * result + condition.hashCode();
     return result;
   }
 
   @Override
   public boolean matches(final Record record) {
-    return record.get(column).equals(toCompare);
+    return condition.matches(record.get(column));
   }
 
 }

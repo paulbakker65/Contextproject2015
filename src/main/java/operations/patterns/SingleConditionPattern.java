@@ -8,7 +8,7 @@ import table.Table;
 /**
  * Abstract class for a pattern where a record should satisfy a certain condition.
  */
-public abstract class SingleConditionPattern extends Pattern {
+public class SingleConditionPattern extends Pattern {
   /**
    * The condition that should hold.
    */

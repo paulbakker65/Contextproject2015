@@ -3,11 +3,8 @@ package operations;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import operations.patterns.MultipleOccurrencePattern;
-import operations.patterns.NullPattern;
 import operations.patterns.Pattern;
-import operations.patterns.SingleOccurrencePattern;
-
+import operations.patterns.PatternFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -86,7 +83,7 @@ public class CodingOperationTest {
 
   @Test
   public void testMultiplePattern() {
-    final Pattern pattern = new MultipleOccurrencePattern("WebsiteValue", new NullPattern());
+    Pattern pattern = PatternFactory.createPattern("* WebsiteValue");
 
     final CodingOperation co = new CodingOperation(table, pattern, "?W");
     co.execute();
@@ -96,7 +93,7 @@ public class CodingOperationTest {
 
   @Test
   public void testMultiplePatternEndNoHasNext() {
-    final Pattern pattern = new MultipleOccurrencePattern("StatSensor", new NullPattern());
+    Pattern pattern = PatternFactory.createPattern("* StatSensor");
 
     final CodingOperation co = new CodingOperation(table, pattern, "?S");
     co.execute();
@@ -106,11 +103,9 @@ public class CodingOperationTest {
 
   @Test
   public void testMultiplePatternNoHasNext() {
-    final Pattern endPattern = new MultipleOccurrencePattern("StatSensor");
-    final Pattern middlePattern = new SingleOccurrencePattern("StatSensor", endPattern);
-    final Pattern firstPattern = new SingleOccurrencePattern("StatSensor", middlePattern);
+    Pattern pattern = PatternFactory.createPattern("2 StatSensor", "* StatSensor");
 
-    final CodingOperation co = new CodingOperation(table, firstPattern, "S?S");
+    final CodingOperation co = new CodingOperation(table, pattern, "S?S");
     co.execute();
 
     assertEquals(co.getResult().getCode("S?S").getFrequency(), 0);
@@ -118,44 +113,29 @@ public class CodingOperationTest {
 
   @Test
   public void testSimpleMultiplePattern() {
-    final Pattern endPattern = new MultipleOccurrencePattern("WebsiteValue");
-    final Pattern firstPattern = new SingleOccurrencePattern("StatSensor", endPattern);
+    Pattern pattern = PatternFactory.createPattern("1 StatSensor", "* WebsiteValue");
 
-    final CodingOperation co = new CodingOperation(table, firstPattern, "1S?W");
+    final CodingOperation co = new CodingOperation(table, pattern, "1S?W");
     co.execute();
 
     assertEquals(co.getResult().getCode("1S?W").getFrequency(), 3);
   }
 
   @Test
-  public void testSimplePattern() {
-    final Pattern endPattern = new SingleOccurrencePattern("WebsiteValue");
-    Pattern prevPattern = new SingleOccurrencePattern("WebsiteValue", endPattern);
+  public void testSimplePattern() {    
+    Pattern pattern = PatternFactory.createPattern("1 StatSensor", "5 WebsiteValue");
 
-    for (int i = 0; i < 3; i++) {
-      prevPattern = new SingleOccurrencePattern("WebsiteValue", prevPattern);
-    }
-
-    final Pattern firstPattern = new SingleOccurrencePattern("StatSensor", prevPattern);
-
-    final CodingOperation co = new CodingOperation(table, firstPattern, "1S5W");
+    final CodingOperation co = new CodingOperation(table, pattern, "1S5W");
     co.execute();
 
     assertEquals(co.getResult().getCode("1S5W").getFrequency(), 2);
   }
 
   @Test
-  public void testSimplePatternNotRecognized() {
-    final Pattern endPattern = new SingleOccurrencePattern("WebsiteValue");
-    Pattern prevPattern = new SingleOccurrencePattern("WebsiteValue", endPattern);
+  public void testSimplePatternNotRecognized() {    
+    Pattern pattern = PatternFactory.createPattern("1 StatSensor", "4 WebsiteValue");
 
-    for (int i = 0; i < 2; i++) {
-      prevPattern = new SingleOccurrencePattern("WebsiteValue", prevPattern);
-    }
-
-    final Pattern firstPattern = new SingleOccurrencePattern("StatSensor", prevPattern);
-
-    final CodingOperation co = new CodingOperation(table, firstPattern, "1S4W");
+    final CodingOperation co = new CodingOperation(table, pattern, "1S4W");
     co.execute();
 
     assertEquals(co.getResult().getCode("1S4W").getFrequency(), 0);

@@ -3,6 +3,8 @@ package operations.patterns;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import operations.patterns.condition.RecordOccurrenceCondition;
+
 import org.junit.Test;
 
 /**
@@ -12,11 +14,13 @@ public class SingleConditionPatternTest {
 
   @Test
   public void testEquals() {
-    final SingleConditionPattern nextPattern = new SingleOccurrencePattern("Test2");
-    final SingleConditionPattern pattern = new SingleOccurrencePattern("Test", nextPattern);
-    final SingleConditionPattern patternSame = new SingleOccurrencePattern("Test", nextPattern);
-    final SingleConditionPattern patternNotSame =
-        new SingleOccurrencePattern("Test", new NullPattern());
+    RecordOccurrenceCondition condition = new RecordOccurrenceCondition("Test");
+    RecordOccurrenceCondition condition2 = new RecordOccurrenceCondition("Test2");
+    
+    final SingleConditionPattern nextPattern = new SingleConditionPattern(condition2);
+    final SingleConditionPattern pattern = new SingleConditionPattern(condition, nextPattern);
+    final SingleConditionPattern patternSame = new SingleConditionPattern(condition, nextPattern);
+    final SingleConditionPattern patternNotSame = new SingleConditionPattern(condition);
     final String otherClass = "";
 
     assertEquals(pattern, pattern);
@@ -28,9 +32,10 @@ public class SingleConditionPatternTest {
 
   @Test
   public void testHashCode() {
-    final SingleConditionPattern nextPattern = new SingleOccurrencePattern("Test");
-    final SingleConditionPattern nonNullNextPattern =
-        new SingleOccurrencePattern("Test", nextPattern);
+    RecordOccurrenceCondition condition = new RecordOccurrenceCondition("Test");
+    final SingleConditionPattern nextPattern = new SingleConditionPattern(condition);
+    final SingleConditionPattern nonNullNextPattern = 
+        new SingleConditionPattern(condition, nextPattern);
 
     int expectedHashCode = 31 + nextPattern.hashCode();
     expectedHashCode = expectedHashCode * 31 + nonNullNextPattern.getCondition().hashCode();
