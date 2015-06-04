@@ -1,9 +1,7 @@
 package main;
- 
-import input.DataFile;
-import input.Input;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
@@ -14,14 +12,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import table.Table;
-import table.value.ColumnTypeMismatchException;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -29,26 +19,11 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingWorker;
-
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
-import operations.Operation;
-
-import exceptions.TableNotFoundException;
-
-import export.Exporter;
-
-import scriptlang.AnalysisLangLexer;
-import scriptlang.AnalysisLangParser;
-import scriptlang.extra.OperationSpec;
-import scriptlang.extra.ScriptListener;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
  
 /**
  * A GUI that shows a progress bar and a text area to show a log.
@@ -57,7 +32,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class ProgressGui extends JPanel implements PropertyChangeListener {
   private static final long serialVersionUID = 1L;
   private JProgressBar progressBar;
-  private JTextArea log;
+  private JTextPane log;
   private JButton previewButton;
   private JButton exitButton;
   private static Task task;
@@ -93,7 +68,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     progressBar.setValue(0);
     progressBar.setStringPainted(true);
  
-    log = new JTextArea(5, 20);
+    log = new JTextPane();
     log.setMargin(new Insets(5, 5, 5, 5));
     log.setEditable(false);
     
@@ -135,102 +110,22 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
    * Invoked when task's progress property changes.
    */
   public void propertyChange(PropertyChangeEvent evt) {
-    if ("progress" == evt.getPropertyName()) {
+    String prop = evt.getPropertyName();
+    if ("progress" == prop) {
       int progress = (Integer) evt.getNewValue();
       progressBar.setValue(progress);
-      log.append(String.format("Completed %d%% of task.\n", task.getProgress()));
-    } 
-  }
-  
-  class Task extends SwingWorker<Void, Void> {
-    ArrayList<Table> tables = null;
-
-    @Override
-    public Void doInBackground() throws TableNotFoundException {
+      appendToLog(String.format("Completed %d%% of task.\n", task.getProgress()));
+    } else if ("starting" == prop) {
       setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-      
-      
-      log.append("Parsing input files.\n");
-      tables = new ArrayList<Table>();
-
-      for (DataFile f : Input.getFiles()) {
-        Table table = null;
-        try {
-          log.append("Parsing " + f.toString() + "\n");
-          table = f.getParser().parse(f.getReader());
-          tables.add(table);
-        } catch (ColumnTypeMismatchException | IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-      }
-      log.append("Done parsing input files.\n\n");
-      
-      setProgress(30);
-      
-      log.append("Executing script.\n");
-      
-      File od = Input.getOutputDir();
-
-      ANTLRInputStream input = null;
-      try {
-        input = new ANTLRFileStream(Input.getScriptFile().getAbsolutePath());
-      } catch (IOException e) {
-        log.append("Error reading script file.");
-        e.printStackTrace();
-        return null;
-      }
-      AnalysisLangLexer lexer = new AnalysisLangLexer(input);
-      CommonTokenStream tokens = new CommonTokenStream(lexer);
-      AnalysisLangParser parser = new AnalysisLangParser(tokens);
-      ScriptListener listener = new ScriptListener(tables);
-      ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
-
-      ArrayList<OperationSpec> operationList = listener.getOpList();
-
-      for (OperationSpec o : operationList) {
-        Operation op = o.getOperationBySpec();
-        op.execute();
-
-        o.getTableForTableName((String) o.operandList.get(0)).clear();
-        o.getTableForTableName((String) o.operandList.get(0)).addAll(op.getResult());
-      }
-      
-      log.append("Done executing script.\n\n");
-      
-      setProgress(80);
-      
-      log.append("Writing output files.\n");
-      for (Table t : tables) {
-        try {
-          Exporter.export(t, new FileWriter(od.getAbsolutePath() 
-              + "/output_" + t.getName() + ".csv"));
-        } catch (IOException e) {
-          log.append("Error writing file.");
-          e.printStackTrace();
-        }
-      }
-      log.append("Done writing output files.\n\n");
-      
-      setProgress(100);
-
-      return null;
-    }
- 
-    @Override
-    public void done() {
+    } else if ("done" == evt.getPropertyName()) {
       setCursor(null); 
       Toolkit.getDefaultToolkit().beep();
-      log.append("Done!\n");
+      appendToLog("Done!\n");
       previewButton.setEnabled(true);
-    }
-    
-    public Table getTable() {
-      return tables.get(0);
-    }
-    
-    public void setProg(int percent) {
-      setProgress(percent);
+    } else if ("log" == prop) {
+      appendToLog((String) evt.getNewValue());
+    } else if ("error" == prop) {
+      appendToLog((String) evt.getNewValue(), Color.RED);
     }
   }
   
@@ -241,5 +136,25 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   
   public void onExit() {
     dialog.dispose();
+  }
+  
+  
+  private void appendToLog(String message) {
+    appendToLog(message, Color.BLACK);
+  }
+
+  private void appendToLog(String message, Color color) {
+    log.setEditable(true);
+    StyleContext sc = StyleContext.getDefaultStyleContext();
+    AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
+
+    aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
+    aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+    int len = log.getDocument().getLength();
+    log.setCaretPosition(len);
+    log.setCharacterAttributes(aset, false);
+    log.replaceSelection(message);
+    log.setEditable(false);
   }
 }
