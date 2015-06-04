@@ -55,13 +55,9 @@ public class RecordMatchesConditionCondition implements RecordCondition {
   public boolean matches(final Record record) {
     return condition.matches(record.get(column));
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
+  
   @Override
   public String toString() {
-    return "RecordMatchesConditionCondition [column=" + column + ", condition="
-        + condition + "]";
+    return "\"" + column + "\" " + condition.toString();
   }
 }

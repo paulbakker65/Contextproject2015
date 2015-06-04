@@ -59,6 +59,13 @@ public final class Exporter {
     for (final Record r : db) {
       keys.addAll(r.keySet());
     }
+    for (final Record record : db) {
+      for (String key : keys) {
+        if (record.get(key) == null) {
+          record.put(key, new NullValue());
+        }
+      }
+    }
 
     final CSVWriter csvwriter = new CSVWriter(writer, ';');
     csvwriter.writeNext(keys.toArray(new String[keys.size()])); // write
