@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="main.mainUI">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="main.MainUI">
   <grid id="cbd77" binding="contentPane" layout-manager="GridBagLayout">
     <constraints>
       <xy x="48" y="54" width="584" height="556"/>
@@ -35,14 +35,14 @@
               <text value="Remove Selected"/>
             </properties>
           </component>
-          <component id="c7d64" class="main.filesTable" binding="filesTable">
+          <component id="c7d64" class="javax.swing.JTable" binding="filesTable">
             <constraints>
               <grid row="2" column="0" row-span="6" col-span="3" vsize-policy="6" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag top="0" left="0" bottom="0" right="5" weightx="100.0" weighty="1.0"/>
             </constraints>
             <properties>
               <cellSelectionEnabled value="true"/>
-              <columnSelectionAllowed value="true"/>
+              <columnSelectionAllowed value="false"/>
               <showVerticalLines value="true"/>
             </properties>
           </component>
