@@ -105,6 +105,10 @@ public class NumberValue extends Value {
   public void setValue(final double value) {
     this.value = value;
   }
+  
+  public void plusNumber(double value) {
+    this.value += value;
+  }
 
   @Override
   public String toString() {
