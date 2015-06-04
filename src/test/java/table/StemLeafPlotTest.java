@@ -88,6 +88,8 @@ public class StemLeafPlotTest {
         case "0" :
           assertEquals(record, test.get(5));
           break;
+        case "" :
+          assertEquals(record, test.get(5));
         default :
           assertTrue(false);
       }
@@ -114,6 +116,8 @@ public class StemLeafPlotTest {
         case "1" :
           assertEquals(record, test.get(1));
           break;
+        case "" :
+          assertEquals(record, test.get(0));  
         default :
           assertTrue(false);
       }
