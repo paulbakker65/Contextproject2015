@@ -58,16 +58,16 @@ public class StemLeafPlot extends Table {
    *          number represented as string.
    * @return String array with the number supplemented with zero's
    */
-  public String[] createSupplementArray(String number) {
+  public char[] createSupplementArray(String number) {
 
-    String[] characters = number.split("");
-    String[] supplementedCharacters;
+    char[] characters = number.toCharArray();
+    char[] supplementedCharacters;
 
     if (characters.length < order) {
-      supplementedCharacters = new String[order];
+      supplementedCharacters = new char[order];
       int count = 0;
       while (count < order - characters.length) {
-        supplementedCharacters[count] = "0";
+        supplementedCharacters[count] = '0';
         count++;
       }
       int characterCount = 0;
@@ -90,11 +90,11 @@ public class StemLeafPlot extends Table {
    */
   public void addStemLeafValues(ArrayList<String> values) {
     for (String number : values) {
-      String[] array = createSupplementArray(number);
+      char[] array = createSupplementArray(number);
       boolean added = false;
 
-      String stem = array[array.length - order];
-      String leaf = array[array.length - order + 1];
+      String stem = "" + array[array.length - order];
+      String leaf = "" + array[array.length - order + 1];
 
       for (Record record : this) {
         if (record.get("Stem").toString().equals(stem)) {
