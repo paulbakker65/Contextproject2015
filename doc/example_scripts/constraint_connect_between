@@ -1,0 +1,3 @@
+CONSTRAINT [website].[Login] == "admire13"
+CONNECT [website].[Date] TO [sensor].[Date]
+BETWEEN [website].[Measurement] [website].[Date] [sensor].[Date] "Kreatinine (stat)" "Crea" 
