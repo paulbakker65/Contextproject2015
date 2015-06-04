@@ -30,8 +30,9 @@ import java.util.ArrayList;
  *
  */
 public class CodingOperationTest {
-
-  Table table;
+  private Table table;
+  private NullValue nullValue = new NullValue();
+  private ArrayList<Column> cols;
 
   /**
    * Create dummy table.
@@ -39,64 +40,42 @@ public class CodingOperationTest {
   @Before
   public void setUp() {
     table = new Table();
-    final ArrayList<Column> col = new ArrayList<Column>();
-    col.add(new StringColumn("StatSensor"));
-    col.add(new NumberColumn("WebsiteValue"));
-    col.add(new StringColumn("HospitalVisit"));
-    table.add(new Record(col, new Value[] {new StringValue("Crea"), new NullValue(),
-        new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(140), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(150), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(160), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(170), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(180), new NullValue()}));
-    table.add(new Record(col, new Value[] {new StringValue("Crea2"), new NullValue(),
-        new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(140), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(350), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(160), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(470), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(180), new NullValue()}));
-    table.add(new Record(col, new Value[] {new StringValue("Crea2"), new NullValue(),
-        new NullValue()}));
-    table.add(new Record(col, new Value[] {new StringValue("Crea2"), new NullValue(),
-        new NullValue()}));
-    table.add(new Record(col, new Value[] {new StringValue("Crea2"), new NullValue(),
-        new NullValue()}));
-    table.add(new Record(col, new Value[] {new NullValue(), new NullValue(),
-        new StringValue("Erg ziek hoor")}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(160), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(170), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(160), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(170), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(180), new NullValue()}));
-    table.add(new Record(col, new Value[] {new StringValue("Crea2"), new NullValue(),
-        new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(140), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(350), new NullValue()}));
-    table
-        .add(new Record(col, new Value[] {new NullValue(), new NumberValue(160), new NullValue()}));
-    table.add(new Record(col, new Value[] {new StringValue("Crea2"), new NullValue(),
-        new NullValue()}));
-    table.add(new Record(col, new Value[] {new StringValue("Crea2"), new NullValue(),
-        new NullValue()}));
+    cols = new ArrayList<Column>();
+    cols.add(new StringColumn("Measurement"));
+    cols.add(new NumberColumn("Value"));
+    cols.add(new StringColumn("Hospital"));
+    
+    add("StatSensor", new StringValue("Crea"), nullValue, nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(140), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(150), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(170), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(180), nullValue);
+    add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(140), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(350), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(470), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(180), nullValue);
+    add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
+    add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
+    add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
+    add("HospitalVisit", nullValue, nullValue, new StringValue("Erg ziek hoor"));
+    add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(170), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(170), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(180), nullValue);
+    add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(140), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(350), nullValue);
+    add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
+    add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
+    add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
+  }
+  
+  private void add(String tableName, Value... values) {
+    table.add(new Record(cols, values, tableName));
   }
 
   @Test

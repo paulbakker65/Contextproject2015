@@ -107,7 +107,7 @@ public class Parser {
         }
       }
 
-      final Record tuple = new Record(columns, values);
+      final Record tuple = new Record(columns, values, settings.getName());
       connectLinks(timeDateLinks, tuple);
       table.add(tuple);
 
