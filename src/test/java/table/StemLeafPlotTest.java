@@ -64,6 +64,10 @@ public class StemLeafPlotTest {
     test.add(new Record(column, new Value[] { new StringValue("3"), new StringValue("4") }));
     test.add(new Record(column, new Value[] { new StringValue("0"), new StringValue("5") }));
 
+    System.out.println("plot");
+    System.out.println(plot);
+    System.out.println("plot");
+     
     for (Record record : plot) {
       switch (record.get("Stem").toString()) {
         case "1" :
