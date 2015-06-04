@@ -49,15 +49,29 @@ public class StemLeafPlot extends Table {
 
     for (String number : values) {
       String[] characters = number.split("");
+      String[] supplementedCharacters;
       boolean added = false;
 
-      String stem;
       if (characters.length < order) {
-        stem = "0";
+        supplementedCharacters = new String[order];
+        int count = 0;
+        while (count < order - characters.length) {
+          supplementedCharacters[count] = "0";
+          count++;
+        }
+        int characterCount = 0;
+        while (count < order) {
+          supplementedCharacters[count] = characters[characterCount];
+          count++;
+          characterCount++;
+        }
       } else {
-        stem = characters[characters.length - order];
+        supplementedCharacters = characters;
       }
-      String leaf = characters[characters.length - order + 1];
+
+      String stem = supplementedCharacters[supplementedCharacters.length - order];
+      String leaf = supplementedCharacters[supplementedCharacters.length - order + 1];
+
       for (Record record : this) {
         if (record.get("Stem").toString().equals(stem)) {
           String current = record.get("Leaf").toString();
