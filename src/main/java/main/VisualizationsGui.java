@@ -4,9 +4,11 @@ import input.DataFile;
 import input.Input;
 
 import table.StateTransitionMatrix;
+import table.StemLeafPlot;
 import table.Table;
 import table.value.Column;
 import table.value.ColumnTypeMismatchException;
+import table.value.NumberColumn;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,6 +21,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -46,10 +49,14 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   
   private JComboBox<String> comboFrequency;
   private JButton buttonFrequency;
+  private JComboBox<String> comboBar;
   private JButton buttonBar;
   private JButton buttonPie;
   private JComboBox<String> comboStateT;
   private JButton buttonStateT;
+  private JComboBox<String> comboStemLeaf;
+  private JButton buttonStemLeaf;
+  private JTextField textStemLeaf;
 
   private Table table;
   /**
@@ -138,6 +145,9 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     tabbedPane.addTab("Transition Matrix", icon, new JPanel(), "Create a Transition Matrix");
     tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
     
+    tabbedPane.addTab("Stem and Leaf", icon, new JPanel(), "Create a Stem and Leaf plot");
+    tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
+    
     add(filepanel, BorderLayout.PAGE_START);
     add(tabbedPane, BorderLayout.CENTER);
     setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -169,14 +179,25 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   }
   
   private JPanel createBarChartPanel() {
-    buttonBar = new JButton();
-    return new JPanel();
+    JPanel panel = new JPanel();
+    panel.add(new JLabel("Select a column: "));
+    
+    List<Class> allowed = new ArrayList<Class>();
+    allowed.add(NumberColumn.class);
+    comboBar = new JComboBox<String>(getColumns(allowed, false));
+    panel.add(comboBar);
+    
+    buttonBar = new JButton("Start");
+    buttonBar.addActionListener(this);
+    panel.add(buttonBar);
+    
+    return panel;
   }
   
   private JPanel createStateTransitionPanel() {
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
-    
+
     comboStateT = new JComboBox<String>(getColumns());
     panel.add(comboStateT);
     
@@ -187,11 +208,33 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     return panel;
   }
   
+  private JPanel createStemandLeafPanel() {
+    JPanel panel = new JPanel();
+    panel.add(new JLabel("Select a column: "));
+    
+    List<Class> allowed = new ArrayList<Class>();
+    allowed.add(NumberColumn.class);
+    comboStemLeaf = new JComboBox<String>(getColumns(allowed, false));
+    panel.add(comboStemLeaf);
+    
+    panel.add(new JLabel("Power: "));
+    
+    textStemLeaf = new JTextField("2");
+    panel.add(textStemLeaf);
+    
+    buttonStemLeaf = new JButton("Start");
+    buttonStemLeaf.addActionListener(this);
+    panel.add(buttonStemLeaf);
+    
+    return panel;
+  }
+  
   private void updateTabbedPane() {
     tabbedPane.setComponentAt(0, createFrequencyPanel());
     tabbedPane.setComponentAt(1, createBarChartPanel());
     tabbedPane.setComponentAt(2, createPieChartPanel());
     tabbedPane.setComponentAt(3, createStateTransitionPanel());
+    tabbedPane.setComponentAt(4, createStemandLeafPanel());
     
     tabbedPane.setEnabled(true);
   }
@@ -216,8 +259,10 @@ public class VisualizationsGui extends JPanel implements ActionListener{
       onPieChart();
     } else if (src == buttonStateT) {
       onStateT();
-    } 
-  }    
+    } else if (src == buttonStemLeaf) {
+      onStemLeaf();
+    }
+  }      
  
   private void onOpenFile() {   
     File dataFile;
@@ -268,11 +313,21 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   }
 
   private void onFrequency() {
-    
+    /*String column = (String)comboFrequency.getSelectedItem();
+    FrequencyChart fc = new FrequencyChart("Title", table, column);
+    fc.pack();
+    GUI.centreWindow(fc);
+    GUI.setIconImage(fc);
+    fc.setVisible(true);*/
   }
   
   private void onBarChart() {
-    
+    /*String column = (String)comboFrequency.getSelectedItem();
+    BoxPlotChart fc = new BoxPlotChart("Title", table, column);
+    fc.pack();
+    GUI.centreWindow(fc);
+    GUI.setIconImage(fc);
+    fc.setVisible(true);*/
   }
   
   private void onPieChart() {
@@ -291,6 +346,19 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     DisplayTableGui.init(stm);
   }
   
+  private void onStemLeaf() {
+    String column = (String)comboStemLeaf.getSelectedItem();
+    int power = 2;
+    try {
+      power = Integer.parseInt(textStemLeaf.getText());
+    } catch (NumberFormatException exception) {
+      exception.printStackTrace();
+      return;
+    }
+    StemLeafPlot slp = new StemLeafPlot(table, column, power);
+    DisplayTableGui.init(slp);
+  }
+  
 
 
   
@@ -306,14 +374,24 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   
   /**
    * Gives a list of all columns the selected settings file specifies.
+   * @param columntypes A list containing column classes. If set null, all class types are allowed.
+   * @param isblacklist If true columntypes is used as a blacklist, else it is used as a whitelist.
+   * @return Returns all the column names.
    */
-  public String[] getColumns() {
+  private String[] getColumns(List<Class> columntypes, boolean isblacklist) {    
     ArrayList<Column> columnlist = Input.getFiles().get(0).getSettings().getColumns();
-    String[] columns = new String[columnlist.size()];
-    for (int i = 0; i < columnlist.size(); i++) {
-      columns[i] = columnlist.get(i).getName();
+    ArrayList<String> columns = new ArrayList<String>();
+    
+    for (Column column : columnlist) {
+      if (columntypes == null || columntypes.contains(column.getClass()) != isblacklist) {
+        columns.add(column.getName());
+      }
     }
-    return columns;
+    return columns.toArray(new String[0]);
+  }
+  
+  private String[] getColumns() {
+    return getColumns(null, false);
   }
   
   public static void main(String[] argv) {
