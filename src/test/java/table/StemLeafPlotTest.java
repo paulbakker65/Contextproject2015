@@ -69,7 +69,6 @@ public class StemLeafPlotTest {
   @Test
   public void testslPlotPowerThree() {
     final StemLeafPlot plot = new StemLeafPlot(table, "numbers", 3);
-    System.out.println(plot);
     ArrayList<Column> column = new ArrayList<Column>();
     column.add(new StringColumn("Stem"));
     column.add(new StringColumn("Leaf"));
