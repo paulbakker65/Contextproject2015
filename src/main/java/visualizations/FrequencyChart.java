@@ -11,6 +11,7 @@ import org.jfree.data.general.Dataset;
 import table.Chunk;
 import table.Record;
 import table.Table;
+import table.value.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,9 +88,11 @@ public class FrequencyChart extends JFrame {
     if (table.getChunks().size() == 0) {
       System.out.println("Regen chunks");
       // regen chunks
+      
       HashMap<String, List<Record>> chunkhm = new HashMap<String, List<Record>>();
       for (Record r : table) {
-        String chunkname = r.get("Chunk").toString();
+        Value chunkvalue = r.get("Chunk");
+        String chunkname = ( chunkvalue == null ) ? "" : chunkvalue.toString();
         List<Record> chunk = chunkhm.get(chunkname);
         if (chunk == null) {
           chunk = new ArrayList<Record>();
