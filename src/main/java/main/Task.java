@@ -104,7 +104,7 @@ class Task extends SwingWorker<Void, Void> {
     for (OperationSpec o : operationList) {
       Operation op;
       try {
-        op = o.getOperationBySpec();
+        op = o.getOperationForThisSpec();
         op.execute();
         
         o.getTableForTableName((String) o.operandList.get(0)).clear();
