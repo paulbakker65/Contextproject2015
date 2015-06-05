@@ -33,7 +33,7 @@ class Task extends SwingWorker<Void, Void> {
   ArrayList<Table> tables = null;
   
   @Override
-  public Void doInBackground() throws TableNotFoundException {
+  public Void doInBackground() {
     this.firePropertyChange("starting", null, null);
     
     if (!parseFiles()) {
@@ -50,7 +50,7 @@ class Task extends SwingWorker<Void, Void> {
     
     return null;
   }
- 
+  
   @Override
   public void done() {
     this.firePropertyChange("done", null, null);
@@ -101,7 +101,7 @@ class Task extends SwingWorker<Void, Void> {
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
     ArrayList<OperationSpec> operationList = listener.getOpList();
-
+    
     for (OperationSpec o : operationList) {
       Operation op;
       try {
@@ -113,6 +113,7 @@ class Task extends SwingWorker<Void, Void> {
       } catch (TableNotFoundException e) {
         error(e.getMessage());
         e.printStackTrace();
+        
         return false;
       }
     }

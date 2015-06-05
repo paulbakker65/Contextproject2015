@@ -30,6 +30,7 @@ public class StateTransitionMatrix extends Table {
   public StateTransitionMatrix(Table input, String column) {
     this.table = input;
     this.column = column;
+    this.setName("transition matrix for " + table.getName() + "." + column);
     determineUniqueValues();
     createTable();
     countTransitions();
