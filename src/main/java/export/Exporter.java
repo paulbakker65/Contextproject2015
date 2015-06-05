@@ -21,71 +21,37 @@ import java.util.TreeSet;
  * Exporter class that outputs internal datastructures into output files.
  */
 public final class Exporter {
+  static boolean ADD_CODE_FREQUENCY = true;
 
   /**
    * The export method writes a Table to a writer instance.
    *
-   * @param db The Table to be written.
-   * @param writer The writer where the Table has to been written to.
-   * @throws IOException If the writing fails an IOException is thrown.
+   * @param table
+   *          The Table to be written.
+   * @param writer
+   *          The writer where the Table has to been written to.
+   * @throws IOException
+   *           If the writing fails an IOException is thrown.
    */
-  public static void export(final Table db, final Writer writer) throws IOException {
+  public static void export(final Table table, final Writer writer) throws IOException {
+    checkForEmptyKeys(table);
+    checkForChunksColumn(table);
+    checkForCodesColumn(table);
+    checkForEmptyKeys(table);
     
-    if (!db.getChunks().isEmpty()) {
-      for (Chunk c : db.getChunks()) {
-        for (Record r : c) {
-          r.put("Chunk", new StringValue(c.getLabel()));
-        }
-      }
-    }
-    
-    if (!db.getCodes().isEmpty()) {      
-      for (Record r : db) {
-        r.put("Code", new NullValue());
-      }
-      for (Code c : db.getCodes().values()) {
-        Record codeRecord = new Record();
-        codeRecord.put("Code", new StringValue(c.getName() + "=" + c.getFrequency()));
-        db.add(0, codeRecord);
-        for (Table t : c.getEvents()) {
-          for (Record r : t) {
-            r.put("Code", new StringValue(c.getName()));
-          }
-        }
-      }
-    }
-    
-    final Set<String> keys = new TreeSet<String>();
-    for (final Record r : db) {
-      keys.addAll(r.keySet());
-    }
-    for (final Record record : db) {
-      for (String key : keys) {
-        if (record.get(key) == null) {
-          record.put(key, new NullValue());
-        }
-      }
-    }
-
-    final CSVWriter csvwriter = new CSVWriter(writer, ';');
-    csvwriter.writeNext(keys.toArray(new String[keys.size()])); // write
-    // column
-    // names
-
-    for (final Record dr : db) {
-      csvwriter.writeNext(generateRow(dr, keys));
-    }
-    csvwriter.close();
+    writeToFile(table, writer);
   }
 
   /**
    * The generateRow method generates String[] containing all fields of a record.
    *
-   * @param dr The record that we want to convert.
-   * @param columns The columns that the dr record contains.
+   * @param dr
+   *          The record that we want to convert.
+   * @param columns
+   *          The columns that the dr record contains.
    * @return String[] containing all the values of the record dr.
    */
-  public static String[] generateRow(final Record dr, final Set<String> columns) {
+  public static String[] generateRow(final Record dr, final List<String> columns) {
     final List<String> items = new ArrayList<String>();
     for (final String column : columns) {
       final Value value = dr.get(column);
@@ -98,8 +64,73 @@ public final class Exporter {
     return items.toArray(new String[items.size()]);
   }
 
+  private static void checkForChunksColumn(Table table) {
+    if (!table.getChunks().isEmpty()) {
+      for (Chunk chunk : table.getChunks()) {
+        for (Record record : chunk) {
+          record.put("Chunk", new StringValue(chunk.getLabel()));
+        }
+      }
+    }
+  }
+
+  private static void checkForCodesColumn(Table table) {
+    if (!table.getCodes().isEmpty()) {
+      for (Record record : table) {
+        record.put("Code", new NullValue());
+      }
+      for (Code code : table.getCodes().values()) {
+        checkForCodeRecord(table, code);
+
+        for (Table events : code.getEvents()) {
+          for (Record record : events) {
+            record.put("Code", new StringValue(code.getName()));
+          }
+        }
+      }
+    }
+  }
+
+  private static void checkForCodeRecord(Table table, Code code) {
+    if (ADD_CODE_FREQUENCY) {
+      Record codeRecord = new Record();
+      codeRecord.put("Code", new StringValue(code.getName() + "=" + code.getFrequency()));
+      table.add(0, codeRecord);
+    }
+  }
+
+  private static void checkForEmptyKeys(Table table) {
+    Set<String> keySet = new TreeSet<String>();
+    for (final Record record : table) {
+      keySet.addAll(record.keySet());
+    }
+
+    for (final Record record : table) {
+      for (String key : keySet) {
+        if (record.get(key) == null) {
+          record.put(key, new NullValue());
+        }
+      }
+    }
+  }
+
+  private static void writeToFile(Table table, Writer writer) throws IOException {
+    CSVWriter csvWriter = new CSVWriter(writer, ';');
+    List<String> keys = table.get(table.size() - 1).getKeysInOrder();
+
+    // Write column names.
+    csvWriter.writeNext(keys.toArray(new String[keys.size()]));
+
+    // Write records.
+    for (final Record record : table) {
+      csvWriter.writeNext(generateRow(record, keys));
+    }
+    csvWriter.close();
+  }
+
   /**
    * Default private constructor.
    */
-  private Exporter() {}
+  private Exporter() {
+  }
 }
