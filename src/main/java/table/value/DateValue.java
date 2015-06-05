@@ -10,6 +10,10 @@ import java.util.GregorianCalendar;
  *
  */
 public class DateValue extends Value {
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
   private GregorianCalendar value;
 
   /**

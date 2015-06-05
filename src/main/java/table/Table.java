@@ -1,6 +1,8 @@
 package table;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,8 +12,7 @@ import java.util.List;
  * Special ArrayList that contains the records.
  */
 @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "We dont serialize")
-public class Table extends ArrayList<Record> {
-
+public class Table extends ArrayList<Record> implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name;
   private HashMap<String, Code> codes;

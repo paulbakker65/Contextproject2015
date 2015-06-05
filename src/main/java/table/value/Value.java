@@ -1,13 +1,20 @@
 package table.value;
 
+import java.io.Serializable;
+
 /**
  * An abstract class to represent a String Date Time... etc.
  * 
  * @author unset
  *
  */
-public abstract class Value implements Comparable<Value> {
+public abstract class Value implements Comparable<Value>, Serializable {
 
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
+  
   /**
    * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
    * the instance of the Value to pick a specific compareTo overload.
