@@ -58,6 +58,14 @@ public class RecordMatchesConditionCondition implements RecordCondition {
   
   @Override
   public String toString() {
+    return "\"" + column + "\" " + condition.toString();
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
     return "RecordMatchesConditionCondition [column=" + column + ", condition="
         + condition + "]";
   }
