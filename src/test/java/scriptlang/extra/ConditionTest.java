@@ -1,6 +1,7 @@
 package scriptlang.extra;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import enums.CompareOperator;
 
@@ -32,30 +33,29 @@ public class ConditionTest {
   @Test
   public void testEqualsObject() {
     Condition anothercondition = null;
-
     condition = new Condition(CompareOperator.L, new NumberValue(10));
-    assertEquals(true, condition.equals(condition));
-
-    assertEquals(false, condition.equals(anothercondition));
-
-    assertEquals(false, condition.equals(new Object()));
+    
+    assertEquals(condition, condition);
+    assertNotEquals(condition, anothercondition);
+    assertNotEquals(condition, new Object());
 
     anothercondition = new Condition(CompareOperator.LEQ, new NumberValue(10));
-    assertEquals(false, condition.equals(anothercondition));
+    assertNotEquals(condition, anothercondition);
 
     condition.conditionValue = null;
-    assertEquals(false, condition.equals(anothercondition));
+    anothercondition.conditionOperator = CompareOperator.L;
+    assertNotEquals(condition, anothercondition);
 
     anothercondition.conditionValue = null;
-    assertEquals(false, condition.equals(anothercondition));
+    assertEquals(condition, anothercondition);
 
     anothercondition.conditionValue = new NumberValue(10);
     condition.conditionValue = new NumberValue(10);
     anothercondition.conditionOperator = CompareOperator.L;
-    assertEquals(true, condition.equals(anothercondition));
+    assertEquals(condition, anothercondition);
 
     condition.conditionValue = new NumberValue(15);
-    assertEquals(false, condition.equals(anothercondition));
+    assertNotEquals(condition, anothercondition);
   }
 
   @Test
@@ -87,9 +87,20 @@ public class ConditionTest {
 
   @Test
   public void testToString() {
+    condition = new Condition(CompareOperator.EQ, new NumberValue(10));
+    assertEquals("== 10", condition.toString());
+    condition = new Condition(CompareOperator.NEQ, new NumberValue(10));
+    assertEquals("!= 10", condition.toString());
+    condition = new Condition(CompareOperator.LEQ, new NumberValue(10));
+    assertEquals("<= 10", condition.toString());
+    condition = new Condition(CompareOperator.L, new NumberValue(10));
+    assertEquals("< 10", condition.toString());
+    condition = new Condition(CompareOperator.GEQ, new NumberValue(10));
+    assertEquals(">= 10", condition.toString());
     condition = new Condition(CompareOperator.G, new NumberValue(10));
-
-    assertEquals("Condition [condOperator=G, condValue=10]", condition.toString());
+    assertEquals("> 10", condition.toString());
+    condition = new Condition(CompareOperator.ND, new NumberValue(10));
+    assertEquals("? 10", condition.toString());
   }
 
 }

@@ -1,88 +1,62 @@
 package operations.patterns;
 
-import table.value.NumberValue;
-import table.value.StringValue;
+import operations.patterns.condition.RecordCondition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Creating predetermined patterns.
- * 
- * @author paulbakker
- *
  */
 public class PatternFactory {
 
   /**
-   * The patterns that this factory can create.
-   * 
-   * @author paulbakker
-   *
+   * Creates a Pattern based on a list of descriptions.
+   * @param patternDescriptions
+   *        the list of descriptions.
+   * @return the created pattern.
    */
-  public enum PatternEnum {
-    NORMAL_ENTRY, TWO_SENSOR_ONE_WEB, ACTION_DONE, TEST
-  }
-
-  /**
-   * The pattern the factory will create.
-   */
-  private final PatternEnum pe;
-
-  public PatternFactory(final PatternEnum pe) {
-    this.pe = pe;
-  }
-
-  /**
-   * If the website ask for a second measurement, check if the patient does it.
-   * 
-   * @return correct pattern
-   */
-  public Pattern adPattern() {
-    final Pattern endPattern =
-        new SingleOccurrenceValuePattern("Measurement", new StringValue("Kreatinine2 (stat)"));
-    Pattern prevPattern = new SingleOccurrenceValuePattern("KAAI", new NumberValue(1), endPattern);
-
-    for (int i = 0; i < 4; i++) {
-      prevPattern = new SingleOccurrencePattern("CMI_id", prevPattern);
+  public static Pattern createPattern(List<PatternDescription> patternDescriptions) {
+    if (patternDescriptions.isEmpty()) {
+      return new NullPattern();
     }
-
-    return new SingleOccurrencePattern("Useless", new SingleOccurrencePattern("Useless",
-        prevPattern));
+    
+    PatternDescription patternDescription = patternDescriptions.remove(0);
+    Count count = patternDescription.getCount();
+    RecordCondition condition = patternDescription.getCondition();
+    
+    Pattern nextPattern = createPattern(patternDescriptions);
+    Pattern currentPattern = count.createPattern(condition);
+    Pattern lastCurrentPattern = getLastNotNullPattern(currentPattern);
+    lastCurrentPattern.setNextPattern(nextPattern);
+    
+    return currentPattern; 
   }
-
+  
   /**
-   * Using a switch statement the correct pattern is created.
+   * Creates a Pattern using String representations.
+   * This is only used for testing purposes.
    * 
-   * @return correct pattern
+   * @param descriptions 
+   *        list of description strings.
+   * @return
+   *        the created Pattern.
    */
-  public Pattern getPattern() {
-    switch (pe) {
-      case NORMAL_ENTRY: {
-        return nePattern();
-      }
-      case TWO_SENSOR_ONE_WEB: {
-        return new SingleOccurrencePattern("Useless", nePattern());
-      }
-      case ACTION_DONE: {
-        return adPattern();
-      }
-      default:
-        return null;
+  public static Pattern createPattern(String... descriptions) {
+    List<PatternDescription> list = new ArrayList<PatternDescription>();
+    
+    for (int i = 0; i < descriptions.length; i++) {
+      list.add(PatternMatcher.getDescription(descriptions[i]));
     }
+    
+    return createPattern(list);
   }
-
-  /**
-   * Returns the normal behavior pattern of one sensor event and five website entries.
-   * 
-   * @return normal behavior pattern
-   */
-  public Pattern nePattern() {
-    final Pattern endPattern = new SingleOccurrencePattern("CMI_id");
-    Pattern prevPattern = new SingleOccurrencePattern("CMI_id", endPattern);
-
-    for (int i = 0; i < 3; i++) {
-      prevPattern = new SingleOccurrencePattern("CMI_id", prevPattern);
+  
+  private static Pattern getLastNotNullPattern(Pattern pattern) {      
+    while (!(pattern.getNextPattern() instanceof NullPattern)) {
+      pattern = pattern.getNextPattern();
     }
-
-    return new SingleOccurrencePattern("Useless", prevPattern);
+    
+    return pattern;
   }
-
 }

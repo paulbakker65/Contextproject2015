@@ -12,9 +12,9 @@ public class RecordOccurrenceConditionTest {
 
   @Test
   public void testEquals() {
-    final RecordOccurrenceCondition condition = new RecordOccurrenceCondition("Column");
-    final RecordOccurrenceCondition conditionSame = new RecordOccurrenceCondition("Column");
-    final RecordOccurrenceCondition conditionNotSame = new RecordOccurrenceCondition("Column2");
+    final RecordOccurrenceCondition condition = new RecordOccurrenceCondition("TableName");
+    final RecordOccurrenceCondition conditionSame = new RecordOccurrenceCondition("TableName");
+    final RecordOccurrenceCondition conditionNotSame = new RecordOccurrenceCondition("TableName2");
     final String otherClass = "";
 
     assertEquals(condition, condition);
@@ -26,10 +26,10 @@ public class RecordOccurrenceConditionTest {
 
   @Test
   public void testHashCode() {
-    final String column = "Column";
-    final RecordOccurrenceCondition condition = new RecordOccurrenceCondition(column);
+    final String tableName = "TableName";
+    final RecordOccurrenceCondition condition = new RecordOccurrenceCondition(tableName);
 
-    assertEquals(31 + column.hashCode(), condition.hashCode());
+    assertEquals(31 + tableName.hashCode(), condition.hashCode());
   }
 
 }
