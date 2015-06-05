@@ -4,3 +4,5 @@
 *.xls
 *.xlsx
 ~$*
+!test3.csv
+!test3.xml
