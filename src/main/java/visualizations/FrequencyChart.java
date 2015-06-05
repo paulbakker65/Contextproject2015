@@ -20,11 +20,10 @@ import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 
-
 public class FrequencyChart extends JFrame {
 
   private static final long serialVersionUID = 1L;
-  
+
   private Table table;
   private String column;
 
@@ -33,21 +32,26 @@ public class FrequencyChart extends JFrame {
     this.table = table;
     this.column = column;
     
-    Dataset dataset = createDataset();
-    
-    JFreeChart chart = createChart(dataset);
+    Dataset dataset = createDataset(table, column);
+
+    JFreeChart chart = createChart(dataset, column);
 
     ChartPanel chartPanel = new ChartPanel(chart);
-    
+
     chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-    
+
     setContentPane(chartPanel);
   }
-  
-  
-  private Dataset createDataset() {
+
+  /**
+   * Creates a data set for frequency.
+   * @param table source
+   * @param column collumn to check frequency on
+   * @return frequency data set
+   */
+  public static Dataset createDataset(Table table, String column) {
     DefaultCategoryDataset ds = new DefaultCategoryDataset();
-    
+
     for (Chunk ch : extractChunks(table)) {
       HashMap<String, Integer> amount = new HashMap<String, Integer>();
       for (Record r : ch) {
@@ -63,15 +67,20 @@ public class FrequencyChart extends JFrame {
         ds.addValue(e.getValue(), e.getKey(), ch.getLabel());
       }
     }
-    
-    return ds;   
+
+    return ds;
   }
-  
-  
+
   /**
-   * Creates a chart.
+   * Creates a frequency chart.
+   * 
+   * @param dataset
+   *          data set to use
+   * @param column
+   *          Name of column. Just used as label for the axis
+   * @return frequency chart
    */
-  private JFreeChart createChart(Dataset dataset) {
+  public static JFreeChart createChart(Dataset dataset, String column) {
     JFreeChart chart = ChartFactory.createBarChart(column, // chart title
         "Chunk", // domain axis label
         "Frequency", // range axis label
@@ -81,18 +90,17 @@ public class FrequencyChart extends JFrame {
         true, // tooltips?
         false // URLs?
         );
-    return chart;    
+    return chart;
   }
-  
-  private List<Chunk> extractChunks(Table table) {
+
+  private static List<Chunk> extractChunks(Table table) {
     if (table.getChunks().size() == 0) {
-      System.out.println("Regen chunks");
       // regen chunks
-      
+
       HashMap<String, List<Record>> chunkhm = new HashMap<String, List<Record>>();
       for (Record r : table) {
         Value chunkvalue = r.get("Chunk");
-        String chunkname = ( chunkvalue == null ) ? "" : chunkvalue.toString();
+        String chunkname = (chunkvalue == null) ? "" : chunkvalue.toString();
         List<Record> chunk = chunkhm.get(chunkname);
         if (chunk == null) {
           chunk = new ArrayList<Record>();
@@ -102,7 +110,6 @@ public class FrequencyChart extends JFrame {
       }
       int ii = 0;
       for (Entry<String, List<Record>> e : chunkhm.entrySet()) {
-        System.out.println("Chunk added");
         Chunk chunk = new Chunk(ii, e.getKey());
         ii++;
         for (Record r : e.getValue()) {
