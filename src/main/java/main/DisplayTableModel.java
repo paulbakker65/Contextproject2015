@@ -4,6 +4,7 @@ import table.Record;
 import table.Table;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -13,7 +14,7 @@ import javax.swing.table.TableModel;
  */
 public class DisplayTableModel implements TableModel{
   private Table table;
-  private ArrayList<String> columns;
+  private List<String> columns;
 
   /**
    * Used as a TableModel for the JTable in DisplayTablGui.
@@ -22,7 +23,7 @@ public class DisplayTableModel implements TableModel{
   public DisplayTableModel(Table table) {
     this.table = table;
     if (!table.isEmpty()) {
-      columns = new ArrayList<String>(table.get(0).keySet());
+      columns = table.get(table.size() - 1).getKeysInOrder();
     } else {
       columns = new ArrayList<String>();
     }

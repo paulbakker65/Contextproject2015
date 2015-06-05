@@ -7,12 +7,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import table.value.Column;
+import table.value.NullValue;
 import table.value.StringColumn;
 import table.value.StringValue;
 import table.value.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,6 +54,83 @@ public class RecordTest {
     if (result.indexOf("banana") == -1 || result.indexOf("milk") == -1) {
       fail(result);
     }
+  }
+  
+  @Test
+  public void testKeysInOrderPut() {
+    final Record record = new Record();
+    List<String> columns = new ArrayList<String>();
+    columns.add("fruit");
+    columns.add("drink");
+    columns.add("saus");
+    record.put("fruit", new NullValue());
+    record.put("drink", new NullValue());
+    record.put("saus", new NullValue());
+    
+    assertEquals(columns, record.getKeysInOrder());    
+  }
+  
+  @Test
+  public void testKeysInOrderRemove() {
+    final Record record = new Record();
+    List<String> columns = new ArrayList<String>();
+    columns.add("saus");
+    columns.add("fruit");
+    columns.add("drink");    
+    record.put("saus", new NullValue());
+    record.put("fruit", new NullValue());
+    record.put("drink", new NullValue());    
+    
+    assertEquals(columns, record.getKeysInOrder());
+    
+    record.remove("fruit");
+    columns.remove("fruit");
+    assertEquals(columns, record.getKeysInOrder());
+  }
+  
+  @Test
+  public void testKeysInOrderRename() {
+    final Record record = new Record();
+    List<String> columns = new ArrayList<String>();
+    columns.add("fruit");
+    columns.add("saus");    
+    columns.add("drink");    
+    record.put("fruit", new NullValue());
+    record.put("saus", new NullValue());    
+    record.put("drink", new NullValue());    
+    
+    assertEquals(columns, record.getKeysInOrder());
+    
+    record.rename("fruit", "groente");
+    columns.set(0, "groente");
+    assertEquals(columns, record.getKeysInOrder());
+  }
+  
+  @Test
+  public void testKeysInOrderPutExists() {
+    final Record record = new Record();
+    List<String> columns = new ArrayList<String>();
+    columns.add("fruit");
+    columns.add("saus");     
+    record.put("fruit", new NullValue());
+    record.put("saus", new NullValue());    
+    record.put("saus", new NullValue());    
+    
+    assertEquals(columns, record.getKeysInOrder());
+  }
+  
+  @Test
+  public void testKeysInOrderRemoveNotExists() {
+    final Record record = new Record();
+    List<String> columns = new ArrayList<String>();
+    columns.add("fruit");
+    columns.add("saus");     
+    record.put("fruit", new NullValue());
+    record.put("saus", new NullValue());
+    
+    record.remove("groente");
+    
+    assertEquals(columns, record.getKeysInOrder());
   }
 
 }

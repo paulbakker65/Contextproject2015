@@ -1,31 +1,39 @@
 package main;
 
 import exceptions.TableNotFoundException;
+
 import export.Exporter;
+
 import input.DataFile;
 import input.Input;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.SwingWorker;
+
 import operations.Operation;
+
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import scriptlang.AnalysisLangLexer;
 import scriptlang.AnalysisLangParser;
 import scriptlang.extra.OperationSpec;
 import scriptlang.extra.ScriptListener;
+
 import table.Table;
 import table.value.ColumnTypeMismatchException;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.SwingWorker;
 
 class Task extends SwingWorker<Void, Void> {
   ArrayList<Table> tables = null;
 
   @Override
-  public Void doInBackground() throws TableNotFoundException {
+  public Void doInBackground() {
     this.firePropertyChange("starting", null, null);
 
     if (!parseFiles()) {
@@ -71,6 +79,7 @@ class Task extends SwingWorker<Void, Void> {
     }
     log("Done parsing input files.\n\n");
     setProgress(30);
+
     return true;
   }
 
@@ -104,6 +113,7 @@ class Task extends SwingWorker<Void, Void> {
       } catch (TableNotFoundException e) {
         error(e.getMessage());
         e.printStackTrace();
+
         return false;
       }
     }
@@ -119,8 +129,8 @@ class Task extends SwingWorker<Void, Void> {
     log("Writing output files.\n");
     for (Table t : tables) {
       try {
-        Exporter.export(t, new FileWriter(od.getAbsolutePath()
-            + "/output_" + t.getName() + ".csv"));
+        Exporter
+            .export(t, new FileWriter(od.getAbsolutePath() + "/output_" + t.getName() + ".csv"));
       } catch (IOException e) {
         log("Error writing file.");
         e.printStackTrace();
@@ -141,7 +151,11 @@ class Task extends SwingWorker<Void, Void> {
     this.firePropertyChange("error", null, error);
   }
 
-  public Table getTable() {
-    return tables.get(0);
+  public Table getTable(int index) {
+    return tables.get(index);
+  }
+
+  public ArrayList<Table> getTables() {
+    return tables;
   }
 }

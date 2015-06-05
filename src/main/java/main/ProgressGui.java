@@ -1,5 +1,7 @@
 package main;
 
+import table.Table;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -14,6 +16,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -37,6 +40,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   private JButton exitButton;
   private static Task task;
   private static JDialog dialog;
+  private JComboBox<String> comboPreviews;
   
   /**
    * Creates the GUI.
@@ -81,6 +85,9 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
       }
     });
     
+    comboPreviews = new JComboBox<String>();
+    comboPreviews.setEnabled(false);
+    
     exitButton = new JButton("Exit");
     exitButton.addActionListener(new ActionListener(){
       @Override
@@ -94,6 +101,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     
     JPanel panel2 = new JPanel();
     panel2.add(previewButton);
+    panel2.add(comboPreviews);
     panel2.add(exitButton);
  
     add(panel, BorderLayout.PAGE_START);
@@ -122,6 +130,8 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
       Toolkit.getDefaultToolkit().beep();
       appendToLog("Done!\n");
       previewButton.setEnabled(true);
+      setComboItems();
+      comboPreviews.setEnabled(true);      
     } else if ("log" == prop) {
       appendToLog((String) evt.getNewValue());
     } else if ("error" == prop) {
@@ -129,9 +139,14 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     }
   }
   
+  private void setComboItems() {
+    for (Table table : task.getTables()) {
+      comboPreviews.addItem(table.getName());
+    }
+  }
   
   public void onPreview() {
-    DisplayTableGui.init(task.getTable());
+    DisplayTableGui.init(task.getTable(comboPreviews.getSelectedIndex()));
   }
   
   public void onExit() {
