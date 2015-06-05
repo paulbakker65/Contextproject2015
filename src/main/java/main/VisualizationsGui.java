@@ -10,6 +10,8 @@ import table.value.Column;
 import table.value.ColumnTypeMismatchException;
 import table.value.NumberColumn;
 
+import visualizations.FrequencyChart;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -313,12 +315,12 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   }
 
   private void onFrequency() {
-    /*String column = (String)comboFrequency.getSelectedItem();
-    FrequencyChart fc = new FrequencyChart("Title", table, column);
+    String column = (String)comboFrequency.getSelectedItem();
+    FrequencyChart fc = new FrequencyChart("Frequency", table, column);
     fc.pack();
     GUI.centreWindow(fc);
     GUI.setIconImage(fc);
-    fc.setVisible(true);*/
+    fc.setVisible(true);
   }
   
   private void onBarChart() {

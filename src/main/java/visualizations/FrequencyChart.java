@@ -71,9 +71,9 @@ public class FrequencyChart extends JFrame {
    * Creates a chart.
    */
   private JFreeChart createChart(Dataset dataset) {
-    JFreeChart chart = ChartFactory.createBarChart("Code frequency", // chart title
+    JFreeChart chart = ChartFactory.createBarChart(column, // chart title
         "Chunk", // domain axis label
-        "Value", // range axis label
+        "Frequency", // range axis label
         (CategoryDataset) dataset, // data
         PlotOrientation.VERTICAL, // orientation
         true, // include legend
