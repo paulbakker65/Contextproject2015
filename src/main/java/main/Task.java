@@ -31,38 +31,38 @@ import javax.swing.SwingWorker;
 
 class Task extends SwingWorker<Void, Void> {
   ArrayList<Table> tables = null;
-  
+
   @Override
   public Void doInBackground() {
     this.firePropertyChange("starting", null, null);
-    
+
     if (!parseFiles()) {
       return null;
     }
-    
+
     if (!execScript()) {
       return null;
     }
-    
+
     if (!exportFiles()) {
       return null;
     }
-    
+
     return null;
   }
-  
+
   @Override
   public void done() {
     this.firePropertyChange("done", null, null);
   }
-  
+
   private boolean parseFiles() {
     log("Parsing input files.\n");
     tables = new ArrayList<Table>();
-    
+
     int currentprogress = 0;
     int onefileprogress = 30 / Input.getFiles().size();
-    
+
     for (DataFile f : Input.getFiles()) {
       Table table = null;
       try {
@@ -79,10 +79,10 @@ class Task extends SwingWorker<Void, Void> {
     }
     log("Done parsing input files.\n\n");
     setProgress(30);
-    
+
     return true;
   }
-  
+
   private boolean execScript() {
     log("Executing script.\n");
 
@@ -101,36 +101,36 @@ class Task extends SwingWorker<Void, Void> {
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
     ArrayList<OperationSpec> operationList = listener.getOpList();
-    
+
     for (OperationSpec o : operationList) {
       Operation op;
       try {
         op = o.getOperationForThisSpec();
         op.execute();
-        
+
         o.getTableForTableName((String) o.operandList.get(0)).clear();
         o.getTableForTableName((String) o.operandList.get(0)).addAll(op.getResult());
       } catch (TableNotFoundException e) {
         error(e.getMessage());
         e.printStackTrace();
-        
+
         return false;
       }
     }
-    
-    log("Done executing script.\n\n");    
+
+    log("Done executing script.\n\n");
     setProgress(80);
     return true;
   }
-  
+
   private boolean exportFiles() {
     File od = Input.getOutputDir();
-    
+
     log("Writing output files.\n");
     for (Table t : tables) {
       try {
-        Exporter.export(t, new FileWriter(od.getAbsolutePath() 
-            + "/output_" + t.getName() + ".csv"));
+        Exporter
+            .export(t, new FileWriter(od.getAbsolutePath() + "/output_" + t.getName() + ".csv"));
       } catch (IOException e) {
         log("Error writing file.");
         e.printStackTrace();
@@ -141,20 +141,20 @@ class Task extends SwingWorker<Void, Void> {
     setProgress(100);
     return true;
   }
-  
+
   private void log(String message) {
     System.out.println("log: " + message);
     this.firePropertyChange("log", null, message);
   }
-  
+
   private void error(String error) {
     this.firePropertyChange("error", null, error);
   }
-  
+
   public Table getTable(int index) {
     return tables.get(index);
   }
-  
+
   public ArrayList<Table> getTables() {
     return tables;
   }

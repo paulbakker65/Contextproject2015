@@ -35,7 +35,7 @@ public class ExporterTest {
    * 
    */
   @Before
-  public void setUp() {    
+  public void setUp() {
     dummyrow1 = new Record();
     dummyrow1.put("groente", new StringValue("wortel"));
     dummyrow1.put("saus", new StringValue("mayonaise"));
@@ -47,16 +47,16 @@ public class ExporterTest {
     dummydb = new Table();
     dummydb.add(dummyrow1);
     dummydb.add(dummyrow2);
-    
+
     Chunk chunk0 = new Chunk(0, "Chunk 0");
     chunk0.add(dummyrow1);
     Chunk chunk1 = new Chunk(1, "Chunk 1");
     chunk1.add(dummyrow2);
-    
+
     Code code = new Code("codeName");
     Table event = (Table) dummydb.clone();
     code.addEvent(event);
-    
+
     dummydb2 = (Table) dummydb.clone();
     dummydb.addChunk(chunk0);
     dummydb.addChunk(chunk1);
@@ -73,37 +73,36 @@ public class ExporterTest {
   public void testExportWithChunkCodes() throws IOException {
     Exporter.ADD_CODE_FREQUENCY = false;
     final String expected =
-        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n" 
-        + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n" 
-        + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
-    
+        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
+            + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
+            + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
+
     final StringWriter stringWriter = new StringWriter();
     Exporter.export(dummydb, stringWriter);
     assertEquals(expected, stringWriter.toString());
   }
-  
+
   @Test
   public void testExportWithoutChunkCodes() throws IOException {
     Exporter.ADD_CODE_FREQUENCY = false;
     final String expected =
-        "\"fruit\";\"groente\";\"saus\"\n" 
-        + "\"\";\"wortel\";\"mayonaise\"\n" 
-        + "\"banaan\";\"bloemkool\";\"\"\n";
-    
+        "\"fruit\";\"groente\";\"saus\"\n" + "\"\";\"wortel\";\"mayonaise\"\n"
+            + "\"banaan\";\"bloemkool\";\"\"\n";
+
     final StringWriter stringWriter = new StringWriter();
     Exporter.export(dummydb2, stringWriter);
     assertEquals(expected, stringWriter.toString());
   }
-  
+
   @Test
   public void testExportWithCodeRecord() throws IOException {
     Exporter.ADD_CODE_FREQUENCY = true;
     final String expected =
-        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n" 
-        + "\"\";\"\";\"\";\"\";\"codeName=1\"\n"
-        + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n" 
-        + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
-    
+        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
+            + "\"\";\"\";\"\";\"\";\"codeName=1\"\n"
+            + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
+            + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
+
     final StringWriter stringWriter = new StringWriter();
     Exporter.export(dummydb, stringWriter);
     assertEquals(expected, stringWriter.toString());
@@ -111,13 +110,13 @@ public class ExporterTest {
 
   @Test
   public void testGenerateRow1() {
-    final String[] expected = {"", "wortel", "mayonaise"};
+    final String[] expected = { "", "wortel", "mayonaise" };
     assertArrayEquals(expected, Exporter.generateRow(dummyrow1, cols));
   }
 
   @Test
   public void testGenerateRow2() {
-    final String[] expected = {"banaan", "bloemkool", ""};
+    final String[] expected = { "banaan", "bloemkool", "" };
     assertArrayEquals(expected, Exporter.generateRow(dummyrow2, cols));
   }
 }
