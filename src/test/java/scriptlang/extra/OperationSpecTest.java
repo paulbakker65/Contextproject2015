@@ -7,6 +7,7 @@ import enums.CompareOperator;
 
 import exceptions.TableNotFoundException;
 
+import operations.BetweenOperation;
 import operations.ConstraintOperation;
 
 import org.junit.Before;
@@ -120,7 +121,7 @@ public class OperationSpecTest {
   }
 
   @Test
-  public void testGetOperationBySpec() throws TableNotFoundException {
+  public void testgetOperationForThisSpec_Constraint() throws TableNotFoundException {
     final ConstraintOperation op =
         new ConstraintOperation(new Table(), "field", CompareOperator.EQ, new NumberValue(10));
 
@@ -131,9 +132,47 @@ public class OperationSpecTest {
     operationSpec.addOperationOperand(new NumberValue(10));
 
     ConstraintOperation other = new ConstraintOperation(new Table(), null, null, null);
-    other = (ConstraintOperation) operationSpec.getOperationBySpec();
+    other = (ConstraintOperation) operationSpec.getOperationForThisSpec();
     other.setOperationParameters("field", CompareOperator.EQ, new NumberValue(10));
 
+    assertEquals(op, other);
+  }
+
+  @Test
+  public void testgetOperationForThisSpec_Between_1() throws TableNotFoundException {
+    final BetweenOperation op =
+        new BetweenOperation(new Table(), "field", "date1", new NumberValue(10),
+            new NumberValue(20));
+
+    operationSpec.setOperationType(OperationType.BETWEEN);
+    operationSpec.addOperationOperand("table");
+    operationSpec.addOperationOperand("field");
+    operationSpec.addOperationOperand("table");
+    operationSpec.addOperationOperand("date1");
+    operationSpec.addOperationOperand(new NumberValue(10));
+    operationSpec.addOperationOperand(new NumberValue(20));
+
+    BetweenOperation other = (BetweenOperation) operationSpec.getOperationForThisSpec();
+    assertEquals(op, other);
+  }
+
+  @Test
+  public void testgetOperationForThisSpec_Between_2() throws TableNotFoundException {
+    final BetweenOperation op =
+        new BetweenOperation(new Table(), "field", "date1", "date2", new NumberValue(10),
+            new NumberValue(20));
+
+    operationSpec.setOperationType(OperationType.BETWEEN);
+    operationSpec.addOperationOperand("table");
+    operationSpec.addOperationOperand("field");
+    operationSpec.addOperationOperand("table");
+    operationSpec.addOperationOperand("date1");
+    operationSpec.addOperationOperand("table");
+    operationSpec.addOperationOperand("date2");
+    operationSpec.addOperationOperand(new NumberValue(10));
+    operationSpec.addOperationOperand(new NumberValue(20));
+
+    BetweenOperation other = (BetweenOperation) operationSpec.getOperationForThisSpec();
     assertEquals(op, other);
   }
 

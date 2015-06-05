@@ -1,9 +1,7 @@
 package operations.patterns.condition;
 
 import enums.CompareOperator;
-
 import scriptlang.extra.Condition;
-
 import table.Record;
 import table.value.Value;
 
@@ -18,7 +16,7 @@ public class RecordMatchesConditionCondition implements RecordCondition {
     this.column = column;
     this.condition = condition;
   }
-  
+
   public RecordMatchesConditionCondition(final String column, final Value toCompare) {
     this.column = column;
     this.condition = new Condition(CompareOperator.EQ, toCompare);
@@ -55,10 +53,9 @@ public class RecordMatchesConditionCondition implements RecordCondition {
   public boolean matches(final Record record) {
     return condition.matches(record.get(column));
   }
-  
+
   @Override
   public String toString() {
     return "\"" + column + "\" " + condition.toString();
   }
-
 }

@@ -6,6 +6,11 @@ import static org.junit.Assert.assertNotEquals;
 import enums.CalcOperator;
 import enums.CompareOperator;
 
+import operations.patterns.PatternDescription;
+import operations.patterns.SingleCount;
+import operations.patterns.condition.RecordMatchesConditionCondition;
+import operations.patterns.condition.RecordOccurrenceCondition;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -66,9 +71,11 @@ public class ScriptListenerTest {
   }
 
   @Test
-  public void testEnterCode_paramCode_paramContext() {
+  public void testEnterCode_paramCode_paramContext_singlepattern() {
     // Input CODE [field] ON > 10
-    final ANTLRInputStream input = new ANTLRInputStream("CODE [table].[field] ON > 10");
+    final ANTLRInputStream input =
+        new ANTLRInputStream(
+            "CODE [table] ON { 1 [table].[field] > 10 } AS \"tralala\"");
     final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
@@ -81,8 +88,78 @@ public class ScriptListenerTest {
     final OperationSpec op = new OperationSpec(new ArrayList<Table>());
     op.setOperationType(OperationType.CODE);
     op.addOperationOperand("table");
-    op.addOperationOperand("field");
-    op.addOperationOperand(new Condition(CompareOperator.G, new NumberValue(10)));
+
+    ArrayList<PatternDescription> patternList =
+        new ArrayList<PatternDescription>();
+    patternList.add(new PatternDescription(new SingleCount(1),
+        new RecordMatchesConditionCondition("field", new Condition(
+            CompareOperator.G, new NumberValue(10)))));
+
+    op.addOperationOperand(patternList);
+    op.addOperationOperand("tralala");
+    assertEquals(op, operationList.get(0));
+  }
+  
+  @Test
+  public void testEnterCode_paramCode_paramContext_multipattern() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream(
+            "CODE [table] ON { 1 [website] } { 1 [table].[field] > 10 } AS \"tralala\"");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
+    final ArrayList<OperationSpec> operationList = listener.getOpList();
+
+    assertNotEquals(null, operationList);
+    assertEquals(1, operationList.size());
+
+    final OperationSpec op = new OperationSpec(new ArrayList<Table>());
+    op.setOperationType(OperationType.CODE);
+    op.addOperationOperand("table");
+
+    ArrayList<PatternDescription> patternList =
+        new ArrayList<PatternDescription>();
+    patternList.add(new PatternDescription(new SingleCount(1),
+        new RecordOccurrenceCondition("website")));
+    patternList.add(new PatternDescription(new SingleCount(1),
+        new RecordMatchesConditionCondition("field", new Condition(
+            CompareOperator.G, new NumberValue(10)))));
+
+    op.addOperationOperand(patternList);
+    op.addOperationOperand("tralala");
+    assertEquals(op, operationList.get(0));
+  }
+  
+  @Test
+  public void testEnterCode_paramCode_paramContext_multipattern_2() {
+    // Input CODE [field] ON > 10
+    final ANTLRInputStream input =
+        new ANTLRInputStream(
+            "CODE [table] ON { 1 [table].[field] > 10 } { 1 [website] } AS \"tralala\"");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
+    final ArrayList<OperationSpec> operationList = listener.getOpList();
+
+    assertNotEquals(null, operationList);
+    assertEquals(1, operationList.size());
+
+    final OperationSpec op = new OperationSpec(new ArrayList<Table>());
+    op.setOperationType(OperationType.CODE);
+    op.addOperationOperand("table");
+
+    ArrayList<PatternDescription> patternList =
+        new ArrayList<PatternDescription>();
+    patternList.add(new PatternDescription(new SingleCount(1),
+        new RecordMatchesConditionCondition("field", new Condition(
+            CompareOperator.G, new NumberValue(10)))));
+    patternList.add(new PatternDescription(new SingleCount(1),
+        new RecordOccurrenceCondition("website")));
+
+    op.addOperationOperand(patternList);
+    op.addOperationOperand("tralala");
     assertEquals(op, operationList.get(0));
   }
 
@@ -114,7 +191,8 @@ public class ScriptListenerTest {
   public void testEnterCompute_paramCompute_paramContext() {
     // Input COMPUTE [field] <- [field2] * 10
     final ANTLRInputStream input =
-        new ANTLRInputStream("COMPUTE [table].[field] <- [table2].[field2] * 10");
+        new ANTLRInputStream(
+            "COMPUTE [table].[field] <- [table2].[field2] * 10");
     final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
@@ -129,7 +207,8 @@ public class ScriptListenerTest {
     op.setOperationType(OperationType.COMPUTE);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
-    op.addOperationOperand(new Formula("field2", CalcOperator.MULTIPLY, new NumberValue(10)));
+    op.addOperationOperand(new Formula("field2", CalcOperator.MULTIPLY,
+        new NumberValue(10)));
 
     assertEquals(op, operationList.get(0));
   }
@@ -161,7 +240,8 @@ public class ScriptListenerTest {
   @Test
   public void testEnterConstraint_paramConstraint_paramContext() {
     // Input CONSTRAINT [field] < 10
-    final ANTLRInputStream input = new ANTLRInputStream("CONSTRAINT [table].[field] < 10");
+    final ANTLRInputStream input =
+        new ANTLRInputStream("CONSTRAINT [table].[field] < 10");
     final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
@@ -185,7 +265,8 @@ public class ScriptListenerTest {
   public void testEnterConstraint_paramConstraint_paramContext_2() {
     // Input CONSTRAINT [field] <= [field]
     final ANTLRInputStream input =
-        new ANTLRInputStream("CONSTRAINT [table].[field]" + " <= [table2].[field2]");
+        new ANTLRInputStream("CONSTRAINT [table].[field]"
+            + " <= [table2].[field2]");
     final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
@@ -211,7 +292,8 @@ public class ScriptListenerTest {
   public void testEnterConvert_paramConvert_paramContext() {
     // Input CONVERT [field] TO [field2] * [field3]
     final ANTLRInputStream input =
-        new ANTLRInputStream("CONVERT [table].[field] TO [table2].[field2] * [table2].[field3]");
+        new ANTLRInputStream(
+            "CONVERT [table].[field] TO [table2].[field2] * [table2].[field3]");
     final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
@@ -226,7 +308,8 @@ public class ScriptListenerTest {
     op.setOperationType(OperationType.CONVERT);
     op.addOperationOperand("table");
     op.addOperationOperand("field");
-    op.addOperationOperand(new Formula("field2", CalcOperator.MULTIPLY, "field3"));
+    op.addOperationOperand(new Formula("field2", CalcOperator.MULTIPLY,
+        "field3"));
 
     assertEquals(op, operationList.get(0));
   }

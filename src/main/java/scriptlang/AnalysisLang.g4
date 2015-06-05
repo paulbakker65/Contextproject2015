@@ -4,9 +4,9 @@ grammar AnalysisLang;
 import scriptlang.extra.*;
 import enums.*;
 import table.value.*;
-import operations.FilterOperation;
 import java.util.*;
-import java.text.*;
+import operations.patterns.*;
+import operations.patterns.condition.*;
 }
 
 parse
@@ -19,13 +19,15 @@ parse
 //                                   //
 ///////////////////////////////////////
 operation
-: chunk_operation
+: between_operation
+| chunk_operation
 | code_operation
 | connect_operation
 | compare_operation
 | constraint_operation
 | convert_operation
 | compute_operation
+| lsa_operation
 ;
 
 ///////////////////////////////////////
@@ -33,6 +35,10 @@ operation
 // Operation Definitions             //
 //                                   //
 ///////////////////////////////////////
+between_operation
+: 'BETWEEN' param=between_param
+;
+
 chunk_operation
 : 'CHUNK' param=chunk_param
 ;
@@ -41,12 +47,16 @@ code_operation
 : 'CODE' param=code_param
 ;
 
-connect_operation
-: 'CONNECT' param=connect_param
-;
-
 compare_operation
 : 'COMPARE' param=compare_param
+;
+
+compute_operation
+: 'COMPUTE' param=compute_param
+;
+
+connect_operation
+: 'CONNECT' param=connect_param
 ;
 
 constraint_operation
@@ -57,8 +67,16 @@ convert_operation
 : 'CONVERT' param=convert_param
 ;
 
-compute_operation
-: 'COMPUTE' param=compute_param
+lsa_operation
+: 'LSA' param=lsa_param
+;
+
+///////////////////////////////////////
+// Between                           //
+///////////////////////////////////////
+between_param
+: eventcol=field datecol1=field datecol2=field value1=value value2=value
+| eventcol=field datecol1=field value1=value value2=value
 ;
 
 ///////////////////////////////////////
@@ -66,20 +84,20 @@ compute_operation
 ///////////////////////////////////////
 chunk_param
 : fieldparam=field 'USING' rangeparam=range
+| fieldparam=field 'USING' type=chunk_type numberparam=number
+;
+
+chunk_type returns [int i]
+: 'YEAR'  { $i = 0; }
+| 'MONTH' { $i = 1; }
+| 'DAY'   { $i = 2; }
 ;
 
 ///////////////////////////////////////
 // Code                              //
 ///////////////////////////////////////
 code_param
-: fieldparam=field 'ON' conditionparam=condition
-;
-
-///////////////////////////////////////
-// Connect                           //
-///////////////////////////////////////
-connect_param
-: fieldparam=field 'TO' anotherfieldparam=field
+: tableparam=table 'ON' patternparam=pattern 'AS' codenameparam=text
 ;
 
 ///////////////////////////////////////
@@ -87,6 +105,20 @@ connect_param
 ///////////////////////////////////////
 compare_param
 : fieldparam=field opparam=compare_operator anotherfieldparam=field
+;
+
+///////////////////////////////////////
+// Compute                           //
+///////////////////////////////////////
+compute_param
+: fieldparam=field '<-' formulaparam=formula
+;
+
+///////////////////////////////////////
+// Connect                           //
+///////////////////////////////////////
+connect_param
+: fieldparam=field 'TO' anotherfieldparam=field
 ;
 
 ///////////////////////////////////////
@@ -105,10 +137,10 @@ convert_param
 ;
 
 ///////////////////////////////////////
-// Compute                           //
+// Lsa                               //
 ///////////////////////////////////////
-compute_param
-: fieldparam=field '<-' formulaparam=formula
+lsa_param
+: fieldparam=field from=number to=number key=value target=value
 ;
 
 ///////////////////////////////////////
@@ -116,9 +148,30 @@ compute_param
 // Common                            //
 //                                   //
 ///////////////////////////////////////
+table returns [String tablename]
+: '[' tablenameparam=ID ']'                         { $tablename = $tablenameparam.text;  }
+;
+
 field returns [String tablename, String fieldname]
-: '[' tablenameparam=ID '].[' fieldnameparam=ID ']' { $fieldname = $fieldnameparam.text; 
+: '[' tablenameparam=ID '].[' fieldnameparam=ID ']' { $fieldname = $fieldnameparam.text;
                                                       $tablename = $tablenameparam.text; }
+;
+
+pattern returns [ArrayList<PatternDescription> patterndesc]
+@init {
+  $patterndesc = new ArrayList<PatternDescription>();
+}
+: ( '{' countparam=count_pattern recordconditionparam=record_condition '}'  { $patterndesc.add(new PatternDescription($countparam.count, $recordconditionparam.recordcondition)); } )+
+;
+
+record_condition returns [RecordCondition recordcondition]
+: tableparam=table                            { $recordcondition = new RecordOccurrenceCondition($tableparam.tablename); }
+| fieldparam=field conditionparam=condition   { $recordcondition = new RecordMatchesConditionCondition($field.fieldname, $conditionparam.cond); }
+;
+
+count_pattern returns [Count count]
+: wildcard='*'          { $count = new MultipleCount(); }
+| numberparam=NUMBER    { $count = new SingleCount($numberparam.int); }
 ;
 
 number returns [Value val]
@@ -163,21 +216,17 @@ range
 ;
 
 value returns [Value val]
-//: dataparam=date         { $val = $dataparam.val; }
-: numparam=number        { $val = $numparam.val;  }
+: dataparam=date         { $val = $dataparam.val; }
+| numparam=number        { $val = $numparam.val;  }
 | stringparam=text       { $val = $stringparam.val; }
 ;
 
-//date returns [DateValue val]
-//: yearparam=DATE_FIELD_FOUR monthparam=DATE_FIELD_TWO 
-//  dayparam=DATE_FIELD_TWO
-//    {
-//      GregorianCalendar c = new GregorianCalendar();
-//      c.set($yearparam.int, $monthparam.int, $dayparam.int, 0, 0, 0);
-//      c.setTimeInMillis(0);
-//      $val = new DateValue(c.getTime());
-//    }
-//;
+date returns [Value val]
+: 'DATE(' yearparam=NUMBER '-' monthparam=NUMBER '-' dayparam=NUMBER ')' { 
+                                           GregorianCalendar calObj = new GregorianCalendar();
+                                           calObj.set($yearparam.int, $monthparam.int, $dayparam.int); 
+                                           $val = new DateValue(calObj); }
+;
 
 text returns [Value val]
 : stringparam=STRING    { String text = $stringparam.text;
@@ -213,7 +262,7 @@ NUMBER
 
 fragment
 INT
-: '0'..'9'+ 
+: '0'..'9'+
 ;
 
 fragment

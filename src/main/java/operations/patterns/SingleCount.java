@@ -54,4 +54,12 @@ public class SingleCount implements Count {
     }    
     return new SingleConditionPattern(condition, createPattern(condition, --counter));
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "SingleCount [count=" + count + "]";
+  }
 }

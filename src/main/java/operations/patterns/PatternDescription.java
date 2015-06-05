@@ -63,4 +63,13 @@ public class PatternDescription {
     }
     return count.equals(other.count);
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "PatternDescription [count=" + count + ", condition=" + condition
+        + "]";
+  }
 }
