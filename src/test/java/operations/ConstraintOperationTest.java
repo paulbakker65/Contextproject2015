@@ -1,11 +1,18 @@
 package operations;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import enums.CompareOperator;
 
+import operations.patterns.condition.RecordMatchesConditionCondition;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import scriptlang.extra.Condition;
 
 import table.Record;
 import table.Table;
@@ -32,11 +39,9 @@ public class ConstraintOperationTest {
 
   /**
    * Creates a dummy table.
-   * 
-   * @throws Exception if file parsing goes wrong
    */
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     // Table with test data
     dataTable = new Table();
 
@@ -338,5 +343,80 @@ public class ConstraintOperationTest {
   @Test
   public void testGetResult() {
     assertEquals(new Table(), fo.getResult());
+  }
+  
+  @Test
+  public void testSetOperationParameters() {
+    Table input = new Table();
+    String column = "columnName";
+    CompareOperator operator = CompareOperator.EQ;
+    Value toCompare = new StringValue("toCompare");
+    
+    ConstraintOperation operation = new ConstraintOperation(input, column, operator, toCompare);
+    assertTrue(operation.operationParametersSet);
+    operation = new ConstraintOperation(input, column, CompareOperator.ND, toCompare);
+    assertFalse(operation.operationParametersSet);
+    operation = new ConstraintOperation(input, column, null, toCompare);
+    assertFalse(operation.operationParametersSet);
+    operation = new ConstraintOperation(input, column, null, null);
+    assertFalse(operation.operationParametersSet);
+    operation = new ConstraintOperation(input, null, null, null);
+    assertFalse(operation.operationParametersSet);
+  }
+  
+  @Test 
+  public void testEquals() {
+    Table input = new Table();
+    String column = "columnName";
+    CompareOperator operator = CompareOperator.EQ;
+    Value toCompare = new StringValue("toCompare");
+    
+    final ConstraintOperation operation = 
+        new ConstraintOperation(input, column, operator, toCompare);
+    final ConstraintOperation operationSame = 
+        new ConstraintOperation(input, column, operator, toCompare);
+    final ConstraintOperation operationNotSameCond = 
+        new ConstraintOperation(input, column + "diff", operator, toCompare);
+    final ConstraintOperation operationNullCond1 = 
+        new ConstraintOperation(input, null, operator, toCompare);
+    final ConstraintOperation operationNullCond2 = 
+        new ConstraintOperation(input, null, operator, toCompare);
+    final String otherClass = "";
+    
+    assertEquals(operation, operation);
+    assertEquals(operation, operationSame);
+    assertNotEquals(operation, null);
+    assertNotEquals(operation, operationNotSameCond);
+    assertNotEquals(operation, operationNullCond1);
+    assertNotEquals(operationNullCond1, operation);
+    assertEquals(operationNullCond1, operationNullCond2);
+    assertNotEquals(operation, otherClass);
+  }
+  
+  @Test
+  public void testHashCode() {
+    Table input = new Table();
+    String column = "columnName";
+    CompareOperator operator = CompareOperator.EQ;
+    Value toCompare = new StringValue("toCompare");
+    RecordMatchesConditionCondition condition = 
+        new RecordMatchesConditionCondition(column, new Condition(operator, toCompare));
+    
+    ConstraintOperation operation = new ConstraintOperation(input, column, operator, toCompare);
+    ConstraintOperation operationNull = new ConstraintOperation(input, column, null, toCompare);
+    
+    assertEquals(31 + condition.hashCode(), operation.hashCode());
+    assertEquals(31, operationNull.hashCode());
+  }
+  
+  @Test
+  public void testToString() {
+    Table input = new Table();
+    String column = "columnName";
+    CompareOperator operator = CompareOperator.EQ;
+    Value toCompare = new NumberValue(42);
+    
+    ConstraintOperation operation = new ConstraintOperation(input, column, operator, toCompare);
+    assertEquals("ConstraintOperation [condition: \"columnName\" == 42]", operation.toString());
   }
 }
