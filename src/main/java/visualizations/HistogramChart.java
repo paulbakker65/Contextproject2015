@@ -108,13 +108,4 @@ public class HistogramChart extends JFrame {
     return chart;
 
   }
-
-  /**
-   * Getter of the dataset.
-   * 
-   * @return dataset
-   */
-  public HistogramDataset getDataset() {
-    return dataset;
-  }
 }

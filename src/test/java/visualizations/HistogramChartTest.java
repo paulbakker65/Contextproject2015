@@ -38,6 +38,7 @@ public class HistogramChartTest {
     table.add(new Record(col, new Value[] { new NumberValue(46) }));
     table.add(new Record(col, new Value[] { new NumberValue(56) }));
     table.add(new Record(col, new Value[] { new NumberValue(45) }));
+    table.add(new Record(col, new Value[] { new NumberValue(-2) }));
     table.add(new Record(col, new Value[] { new NumberValue(45) }));
     table.add(new Record(col, new Value[] { new NullValue() }));
     table.add(new Record(col, new Value[] { new NumberValue(45) }));
