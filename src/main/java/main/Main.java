@@ -24,8 +24,10 @@ public class Main{
     if (!openGui()) {
       return;
     }
-    
-    ProgressGui.init();    
+
+    ProgressGui.init();
+
+    return;
   }
 
   /**
