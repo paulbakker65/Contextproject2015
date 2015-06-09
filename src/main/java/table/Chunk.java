@@ -1,9 +1,11 @@
 package table;
 
+import java.io.Serializable;
+
 /**
  * A chunk contains a table, index and a label.
  */
-public class Chunk extends Table {
+public class Chunk extends Table implements Serializable {
 
   /**
    * Serial version.

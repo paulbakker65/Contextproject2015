@@ -1,17 +1,23 @@
 package table;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import table.value.Column;
+import table.value.DateColumn;
+import table.value.NumberColumn;
+import table.value.StringColumn;
+import table.value.TimeColumn;
+import table.value.Value;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Special ArrayList that contains the records.
  */
-@SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "We dont serialize")
-public class Table extends ArrayList<Record> {
-
+public class Table extends ArrayList<Record> implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name;
   private HashMap<String, Code> codes;
@@ -42,7 +48,8 @@ public class Table extends ArrayList<Record> {
   /**
    * Adding a chunk to the list of chunks for this table.
    *
-   * @param c chunk to add.
+   * @param c
+   *          chunk to add.
    */
   public void addChunk(final Chunk chunk) {
     chunks.add(chunk);
@@ -51,7 +58,8 @@ public class Table extends ArrayList<Record> {
   /**
    * Adding a code to the hashmap of codes for this table.
    *
-   * @param c code to add.
+   * @param c
+   *          code to add.
    */
   public void addCode(final Code code) {
     codes.put(code.getName(), code);
@@ -67,8 +75,8 @@ public class Table extends ArrayList<Record> {
   }
 
   /**
-   * New equals method that also checks if the list of chunks is equal to that
-   * of the other table. The same for the hashmap of codes.
+   * New equals method that also checks if the list of chunks is equal to that of the other table.
+   * The same for the hashmap of codes.
    */
   @Override
   public boolean equals(final Object obj) {
@@ -168,6 +176,48 @@ public class Table extends ArrayList<Record> {
       this.codes.putAll(((Table) collection).codes);
     }
     return true;
+  }
+
+  /**
+   * Returns the list of present column types.
+   * 
+   * @return the list of present column types.
+   */
+  public List<Column> getColumns() {
+    List<Column> res = new ArrayList<Column>();
+    
+    if (isEmpty()) {
+      return res;
+    }
+    
+    Record record = get(size() - 1);
+
+    for (String name : record.getKeysInOrder()) {
+      Column columnType = getColumnType(name);
+
+      if (columnType != null) {
+        res.add(columnType);
+      }      
+    }
+
+    return res;
+  }
+
+  private Column getColumnType(String name) {
+    Iterator<Record> iterator = iterator();
+    Record finger = iterator.next();
+
+    while (iterator.hasNext() && finger.get(name).isNull()) {
+      finger = iterator.next();
+    }
+
+    return getColumnType(name, finger.get(name));
+  }
+
+  private Column getColumnType(String name, Value value) {
+    return (value.isString() ? new StringColumn(name) : (value.isDate() ? new DateColumn(name)
+        : (value.isNumeric() ? new NumberColumn(name) : (value.isTime() ? new TimeColumn(name)
+            : null))));
   }
 
 }

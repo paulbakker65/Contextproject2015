@@ -1,5 +1,6 @@
 /target/
 /medical/
+/demo_output/
 *.csv
 *.xls
 *.xlsx
