@@ -30,7 +30,7 @@ public class TableFileTest {
   
   @Test
   public void testWriteReadTablePath() throws IOException, ClassNotFoundException {    
-    TableFile.writeTable(table, "medical/testTable");    
+    TableFile.writeTable(table, "src/test/resources/testTable");    
     Table returnTable = TableFile.readTable("medical/testTable");
     
     assertEquals(table, returnTable);    
@@ -38,16 +38,16 @@ public class TableFileTest {
   
   @Test
   public void testWriteReadTableFile() throws IOException, ClassNotFoundException {    
-    TableFile.writeTable(table, "medical/testTable");    
-    Table returnTable = TableFile.readTable(new File("medical/testTable.ser"));
+    TableFile.writeTable(table, "src/test/resources/testTable");    
+    Table returnTable = TableFile.readTable(new File("src/test/resources/testTable.ser"));
     
     assertEquals(table, returnTable);    
   }
   
   @Test
   public void testWriteReadTablePathSer() throws IOException, ClassNotFoundException {    
-    TableFile.writeTable(table, "medical/testTable.ser");    
-    Table returnTable = TableFile.readTable("medical/testTable.ser");
+    TableFile.writeTable(table, "src/test/resources/testTable.ser");    
+    Table returnTable = TableFile.readTable("src/test/resources/testTable.ser");
     
     assertEquals(table, returnTable);    
   }  
