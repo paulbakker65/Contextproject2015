@@ -31,7 +31,7 @@ public class TableFileTest {
   @Test
   public void testWriteReadTablePath() throws IOException, ClassNotFoundException {    
     TableFile.writeTable(table, "src/test/resources/testTable");    
-    Table returnTable = TableFile.readTable("medical/testTable");
+    Table returnTable = TableFile.readTable("src/test/resources/testTable");
     
     assertEquals(table, returnTable);    
   }
