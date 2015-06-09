@@ -18,12 +18,25 @@ public class Table extends ArrayList<Record> {
   private List<Chunk> chunks;
 
   /**
-   * Call the ArrayList constructor and initialize chunks.
+   * Call the ArrayList constructor and initialize own fields.
    */
   public Table() {
     super();
+    name = "";
     chunks = new ArrayList<Chunk>();
     codes = new HashMap<String, Code>();
+  }
+  
+  /**
+   * Constructs a Table by copying the other Table's fields.
+   * @param otherTable
+   *          the other Table.
+   */
+  public Table(Table otherTable) {
+    super();
+    name = new String(otherTable.name);
+    chunks = new ArrayList<Chunk>(otherTable.chunks);
+    codes = new HashMap<String, Code>(otherTable.codes);
   }
 
   /**

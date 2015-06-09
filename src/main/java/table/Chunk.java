@@ -25,8 +25,22 @@ public class Chunk extends Table {
    * @param label Label of the chunk.
    */
   public Chunk(final int index, final String label) {
+    super();
     this.index = index;
     this.label = label;
+  }
+  
+  /**
+   * Constructs a new Chunk copying the old chunk's field and using the new data Table. 
+   * @param oldChunk
+   *          the old chunk to use.
+   * @param newData
+   *          the new data to use.
+   */
+  public Chunk(Chunk oldChunk, Table newData) {
+    super(newData);
+    this.index = oldChunk.index;
+    this.label = new String(oldChunk.label);
   }
 
   /**
