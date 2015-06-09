@@ -6,6 +6,7 @@ import input.Input;
 import table.StateTransitionMatrix;
 import table.StemLeafPlot;
 import table.Table;
+import table.TableFile;
 import table.value.Column;
 import table.value.ColumnTypeMismatchException;
 import table.value.NumberColumn;
@@ -44,6 +45,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   private JTextField datafile;
   private JTextField settings;
   private JButton openfile;
+  private JButton opentable;
   
   private JTabbedPane tabbedPane;
   
@@ -121,6 +123,13 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     gbc.insets = new Insets(0, 0, 0, 0);
     filepanel.add(openfile, gbc);
     
+    opentable = new JButton("Open table");
+    opentable.addActionListener(this);
+    gbc.gridx = 4;
+    gbc.weightx = 0.1;
+    gbc.insets = new Insets(0, 0, 0, 0);
+    filepanel.add(opentable, gbc);
+    
     
     
     tabbedPane = new JTabbedPane();
@@ -182,7 +191,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
     
-    List<Class> allowed = new ArrayList<Class>();
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(NumberColumn.class);
     comboBar = new JComboBox<String>(getColumns(allowed, false));
     panel.add(comboBar);
@@ -212,7 +221,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
     
-    List<Class> allowed = new ArrayList<Class>();
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(NumberColumn.class);
     comboStemLeaf = new JComboBox<String>(getColumns(allowed, false));
     panel.add(comboStemLeaf);
@@ -238,10 +247,6 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     
     tabbedPane.setEnabled(true);
   }
-
-  
-  
-  
   
   /**
    * Dispatch for button presses.
@@ -251,6 +256,8 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     Object src = event.getSource();
     if (src == openfile) {
       onOpenFile();
+    } else if (src == opentable) {
+      onOpenTable();
     } else if (src == buttonFrequency) {
       onFrequency();
     } else if (src == buttonBar) {
@@ -261,7 +268,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
       onStateT();
     } else if (src == buttonStemLeaf) {
       onStemLeaf();
-    }
+    } 
   }      
  
   private void onOpenFile() {   
@@ -271,7 +278,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     dataFile = MainUI.openDataFile();
     if (dataFile == null) {
       return;
-    }
+    }    
 
     settingsFile = MainUI.openSettingsFile();
     if (settingsFile == null) {
@@ -310,6 +317,22 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     settings.setText(settingsFile.getAbsolutePath());
         
     updateTabbedPane();
+  }
+  
+  private void onOpenTable() {
+    File tableFile = MainUI.openTableFile();
+    
+    if (tableFile == null) {
+      return;
+    }
+    
+    try {
+      table = TableFile.readTable(tableFile);
+      updateTabbedPane();
+    } catch (IOException | ClassNotFoundException e) {
+      JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+    
   }
 
   private void onFrequency() {
@@ -373,13 +396,15 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   }
   
   /**
-   * Gives a list of all columns the selected settings file specifies.
-   * @param columntypes A list containing column classes. If set null, all class types are allowed.
-   * @param isblacklist If true columntypes is used as a blacklist, else it is used as a whitelist.
-   * @return Returns all the column names.
+   * Gives a list of all columns the table contains.
+   * @param columntypes 
+   *          a list containing column classes. If set null, all class types are allowed.
+   * @param isblacklist 
+   *          if true, columntypes is used as a blacklist, else it is used as a whitelist.
+   * @return all the column names.
    */
-  private String[] getColumns(List<Class> columntypes, boolean isblacklist) {    
-    ArrayList<Column> columnlist = Input.getFiles().get(0).getSettings().getColumns();
+  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist) { 
+    List<Column> columnlist = table.getColumns();
     ArrayList<String> columns = new ArrayList<String>();
     
     for (Column column : columnlist) {
