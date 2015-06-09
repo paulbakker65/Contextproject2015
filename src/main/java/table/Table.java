@@ -1,7 +1,5 @@
 package table;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import table.value.Column;
 import table.value.DateColumn;
 import table.value.NumberColumn;
@@ -19,7 +17,6 @@ import java.util.List;
 /**
  * Special ArrayList that contains the records.
  */
-@SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "We dont serialize")
 public class Table extends ArrayList<Record> implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name;
