@@ -51,8 +51,7 @@ public class HistogramChartTest {
   
   @Test
   public void testHistogram() {
-    HistogramChart hc = new HistogramChart(table, "numbers", 2);
-    final HistogramDataset dataset = hc.getDataset();
+    HistogramDataset dataset = HistogramChart.createDataset(table, "numbers", 2);
        
     assertEquals(dataset.getY(0, 0), 1.0);
     assertEquals(dataset.getY(0, 1), 3.0);

@@ -22,7 +22,6 @@ public class HistogramChart extends JFrame {
    * Default serial ID.
    */
   private static final long serialVersionUID = 1L;
-  private static Table table;
   private static HistogramDataset dataset;
 
   /**
@@ -32,9 +31,7 @@ public class HistogramChart extends JFrame {
    *          stem leaf plot to make a histogram of.
    */
   public HistogramChart(Table table, String columnName, int power) {
-    HistogramChart.table = table;
-
-    HistogramChart.dataset = createDataset(columnName, power);
+    HistogramChart.dataset = createDataset(table, columnName, power);
 
     JFreeChart chart = createChart(dataset);
 
@@ -55,7 +52,7 @@ public class HistogramChart extends JFrame {
    *          which tenth power has the stem.
    * @return the dataset.
    */
-  protected static HistogramDataset createDataset(String columnName, int power) {
+  protected static HistogramDataset createDataset(Table table, String columnName, int power) {
     double bins = Math.pow(10, power);
 
     HistogramDataset dataset = new HistogramDataset();
