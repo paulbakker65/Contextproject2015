@@ -2,6 +2,7 @@ package net.tudelft.hi.e.computation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.RecordComparator;
@@ -52,9 +53,9 @@ public class ConnectionOperation extends Operation {
 
     // If one table has columns that the other table does not, they will be
     // added with a null value.
-    final ArrayList<String> t1temp = new ArrayList<String>(inputData.get(0).keySet());
-    final ArrayList<String> t1columns = new ArrayList<String>(inputData.get(0).keySet());
-    final ArrayList<String> t2columns = new ArrayList<String>(otherTable.get(0).keySet());
+    final List<String> t1temp = new ArrayList<String>(inputData.get(0).keySet());
+    final List<String> t1columns = new ArrayList<String>(inputData.get(0).keySet());
+    final List<String> t2columns = new ArrayList<String>(otherTable.get(0).keySet());
 
     if (!t1temp.remove(columnName) || !t1columns.remove(columnName)
         || !t2columns.remove(otherColumnName)) {
