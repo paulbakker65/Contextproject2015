@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.SwingWorker;
 import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.computation.Operation;
@@ -92,7 +93,7 @@ class Task extends SwingWorker<Void, Void> {
     ScriptListener listener = new ScriptListener(tables);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
-    ArrayList<OperationSpec> operationList = listener.getOpList();
+    List<OperationSpec> operationList = listener.getOpList();
 
     for (OperationSpec o : operationList) {
       Operation op;
