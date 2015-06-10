@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StateTransitionMatrix extends Table {
 
@@ -10,7 +11,7 @@ public class StateTransitionMatrix extends Table {
   private static final long serialVersionUID = 1L;
   Table table;
   String column;
-  ArrayList<String> uniqueValues;
+  List<String> uniqueValues;
 
   /**
    * Creates a state transition matrix of the given table looking at the column specified.
@@ -46,7 +47,7 @@ public class StateTransitionMatrix extends Table {
    * Create the table with all the values set to zero.
    */
   public void createTable() {
-    ArrayList<Column> col = new ArrayList<Column>();
+    List<Column> col = new ArrayList<Column>();
 
     col.add(new StringColumn("id"));
     for (String id : uniqueValues) {

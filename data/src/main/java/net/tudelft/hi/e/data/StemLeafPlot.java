@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StemLeafPlot extends Table {
 
@@ -9,7 +10,7 @@ public class StemLeafPlot extends Table {
    */
   private static final long serialVersionUID = 1L;
   private Table table;
-  private ArrayList<Column> columns;
+  private List<Column> columns;
   private String column;
   private int order;
 
@@ -33,8 +34,8 @@ public class StemLeafPlot extends Table {
 
   }
 
-  private ArrayList<String> makeStringofNumbers() {
-    ArrayList<String> values = new ArrayList<String>();
+  private List<String> makeStringofNumbers() {
+    List<String> values = new ArrayList<String>();
     for (Record record : table) {
       if (record.get(column).isNumeric()) {
         NumberValue number = (NumberValue) record.get(column);
@@ -82,7 +83,7 @@ public class StemLeafPlot extends Table {
    * @param values
    *          All the values to be checked.
    */
-  public void addStemLeafValues(ArrayList<String> values) {
+  public void addStemLeafValues(List<String> values) {
     for (String number : values) {
       char[] array = createSupplementArray(number);
       boolean added = false;

@@ -69,7 +69,7 @@ public class ExporterTest {
 
   @Test
   public void testExportWithChunkCodes() throws IOException {
-    Exporter.ADD_CODE_FREQUENCY = false;
+    Exporter.setAddCodeFrequency(false);
     final String expected =
         "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
             + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
@@ -82,7 +82,7 @@ public class ExporterTest {
 
   @Test
   public void testExportWithoutChunkCodes() throws IOException {
-    Exporter.ADD_CODE_FREQUENCY = false;
+    Exporter.setAddCodeFrequency(false);
     final String expected =
         "\"fruit\";\"groente\";\"saus\"\n" + "\"\";\"wortel\";\"mayonaise\"\n"
             + "\"banaan\";\"bloemkool\";\"\"\n";
@@ -94,7 +94,7 @@ public class ExporterTest {
 
   @Test
   public void testExportWithCodeRecord() throws IOException {
-    Exporter.ADD_CODE_FREQUENCY = true;
+    Exporter.setAddCodeFrequency(true);
     final String expected =
         "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
             + "\"\";\"\";\"\";\"\";\"codeName=1\"\n"

@@ -74,7 +74,7 @@ public class Record extends HashMap<String, Value> {
    */
   public void rename(final String oldname, final String newname) {
     final Value value = get(oldname);
-    ArrayList<String> newKeysInOrder = new ArrayList<String>(keysInOrder);
+    List<String> newKeysInOrder = new ArrayList<String>(keysInOrder);
     newKeysInOrder.set(newKeysInOrder.indexOf(oldname), newname);
     remove(oldname);
     put(newname, value);

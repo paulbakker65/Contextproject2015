@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Special ArrayList that contains the records.
@@ -12,7 +13,7 @@ public class Table extends ArrayList<Record> {
 
   private static final long serialVersionUID = 1L;
   private String name;
-  private HashMap<String, Code> codes;
+  private Map<String, Code> codes;
   private List<Chunk> chunks;
 
   /**
@@ -47,7 +48,8 @@ public class Table extends ArrayList<Record> {
   public Object clone() {
     final Table table = (Table) super.clone();
     table.chunks = new ArrayList<Chunk>(this.chunks);
-    table.codes = (HashMap<String, Code>) codes.clone();
+    table.codes = (HashMap<String, Code>) ((HashMap<String, Code>) codes).
+            clone();
     return table;
   }
 
@@ -90,7 +92,7 @@ public class Table extends ArrayList<Record> {
   /**
    * Getter for the map of codes.
    */
-  public HashMap<String, Code> getCodes() {
+  public Map<String, Code> getCodes() {
     return this.codes;
   }
 
