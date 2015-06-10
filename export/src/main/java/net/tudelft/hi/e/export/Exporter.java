@@ -21,6 +21,12 @@ import net.tudelft.hi.e.data.Value;
 public final class Exporter {
   private static boolean ADD_CODE_FREQUENCY = true;
 
+  /**
+   * Default private constructor.
+   */
+  private Exporter() {
+  }
+
   public static void setAddCodeFrequency(boolean value) {
     ADD_CODE_FREQUENCY = value;
   }
@@ -127,11 +133,5 @@ public final class Exporter {
       csvWriter.writeNext(generateRow(record, keys));
     }
     csvWriter.close();
-  }
-
-  /**
-   * Default private constructor.
-   */
-  private Exporter() {
   }
 }

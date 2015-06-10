@@ -9,6 +9,20 @@ import org.w3c.dom.Element;
 public abstract class Column {
 
   /**
+   * Each column must have a name.
+   */
+  protected String name;
+
+  /**
+   * Constructs a new column with a name.
+   *
+   * @param name the name of the column.
+   */
+  public Column(final String name) {
+    this.setName(name);
+  }
+
+  /**
    * Create a Column object using an XML Element.
    *
    * @param element Element to be read.
@@ -44,20 +58,6 @@ public abstract class Column {
 
     res.read(element);
     return res;
-  }
-
-  /**
-   * Each column must have a name.
-   */
-  protected String name;
-
-  /**
-   * Constructs a new column with a name.
-   *
-   * @param name the name of the column.
-   */
-  public Column(final String name) {
-    this.setName(name);
   }
 
   /**

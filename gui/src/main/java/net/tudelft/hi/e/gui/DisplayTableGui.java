@@ -22,6 +22,20 @@ public class DisplayTableGui extends JPanel {
   private JTable jtable;
 
   /**
+   * Creates a gui with a table in the center.
+   *
+   * @param table The table object to display.
+   */
+  public DisplayTableGui(Table table) {
+    super(new BorderLayout());
+
+    jtable = new JTable(new DisplayTableModel(table));
+
+    add(new JScrollPane(jtable), BorderLayout.CENTER);
+    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+  }
+
+  /**
    * Creates a gui for the given table.
    * @param table
    *          the table to display.
@@ -61,20 +75,4 @@ public class DisplayTableGui extends JPanel {
     GUI.setIconImage(dialog);
     dialog.setVisible(true);
   }
-
-  /**
-   * Creates a gui with a table in the center.
-   *
-   * @param table
-   *          The table object to display.
-   */
-  public DisplayTableGui(Table table) {
-    super(new BorderLayout());
-
-    jtable = new JTable(new DisplayTableModel(table));
-
-    add(new JScrollPane(jtable), BorderLayout.CENTER);
-    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-  }
-
 }

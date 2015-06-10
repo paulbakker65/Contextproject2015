@@ -55,11 +55,10 @@ public class BoxPlotChart extends JFrame {
    * Creates a chart.
    */
   private JFreeChart createChart(Dataset dataset) {
-    JFreeChart chart = ChartFactory.createBoxAndWhiskerChart("Code frequency", // chart title
+    return ChartFactory.createBoxAndWhiskerChart("Code frequency", // chart title
         "", // domain axis label
         column, // range axis label
         (BoxAndWhiskerCategoryDataset) dataset, // data
         true);
-    return chart;
   }
 }

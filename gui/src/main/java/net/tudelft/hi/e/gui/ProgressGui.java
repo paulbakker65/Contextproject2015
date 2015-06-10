@@ -41,27 +41,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   private JComboBox<String> comboPreviews;
 
   /**
-   * Creates the GUI.
-   */
-  public static void init() {
-    dialog = new JDialog(null, ModalityType.TOOLKIT_MODAL);
-    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-    dialog.setTitle("Working...");
-
-    JComponent contentPane = new ProgressGui();
-    contentPane.setOpaque(true); //content panes must be opaque
-    contentPane.setPreferredSize(new Dimension(800, 600));
-    dialog.setContentPane(contentPane);
-
-    dialog.pack();
-    GUI.setIconImage(dialog);
-    GUI.centreWindow(dialog);
-    dialog.setVisible(true);
-  }
-
-  /**
-   * ProgressGui.init() should be used instead.
-   * Creates all all gui components.
+   * ProgressGui.init() should be used instead. Creates all all gui components.
    */
   public ProgressGui() {
     super(new BorderLayout());
@@ -76,7 +56,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
 
     previewButton = new JButton("Preview Table");
     previewButton.setEnabled(false);
-    previewButton.addActionListener(new ActionListener(){
+    previewButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
         onPreview();
@@ -87,7 +67,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     comboPreviews.setEnabled(false);
 
     exitButton = new JButton("Exit");
-    exitButton.addActionListener(new ActionListener(){
+    exitButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
         onExit();
@@ -110,6 +90,25 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     task = new Task();
     task.addPropertyChangeListener(this);
     task.execute();
+  }
+
+  /**
+   * Creates the GUI.
+   */
+  public static void init() {
+    dialog = new JDialog(null, ModalityType.TOOLKIT_MODAL);
+    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    dialog.setTitle("Working...");
+
+    JComponent contentPane = new ProgressGui();
+    contentPane.setOpaque(true); //content panes must be opaque
+    contentPane.setPreferredSize(new Dimension(800, 600));
+    dialog.setContentPane(contentPane);
+
+    dialog.pack();
+    GUI.setIconImage(dialog);
+    GUI.centreWindow(dialog);
+    dialog.setVisible(true);
   }
 
   /**

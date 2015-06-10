@@ -78,7 +78,7 @@ public class FrequencyChart extends JFrame {
    * @return frequency chart
    */
   public static JFreeChart createChart(Dataset dataset, String column) {
-    JFreeChart chart = ChartFactory.createBarChart(column, // chart title
+    return ChartFactory.createBarChart(column, // chart title
         "Chunk", // domain axis label
         "Frequency", // range axis label
         (CategoryDataset) dataset, // data
@@ -87,7 +87,6 @@ public class FrequencyChart extends JFrame {
         true, // tooltips?
         false // URLs?
         );
-    return chart;
   }
 
   private static List<Chunk> extractChunks(Table table) {

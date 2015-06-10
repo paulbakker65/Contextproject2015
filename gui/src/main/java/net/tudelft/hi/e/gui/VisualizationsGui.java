@@ -56,23 +56,6 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   private JTextField textStemLeaf;
 
   private Table table;
-  /**
-   * Creates the Visualizations GUI.
-   */
-  public static void init() {
-    JFrame frame = new JFrame("Visualizations");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    JComponent contentPane = new VisualizationsGui();
-    contentPane.setOpaque(true);
-    contentPane.setPreferredSize(new Dimension(1024, 600));
-    frame.setContentPane(contentPane);
-
-    frame.pack();
-    GUI.setIconImage(frame);
-    GUI.centreWindow(frame);
-    frame.setVisible(true);
-  }
 
   /**
    * Creates the GUI components, use init() instead.
@@ -81,7 +64,6 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     super(new BorderLayout());
 
     GridBagConstraints gbc;
-
 
     JPanel filepanel = new JPanel();
     filepanel.setLayout(new GridBagLayout());
@@ -118,8 +100,6 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     gbc.insets = new Insets(0, 0, 0, 0);
     filepanel.add(openfile, gbc);
 
-
-
     tabbedPane = new JTabbedPane();
     tabbedPane.setEnabled(false);
     ImageIcon icon = createImageIcon("icon.png");
@@ -127,27 +107,45 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     JPanel emptypanel = new JPanel();
     emptypanel.add(new JLabel("Please select a file first."));
 
-    tabbedPane.addTab("Frequency Bar", icon, emptypanel, "Create a Frequency Bar diagram");
+    tabbedPane.addTab("Frequency Bar", icon, emptypanel,
+            "Create a Frequency Bar diagram");
     tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-
-    tabbedPane.addTab("Box Plot", icon, new JPanel(), "Create a Box Plor diagram");
+    tabbedPane.addTab("Box Plot", icon, new JPanel(),
+            "Create a Box Plor diagram");
     tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
-
 
     tabbedPane.addTab("Pie Chart", icon, new JPanel(), "Create a Pie Chart");
     tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
-
-    tabbedPane.addTab("Transition Matrix", icon, new JPanel(), "Create a Transition Matrix");
+    tabbedPane.addTab("Transition Matrix", icon, new JPanel(),
+            "Create a Transition Matrix");
     tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
 
-    tabbedPane.addTab("Stem and Leaf", icon, new JPanel(), "Create a Stem and Leaf plot");
+    tabbedPane.addTab("Stem and Leaf", icon, new JPanel(),
+            "Create a Stem and Leaf plot");
     tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
 
     add(filepanel, BorderLayout.PAGE_START);
     add(tabbedPane, BorderLayout.CENTER);
     setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+  }
+  /**
+   * Creates the Visualizations GUI.
+   */
+  public static void init() {
+    JFrame frame = new JFrame("Visualizations");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    JComponent contentPane = new VisualizationsGui();
+    contentPane.setOpaque(true);
+    contentPane.setPreferredSize(new Dimension(1024, 600));
+    frame.setContentPane(contentPane);
+
+    frame.pack();
+    GUI.setIconImage(frame);
+    GUI.centreWindow(frame);
+    frame.setVisible(true);
   }
 
 

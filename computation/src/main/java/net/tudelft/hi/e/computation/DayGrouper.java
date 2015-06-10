@@ -14,6 +14,16 @@ import net.tudelft.hi.e.data.RecordComparator;
  */
 public class DayGrouper extends Grouper {
 
+  private final String datecol;
+  private GregorianCalendar curdate;
+  private List<List<Record>> days;
+
+  private List<Record> buffer;
+
+  public DayGrouper(final String datecol) {
+    this.datecol = datecol;
+  }
+
   /**
    * Test if two calendars are on the same day.
    *
@@ -25,16 +35,6 @@ public class DayGrouper extends Grouper {
     return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
         && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
         && cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
-  }
-
-  private final String datecol;
-  private GregorianCalendar curdate;
-  private List<List<Record>> days;
-
-  private List<Record> buffer;
-
-  public DayGrouper(final String datecol) {
-    this.datecol = datecol;
   }
 
   public GregorianCalendar getDate(final Record row) {

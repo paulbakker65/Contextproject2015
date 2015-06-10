@@ -32,7 +32,8 @@ public class NumberColumn extends Column {
   }
 
   @Override
-  public void read(final Element element) throws WrongXmlException {}
+  public void read(final Element element) throws WrongXmlException {
+  }
 
   @Override
   public String toString() {

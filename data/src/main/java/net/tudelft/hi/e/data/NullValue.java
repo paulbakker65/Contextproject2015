@@ -9,7 +9,8 @@ public class NullValue extends Value {
   /**
    * Constructs a new NullValue.
    */
-  public NullValue() {}
+  public NullValue() {
+  }
 
   public int compareToNull(final NullValue other) {
     return 0;
