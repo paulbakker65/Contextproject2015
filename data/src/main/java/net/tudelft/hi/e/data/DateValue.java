@@ -14,7 +14,7 @@ public class DateValue extends Value {
 
   /**
    * Constructs a new DateValue.
-   * 
+   *
    * @param value the stored date.
    */
   public DateValue(final Date value) {
@@ -26,7 +26,7 @@ public class DateValue extends Value {
 
   /**
    * Constructs a new DateValue.
-   * 
+   *
    * @param value the stored date.
    */
   public DateValue(final GregorianCalendar value) {
@@ -35,7 +35,7 @@ public class DateValue extends Value {
 
   /**
    * Adds the time (hours, minutes and milliseconds) to the date value.
-   * 
+   *
    * @param time a calendar representing the time.
    */
   public void addTime(final GregorianCalendar time) {
@@ -76,7 +76,7 @@ public class DateValue extends Value {
 
   /**
    * Returns the stored date.
-   * 
+   *
    * @return the stored date.
    */
   public GregorianCalendar getValue() {
@@ -99,29 +99,9 @@ public class DateValue extends Value {
     return true;
   }
 
-  @Override
-  public boolean isNull() {
-    return false;
-  }
-
-  @Override
-  public boolean isNumeric() {
-    return false;
-  }
-
-  @Override
-  public boolean isString() {
-    return false;
-  }
-
-  @Override
-  public boolean isTime() {
-    return false;
-  }
-
   /**
    * Stores a new date.
-   * 
+   *
    * @param value the new date.
    */
   public void setValue(final Date value) {

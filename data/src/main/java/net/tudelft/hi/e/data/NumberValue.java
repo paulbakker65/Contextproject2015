@@ -9,7 +9,7 @@ public class NumberValue extends Value {
 
   /**
    * Constructs a new NumberValue.
-   * 
+   *
    * @param value the stored number.
    */
   public NumberValue(final double value) {
@@ -18,7 +18,7 @@ public class NumberValue extends Value {
 
   /**
    * Compare this Number to another Number
-   * 
+   *
    * @param other The other Number.
    * @return 1 if this > other, 0 if this == other, -1 if this < other.
    */
@@ -52,7 +52,7 @@ public class NumberValue extends Value {
 
   /**
    * Returns the stored number.
-   * 
+   *
    * @return the stored number.
    */
   public double getValue() {
@@ -73,39 +73,19 @@ public class NumberValue extends Value {
   }
 
   @Override
-  public boolean isDate() {
-    return false;
-  }
-
-  @Override
-  public boolean isNull() {
-    return false;
-  }
-
-  @Override
   public boolean isNumeric() {
     return true;
   }
 
-  @Override
-  public boolean isString() {
-    return false;
-  }
-
-  @Override
-  public boolean isTime() {
-    return false;
-  }
-
   /**
    * Stores a new number value.
-   * 
+   *
    * @param value the new number value.
    */
   public void setValue(final double value) {
     this.value = value;
   }
-  
+
   public void plusNumber(double value) {
     this.value += value;
   }

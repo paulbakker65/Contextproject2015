@@ -26,28 +26,8 @@ public class NullValue extends Value {
   }
 
   @Override
-  public boolean isDate() {
-    return false;
-  }
-
-  @Override
   public boolean isNull() {
     return true;
-  }
-
-  @Override
-  public boolean isNumeric() {
-    return false;
-  }
-
-  @Override
-  public boolean isString() {
-    return false;
-  }
-
-  @Override
-  public boolean isTime() {
-    return false;
   }
 
   @Override

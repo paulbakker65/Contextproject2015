@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 
 /**
  * Case class for representing a time Value.
- * 
+ *
  * @author Robin
  *
  */
@@ -16,7 +16,7 @@ public class TimeValue extends Value {
 
   /**
    * Constructs a new TimeValue.
-   * 
+   *
    * @param value the stored time.
    * @param targetDate the stored target date.
    */
@@ -31,7 +31,7 @@ public class TimeValue extends Value {
 
   /**
    * Constructs a new TimeValue.
-   * 
+   *
    * @param value the stored time.
    * @param targetDate the stored target date.
    */
@@ -82,7 +82,7 @@ public class TimeValue extends Value {
 
   /**
    * Returns the stored time.
-   * 
+   *
    * @return the stored time.
    */
   public GregorianCalendar getValue() {
@@ -102,26 +102,6 @@ public class TimeValue extends Value {
   }
 
   @Override
-  public boolean isDate() {
-    return false;
-  }
-
-  @Override
-  public boolean isNull() {
-    return false;
-  }
-
-  @Override
-  public boolean isNumeric() {
-    return false;
-  }
-
-  @Override
-  public boolean isString() {
-    return false;
-  }
-
-  @Override
   public boolean isTime() {
     return true;
   }
@@ -132,7 +112,7 @@ public class TimeValue extends Value {
 
   /**
    * Stores a new time.
-   * 
+   *
    * @param value the new time.
    */
   public void setValue(final GregorianCalendar value) {

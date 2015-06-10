@@ -2,7 +2,7 @@ package net.tudelft.hi.e.data;
 
 /**
  * An abstract class to represent a String Date Time... etc.
- * 
+ *
  * @author unset
  *
  */
@@ -11,7 +11,7 @@ public abstract class Value implements Comparable<Value> {
   /**
    * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
    * the instance of the Value to pick a specific compareTo overload.
-   * 
+   *
    * @param other Value object to compare to
    * @return 0 if equal to o <br>
    *         -1 if less than o <br>
@@ -54,36 +54,46 @@ public abstract class Value implements Comparable<Value> {
 
   /**
    * Returns whether a Value is a date.
-   * 
+   *
    * @return whether a Value is a date.
    */
-  public abstract boolean isDate();
+  public boolean isDate() {
+    return false;
+  }
 
   /**
    * Returns whether a Value is null, which means that no value is present.
-   * 
+   *
    * @return whether a Value is null.
    */
-  public abstract boolean isNull();
+  public boolean isNull() {
+    return false;
+  }
 
   /**
    * Returns whether a Value is numeric.
-   * 
+   *
    * @return whether a Value is numeric.
    */
-  public abstract boolean isNumeric();
+  public boolean isNumeric() {
+    return false;
+  }
 
   /**
    * Returns whether a Value is a string.
-   * 
+   *
    * @return whether a Value is a string.
    */
-  public abstract boolean isString();
+  public boolean isString() {
+    return false;
+  }
 
   /**
    * Returns whether a Value is a time.
-   * 
+   *
    * @return whether a Value is a time.
    */
-  public abstract boolean isTime();
+  public boolean isTime() {
+    return false;
+  }
 }

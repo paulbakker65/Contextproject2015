@@ -2,7 +2,7 @@ package net.tudelft.hi.e.data;
 
 /**
  * Case class for representing a string Value.
- * 
+ *
  * @author Robin
  *
  */
@@ -11,7 +11,7 @@ public class StringValue extends Value {
 
   /**
    * Constructs a new NumberValue.
-   * 
+   *
    * @param value the stored string.
    */
   public StringValue(final String value) {
@@ -49,7 +49,7 @@ public class StringValue extends Value {
 
   /**
    * Returns the stored string.
-   * 
+   *
    * @return the stored string.
    */
   public String getValue() {
@@ -65,33 +65,13 @@ public class StringValue extends Value {
   }
 
   @Override
-  public boolean isDate() {
-    return false;
-  }
-
-  @Override
-  public boolean isNull() {
-    return false;
-  }
-
-  @Override
-  public boolean isNumeric() {
-    return false;
-  }
-
-  @Override
   public boolean isString() {
     return true;
   }
 
-  @Override
-  public boolean isTime() {
-    return false;
-  }
-
   /**
    * Stores a new number string.
-   * 
+   *
    * @param value the new number string.
    */
   public void setValue(final String value) {
