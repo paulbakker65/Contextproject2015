@@ -1,7 +1,6 @@
 package operations.patterns;
 
 import operations.patterns.condition.RecordCondition;
-import operations.patterns.condition.RecordOccurrenceCondition;
 
 import table.Record;
 import table.Table;
@@ -16,48 +15,24 @@ public class MultipleConditionPattern extends Pattern {
    * Constructor which creates the pattern without a next pattern.
    * 
    * @param condition
-   *        the condition for the pattern.
+   *          the condition for the pattern.
    */
   public MultipleConditionPattern(final RecordCondition condition) {
     super();
     this.condition = condition;
   }
-  
-  /**
-   * Constructor which creates the pattern without a next pattern.
-   * 
-   * @param tableName
-   *        the name of the original table.
-   */
-  public MultipleConditionPattern(final String tableName) {
-    super();
-    this.condition = new RecordOccurrenceCondition(tableName);
-  }
-  
+
   /**
    * Constructor which creates the pattern without a next pattern.
    * 
    * @param condition
-   *        the condition for the pattern.
+   *          the condition for the pattern.
    * @param pattern
-   *        the pattern to use as next pattern.
+   *          the pattern to use as next pattern.
    */
   public MultipleConditionPattern(final RecordCondition condition, final Pattern pattern) {
     super(pattern);
     this.condition = condition;
-  }
-
-  /**
-   * Constructor which creates the pattern with a next pattern.
-   * 
-   * @param tableName
-   *        the name of the original table.
-   * @param pattern
-   *        the pattern to use as next pattern.
-   */
-  public MultipleConditionPattern(final String tableName, final Pattern pattern) {
-    super(pattern);
-    this.condition = new RecordOccurrenceCondition(tableName);
   }
 
   /**
@@ -94,7 +69,7 @@ public class MultipleConditionPattern extends Pattern {
     }
     return false;
   }
-  
+
   private boolean matches(Record record) {
     return condition.matches(record);
   }

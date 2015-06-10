@@ -35,18 +35,6 @@ public class Chunk extends Table implements Serializable {
   }
 
   /**
-   * Constructs a new Chunk copying the old chunk.
-   * 
-   * @param chunk
-   *          the old chunk to use.
-   */
-  public Chunk(Chunk chunk) {
-    super(chunk);
-    this.index = chunk.index;
-    this.label = new String(chunk.label);
-  }
-
-  /**
    * Constructs a new Chunk copying the old chunk's field and using the new data Table.
    * 
    * @param oldChunk
