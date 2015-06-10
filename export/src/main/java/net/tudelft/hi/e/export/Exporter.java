@@ -19,7 +19,7 @@ import net.tudelft.hi.e.data.Value;
  * Exporter class that outputs internal datastructures into output files.
  */
 public final class Exporter {
-  public static boolean ADD_CODE_FREQUENCY = true;
+  public static final boolean ADD_CODE_FREQUENCY = true;
 
   /**
    * The export method writes a Table to a writer instance.
