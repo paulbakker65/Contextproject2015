@@ -1,8 +1,9 @@
-/target/
-/medical/
+*/target/
+*/medical/
 *.csv
 *.xls
 *.xlsx
 ~$*
 !test3.csv
 !test3.xml
+*.DS_Store
