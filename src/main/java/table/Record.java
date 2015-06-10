@@ -24,12 +24,12 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
    * Creates a Record.
    * 
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record() {
     this("");
   }
-  
+
   /**
    * Creates a Record.
    */
@@ -41,47 +41,60 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
   /**
    * Creates a Record.
    * 
-   * @param columns 
-   *        The list of column names.
-   * @param values 
-   *        An array of values.
+   * @param columns
+   *          The list of column names.
+   * @param values
+   *          An array of values.
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record(final List<Column> columns, final Value[] values) {
     this(columns, values, "");
   }
-  
+
   /**
    * Creates a Record.
    * 
-   * @param columns 
-   *        The list of column names.
-   * @param values 
-   *        An array of values.
+   * @param columns
+   *          The list of column names.
+   * @param values
+   *          An array of values.
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record(final List<Column> columns, final Value[] values, String tableName) {
     super();
     this.tableName = tableName;
-    
+
     for (int i = 0; i < columns.size(); i++) {
       this.put(columns.get(i).getName(), values[i]);
-    }   
+    }
+  }
+
+  /**
+   * Creates a record by copying the other record.
+   * 
+   * @param otherRecord
+   *          the record to copy.
+   */
+  public Record(Record otherRecord) {
+    super(otherRecord);
+    this.tableName = new String(otherRecord.tableName);
   }
 
   /**
    * Renames a column name/key
    * 
-   * @param oldName The key to replace.
-   * @param newName The new name to use.
+   * @param oldName
+   *          The key to replace.
+   * @param newName
+   *          The new name to use.
    */
   public void rename(final String oldName, final String newName) {
     LinkedHashMap<String, Value> entries = new LinkedHashMap<String, Value>(this);
     clear();
-    
-    for (String key : entries.keySet()) {      
+
+    for (String key : entries.keySet()) {
       if (key.equals(oldName)) {
         put(newName, entries.get(key));
       } else {
@@ -104,14 +117,16 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
 
   /**
    * Returns the original file name.
+   * 
    * @return the original file name.
    */
   public String getTableName() {
     return tableName;
-  }  
+  }
 
   /**
    * Returns the list of keys in the order they are inserted.
+   * 
    * @return the list of keys in the order they are inserted.
    */
   public List<String> getKeysInOrder() {
