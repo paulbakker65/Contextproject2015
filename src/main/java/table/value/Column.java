@@ -40,6 +40,7 @@ public abstract class Column {
       case "time":
         res = new TimeColumn(name);
         break;
+      case "string":
       case "":
         res = new StringColumn(name);
         break;
@@ -128,4 +129,6 @@ public abstract class Column {
   public String toString() {
     return "name: " + name;
   }
+  
+  public abstract String getType();
 }
