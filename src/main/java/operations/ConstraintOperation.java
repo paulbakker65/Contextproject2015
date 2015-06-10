@@ -21,54 +21,55 @@ public class ConstraintOperation extends Operation {
 
   /**
    * Creates an operation for filtering data.
+   * 
    * @param dataset
-   *        the table to filter.
+   *          the table to filter.
    * @param columnName
-   *        the column name to which this constraint applies.
+   *          the column name to which this constraint applies.
    * @param constraintType
-   *        the type of constraint as defined in {@link CompareOperator}.
+   *          the type of constraint as defined in {@link CompareOperator}.
    * @param constraintValue
-   *        constraintValue the value which the constraint must meet.
+   *          constraintValue the value which the constraint must meet.
    */
   public ConstraintOperation(final Table dataset, final String columnName,
       final CompareOperator constraintType, final Value constraintValue) {
     super(dataset);
     setOperationParameters(columnName, constraintType, constraintValue);
   }
-  
+
   @Override
   public void resetData(Table inputData) {
     this.inputData = inputData;
     this.resultData = new Table(inputData);
     this.resultData.clear();
   }
-  
+
   /**
    * Set operation parameters for the constraint operation.
    * 
-   * @param columnName 
-   *        the column name to which this constraint applies
-   * @param constraintType 
-   *        the type of constraint as defined in {@link ConstraintComparatorEnum}
-   * @param constraintValue 
-   *        the value which the constraint must meet
+   * @param columnName
+   *          the column name to which this constraint applies
+   * @param constraintType
+   *          the type of constraint as defined in {@link ConstraintComparatorEnum}
+   * @param constraintValue
+   *          the value which the constraint must meet
    * @return <b>true</b> iff this.operationParametersSet is <b>true</b><br>
    *         <b>false</b> iff this.operationParametersSet is <b>false</b><br>
    */
   public boolean setOperationParameters(final String columnName,
       final CompareOperator constraintType, final Value constraintValue) {
-    if (columnName == null || constraintValue == null
-        || constraintType == null || constraintType == CompareOperator.ND) {
+    if (columnName == null || constraintValue == null || constraintType == null
+        || constraintType == CompareOperator.ND) {
       this.operationParametersSet = false;
     } else {
       Condition condition = new Condition(constraintType, constraintValue);
       this.recordCondition = new RecordMatchesConditionCondition(columnName, condition);
       this.operationParametersSet = true;
     }
-    
+
     return this.operationParametersSet;
   }
-  
+
   /**
    * Execute the operation. before the operation can be executed the setConstraint() function must
    * be called. this function fails if this.comparator is not set or set to ND
@@ -91,7 +92,7 @@ public class ConstraintOperation extends Operation {
     }
     return true;
   }
-  
+
   /**
    * Getter for the result data.
    * 
@@ -118,8 +119,8 @@ public class ConstraintOperation extends Operation {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final ConstraintOperation other = (ConstraintOperation) obj;    
-    
+    final ConstraintOperation other = (ConstraintOperation) obj;
+
     if (recordCondition == null) {
       if (other.recordCondition != null) {
         return false;
@@ -141,7 +142,7 @@ public class ConstraintOperation extends Operation {
     int result = 1;
     result = prime * result + ((recordCondition == null) ? 0 : recordCondition.hashCode());
     return result;
-  }  
+  }
 
   /*
    * (non-Javadoc)

@@ -24,12 +24,18 @@ public class BetweenOperation extends Operation {
   /**
    * Creates a new lag operation that compares the time between each couple of event 1 and 2.
    * 
-   * @param inputDataset Table containing the input data.
-   * @param eventcol Column where the type of the event is stored
-   * @param datecol Column where the timing of the first event is stored
-   * @param datecol2 Column where the timing of the second event is stored
-   * @param ev1val Event 1 identifier
-   * @param ev2val Event 2 identifiter
+   * @param inputDataset
+   *          Table containing the input data.
+   * @param eventcol
+   *          Column where the type of the event is stored
+   * @param datecol
+   *          Column where the timing of the first event is stored
+   * @param datecol2
+   *          Column where the timing of the second event is stored
+   * @param ev1val
+   *          Event 1 identifier
+   * @param ev2val
+   *          Event 2 identifiter
    */
   public BetweenOperation(final Table inputDataset, final String eventcol, final String datecol,
       final String datecol2, final Value ev1val, final Value ev2val) {
@@ -44,17 +50,22 @@ public class BetweenOperation extends Operation {
   /**
    * Creates a new lag operation that compares the time between each couple of event 1 and 2.
    * 
-   * @param inputDataset Table containing the input data.
-   * @param eventcol Column where the type of the event is stored
-   * @param datecol Column where the timing of the event is stored
-   * @param ev1val Event 1 identifier
-   * @param ev2val Event 2 identifiter
+   * @param inputDataset
+   *          Table containing the input data.
+   * @param eventcol
+   *          Column where the type of the event is stored
+   * @param datecol
+   *          Column where the timing of the event is stored
+   * @param ev1val
+   *          Event 1 identifier
+   * @param ev2val
+   *          Event 2 identifiter
    */
   public BetweenOperation(final Table inputDataset, final String eventcol, final String datecol,
       final Value ev1val, final Value ev2val) {
     this(inputDataset, eventcol, datecol, datecol, ev1val, ev2val);
   }
-  
+
   @Override
   public void resetData(Table inputData) {
     this.inputData = inputData;
@@ -113,7 +124,9 @@ public class BetweenOperation extends Operation {
     return ev2val.equals(inputData.get(index).get(eventcol));
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
@@ -122,7 +135,9 @@ public class BetweenOperation extends Operation {
         + eventcol + ", ev1val=" + ev1val + ", ev2val=" + ev2val + "]";
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -137,7 +152,9 @@ public class BetweenOperation extends Operation {
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override

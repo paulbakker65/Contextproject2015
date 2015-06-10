@@ -23,13 +23,14 @@ public class CodingOperation extends Operation {
   /**
    * Constructor only calls the super class.
    * 
-   * @param inputDataset Table containing the input data.
+   * @param inputDataset
+   *          Table containing the input data.
    */
   public CodingOperation(final Table inputDataset, final Pattern pattern, final String name) {
     super(inputDataset);
     setOperationParameters(pattern, name);
   }
-  
+
   @Override
   public void resetData(Table inputData) {
     this.inputData = inputData;
@@ -73,8 +74,10 @@ public class CodingOperation extends Operation {
   /**
    * Setting the parameters of the operation.
    * 
-   * @param pattern The pattern to use.
-   * @param name The name for the coding.
+   * @param pattern
+   *          The pattern to use.
+   * @param name
+   *          The name for the coding.
    * @return true if set
    */
   public boolean setOperationParameters(final Pattern pattern, final String name) {

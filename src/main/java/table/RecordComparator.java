@@ -14,7 +14,8 @@ public class RecordComparator implements Comparator<Record> {
   /**
    * Makes a new Record comparator.
    * 
-   * @param col the column to compare on
+   * @param col
+   *          the column to compare on
    */
   public RecordComparator(final String col) {
     this.col = col;

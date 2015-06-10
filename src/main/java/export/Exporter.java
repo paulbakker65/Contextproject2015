@@ -41,7 +41,7 @@ public final class Exporter {
     FileWriter writer = new FileWriter(path + extension);
     Table exportTable = new Table(table);
     TableFile.writeTable(table, path);
-    export(exportTable, writer);    
+    export(exportTable, writer);
   }
 
   /**
@@ -54,7 +54,7 @@ public final class Exporter {
    * @throws IOException
    *           If the writing fails an IOException is thrown.
    */
-  public static void export(final Table table, final Writer writer) throws IOException {    
+  public static void export(final Table table, final Writer writer) throws IOException {
     checkForEmptyKeys(table);
     checkForChunksColumn(table);
     checkForCodesColumn(table);
@@ -88,7 +88,7 @@ public final class Exporter {
   private static void checkForChunksColumn(Table table) {
     checkForChunksColumn(table.getChunks(), 0);
   }
-  
+
   private static void checkForChunksColumn(List<Chunk> chunks, int depth) {
     if (!chunks.isEmpty()) {
       for (Chunk chunk : chunks) {
@@ -97,7 +97,7 @@ public final class Exporter {
         }
         checkForChunksColumn(chunk.getChunks(), depth + 1);
       }
-    }   
+    }
   }
 
   private static void checkForCodesColumn(Table table) {

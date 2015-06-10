@@ -24,10 +24,11 @@ public abstract class Operation {
    * standard constructor setting inputDataset by parameter inputDataset and initialize resultData
    * to an empty dataset. All but the records from the input data are copied.
    * 
-   * @param inputDataset the input dataset
+   * @param inputDataset
+   *          the input dataset
    */
   public Operation(final Table inputDataset) {
-    resetData(inputDataset);    
+    resetData(inputDataset);
     this.operationParametersSet = false;
   }
 
@@ -44,7 +45,7 @@ public abstract class Operation {
    * @return result dataset
    */
   public abstract Table getResult();
-  
+
   /**
    * abstract for resetting the input and result data.
    */

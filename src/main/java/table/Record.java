@@ -25,12 +25,12 @@ public class Record extends HashMap<String, Value> implements Serializable {
    * Creates a Record.
    * 
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record() {
     this("");
   }
-  
+
   /**
    * Creates a Record.
    */
@@ -43,42 +43,44 @@ public class Record extends HashMap<String, Value> implements Serializable {
   /**
    * Creates a Record.
    * 
-   * @param columns 
-   *        The list of column names.
-   * @param values 
-   *        An array of values.
+   * @param columns
+   *          The list of column names.
+   * @param values
+   *          An array of values.
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record(final List<Column> columns, final Value[] values) {
     this(columns, values, "");
   }
-  
+
   /**
    * Creates a Record.
    * 
-   * @param columns 
-   *        The list of column names.
-   * @param values 
-   *        An array of values.
+   * @param columns
+   *          The list of column names.
+   * @param values
+   *          An array of values.
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record(final List<Column> columns, final Value[] values, String tableName) {
     super();
     this.tableName = tableName;
     this.keysInOrder = new ArrayList<String>();
-    
+
     for (int i = 0; i < columns.size(); i++) {
       this.put(columns.get(i).getName(), values[i]);
-    }   
+    }
   }
 
   /**
    * Renames a column name/key
    * 
-   * @param oldname The key to replace.
-   * @param newname The new name to use.
+   * @param oldname
+   *          The key to replace.
+   * @param newname
+   *          The new name to use.
    */
   public void rename(final String oldname, final String newname) {
     final Value value = get(oldname);
@@ -103,31 +105,32 @@ public class Record extends HashMap<String, Value> implements Serializable {
 
   /**
    * Returns the original file name.
+   * 
    * @return the original file name.
    */
   public String getTableName() {
     return tableName;
   }
-  
+
   @Override
   public Value put(String key, Value value) {
     Value result = super.put(key, value);
-    
+
     if (result == null) {
       keysInOrder.add(key);
     }
-    
+
     return result;
   }
-  
+
   @Override
   public Value remove(Object key) {
     Value result = super.remove(key);
-    
+
     if (result != null) {
       keysInOrder.remove(key);
     }
-    
+
     return result;
   }
 

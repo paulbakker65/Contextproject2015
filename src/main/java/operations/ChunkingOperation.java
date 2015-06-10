@@ -38,13 +38,14 @@ public class ChunkingOperation extends Operation {
    * Constructor that calls the Operation class to set the inputData and create an the colums for
    * the new table.
    * 
-   * @param input Table containing the input data.
+   * @param input
+   *          Table containing the input data.
    */
   public ChunkingOperation(final Table input, final String columnName, final ChunkType cce) {
     super(input);
     setOperationParameters(columnName, cce);
   }
-  
+
   @Override
   public void resetData(Table inputData) {
     this.inputData = inputData;
@@ -87,7 +88,8 @@ public class ChunkingOperation extends Operation {
   /**
    * Returns a chunkcondition, which returns true if no new chunk is needed.
    * 
-   * @param cce , on what to chunk
+   * @param cce
+   *          , on what to chunk
    */
   public ChunkCondition getCondition(final ChunkType cce) {
     switch (cce) {

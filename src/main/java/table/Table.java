@@ -32,9 +32,10 @@ public class Table extends ArrayList<Record> implements Serializable {
     chunks = new ArrayList<Chunk>();
     codes = new HashMap<String, Code>();
   }
-  
+
   /**
    * Constructs a Table by copying the other Table's fields.
+   * 
    * @param otherTable
    *          the other Table.
    */
@@ -107,15 +108,16 @@ public class Table extends ArrayList<Record> implements Serializable {
   public HashMap<String, Code> getCodes() {
     return this.codes;
   }
-  
+
   /**
    * Setter for the map of codes.
+   * 
    * @param codes
    *          the new codes.
    */
-//  public void setCodes(HashMap<String, Code> codes) {
-//    this.codes = codes;
-//  }
+  // public void setCodes(HashMap<String, Code> codes) {
+  // this.codes = codes;
+  // }
 
   /**
    * Getter for name.
@@ -175,11 +177,11 @@ public class Table extends ArrayList<Record> implements Serializable {
    */
   public List<Column> getColumns() {
     List<Column> res = new ArrayList<Column>();
-    
+
     if (isEmpty()) {
       return res;
     }
-    
+
     Record record = get(size() - 1);
 
     for (String name : record.getKeysInOrder()) {
@@ -187,7 +189,7 @@ public class Table extends ArrayList<Record> implements Serializable {
 
       if (columnType != null) {
         res.add(columnType);
-      }      
+      }
     }
 
     return res;

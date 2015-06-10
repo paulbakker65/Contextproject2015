@@ -27,7 +27,7 @@ public class ForEachChunkOperationTest {
   private Operation toExecute;
   private List<Chunk> chunks;
   private int chunkIndex;
-  
+
   /**
    * Setup for the mock object.
    */
@@ -40,48 +40,48 @@ public class ForEachChunkOperationTest {
       @Override
       public Chunk answer(final InvocationOnMock invocation) {
         return getChunk();
-      }      
+      }
     });
   }
-  
+
   private Chunk getChunk() {
     return chunks.get(chunkIndex++);
   }
-  
+
   @Test
   public void testConstructor() {
     Table table = new Table();
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 1, toExecute);
-    
+
     assertNotNull(operation);
     assertEquals(table, operation.inputData);
     assertEquals(1, operation.chunkDepth);
     assertEquals(toExecute, operation.operation);
     assertTrue(operation.operationParametersSet);
   }
-  
+
   @Test
   public void testConstructorWrongParams() {
     Table table = new Table();
-    ForEachChunkOperation operation = new ForEachChunkOperation(table, 0, toExecute);    
+    ForEachChunkOperation operation = new ForEachChunkOperation(table, 0, toExecute);
     assertFalse(operation.operationParametersSet);
-    
-    operation = new ForEachChunkOperation(table, 1, null);    
+
+    operation = new ForEachChunkOperation(table, 1, null);
     assertFalse(operation.operationParametersSet);
   }
-  
+
   @Test
   public void testGetChunksEmpty() {
     Table table = new Table();
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 1, toExecute);
     List<List<Chunk>> expected = new ArrayList<List<Chunk>>();
-    
+
     assertEquals(expected, operation.getChunks());
-    
+
     operation = new ForEachChunkOperation(table, 2, toExecute);
     assertEquals(expected, operation.getChunks());
   }
-  
+
   @Test
   public void testGetChunksFirstDepth() {
     Table table = new Table();
@@ -90,13 +90,13 @@ public class ForEachChunkOperationTest {
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 1, toExecute);
     List<List<Chunk>> expected = new ArrayList<List<Chunk>>();
     expected.add(new ArrayList<Chunk>(Arrays.asList(chunk)));
-    
+
     assertEquals(expected, operation.getChunks());
-    
+
     operation = new ForEachChunkOperation(table, 2, toExecute);
     assertEquals(expected, operation.getChunks());
   }
-  
+
   @Test
   public void testGetChunksSecondDepth() {
     Table table = new Table();
@@ -107,13 +107,13 @@ public class ForEachChunkOperationTest {
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 2, toExecute);
     List<List<Chunk>> expected = new ArrayList<List<Chunk>>();
     expected.add(new ArrayList<Chunk>(Arrays.asList(chunk00)));
-    
+
     assertEquals(expected, operation.getChunks());
-    
+
     operation = new ForEachChunkOperation(table, 6, toExecute);
     assertEquals(expected, operation.getChunks());
   }
-  
+
   @Test
   public void testGetChunksThirdDepth() {
     Table table = new Table();
@@ -126,30 +126,30 @@ public class ForEachChunkOperationTest {
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 3, toExecute);
     List<List<Chunk>> expected = new ArrayList<List<Chunk>>();
     expected.add(new ArrayList<Chunk>(Arrays.asList(chunk000)));
-    
+
     assertEquals(expected, operation.getChunks());
-    
+
     operation = new ForEachChunkOperation(table, 1, toExecute);
     expected = new ArrayList<List<Chunk>>();
     expected.add(new ArrayList<Chunk>(Arrays.asList(chunk0)));
     assertEquals(expected, operation.getChunks());
   }
-  
+
   @Test
   public void testMaxDepth() {
     Table table = new Table();
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 1, toExecute);
     assertEquals(0, operation.maxDepth(table));
-    
+
     Chunk chunk = new Chunk(0, "Chunk 0");
     table.addChunk(chunk);
     assertEquals(1, operation.maxDepth(table));
-    
+
     Chunk chunkSecond = new Chunk(1, "Chunk 1");
     chunk.addChunk(chunkSecond);
     assertEquals(2, operation.maxDepth(table));
   }
-  
+
   @Test
   public void testMaxDepthDifferentDepths() {
     Table table = new Table();
@@ -159,11 +159,11 @@ public class ForEachChunkOperationTest {
     table.addChunk(chunk0);
     table.addChunk(chunk1);
     chunk0.addChunk(chunk2);
-    
+
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 1, toExecute);
     assertEquals(2, operation.maxDepth(table));
   }
-  
+
   /**
    * Test whether the operation is executed the number of chunks times.
    */
@@ -186,34 +186,34 @@ public class ForEachChunkOperationTest {
     table.addChunk(chunk1);
     table.addChunk(chunk2);
     chunks = table.getChunks();
-    
+
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 1, toExecute);
     operation.execute();
-       
-    for (Chunk chunk: chunks) {
-      Mockito.verify(toExecute, Mockito.times(1)).resetData(new Table(chunk));      
+
+    for (Chunk chunk : chunks) {
+      Mockito.verify(toExecute, Mockito.times(1)).resetData(new Table(chunk));
     }
     Mockito.verify(toExecute, Mockito.times(chunks.size())).execute();
     Mockito.verify(toExecute, Mockito.times(chunks.size())).getResult();
   }
-  
+
   @Test
   public void testExecuteNoParametersSet() {
-    Table table = new Table();    
+    Table table = new Table();
     ForEachChunkOperation operation = new ForEachChunkOperation(table, 0, toExecute);
     assertFalse(operation.execute());
   }
-  
+
   @Test
   public void testExecuteOperationFails() {
     Table table = new Table();
     Chunk chunk0 = new Chunk(0, "Chunk 0");
     table.addChunk(chunk0);
     Mockito.when(toExecute.execute()).thenReturn(false);
-    ForEachChunkOperation operation = new ForEachChunkOperation(table, 1, toExecute);    
+    ForEachChunkOperation operation = new ForEachChunkOperation(table, 1, toExecute);
     assertFalse(operation.execute());
   }
-  
+
   @Test
   public void testGetResult() {
     Table table = new Table();
