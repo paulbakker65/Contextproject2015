@@ -4,6 +4,7 @@
 *.csv
 *.xls
 *.xlsx
+*.ser
 ~$*
 !test3.csv
 !test3.xml
