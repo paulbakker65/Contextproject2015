@@ -9,9 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.swing.JButton;
@@ -21,13 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.xml.transform.TransformerException;
 
 /**
- * Creates XML settings based on an example.
- * 
- * @author unset
- *
+ * A window that lets the user create XML settings based on an example file.
  */
 public class SettingsWindow extends JFrame {
 
@@ -53,6 +47,9 @@ public class SettingsWindow extends JFrame {
 
   private JButton saveButton;
 
+  /**
+   * Constructs a new settingswindow.
+   */
   public SettingsWindow() {
     super();
 
@@ -164,9 +161,13 @@ public class SettingsWindow extends JFrame {
     }
   }
 
+  /**
+   * Main method for stand-alone run.
+   * @param args ignored
+   */
   public static void main(String[] args) {
-    SettingsWindow m = new SettingsWindow();
-    m.setVisible(true);
+    SettingsWindow test = new SettingsWindow();
+    test.setVisible(true);
 
   }
 

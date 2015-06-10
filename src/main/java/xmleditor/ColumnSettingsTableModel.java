@@ -12,12 +12,18 @@ import javax.swing.table.AbstractTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+/**
+ * A model that represents a settings file. It can be used as model in a table.
+ * Other properties, such as start line or delimiter, can be given via the constructor.
+ * Finally there is an export to xml stream.
+ */
 public class ColumnSettingsTableModel extends AbstractTableModel {
 
   private static String[] attributes = new String[] { "name", "type", "format", "example" };
@@ -30,6 +36,14 @@ public class ColumnSettingsTableModel extends AbstractTableModel {
 
   private List<Element> cols;
 
+  /**
+   * Creates a new column settings model.
+   * @param colnames name of the columns
+   * @param firstrow example values of the first row
+   * @param delim delimiter, only for csv
+   * @param startLine where the actual data begins
+   * @throws ParserConfigurationException exception
+   */
   public ColumnSettingsTableModel(String[] colnames, String[] firstrow, String delim,
       String startLine) throws ParserConfigurationException {
     super();
@@ -75,7 +89,6 @@ public class ColumnSettingsTableModel extends AbstractTableModel {
 
   @Override
   public int getColumnCount() {
-    // TODO Auto-generated method stub
     return attributes.length;
   }
 
@@ -94,6 +107,7 @@ public class ColumnSettingsTableModel extends AbstractTableModel {
     return col != 3;
   }
 
+  @Override
   public void setValueAt(Object value, int row, int col) {
     String att = attributes[col];
     String val = (String) value;
@@ -103,15 +117,25 @@ public class ColumnSettingsTableModel extends AbstractTableModel {
 
     cols.get(row).setAttribute(att, val);
   }
-  
-  public void export(OutputStream out, String name) throws TransformerException{
+
+  /**
+   * Exports the Settings Model to an outputstream.
+   * 
+   * @param out
+   *          the outputstream
+   * @param name
+   *          name of the table for internal use.
+   * @throws TransformerException
+   *           exception
+   */
+  public void export(OutputStream out, String name) throws TransformerException {
     settings.setAttribute("name", name);
     TransformerFactory transformerFactory = TransformerFactory.newInstance();
     Transformer transformer = transformerFactory.newTransformer();
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
     DOMSource source = new DOMSource(doc);
     StreamResult result = new StreamResult(out);
     transformer.transform(source, result);
   }
-  
 
 }
