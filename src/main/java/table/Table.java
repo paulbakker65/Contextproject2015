@@ -24,18 +24,32 @@ public class Table extends ArrayList<Record> implements Serializable {
   private List<Chunk> chunks;
 
   /**
-   * Call the ArrayList constructor and initialize chunks.
+   * Call the ArrayList constructor and initialize own fields.
    */
   public Table() {
     super();
+    name = "";
     chunks = new ArrayList<Chunk>();
     codes = new HashMap<String, Code>();
   }
 
   /**
+   * Constructs a Table by copying the other Table's fields.
+   * 
+   * @param otherTable
+   *          the other Table.
+   */
+  public Table(Table otherTable) {
+    super(otherTable);
+    name = new String(otherTable.name);
+    chunks = new ArrayList<Chunk>(otherTable.chunks);
+    codes = new HashMap<String, Code>(otherTable.codes);
+  }
+
+  /**
    * Adding a chunk to the list of chunks for this table.
    *
-   * @param c
+   * @param chunk
    *          chunk to add.
    */
   public void addChunk(final Chunk chunk) {
@@ -50,15 +64,6 @@ public class Table extends ArrayList<Record> implements Serializable {
    */
   public void addCode(final Code code) {
     codes.put(code.getName(), code);
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public Object clone() {
-    final Table table = (Table) super.clone();
-    table.chunks = new ArrayList<Chunk>(this.chunks);
-    table.codes = (HashMap<String, Code>) codes.clone();
-    return table;
   }
 
   /**
@@ -105,6 +110,16 @@ public class Table extends ArrayList<Record> implements Serializable {
   }
 
   /**
+   * Setter for the map of codes.
+   * 
+   * @param codes
+   *          the new codes.
+   */
+  // public void setCodes(HashMap<String, Code> codes) {
+  // this.codes = codes;
+  // }
+
+  /**
    * Getter for name.
    */
   public String getName() {
@@ -121,16 +136,6 @@ public class Table extends ArrayList<Record> implements Serializable {
     result = prime * result + chunks.hashCode();
     result = prime * result + codes.hashCode();
     return result;
-  }
-
-  /**
-   * Setter for the list of chunks.
-   */
-  public void setChunks(List<Chunk> set) {
-    if (set == null) {
-      set = new ArrayList<Chunk>();
-    }
-    this.chunks = set;
   }
 
   /**
@@ -172,11 +177,11 @@ public class Table extends ArrayList<Record> implements Serializable {
    */
   public List<Column> getColumns() {
     List<Column> res = new ArrayList<Column>();
-    
+
     if (isEmpty()) {
       return res;
     }
-    
+
     Record record = get(size() - 1);
 
     for (String name : record.getKeysInOrder()) {
@@ -184,7 +189,7 @@ public class Table extends ArrayList<Record> implements Serializable {
 
       if (columnType != null) {
         res.add(columnType);
-      }      
+      }
     }
 
     return res;

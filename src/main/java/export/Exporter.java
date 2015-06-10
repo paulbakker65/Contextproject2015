@@ -39,8 +39,9 @@ public final class Exporter {
    */
   public static void export(Table table, String path, String extension) throws IOException {
     FileWriter writer = new FileWriter(path + extension);
-    export(table, writer);
+    Table exportTable = new Table(table);
     TableFile.writeTable(table, path);
+    export(exportTable, writer);
   }
 
   /**
@@ -85,11 +86,16 @@ public final class Exporter {
   }
 
   private static void checkForChunksColumn(Table table) {
-    if (!table.getChunks().isEmpty()) {
-      for (Chunk chunk : table.getChunks()) {
+    checkForChunksColumn(table.getChunks(), 0);
+  }
+
+  private static void checkForChunksColumn(List<Chunk> chunks, int depth) {
+    if (!chunks.isEmpty()) {
+      for (Chunk chunk : chunks) {
         for (Record record : chunk) {
-          record.put("Chunk", new StringValue(chunk.getLabel()));
+          record.put("Chunks " + depth, new StringValue(chunk.getLabel()));
         }
+        checkForChunksColumn(chunk.getChunks(), depth + 1);
       }
     }
   }

@@ -25,15 +25,26 @@ public class ConnectionOperation extends Operation {
    * table has columns the other table has not, the column will be added to the table with a
    * NullValue, before merging into the result.
    * 
-   * @param inputDataset The first table to merge.
-   * @param otherTable The second table to merge.
-   * @param inputcolumnName The column name in inputDataset to merge on.
-   * @param otherColumnName The column name in otherTable to merge on.
+   * @param inputDataset
+   *          The first table to merge.
+   * @param otherTable
+   *          The second table to merge.
+   * @param inputcolumnName
+   *          The column name in inputDataset to merge on.
+   * @param otherColumnName
+   *          The column name in otherTable to merge on.
    */
   public ConnectionOperation(final Table inputDataset, final Table otherTable,
       final String inputcolumnName, final String otherColumnName) {
     super(inputDataset);
     setOperationParameters(otherTable, inputcolumnName, otherColumnName);
+  }
+
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
+    this.resultData.clear();
   }
 
   @Override
@@ -98,9 +109,12 @@ public class ConnectionOperation extends Operation {
   /**
    * Set operation parameters.
    * 
-   * @param otherTable The other table object to merge.
-   * @param columnName The column name in the input table.
-   * @param otherColumnName The column name in the other table.
+   * @param otherTable
+   *          The other table object to merge.
+   * @param columnName
+   *          The column name in the input table.
+   * @param otherColumnName
+   *          The column name in the other table.
    * @return Returns true if the all parameters are set correctly.
    */
   public boolean setOperationParameters(final Table otherTable, final String columnName,

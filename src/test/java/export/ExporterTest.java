@@ -54,10 +54,10 @@ public class ExporterTest {
     chunk1.add(dummyrow2);
 
     Code code = new Code("codeName");
-    Table event = (Table) dummydb.clone();
+    Table event = new Table(dummydb);
     code.addEvent(event);
 
-    dummydb2 = (Table) dummydb.clone();
+    dummydb2 = new Table(dummydb);
     dummydb.addChunk(chunk0);
     dummydb.addChunk(chunk1);
     dummydb.addCode(code);
@@ -73,7 +73,7 @@ public class ExporterTest {
   public void testExportWithChunkCodes() throws IOException {
     Exporter.ADD_CODE_FREQUENCY = false;
     final String expected =
-        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
+        "\"fruit\";\"groente\";\"saus\";\"Chunks 0\";\"Code\"\n"
             + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
             + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
 
@@ -98,7 +98,7 @@ public class ExporterTest {
   public void testExportWithCodeRecord() throws IOException {
     Exporter.ADD_CODE_FREQUENCY = true;
     final String expected =
-        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
+        "\"fruit\";\"groente\";\"saus\";\"Chunks 0\";\"Code\"\n"
             + "\"\";\"\";\"\";\"\";\"codeName=1\"\n"
             + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
             + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
