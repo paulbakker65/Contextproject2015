@@ -42,8 +42,13 @@ public class ChunkingOperation extends Operation {
    */
   public ChunkingOperation(final Table input, final String columnName, final ChunkType cce) {
     super(input);
-    this.resultData = (Table) input.clone();
     setOperationParameters(columnName, cce);
+  }
+  
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
   }
 
   /**

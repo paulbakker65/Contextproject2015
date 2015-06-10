@@ -35,6 +35,13 @@ public class ConnectionOperation extends Operation {
     super(inputDataset);
     setOperationParameters(otherTable, inputcolumnName, otherColumnName);
   }
+  
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
+    this.resultData.clear();
+  }
 
   @Override
   public boolean execute() {

@@ -22,15 +22,13 @@ public abstract class Operation {
 
   /**
    * standard constructor setting inputDataset by parameter inputDataset and initialize resultData
-   * to an empty dataset. The chunks from the input data are copied.
+   * to an empty dataset. All but the records from the input data are copied.
    * 
    * @param inputDataset the input dataset
    */
   public Operation(final Table inputDataset) {
-    this.inputData = inputDataset;
+    resetData(inputDataset);    
     this.operationParametersSet = false;
-    this.resultData = new Table();
-    this.resultData.setChunks(inputDataset.getChunks());
   }
 
   /**
@@ -46,4 +44,9 @@ public abstract class Operation {
    * @return result dataset
    */
   public abstract Table getResult();
+  
+  /**
+   * abstract for resetting the input and result data.
+   */
+  public abstract void resetData(Table inputData);
 }

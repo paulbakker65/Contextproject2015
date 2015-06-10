@@ -54,6 +54,12 @@ public class BetweenOperation extends Operation {
       final Value ev1val, final Value ev2val) {
     this(inputDataset, eventcol, datecol, datecol, ev1val, ev2val);
   }
+  
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
+  }
 
   private void addEvent(final int index1, final int index2) {
     final int timeDif = (int) ((getTimeStamp(index2) - getTimeStamp(index1)) / (1000 * 60 * 60));
@@ -62,8 +68,6 @@ public class BetweenOperation extends Operation {
 
   @Override
   public boolean execute() {
-    resultData = (Table) inputData.clone();
-
     int index1 = 0;
     while (index1 < inputData.size()) {
       if (isFirstEvent(index1)) {

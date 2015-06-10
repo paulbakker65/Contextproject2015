@@ -36,6 +36,13 @@ public class ConstraintOperation extends Operation {
     setOperationParameters(columnName, constraintType, constraintValue);
   }
   
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
+    this.resultData.clear();
+  }
+  
   /**
    * Set operation parameters for the constraint operation.
    * 

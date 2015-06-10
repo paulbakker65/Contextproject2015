@@ -27,8 +27,13 @@ public class CodingOperation extends Operation {
    */
   public CodingOperation(final Table inputDataset, final Pattern pattern, final String name) {
     super(inputDataset);
-    this.resultData = (Table) inputDataset.clone();
     setOperationParameters(pattern, name);
+  }
+  
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
   }
 
   /**
