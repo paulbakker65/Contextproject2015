@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.script;
 
 import java.util.ArrayList;
+import java.util.List;
 import net.tudelft.hi.e.common.enums.ChunkType;
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
@@ -33,8 +34,8 @@ public class OperationSpec {
     CONSTRAINT, CONNECT, CHUNK, COMPUTE, COMPARE, CODE, CONVERT, LSA, BETWEEN
   }
 
-  public ArrayList<Table> tables;
-  public ArrayList<Object> operandList;
+  public List<Table> tables;
+  public List<Object> operandList;
   public OperationType operationType;
 
   /**
@@ -44,7 +45,7 @@ public class OperationSpec {
    * @param tables The tables argument is an ArrayList of Table objects containing all the tables
    *        that can be used for a operation.
    */
-  public OperationSpec(final ArrayList<Table> tables) {
+  public OperationSpec(final List<Table> tables) {
     this.tables = tables;
     this.operandList = new ArrayList<Object>();
     this.operationType = null;

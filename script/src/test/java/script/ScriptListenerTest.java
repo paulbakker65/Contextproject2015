@@ -1,8 +1,11 @@
 package script;
 
 import java.util.ArrayList;
+import java.util.List;
 import net.tudelft.hi.e.common.enums.CalcOperator;
 import net.tudelft.hi.e.common.enums.CompareOperator;
+import net.tudelft.hi.e.computation.Condition;
+import net.tudelft.hi.e.computation.Formula;
 import net.tudelft.hi.e.computation.PatternDescription;
 import net.tudelft.hi.e.computation.RecordMatchesConditionCondition;
 import net.tudelft.hi.e.computation.RecordOccurrenceCondition;
@@ -11,8 +14,6 @@ import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.script.AnalysisLangLexer;
 import net.tudelft.hi.e.script.AnalysisLangParser;
-import net.tudelft.hi.e.computation.Condition;
-import net.tudelft.hi.e.computation.Formula;
 import net.tudelft.hi.e.script.OperationSpec;
 import net.tudelft.hi.e.script.OperationSpec.OperationType;
 import net.tudelft.hi.e.script.ScriptListener;
@@ -54,7 +55,7 @@ public class ScriptListenerTest {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -78,7 +79,7 @@ public class ScriptListenerTest {
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -107,7 +108,7 @@ public class ScriptListenerTest {
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -139,7 +140,7 @@ public class ScriptListenerTest {
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -170,7 +171,7 @@ public class ScriptListenerTest {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -196,7 +197,7 @@ public class ScriptListenerTest {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -221,7 +222,7 @@ public class ScriptListenerTest {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -245,7 +246,7 @@ public class ScriptListenerTest {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -270,7 +271,7 @@ public class ScriptListenerTest {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());
@@ -297,7 +298,7 @@ public class ScriptListenerTest {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
 
-    final ArrayList<OperationSpec> operationList = listener.getOpList();
+    final List<OperationSpec> operationList = listener.getOpList();
 
     assertNotEquals(null, operationList);
     assertEquals(1, operationList.size());

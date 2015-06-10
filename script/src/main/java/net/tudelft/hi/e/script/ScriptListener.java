@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.script;
 
 import java.util.ArrayList;
+import java.util.List;
 import net.tudelft.hi.e.common.enums.ChunkType;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.script.AnalysisLangParser.Between_paramContext;
@@ -33,8 +34,8 @@ import net.tudelft.hi.e.script.OperationSpec.OperationType;
  */
 public class ScriptListener extends AnalysisLangBaseListener {
 
-  ArrayList<Table> tables;
-  ArrayList<OperationSpec> opList;
+  List<Table> tables;
+  List<OperationSpec> opList;
   OperationSpec currentOp;
 
   /**
@@ -43,7 +44,7 @@ public class ScriptListener extends AnalysisLangBaseListener {
    *
    * @param tables The tables parameter is an ArrayList of all the tables the input parser has read.
    */
-  public ScriptListener(final ArrayList<Table> tables) {
+  public ScriptListener(final List<Table> tables) {
     super();
     this.tables = tables;
     this.opList = new ArrayList<OperationSpec>();
@@ -258,7 +259,7 @@ public class ScriptListener extends AnalysisLangBaseListener {
     }
   }
 
-  public ArrayList<OperationSpec> getOpList() {
+  public List<OperationSpec> getOpList() {
     return this.opList;
   }
 }
