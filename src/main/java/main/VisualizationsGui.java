@@ -402,13 +402,6 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     }
     StemLeafPlot slp = new StemLeafPlot(table, column, power);
     DisplayTableGui.init(slp);
-
-    HistogramChart hchart = new HistogramChart(table, column, power);
-    hchart.pack();
-    GUI.centreWindow(hchart);
-    GUI.setIconImage(hchart);
-    hchart.setVisible(true);
-
   }
 
   private void onHistogram() {
