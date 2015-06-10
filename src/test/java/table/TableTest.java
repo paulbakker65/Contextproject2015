@@ -31,7 +31,7 @@ import java.util.Map;
 public class TableTest {
 
   @Test
-  public void testClone() {
+  public void testConstructorTable() {
     final Table table = new Table();
 
     final Code code = new Code("test");
@@ -42,10 +42,11 @@ public class TableTest {
 
     assertEquals(table, table.clone());
 
-    final Table clone = (Table) table.clone();
+    final Table clone = new Table(table);
+    assertEquals(clone, new Table(table));
+    
     clone.addCode(new Code("test2"));
-
-    assertNotEquals(clone, table.clone());
+    assertNotEquals(clone, new Table(table));
   }
 
   @Test
@@ -119,20 +120,6 @@ public class TableTest {
   }
 
   @Test
-  public void testGetSetChunks() {
-    final Table table = new Table();
-
-    final List<Chunk> chunks = new ArrayList<Chunk>();
-    chunks.add(new Chunk(1, "Chunk 1"));
-
-    assertNotEquals(chunks, table.getChunks());
-
-    table.setChunks(chunks);
-
-    assertEquals(chunks, table.getChunks());
-  }
-
-  @Test
   public void testHashCode() {
     final List<Chunk> chunks = new ArrayList<Chunk>();
     final HashMap<String, Code> codes = new HashMap<String, Code>();
@@ -140,14 +127,6 @@ public class TableTest {
     final Table table = new Table();
 
     assertEquals(table.hashCode(), (31 + chunks.hashCode()) * 31 + codes.hashCode());
-  }
-
-  @Test
-  public void testSetChunksNull() {
-    final Table table = new Table();
-    table.setChunks(null);
-
-    assertNotNull(table.getChunks());
   }
   
   @Test
@@ -228,5 +207,4 @@ public class TableTest {
     
     assertEquals(table.size(), otherTable.size());
   }
-
 }

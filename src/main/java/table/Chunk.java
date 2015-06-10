@@ -1,9 +1,11 @@
 package table;
 
+import java.io.Serializable;
+
 /**
  * A chunk contains a table, index and a label.
  */
-public class Chunk extends Table {
+public class Chunk extends Table implements Serializable {
 
   /**
    * Serial version.
@@ -21,12 +23,41 @@ public class Chunk extends Table {
   /**
    * Constructor sets the label and index of the chunk.
    * 
-   * @param index Index of the chunk.
-   * @param label Label of the chunk.
+   * @param index
+   *          Index of the chunk.
+   * @param label
+   *          Label of the chunk.
    */
   public Chunk(final int index, final String label) {
+    super();
     this.index = index;
     this.label = label;
+  }
+
+  /**
+   * Constructs a new Chunk copying the old chunk.
+   * 
+   * @param chunk
+   *          the old chunk to use.
+   */
+  public Chunk(Chunk chunk) {
+    super(chunk);
+    this.index = chunk.index;
+    this.label = new String(chunk.label);
+  }
+
+  /**
+   * Constructs a new Chunk copying the old chunk's field and using the new data Table.
+   * 
+   * @param oldChunk
+   *          the old chunk to use.
+   * @param newData
+   *          the new data to use.
+   */
+  public Chunk(Chunk oldChunk, Table newData) {
+    super(newData);
+    this.index = oldChunk.index;
+    this.label = new String(oldChunk.label);
   }
 
   /**
@@ -82,14 +113,16 @@ public class Chunk extends Table {
 
   /**
    * 
-   * @param index of the chunk in the table which to set.
+   * @param index
+   *          of the chunk in the table which to set.
    */
   public void setIndex(final int index) {
     this.index = index;
   }
 
   /**
-   * @param label of the chunk which to set.
+   * @param label
+   *          of the chunk which to set.
    */
   public void setLabel(final String label) {
     this.label = label;
