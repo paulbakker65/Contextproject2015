@@ -28,5 +28,7 @@ public class SettingsBuilder {
 
     return settings;
   }
+  
+  private SettingsBuilder() { }
 
 }

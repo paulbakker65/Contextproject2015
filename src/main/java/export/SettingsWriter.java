@@ -106,5 +106,7 @@ public class SettingsWriter {
 
     transformer.transform(source, result);
   }
+  
+  private SettingsWriter() { }
 
 }

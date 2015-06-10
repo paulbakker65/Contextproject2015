@@ -1,6 +1,7 @@
 package export;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import input.DataFile;
 import input.Input;
@@ -12,6 +13,9 @@ import org.junit.Test;
 import table.Table;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 
 public class SettingsBuilderTest {
   private Table t1;
@@ -94,6 +98,15 @@ public class SettingsBuilderTest {
     Settings actual2 = SettingsBuilder.generateSettings(t4, null, 2);
     assertEquals(null, actual);
     assertEquals(null, actual2);
+  }
+
+  @Test
+  public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<SettingsBuilder> constructor = SettingsBuilder.class.getDeclaredConstructor();
+    assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    constructor.setAccessible(true);
+    constructor.newInstance();
   }
 
 }
