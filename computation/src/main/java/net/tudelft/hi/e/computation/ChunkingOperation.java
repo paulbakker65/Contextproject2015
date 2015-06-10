@@ -81,21 +81,11 @@ public class ChunkingOperation extends Operation {
    */
   public ChunkCondition getCondition(final ChunkType cce) {
     switch (cce) {
-      case DAY: {
-        return new DayCondition();
-      }
-      case MONTH: {
-        return new MonthCondition();
-      }
-      case YEAR: {
-        return new YearCondition();
-      }
-      case PATIENT: {
-        return new PatientCondition();
-      }
-      default: {
-        return null;
-      }
+      case DAY: return new DayCondition();
+      case MONTH: return new MonthCondition();
+      case YEAR: return new YearCondition();
+      case PATIENT: return new PatientCondition();
+      default: return null;
     }
   }
 
