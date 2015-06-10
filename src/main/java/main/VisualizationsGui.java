@@ -136,7 +136,6 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     gbc.insets = new Insets(0, 0, 0, 0);
     filepanel.add(opentable, gbc);
 
-
     tabbedPane = new JTabbedPane();
     tabbedPane.setEnabled(false);
     ImageIcon icon = createImageIcon("icon.png");
