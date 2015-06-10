@@ -3,6 +3,7 @@ package table;
 import table.value.Column;
 import table.value.Value;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,7 +12,11 @@ import java.util.List;
  * A timed event that can contain various properties ("columns"). Because it extends a HashMap new
  * properties can be made on the fly.
  */
-public class Record extends LinkedHashMap<String, Value> {
+public class Record extends LinkedHashMap<String, Value> implements Serializable {
+
+  /**
+   * Serial version.
+   */
   private static final long serialVersionUID = 1L;
   private String tableName;
 

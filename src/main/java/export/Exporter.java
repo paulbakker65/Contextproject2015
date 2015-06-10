@@ -6,10 +6,12 @@ import table.Chunk;
 import table.Code;
 import table.Record;
 import table.Table;
+import table.TableFile;
 import table.value.NullValue;
 import table.value.StringValue;
 import table.value.Value;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -21,7 +23,25 @@ import java.util.TreeSet;
  * Exporter class that outputs internal datastructures into output files.
  */
 public final class Exporter {
-  static boolean ADD_CODE_FREQUENCY = true;
+  static boolean ADD_CODE_FREQUENCY = false;
+
+  /**
+   * The export method writes a Table to a writer instance.
+   *
+   * @param table
+   *          The Table to be written.
+   * @param path
+   *          The path where the Table has to been written to.
+   * @param extension
+   *          The extension the output file will have.
+   * @throws IOException
+   *           If the writing fails an IOException is thrown.
+   */
+  public static void export(Table table, String path, String extension) throws IOException {
+    FileWriter writer = new FileWriter(path + extension);
+    export(table, writer);
+    TableFile.writeTable(table, path);
+  }
 
   /**
    * The export method writes a Table to a writer instance.
@@ -38,7 +58,7 @@ public final class Exporter {
     checkForChunksColumn(table);
     checkForCodesColumn(table);
     checkForEmptyKeys(table);
-    
+
     writeToFile(table, writer);
   }
 
