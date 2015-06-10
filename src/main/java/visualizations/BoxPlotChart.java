@@ -10,6 +10,7 @@ import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import table.Record;
 import table.Table;
 import table.value.NumberValue;
+import table.value.StringValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,10 @@ public class BoxPlotChart extends JFrame {
   private Dataset createDataset() {
     List<Double> items = new ArrayList<Double>();
     for (Record record : table) {
-      items.add(((NumberValue) record.get(column)).getValue());
+      if (record.get(column).isNumeric()) {
+        items.add(((NumberValue) record.get(column)).getValue());
+      }
+      
     }
 
     DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
