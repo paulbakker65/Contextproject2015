@@ -5,21 +5,20 @@ import table.value.Value;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * A timed event that can contain various properties ("columns"). Because it extends a HashMap new
  * properties can be made on the fly.
  */
-public class Record extends HashMap<String, Value> implements Serializable {
+public class Record extends LinkedHashMap<String, Value> implements Serializable {
 
   /**
    * Serial version.
    */
   private static final long serialVersionUID = 1L;
   private String tableName;
-  private List<String> keysInOrder;
 
   /**
    * Creates a Record.
@@ -37,7 +36,6 @@ public class Record extends HashMap<String, Value> implements Serializable {
   public Record(String tableName) {
     super();
     this.tableName = tableName;
-    this.keysInOrder = new ArrayList<String>();
   }
 
   /**
@@ -67,7 +65,6 @@ public class Record extends HashMap<String, Value> implements Serializable {
   public Record(final List<Column> columns, final Value[] values, String tableName) {
     super();
     this.tableName = tableName;
-    this.keysInOrder = new ArrayList<String>();
     
     for (int i = 0; i < columns.size(); i++) {
       this.put(columns.get(i).getName(), values[i]);
@@ -77,16 +74,20 @@ public class Record extends HashMap<String, Value> implements Serializable {
   /**
    * Renames a column name/key
    * 
-   * @param oldname The key to replace.
-   * @param newname The new name to use.
+   * @param oldName The key to replace.
+   * @param newName The new name to use.
    */
-  public void rename(final String oldname, final String newname) {
-    final Value value = get(oldname);
-    ArrayList<String> newKeysInOrder = new ArrayList<String>(keysInOrder);
-    newKeysInOrder.set(newKeysInOrder.indexOf(oldname), newname);
-    remove(oldname);
-    put(newname, value);
-    keysInOrder = newKeysInOrder;
+  public void rename(final String oldName, final String newName) {
+    LinkedHashMap<String, Value> entries = new LinkedHashMap<String, Value>(this);
+    clear();
+    
+    for (String key : entries.keySet()) {      
+      if (key.equals(oldName)) {
+        put(newName, entries.get(key));
+      } else {
+        put(key, entries.get(key));
+      }
+    }
   }
 
   /**
@@ -107,31 +108,13 @@ public class Record extends HashMap<String, Value> implements Serializable {
    */
   public String getTableName() {
     return tableName;
-  }
-  
-  @Override
-  public Value put(String key, Value value) {
-    Value result = super.put(key, value);
-    
-    if (result == null) {
-      keysInOrder.add(key);
-    }
-    
-    return result;
-  }
-  
-  @Override
-  public Value remove(Object key) {
-    Value result = super.remove(key);
-    
-    if (result != null) {
-      keysInOrder.remove(key);
-    }
-    
-    return result;
-  }
+  }  
 
+  /**
+   * Returns the list of keys in the order they are inserted.
+   * @return the list of keys in the order they are inserted.
+   */
   public List<String> getKeysInOrder() {
-    return keysInOrder;
+    return new ArrayList<String>(keySet());
   }
 }
