@@ -12,4 +12,12 @@ public class WrongXmlException extends IOException {
   public WrongXmlException(final String msg) {
     super(msg);
   }
+
+  public WrongXmlException(final Exception ex) {
+    super(ex);
+  }
+
+  public WrongXmlException() {
+    super();
+  }
 }

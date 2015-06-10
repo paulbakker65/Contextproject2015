@@ -21,6 +21,11 @@ public class MultipleCount implements Count {
     return (other instanceof MultipleCount);
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

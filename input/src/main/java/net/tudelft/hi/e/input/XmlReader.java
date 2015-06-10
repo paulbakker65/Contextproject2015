@@ -105,7 +105,7 @@ public class XmlReader {
       // Check if duplicate column names exist.
       checkDuplicateColumns(res.getColumns());
     } catch (SAXException | IOException | ParserConfigurationException ex) {
-      throw new WrongXmlException(ex.getMessage());
+      throw new WrongXmlException(ex);
     }
     return res;
   }

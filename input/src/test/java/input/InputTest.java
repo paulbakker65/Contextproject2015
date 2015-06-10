@@ -1,6 +1,8 @@
 package input;
 
 import java.io.File;
+import java.io.IOException;
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import net.tudelft.hi.e.input.Input;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -61,11 +63,8 @@ public class InputTest {
     assertTrue(Input.getFiles().isEmpty());
     try {
       Input.addDataFile(file, settingsxmlerror);
-    } catch (final Exception e) {
-      System.out.println(e.getMessage());
-      assertEquals(
-          "XML document structures must start and end within the same entity.",
-          e.getMessage());
+    } catch (final IOException e) {
+      assertEquals(WrongXmlException.class, e.getClass());
     }
     assertTrue(Input.getFiles().isEmpty());
   }

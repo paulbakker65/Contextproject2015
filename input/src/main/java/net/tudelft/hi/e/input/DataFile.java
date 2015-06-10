@@ -1,9 +1,10 @@
 package net.tudelft.hi.e.input;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 
 /**
@@ -11,6 +12,8 @@ import net.tudelft.hi.e.common.exceptions.WrongXmlException;
  * Creates the Reader, Parser and Settings for the data file.
  */
 public class DataFile {
+
+  private static final Logger LOG = Logger.getLogger(DataFile.class.getName());
 
   private File rawDataFile;
   private File settingsfile;
@@ -57,11 +60,7 @@ public class DataFile {
     } else if ("xlsx".equals(fileextension)) {
       reader = new ExcelReader(file.getPath(), 0);
     } else {
-      try {
-        reader = new CsvReader(file.getPath(), settings.getDelimiter());
-      } catch (final FileNotFoundException ex) {
-        throw new FileNotFoundException("Data file not found.");
-      }
+      reader = new CsvReader(file.getPath(), settings.getDelimiter());
     }
     return reader;
   }
@@ -127,6 +126,7 @@ public class DataFile {
     try {
       reader = createReader(rawDataFile, settings);
     } catch (final Exception ex) {
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
   }
 
@@ -140,7 +140,7 @@ public class DataFile {
     try {
       settings = readSettings(settingsfile);
     } catch (final Exception ex) {
-
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
   }
 
