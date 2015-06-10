@@ -10,7 +10,6 @@ import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import table.Record;
 import table.Table;
 import table.value.NumberValue;
-import table.value.StringValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +24,12 @@ public class BoxPlotChart extends JFrame {
   private Table table;
   private String column;
 
+  /**
+   * Create box plot chart.
+   * @param windowTitle title
+   * @param table on which to create the box plot chart.
+   * @param column where the values are.
+   */
   public BoxPlotChart(String windowTitle, Table table, String column) {
     super(windowTitle);
     this.table = table;
