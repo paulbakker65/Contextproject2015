@@ -1,8 +1,9 @@
 package input;
 
+import com.opencsv.CSVReader;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,59 +13,64 @@ import java.io.IOException;
  *
  */
 public class CsvReader extends Reader {
-  private String delimiter = ";";
+  private char delimiter = ';';
 
-  private final FileReader fr;
-  private final BufferedReader br;
+  private final CSVReader reader;
 
   /**
    * CsvReader constructor creates an CsvReader object that reads CSV files.
    * 
-   * @param filepath The CSV file path to be read.
-   * @throws FileNotFoundException If there is no file found at the designated file path an
-   *         FileNotFoundException is thrown.
+   * @param filepath
+   *          The CSV file path to be read.
+   * @throws FileNotFoundException
+   *           If there is no file found at the designated file path a FileNotFoundException is
+   *           thrown.
    */
   @SuppressFBWarnings(value = "I18N", justification = "Assume unicode")
   public CsvReader(final String filepath) throws FileNotFoundException {
-    super(filepath);
-
-    fr = new FileReader(filepath);
-    br = new BufferedReader(fr);
+    this(filepath, ";");
   }
 
+  /**
+   * CsvReader constructor creates an CsvReader object that reads CSV files.
+   * 
+   * @param filepath
+   *          The CSV file path to be read.
+   * @param delimiter
+   *          the delimiter to use.
+   * @throws FileNotFoundException
+   *           If there is no file found at the designated file path a FileNotFoundException is
+   *           thrown.
+   */
   public CsvReader(final String filepath, final String delimiter) throws FileNotFoundException {
-    this(filepath);
-    this.delimiter = delimiter;
+    super(filepath);
+
+    setDelimiter(delimiter);
+    FileReader fr = new FileReader(filepath);
+    reader = new CSVReader(fr, this.delimiter);
   }
 
   @Override
   public void close() throws IOException {
-    br.close();
+    reader.close();
   }
 
   public String getDelimiter() {
-    return delimiter;
+    return delimiter + "";
   }
 
   /**
    * The readRow method reads the next row in the CSV file.
+   * 
+   * @throws IOException
+   *           when an I/O error occurs.
    */
   @Override
-  public String[] readRow() {
-    String line = null;
-    try {
-      line = br.readLine();
-    } catch (final IOException e) {
-      e.printStackTrace();
-    }
-    if (line == null) {
-      return null;
-    }
-    final String[] record = line.split(delimiter + "(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-    return record;
+  public String[] readRow() throws IOException {
+    return reader.readNext();
   }
 
   public void setDelimiter(final String delimiter) {
-    this.delimiter = delimiter;
+    this.delimiter = (delimiter.toCharArray().length == 1 ? delimiter.charAt(0) : ';');
   }
 }
