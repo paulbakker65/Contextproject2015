@@ -34,9 +34,9 @@ public class OperationSpec {
     CONSTRAINT, CONNECT, CHUNK, COMPUTE, COMPARE, CODE, CONVERT, LSA, BETWEEN
   }
 
-  public List<Table> tables;
-  public List<Object> operandList;
-  public OperationType operationType;
+  private List<Table> tables;
+  private List<Object> operandList;
+  private OperationType operationType;
 
   /**
    * OperationSpec constructor creates an OperationSpec object that defines the specifics of an
@@ -110,13 +110,10 @@ public class OperationSpec {
   public Operation getOperationForThisSpec() throws TableNotFoundException {
     switch (this.operationType) {
       case CONSTRAINT:
-        return new ConstraintOperation(this.getTableForTableName((String) operandList.get(0)),
-            (String) operandList.get(1), (CompareOperator) operandList.get(2),
-            (Value) operandList.get(3));
+        return this.getConstraintOperationForThisSpec();
 
       case CHUNK:
-        return new ChunkingOperation(this.getTableForTableName((String) operandList.get(0)),
-            (String) operandList.get(1), (ChunkType) operandList.get(2));
+        return this.getChunkingOperationForThisSpec();
 
       case COMPUTE:
         return null;
@@ -125,18 +122,13 @@ public class OperationSpec {
         return null;
 
       case CODE:
-        return new CodingOperation(this.getTableForTableName((String) operandList.get(0)),
-            PatternFactory.createPattern((ArrayList<PatternDescription>) operandList.get(1)),
-            ((StringValue) operandList.get(2)).getValue());
-
+        return this.getCodingOperationForThisSpec();
 
       case CONVERT:
         return null;
 
       case CONNECT:
-        return new ConnectionOperation(this.getTableForTableName((String) operandList.get(0)),
-            this.getTableForTableName((String) operandList.get(2)), (String) operandList.get(1),
-            (String) operandList.get(3));
+        return this.getConnectionOperationForThisSpec();
 
       case BETWEEN:
         return this.getBetweenOperationForThisSpec();
@@ -147,6 +139,29 @@ public class OperationSpec {
       default:
         return null;
     }
+  }
+  
+  public ConstraintOperation getConstraintOperationForThisSpec() throws TableNotFoundException {
+    return new ConstraintOperation(this.getTableForTableName((String) operandList.get(0)),
+        (String) operandList.get(1), (CompareOperator) operandList.get(2),
+        (Value) operandList.get(3));
+  }
+  
+  public ChunkingOperation getChunkingOperationForThisSpec() throws TableNotFoundException {
+    return new ChunkingOperation(this.getTableForTableName((String) operandList.get(0)),
+        (String) operandList.get(1), (ChunkType) operandList.get(2));
+  }
+  
+  public CodingOperation getCodingOperationForThisSpec() throws TableNotFoundException {
+    return new CodingOperation(this.getTableForTableName((String) operandList.get(0)),
+        PatternFactory.createPattern((ArrayList<PatternDescription>) operandList.get(1)),
+        ((StringValue) operandList.get(2)).getValue());
+  }
+  
+  public ConnectionOperation getConnectionOperationForThisSpec() throws TableNotFoundException {
+    return new ConnectionOperation(this.getTableForTableName((String) operandList.get(0)),
+        this.getTableForTableName((String) operandList.get(2)), (String) operandList.get(1),
+        (String) operandList.get(3));
   }
 
   /**
@@ -235,5 +250,50 @@ public class OperationSpec {
   @Override
   public String toString() {
     return "OperationSpec [operationType=" + operationType + ", operandList=" + operandList + "]";
+  }
+
+
+
+  /**
+   * @return the tables
+   */
+  public final List<Table> getTables() {
+    return tables;
+  }
+
+
+
+  /**
+   * @param tables the tables to set
+   */
+  public final void setTables(List<Table> tables) {
+    this.tables = tables;
+  }
+
+
+
+  /**
+   * @return the operandList
+   */
+  public final List<Object> getOperandList() {
+    return operandList;
+  }
+
+
+
+  /**
+   * @param operandList the operandList to set
+   */
+  public final void setOperandList(List<Object> operandList) {
+    this.operandList = operandList;
+  }
+
+
+
+  /**
+   * @return the operationType
+   */
+  public final OperationType getOperationType() {
+    return operationType;
   }
 }

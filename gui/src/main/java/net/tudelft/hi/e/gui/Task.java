@@ -101,8 +101,8 @@ class Task extends SwingWorker<Void, Void> {
         op = o.getOperationForThisSpec();
         op.execute();
 
-        o.getTableForTableName((String) o.operandList.get(0)).clear();
-        o.getTableForTableName((String) o.operandList.get(0)).addAll(op.getResult());
+        o.getTableForTableName((String) o.getOperandList().get(0)).clear();
+        o.getTableForTableName((String) o.getOperandList().get(0)).addAll(op.getResult());
       } catch (TableNotFoundException e) {
         error(e.getMessage());
         e.printStackTrace();

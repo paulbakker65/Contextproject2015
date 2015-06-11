@@ -88,12 +88,15 @@ public final class Exporter {
       }
       for (Code code : table.getCodes().values()) {
         checkForCodeRecord(table, code);
-
-        for (Table events : code.getEvents()) {
-          for (Record record : events) {
-            record.put("Code", new StringValue(code.getName()));
-          }
-        }
+        addCodeColumnsToRecord(code);
+      }
+    }
+  }
+  
+  private static void addCodeColumnsToRecord(Code code) {
+    for (Table events : code.getEvents()) {
+      for (Record record : events) {
+        record.put("Code", new StringValue(code.getName()));
       }
     }
   }
