@@ -219,8 +219,11 @@ public class LsaOperation extends Operation {
   }
 
   private boolean deepEquals(LsaOperation other) {
-    return equalEventColumn(other) && equalRange(other) && equalKey(other)
-        && equalTarget(other) && equalGrouper(other);
+    boolean equalRangeKeyTarget = equalRange(other) && equalKey(other)
+        && equalTarget(other);
+    boolean equalEventGrouper = equalGrouper(other) && equalEventColumn(other);
+
+    return equalRangeKeyTarget && equalEventGrouper;
   }
 
   private boolean equalEventColumn(LsaOperation other) {

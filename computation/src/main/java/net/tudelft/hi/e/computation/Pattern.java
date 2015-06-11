@@ -42,6 +42,10 @@ public abstract class Pattern {
       return false;
     }
     final Pattern other = (Pattern) obj;
+    return equalNextPattern(other);
+  }
+
+  private boolean equalNextPattern(Pattern other) {
     if (nextPattern == null) {
       if (other.nextPattern != null) {
         return false;

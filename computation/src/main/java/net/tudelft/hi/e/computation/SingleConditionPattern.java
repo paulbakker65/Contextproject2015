@@ -4,9 +4,11 @@ import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 
 /**
- * Abstract class for a pattern where a record should satisfy a certain condition.
+ * Abstract class for a pattern where a record should satisfy a certain
+ * condition.
  */
 public class SingleConditionPattern extends Pattern {
+
   /**
    * The condition that should hold.
    */
@@ -28,7 +30,8 @@ public class SingleConditionPattern extends Pattern {
    * @param condition the condition a record should satisfy.
    * @param nextPattern the next pattern to link to.
    */
-  public SingleConditionPattern(final RecordCondition condition, final Pattern nextPattern) {
+  public SingleConditionPattern(final RecordCondition condition,
+      final Pattern nextPattern) {
     super(nextPattern);
     this.condition = condition;
   }
@@ -51,27 +54,25 @@ public class SingleConditionPattern extends Pattern {
   @Override
   public boolean findPattern(final Table table, int fromIndex,
       final Table records) {
-    int index = fromIndex;
-
     // If the end of the table has been reached, return.
-    if (index >= table.size()) {
+    if (fromIndex >= table.size()) {
       return false;
     }
     // Check whether the previous record differs.
-    if (records.isEmpty() && index > 0 && matches(table.get(index - 1))) {
+    if (records.isEmpty() && fromIndex > 0 && matches(table.get(fromIndex - 1))) {
       return false;
     }
 
-    final Record record = table.get(index++);
+    final Record record = table.get(fromIndex++);
     if (matches(record)) {
       records.add(record);
 
-      if (nextPattern instanceof NullPattern && index < table.size()
-          && matches(table.get(index))) {
+      if (nextPattern instanceof NullPattern && fromIndex < table.size()
+          && matches(table.get(fromIndex))) {
         return false;
       }
 
-      return nextPattern.findPattern(table, index, records);
+      return nextPattern.findPattern(table, fromIndex, records);
     } else {
       return false;
     }
@@ -97,4 +98,5 @@ public class SingleConditionPattern extends Pattern {
   private boolean matches(final Record record) {
     return condition.matches(record);
   }
+
 }

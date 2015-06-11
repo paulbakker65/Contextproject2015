@@ -65,13 +65,16 @@ public class Formula {
       return false;
     }
     final Formula other = (Formula) obj;
+    return this.deepEquals(other);
+  }
+
+  private boolean deepEquals(Formula other) {
     if (operator == other.operator) {
       return this.equalFirstOperand(other) && this.equalSecondOperand(other);
     } else {
       return false;
     }
   }
-
   private boolean equalFirstOperand(final Formula other) {
     if (operand1 == null) {
       if (other.operand1 != null) {

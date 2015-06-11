@@ -63,12 +63,7 @@ public class MultipleConditionPattern extends Pattern {
    */
   @Override
   public boolean findPattern(final Table table, int fromIndex, final Table records) {
-    // The table must contain at least 2 records.
-    if (fromIndex >= table.size() - 1) {
-      return false;
-    }
-    // Check whether the previous record differs.
-    if (records.isEmpty() && fromIndex > 0 && matches(table.get(fromIndex - 1))) {
+    if (!findPatternPreConditions(table, fromIndex, records)) {
       return false;
     }
 
@@ -91,6 +86,17 @@ public class MultipleConditionPattern extends Pattern {
       return nextPattern.findPattern(table, fromIndex, records);
     }
     return false;
+  }
+
+  private boolean findPatternPreConditions(final Table table,
+      final int fromIndex, final Table records) {
+    if (fromIndex >= table.size() - 1) {
+      return false;
+    }
+    if (records.isEmpty() && fromIndex > 0 && matches(table.get(fromIndex - 1))) {
+      return false;
+    }
+    return true;
   }
 
   private boolean matches(Record record) {
