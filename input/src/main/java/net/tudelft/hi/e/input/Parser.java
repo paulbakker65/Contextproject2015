@@ -94,20 +94,7 @@ public class Parser {
 
       // Read a row, convert the values and store them in the Table.
       while (row != null && row.length == numColumns) {
-        final Value[] values = new Value[numColumns];
-        final Map<String, String> timeDateLinks = new HashMap<String, String>();
-
-        for (int i = 0; i < columns.size(); i++) {
-          values[i] = columns.get(i).convertToValue(row[i]);
-
-          if (values[i].isTime()) {
-            timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).
-                getTargetDate());
-          }
-        }
-
-        final Record tuple = new Record(columns, values, settings.getName());
-        connectLinks(timeDateLinks, tuple);
+        Record tuple = parseConvertValuesAndCreateRow(row);
         table.add(tuple);
 
         row = reader.readRow();
@@ -117,5 +104,22 @@ public class Parser {
     }
 
     return table;
+  }
+
+  private Record parseConvertValuesAndCreateRow(final String[] row)
+          throws ColumnTypeMismatchException {
+    final Value[] values = new Value[numColumns];
+    final Map<String, String> timeDateLinks = new HashMap<String, String>();
+    for (int i = 0; i < columns.size(); i++) {
+      values[i] = columns.get(i).convertToValue(row[i]);
+
+      if (values[i].isTime()) {
+        timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).
+                getTargetDate());
+      }
+    }
+    final Record tuple = new Record(columns, values, settings.getName());
+    connectLinks(timeDateLinks, tuple);
+    return tuple;
   }
 }

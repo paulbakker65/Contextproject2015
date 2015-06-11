@@ -89,33 +89,44 @@ public class Settings {
           + element.getNodeName());
     }
 
+    final String startLineFromXml = checkValidAndGetStartLineFromXml(element);
+    try {
+      setStartLine(Integer.parseInt(startLineFromXml));
+    } catch (final NumberFormatException ex) {
+      throw new WrongXmlException(ex);
+    }
+    setDelimiter(checkValidAndGetDelimiterFromXml(element));
+    setName(checkValidAndGetNameFromXml(element));
+  }
+
+  private String checkValidAndGetStartLineFromXml(final Element element) throws
+          WrongXmlException {
     final String startLineFromElement = element.getAttribute("startLine");
 
     if (startLineFromElement.isEmpty()) {
       throw new WrongXmlException("No startLine specified!");
     }
+    return startLineFromElement;
+  }
 
-    try {
-      setStartLine(Integer.parseInt(startLineFromElement));
-    } catch (final NumberFormatException e) {
-      throw new WrongXmlException("StartLine should be a number!");
-    }
-
+  private String checkValidAndGetDelimiterFromXml(final Element element) throws
+          WrongXmlException {
     final String delimiterFromElement = element.getAttribute("delimiter");
 
     if (delimiterFromElement.isEmpty()) {
       throw new WrongXmlException("No delimiter specified!");
     }
+    return delimiterFromElement;
+  }
 
-    setDelimiter(delimiterFromElement);
-
+  private String checkValidAndGetNameFromXml(final Element element) throws
+          WrongXmlException {
     final String nameFromElement = element.getAttribute("name");
 
     if (nameFromElement.isEmpty()) {
       throw new WrongXmlException("No table name specified!");
     }
-
-    setName(nameFromElement);
+    return nameFromElement;
   }
 
   public void setColumns(final List<Column> columns) {
