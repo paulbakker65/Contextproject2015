@@ -5,6 +5,10 @@ package net.tudelft.hi.e.data;
  *
  */
 public class NullValue extends Value {
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
 
   /**
    * Constructs a new NullValue.

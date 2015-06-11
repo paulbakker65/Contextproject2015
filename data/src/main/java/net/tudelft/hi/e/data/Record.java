@@ -1,7 +1,8 @@
 package net.tudelft.hi.e.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,16 +10,20 @@ import java.util.Objects;
  * A timed event that can contain various properties ("columns"). Because it extends a HashMap new
  * properties can be made on the fly.
  */
-public class Record extends HashMap<String, Value> {
+public class Record extends LinkedHashMap<String, Value> implements Serializable {
+
+  /**
+   * Serial version.
+   */
   private static final long serialVersionUID = 1L;
   private String tableName;
-  private List<String> keysInOrder;
+  private ArrayList<String> keysInOrder;
 
   /**
    * Creates a Record.
    *
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record() {
     this("");
@@ -30,7 +35,6 @@ public class Record extends HashMap<String, Value> {
   public Record(String tableName) {
     super();
     this.tableName = tableName;
-    this.keysInOrder = new ArrayList<String>();
   }
 
   /**
@@ -41,7 +45,7 @@ public class Record extends HashMap<String, Value> {
    * @param values
    *        An array of values.
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record(final List<Column> columns, final Value[] values) {
     this(columns, values, "");
@@ -55,7 +59,7 @@ public class Record extends HashMap<String, Value> {
    * @param values
    *        An array of values.
    * @param tableName
-   *        the original file name.
+   *          the original file name.
    */
   public Record(final List<Column> columns, final Value[] values, String tableName) {
     super();
@@ -68,18 +72,34 @@ public class Record extends HashMap<String, Value> {
   }
 
   /**
+   * Creates a record by copying the other record.
+   *
+   * @param otherRecord the record to copy.
+   */
+  public Record(Record otherRecord) {
+    super(otherRecord);
+    this.tableName = new String(otherRecord.tableName);
+  }
+
+  /**
    * Renames a column name/key
    *
-   * @param oldname The key to replace.
-   * @param newname The new name to use.
+   * @param oldName
+   *          The key to replace.
+   * @param newName
+   *          The new name to use.
    */
-  public void rename(final String oldname, final String newname) {
-    final Value value = get(oldname);
-    List<String> newKeysInOrder = new ArrayList<String>(keysInOrder);
-    newKeysInOrder.set(newKeysInOrder.indexOf(oldname), newname);
-    remove(oldname);
-    put(newname, value);
-    keysInOrder = newKeysInOrder;
+  public void rename(final String oldName, final String newName) {
+    LinkedHashMap<String, Value> entries = new LinkedHashMap<String, Value>(this);
+    clear();
+
+    for (String key : entries.keySet()) {
+      if (key.equals(oldName)) {
+        put(newName, entries.get(key));
+      } else {
+        put(key, entries.get(key));
+      }
+    }
   }
 
   /**
@@ -96,6 +116,7 @@ public class Record extends HashMap<String, Value> {
 
   /**
    * Returns the original file name.
+   *
    * @return the original file name.
    */
   public String getTableName() {
@@ -124,8 +145,13 @@ public class Record extends HashMap<String, Value> {
     return result;
   }
 
+  /**
+   * Returns the list of keys in the order they are inserted.
+   *
+   * @return the list of keys in the order they are inserted.
+   */
   public List<String> getKeysInOrder() {
-    return keysInOrder;
+    return new ArrayList<String>(keySet());
   }
 
   @Override

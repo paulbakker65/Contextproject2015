@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.export;
 
 import com.opencsv.CSVWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.data.TableFile;
 import net.tudelft.hi.e.data.Value;
 
 /**
@@ -30,6 +32,23 @@ public final class Exporter {
   public static void setAddCodeFrequency(boolean value) {
     ADD_CODE_FREQUENCY = value;
   }
+
+  /**
+   * The export method writes a Table to a writer instance.
+   *
+   * @param table The Table to be written.
+   * @param path The path where the Table has to been written to.
+   * @param extension The extension the output file will have.
+   * @throws IOException If the writing fails an IOException is thrown.
+   */
+  public static void export(Table table, String path, String extension) throws
+          IOException {
+    FileWriter writer = new FileWriter(path + extension);
+    Table exportTable = new Table(table);
+    TableFile.writeTable(table, path);
+    export(exportTable, writer);
+  }
+
   /**
    * The export method writes a Table to a writer instance.
    *
@@ -72,11 +91,16 @@ public final class Exporter {
   }
 
   private static void checkForChunksColumn(Table table) {
-    if (!table.getChunks().isEmpty()) {
-      for (Chunk chunk : table.getChunks()) {
+    checkForChunksColumn(table.getChunks(), 0);
+  }
+
+  private static void checkForChunksColumn(List<Chunk> chunks, int depth) {
+    if (!chunks.isEmpty()) {
+      for (Chunk chunk : chunks) {
         for (Record record : chunk) {
-          record.put("Chunk", new StringValue(chunk.getLabel()));
+          record.put("Chunks " + depth, new StringValue(chunk.getLabel()));
         }
+        checkForChunksColumn(chunk.getChunks(), depth + 1);
       }
     }
   }
@@ -92,7 +116,7 @@ public final class Exporter {
       }
     }
   }
-  
+
   private static void addCodeColumnsToRecord(Code code) {
     for (Table events : code.getEvents()) {
       for (Record record : events) {

@@ -61,6 +61,12 @@ public class BetweenOperation extends Operation {
     this(inputDataset, eventcol, datecol, datecol, ev1val, ev2val);
   }
 
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
+  }
+
   private void addEvent(final int index1, final int index2) {
     final int timeDif = (int) ((getTimeStamp(index2) - getTimeStamp(index1)) / (1000 * 60 * 60));
     resultData.get(index1).put("time_before_" + ev2val.toString(), new NumberValue(timeDif));
@@ -129,7 +135,9 @@ public class BetweenOperation extends Operation {
     return ev2val.equals(inputData.get(index).get(eventcol));
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   *
    * @see java.lang.Object#toString()
    */
   @Override
@@ -138,7 +146,9 @@ public class BetweenOperation extends Operation {
         + eventcol + ", ev1val=" + ev1val + ", ev2val=" + ev2val + "]";
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   *
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -153,7 +163,9 @@ public class BetweenOperation extends Operation {
     return result;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   *
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override

@@ -1,5 +1,8 @@
 package computation;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import net.tudelft.hi.e.common.enums.CompareOperator;
@@ -17,6 +20,7 @@ import net.tudelft.hi.e.computation.SingleConditionPattern;
 import net.tudelft.hi.e.computation.SingleCount;
 import net.tudelft.hi.e.data.StringValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -140,5 +144,14 @@ public class PatternFactoryTest {
     Pattern expected = new SingleConditionPattern(occurCondition, expectedMultiCond);
 
     assertEquals(expected, PatternFactory.createPattern(list));
+  }
+
+  @Test
+  public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<PatternFactory> constructor = PatternFactory.class.getDeclaredConstructor();
+    assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    constructor.setAccessible(true);
+    constructor.newInstance();
   }
 }

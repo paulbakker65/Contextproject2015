@@ -43,4 +43,9 @@ public class CountTest {
     assertNotEquals(multiCount, null);
     assertNotEquals(multiCount, otherClass);
   }
+
+  @Test
+  public void testToStringMultipleCount() {
+    assertEquals("MultipleCount []", new MultipleCount().toString());
+  }
 }

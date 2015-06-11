@@ -55,7 +55,7 @@ public class CodingOperationTest {
     add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
     add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
     add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
-    add("HospitalVisit", nullValue, nullValue, new StringValue("Erg ziek hoor"));
+    add("Hospital", nullValue, nullValue, new StringValue("Erg ziek hoor"));
     add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
     add("WebsiteValue", nullValue, new NumberValue(170), nullValue);
     add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
@@ -137,5 +137,35 @@ public class CodingOperationTest {
     co.execute();
 
     assertEquals(co.getResult().getCode("1S4W").getFrequency(), 0);
+  }
+
+  @Test
+  public void testPatternsCombined() {
+    Pattern pattern = PatternFactory.createPattern("1 Value == 170", "1 WebsiteValue");
+
+    final CodingOperation co = new CodingOperation(table, pattern, "1W1W");
+    co.execute();
+
+    assertEquals(co.getResult().getCode("1W1W").getFrequency(), 2);
+  }
+
+  @Test
+  public void testPatternsCombinedNotFound() {
+    Pattern pattern = PatternFactory.createPattern("1 Value == 160", "1 WebsiteValue");
+
+    final CodingOperation co = new CodingOperation(table, pattern, "1W1W");
+    co.execute();
+
+    assertEquals(co.getResult().getCode("1W1W").getFrequency(), 0);
+  }
+
+  @Test
+  public void testPatternsCombinedThreePatterns() {
+    Pattern pattern = PatternFactory.createPattern("1 Value == 180", "* StatSensor", "1 Hospital");
+
+    final CodingOperation co = new CodingOperation(table, pattern, "1W?S1H");
+    co.execute();
+
+    assertEquals(co.getResult().getCode("1W?S1H").getFrequency(), 1);
   }
 }

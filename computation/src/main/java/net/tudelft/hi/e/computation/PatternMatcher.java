@@ -24,10 +24,10 @@ public class PatternMatcher {
 
   /**
    * Creates a {@link PatternDescription} using a string.
+   *
    * @param expr
-   *        the string representation of the description.
-   * @return
-   *        the created {@link PatternDescription}.
+   *          the string representation of the description.
+   * @return the created {@link PatternDescription}.
    */
   public static PatternDescription getDescription(String expr) {
     String[] description = expr.split(" ", 2);

@@ -58,7 +58,7 @@ public class ChunkingOperationTest {
 
     co = new ChunkingOperation(dataTable, "dateField", ChunkType.DAY);
     co.execute();
-    final Table temp = (Table) dataTable.clone();
+    final Table temp = new Table(dataTable);
     final Chunk chunk1 = new Chunk(0, "Chunk 0");
     final Chunk chunk2 = new Chunk(1, "Chunk 1");
     final Chunk chunk3 = new Chunk(2, "Chunk 2");

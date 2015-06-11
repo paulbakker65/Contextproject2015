@@ -1,5 +1,6 @@
 package net.tudelft.hi.e.gui;
 
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,8 +14,11 @@ import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.export.Exporter;
+import net.tudelft.hi.e.export.SettingsBuilder;
+import net.tudelft.hi.e.export.SettingsWriter;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
+import net.tudelft.hi.e.input.Settings;
 import net.tudelft.hi.e.script.AnalysisLangLexer;
 import net.tudelft.hi.e.script.AnalysisLangParser;
 import net.tudelft.hi.e.script.OperationSpec;
@@ -42,9 +46,7 @@ class Task extends SwingWorker<Void, Void> {
       return null;
     }
 
-    if (!exportFiles()) {
-      return null;
-    }
+    exportFiles();
 
     return null;
   }
@@ -54,8 +56,13 @@ class Task extends SwingWorker<Void, Void> {
     this.firePropertyChange("done", null, null);
   }
 
+
+  /**
+   * Parses all the files in Input class, the tables will be stored in the tables list.
+   * @return returns true if succeeded, false if an error occurred during parsing.
+   */
   private boolean parseFiles() {
-    log("Parsing input files.\n");
+    log("Parsing input files.");
     tables = new ArrayList<Table>();
 
     int currentprogress = 0;
@@ -64,7 +71,7 @@ class Task extends SwingWorker<Void, Void> {
     for (DataFile f : Input.getFiles()) {
       Table table = null;
       try {
-        log("Parsing " + f.toString() + "\n");
+        log("Parsing " + f.toString());
         table = f.getParser().parse(f.getReader());
         tables.add(table);
         currentprogress = currentprogress + onefileprogress;
@@ -74,14 +81,18 @@ class Task extends SwingWorker<Void, Void> {
         return false;
       }
     }
-    log("Done parsing input files.\n\n");
+    log("Done parsing input files.\n");
     setProgress(30);
 
     return true;
   }
 
+  /**
+   * Executes the script file.
+   * @return returns true if succeeded, false if an error occurred during parsing or execution.
+   */
   private boolean execScript() {
-    log("Executing script.\n");
+    log("Executing script.");
 
     ANTLRInputStream input = null;
     try {
@@ -115,37 +126,70 @@ class Task extends SwingWorker<Void, Void> {
       }
     }
 
-    log("Done executing script.\n\n");
+    log("Done executing script.\n");
     setProgress(80);
     return true;
   }
 
-  private boolean exportFiles() {
-    File od = Input.getOutputDir();
+  /**
+   * Exports all tables and settings for the tables.
+   */
+  private void exportFiles() {
+    File outputDir = Input.getOutputDir();
 
-    log("Writing output files.\n");
-    for (Table t : tables) {
+    log("Writing output files.##############");
+    for (Table table : tables) {
+      String filepath = outputDir.getAbsolutePath() + "/output_" + table.getName();
+      exportFile(table, filepath + ".csv");
+      exportSettings(table, filepath + ".xml");
+    }
+    log("Done writing output files.##############\n");
+
+    setProgress(100);
+  }
+
+  /**
+   * Writes the table to a given file path.
+   * @param table The table to export.
+   * @param filepath The file path to save the table in.
+   */
+  private void exportFile(Table table, String filepath) {
+    log("Writing data file: " + filepath);
+    try {
+      Exporter.export(table, new FileWriter(filepath));
+    } catch (Exception e) {
+      error("Error writing file: " + filepath);
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Generates the settings and saves it to a given file path.
+   * @param table The table to export settings for.
+   * @param filepath The file path to save the settings in.
+   */
+  private void exportSettings(Table table, String filepath) {
+    Settings settings = SettingsBuilder.generateSettings(table, ",", 2);
+    if (settings == null) {
+      error("Error generating settings for: " + table.getName());
+    } else {
+      log("Writing Settings file: " + filepath);
       try {
-        Exporter
-            .export(t, new FileWriter(od.getAbsolutePath() + "/output_" + t.getName() + ".csv"));
-      } catch (IOException e) {
-        log("Error writing file.");
+        SettingsWriter.writeSettings(settings, new File(filepath));
+      } catch (Exception e) {
+        error("Error creating xml file: " + e.getMessage());
         e.printStackTrace();
-        return false;
       }
     }
-    log("Done writing output files.\n\n");
-    setProgress(100);
-    return true;
   }
 
   private void log(String message) {
     System.out.println("log: " + message);
-    this.firePropertyChange("log", null, message);
+    this.firePropertyChange("log", null, message + System.lineSeparator());
   }
 
   private void error(String error) {
-    this.firePropertyChange("error", null, error);
+    this.firePropertyChange("error", null, error + System.lineSeparator());
   }
 
   public Table getTable(int index) {

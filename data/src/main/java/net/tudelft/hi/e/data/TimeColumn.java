@@ -171,5 +171,7 @@ public class TimeColumn extends Column {
     return Objects.equals(this.targetDate, other.targetDate);
   }
 
-
+  public String getType() {
+    return "time";
+  }
 }

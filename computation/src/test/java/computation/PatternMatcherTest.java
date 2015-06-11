@@ -1,5 +1,8 @@
 package computation;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.computation.Condition;
 import net.tudelft.hi.e.computation.Count;
@@ -14,6 +17,7 @@ import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.StringValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PatternMatcherTest {
@@ -64,5 +68,14 @@ public class PatternMatcherTest {
   @Test
   public void testGetDescriptionOccurUnknownCondition() {
     assertNull(PatternMatcher.getDescription("1  "));
+  }
+
+  @Test
+  public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<PatternMatcher> constructor = PatternMatcher.class.getDeclaredConstructor();
+    assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    constructor.setAccessible(true);
+    constructor.newInstance();
   }
 }

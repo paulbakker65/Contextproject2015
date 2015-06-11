@@ -7,6 +7,10 @@ package net.tudelft.hi.e.data;
  *
  */
 public class StringValue extends Value {
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
   private String value;
 
   /**

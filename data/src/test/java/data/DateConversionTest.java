@@ -1,10 +1,14 @@
 package data;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import net.tudelft.hi.e.data.DateConversion;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
@@ -71,6 +75,15 @@ public class DateConversionTest {
     final Date actual = DateConversion.fromExcelSerialToDate(40000.75);
 
     assertEquals(expected, actual);
+  }
+
+  @Test
+  public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<DateConversion> constructor = DateConversion.class.getDeclaredConstructor();
+    assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    constructor.setAccessible(true);
+    constructor.newInstance();
   }
 
 }

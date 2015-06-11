@@ -75,10 +75,17 @@ public class XmlReader {
 
   /**
    * Reads an xml file and transforms it into a Settings object.
+<<<<<<< HEAD:input/src/main/java/net/tudelft/hi/e/input/XmlReader.java
    *
    * @param xmlFile the filename.
+=======
+   *
+   * @param xmlFile
+   *          the filename.
+>>>>>>> 9dc477f549173d9540bcf01151eaccbbfcd43c25:src/main/java/input/XmlReader.java
    * @return a Settings object representing the file.
-   * @throws WrongXmlException when the file is wrongly formatted.
+   * @throws WrongXmlException
+   *           when the file is wrongly formatted.
    */
   public static Settings readXmlFile(final String xmlFile) throws WrongXmlException {
     final Settings res = new Settings();

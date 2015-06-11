@@ -1,5 +1,8 @@
 package input;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import net.tudelft.hi.e.data.DateColumn;
@@ -122,5 +125,14 @@ public class XmlReaderTest {
   @Test(expected = WrongXmlException.class)
   public void wrongTypeXmlTest() throws WrongXmlException {
     XmlReader.readXmlFile(folder + "/wrong_type.xml");
+  }
+
+  @Test
+  public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<XmlReader> constructor = XmlReader.class.getDeclaredConstructor();
+    assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    constructor.setAccessible(true);
+    constructor.newInstance();
   }
 }

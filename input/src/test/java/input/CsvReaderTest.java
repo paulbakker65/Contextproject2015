@@ -36,7 +36,7 @@ public class CsvReaderTest {
     assertArrayEquals(row3expected, row3Actual);
 
     final String[] row4Actual = reader.readRow();
-    final String[] row4expected = {"\"mango;mango\"", "zuurkool met worst", "appel"};
+    final String[] row4expected = {"mango;mango", "zuurkool met worst", "appel"};
     assertArrayEquals(row4expected, row4Actual);
 
     reader.close();
@@ -48,7 +48,7 @@ public class CsvReaderTest {
     final CsvReader reader = new CsvReader(filepath, settings.getDelimiter());
     assertEquals(reader.getDelimiter(), settings.getDelimiter());
 
-    String newdelimiter = "\t\t";
+    String newdelimiter = "\t";
     reader.setDelimiter(newdelimiter);
     assertEquals(reader.getDelimiter(), newdelimiter);
 

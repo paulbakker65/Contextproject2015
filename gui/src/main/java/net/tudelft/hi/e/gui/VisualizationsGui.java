@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,13 +31,14 @@ import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.StateTransitionMatrix;
 import net.tudelft.hi.e.data.StemLeafPlot;
 import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.data.TableFile;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
 
 /**
  * A GUI for selecting visualizations.
  */
-public class VisualizationsGui extends JPanel implements ActionListener{
+public class VisualizationsGui extends JPanel implements ActionListener {
   private static final long serialVersionUID = 1L;
 
   private static final Logger LOG
@@ -45,6 +47,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   private JTextField datafile;
   private JTextField settings;
   private JButton openfile;
+  private JButton opentable;
 
   private JTabbedPane tabbedPane;
 
@@ -58,8 +61,29 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   private JComboBox<String> comboStemLeaf;
   private JButton buttonStemLeaf;
   private JTextField textStemLeaf;
+  private JComboBox<String> comboHistogram;
+  private JButton buttonHistogram;
+  private JTextField textHistogram;
 
   private Table table;
+
+  /**
+   * Creates the Visualizations GUI.
+   */
+  public static void init() {
+    JFrame frame = new JFrame("Visualizations");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    JComponent contentPane = new VisualizationsGui();
+    contentPane.setOpaque(true);
+    contentPane.setPreferredSize(new Dimension(1024, 600));
+    frame.setContentPane(contentPane);
+
+    frame.pack();
+    GUI.setIconImage(frame);
+    GUI.centreWindow(frame);
+    frame.setVisible(true);
+  }
 
   /**
    * Creates the GUI components, use init() instead.
@@ -104,6 +128,13 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     gbc.insets = new Insets(0, 0, 0, 0);
     filepanel.add(openfile, gbc);
 
+    opentable = new JButton("Open table");
+    opentable.addActionListener(this);
+    gbc.gridx = 4;
+    gbc.weightx = 0.1;
+    gbc.insets = new Insets(0, 0, 0, 0);
+    filepanel.add(opentable, gbc);
+
     tabbedPane = new JTabbedPane();
     tabbedPane.setEnabled(false);
     ImageIcon icon = createImageIcon("icon.png");
@@ -111,47 +142,28 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     JPanel emptypanel = new JPanel();
     emptypanel.add(new JLabel("Please select a file first."));
 
-    tabbedPane.addTab("Frequency Bar", icon, emptypanel,
-            "Create a Frequency Bar diagram");
+    tabbedPane.addTab("Frequency Bar", icon, emptypanel, "Create a Frequency Bar diagram");
     tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-    tabbedPane.addTab("Box Plot", icon, new JPanel(),
-            "Create a Box Plor diagram");
+    tabbedPane.addTab("Box Plot", icon, new JPanel(), "Create a Box Plor diagram");
     tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
     tabbedPane.addTab("Pie Chart", icon, new JPanel(), "Create a Pie Chart");
     tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
-    tabbedPane.addTab("Transition Matrix", icon, new JPanel(),
-            "Create a Transition Matrix");
+    tabbedPane.addTab("Transition Matrix", icon, new JPanel(), "Create a Transition Matrix");
     tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
 
-    tabbedPane.addTab("Stem and Leaf", icon, new JPanel(),
-            "Create a Stem and Leaf plot");
+    tabbedPane.addTab("Stem and Leaf", icon, new JPanel(), "Create a Stem and Leaf plot");
     tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
+
+    tabbedPane.addTab("Histogram", icon, new JPanel(), "Create a Histogram");
+    tabbedPane.setMnemonicAt(5, KeyEvent.VK_6);
 
     add(filepanel, BorderLayout.PAGE_START);
     add(tabbedPane, BorderLayout.CENTER);
     setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
   }
-  /**
-   * Creates the Visualizations GUI.
-   */
-  public static void init() {
-    JFrame frame = new JFrame("Visualizations");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    JComponent contentPane = new VisualizationsGui();
-    contentPane.setOpaque(true);
-    contentPane.setPreferredSize(new Dimension(1024, 600));
-    frame.setContentPane(contentPane);
-
-    frame.pack();
-    GUI.setIconImage(frame);
-    GUI.centreWindow(frame);
-    frame.setVisible(true);
-  }
-
 
   private JPanel createFrequencyPanel() {
     JPanel panel = new JPanel();
@@ -181,7 +193,8 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
 
-    List<Class> allowed = new ArrayList<Class>();
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+
     allowed.add(NumberColumn.class);
     comboBar = new JComboBox<String>(getColumns(allowed, false));
     panel.add(comboBar);
@@ -211,7 +224,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
 
-    List<Class> allowed = new ArrayList<Class>();
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(NumberColumn.class);
     comboStemLeaf = new JComboBox<String>(getColumns(allowed, false));
     panel.add(comboStemLeaf);
@@ -228,19 +241,37 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     return panel;
   }
 
+  private JPanel createHistogramPanel() {
+    JPanel panel = new JPanel();
+    panel.add(new JLabel("Select a column: "));
+
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    allowed.add(NumberColumn.class);
+    comboHistogram = new JComboBox<String>(getColumns(allowed, false));
+    panel.add(comboHistogram);
+
+    panel.add(new JLabel("Power: "));
+
+    textHistogram = new JTextField("2");
+    panel.add(textHistogram);
+
+    buttonHistogram = new JButton("Start");
+    buttonHistogram.addActionListener(this);
+    panel.add(buttonHistogram);
+
+    return panel;
+  }
+
   private void updateTabbedPane() {
     tabbedPane.setComponentAt(0, createFrequencyPanel());
     tabbedPane.setComponentAt(1, createBarChartPanel());
     tabbedPane.setComponentAt(2, createPieChartPanel());
     tabbedPane.setComponentAt(3, createStateTransitionPanel());
     tabbedPane.setComponentAt(4, createStemandLeafPanel());
+    tabbedPane.setComponentAt(5, createHistogramPanel());
 
     tabbedPane.setEnabled(true);
   }
-
-
-
-
 
   /**
    * Dispatch for button presses.
@@ -250,6 +281,8 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     Object src = event.getSource();
     if (src == openfile) {
       onOpenFile();
+    } else if (src == opentable) {
+      onOpenTable();
     } else if (src == buttonFrequency) {
       onFrequency();
     } else if (src == buttonBar) {
@@ -260,6 +293,8 @@ public class VisualizationsGui extends JPanel implements ActionListener{
       onStateT();
     } else if (src == buttonStemLeaf) {
       onStemLeaf();
+    } else if (src == buttonHistogram) {
+      onHistogram();
     }
   }
 
@@ -280,8 +315,8 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     try {
       Input.addDataFile(dataFile, settingsFile);
     } catch (Exception e) {
-      //addDataFile will throw an exception if an error occurs when
-      //creating the Reader and parsing the settings.
+      // addDataFile will throw an exception if an error occurs when
+      // creating the Reader and parsing the settings.
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
@@ -289,7 +324,6 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     if (Input.getFiles().size() > 1) {
       Input.getFiles().remove(0);
     }
-
 
     DataFile df = Input.getFiles().get(0);
     try {
@@ -299,15 +333,30 @@ public class VisualizationsGui extends JPanel implements ActionListener{
       return;
     }
 
-
     datafile.setText(dataFile.getAbsolutePath());
     settings.setText(settingsFile.getAbsolutePath());
 
     updateTabbedPane();
   }
 
+  private void onOpenTable() {
+    File tableFile = MainUI.openTableFile();
+
+    if (tableFile == null) {
+      return;
+    }
+
+    try {
+      table = TableFile.readTable(tableFile);
+      updateTabbedPane();
+    } catch (IOException | ClassNotFoundException e) {
+      JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+
+  }
+
   private void onFrequency() {
-    String column = (String)comboFrequency.getSelectedItem();
+    String column = (String) comboFrequency.getSelectedItem();
     FrequencyChart fc = new FrequencyChart("Frequency", table, column);
     fc.pack();
     GUI.centreWindow(fc);
@@ -316,32 +365,28 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   }
 
   private void onBarChart() {
-    /*String column = (String)comboFrequency.getSelectedItem();
-    BoxPlotChart fc = new BoxPlotChart("Title", table, column);
-    fc.pack();
-    GUI.centreWindow(fc);
-    GUI.setIconImage(fc);
-    fc.setVisible(true);*/
+    /*
+     * String column = (String)comboFrequency.getSelectedItem(); BoxPlotChart fc = new
+     * BoxPlotChart("Title", table, column); fc.pack(); GUI.centreWindow(fc); GUI.setIconImage(fc);
+     * fc.setVisible(true);
+     */
   }
 
   private void onPieChart() {
     /*
-    PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
-    demo.pack();
-    GUI.setIconImage(demo);
-    GUI.centreWindow(demo);
-    demo.setVisible(true);
-    */
+     * PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
+     * demo.pack(); GUI.setIconImage(demo); GUI.centreWindow(demo); demo.setVisible(true);
+     */
   }
 
   private void onStateT() {
-    String column = (String)comboStateT.getSelectedItem();
+    String column = (String) comboStateT.getSelectedItem();
     StateTransitionMatrix stm = new StateTransitionMatrix(table, column);
     DisplayTableGui.init(stm);
   }
 
   private void onStemLeaf() {
-    String column = (String)comboStemLeaf.getSelectedItem();
+    String column = (String) comboStemLeaf.getSelectedItem();
     int power = 2;
     try {
       power = Integer.parseInt(textStemLeaf.getText());
@@ -353,8 +398,22 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     DisplayTableGui.init(slp);
   }
 
+  private void onHistogram() {
+    String column = (String) comboHistogram.getSelectedItem();
+    int power = 2;
+    try {
+      power = Integer.parseInt(textHistogram.getText());
+    } catch (NumberFormatException exception) {
+      exception.printStackTrace();
+      return;
+    }
 
-
+    HistogramChart hchart = new HistogramChart(table, column, power);
+    hchart.pack();
+    GUI.centreWindow(hchart);
+    GUI.setIconImage(hchart);
+    hchart.setVisible(true);
+  }
 
   private static ImageIcon createImageIcon(String path) {
     java.net.URL imgUrl = ClassLoader.getSystemResource(path);
@@ -367,14 +426,17 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   }
 
   /**
-   * Gives a list of all columns the selected settings file specifies.
-   * @param columntypes A list containing column classes. If set null, all class types are allowed.
-   * @param isblacklist If true columntypes is used as a blacklist, else it is used as a whitelist.
-   * @return Returns all the column names.
+   * Gives a list of all columns the table contains.
+   *
+   * @param columntypes
+   *          a list containing column classes. If set null, all class types are allowed.
+   * @param isblacklist
+   *          if true, columntypes is used as a blacklist, else it is used as a whitelist.
+   * @return all the column names.
    */
-  private String[] getColumns(List<Class> columntypes, boolean isblacklist) {
-    List<Column> columnlist = Input.getFiles().get(0).getSettings().getColumns();
-    List<String> columns = new ArrayList<String>();
+  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist) {
+    List<Column> columnlist = table.getColumns();
+    ArrayList<String> columns = new ArrayList<String>();
 
     for (Column column : columnlist) {
       if (columntypes == null || columntypes.contains(column.getClass()) != isblacklist) {
