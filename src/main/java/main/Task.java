@@ -26,7 +26,6 @@ import table.Table;
 import table.value.ColumnTypeMismatchException;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -142,7 +141,7 @@ class Task extends SwingWorker<Void, Void> {
     log("Writing output files.##############");
     for (Table table : tables) {
       String filepath = outputDir.getAbsolutePath() + "/output_" + table.getName();
-      exportFile(table, filepath + ".csv");
+      exportFile(table, filepath);
       exportSettings(table, filepath + ".xml");
     }
     log("Done writing output files.##############\n");
@@ -158,7 +157,7 @@ class Task extends SwingWorker<Void, Void> {
   private void exportFile(Table table, String filepath) {
     log("Writing data file: " + filepath);
     try {      
-      Exporter.export(table, new FileWriter(filepath));
+      Exporter.export(table, filepath, ".csv");
     } catch (Exception e) {
       error("Error writing file: " + filepath);
       e.printStackTrace();
