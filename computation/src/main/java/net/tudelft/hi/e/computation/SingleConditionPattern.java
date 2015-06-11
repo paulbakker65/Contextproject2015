@@ -54,12 +54,7 @@ public class SingleConditionPattern extends Pattern {
   @Override
   public boolean findPattern(final Table table, int fromIndex,
       final Table records) {
-    // If the end of the table has been reached, return.
-    if (fromIndex >= table.size()) {
-      return false;
-    }
-    // Check whether the previous record differs.
-    if (records.isEmpty() && fromIndex > 0 && matches(table.get(fromIndex - 1))) {
+    if (!findPatternPreConditions(table, fromIndex, records)) {
       return false;
     }
 
@@ -67,15 +62,30 @@ public class SingleConditionPattern extends Pattern {
     if (matches(record)) {
       records.add(record);
 
-      if (nextPattern instanceof NullPattern && fromIndex < table.size()
-          && matches(table.get(fromIndex))) {
-        return false;
-      }
-
-      return nextPattern.findPattern(table, fromIndex, records);
+      return findPatternFindNextPattern(table, fromIndex, records);
     } else {
       return false;
     }
+  }
+
+  private boolean findPatternFindNextPattern(final Table table,
+          final int fromIndex, final Table records) {
+    if (nextPattern instanceof NullPattern && fromIndex < table.size()
+            && matches(table.get(fromIndex))) {
+      return false;
+    }
+    return nextPattern.findPattern(table, fromIndex, records);
+  }
+
+  private boolean findPatternPreConditions(final Table table,
+          final int fromIndex, final Table records) {
+    if (fromIndex >= table.size()) {
+      return false;
+    }
+    if (records.isEmpty() && fromIndex > 0 && matches(table.get(fromIndex - 1))) {
+      return false;
+    }
+    return true;
   }
 
   /**
