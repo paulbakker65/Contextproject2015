@@ -39,7 +39,7 @@ public final class Exporter {
    */
   public static void export(Table table, String path, String extension) throws IOException {
     FileWriter writer = new FileWriter(path + extension);
-    Table exportTable = new Table(table);
+    Table exportTable = new Table(table, true);
     TableFile.writeTable(table, path);
     export(exportTable, writer);
   }
