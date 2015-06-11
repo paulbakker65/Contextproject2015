@@ -153,13 +153,23 @@ public class LsaOperation extends Operation {
 
   private void calcLag(final int keygroup) {
     for (final Entry<Integer, Integer> lag : lagtable.entrySet()) {
-      final int targetgroup = keygroup + lag.getKey();
-      if (targetgroup >= 0 && targetgroup < groups.size()) {
-        for (final Record tr : groups.get(targetgroup)) {
-          if (isTarget(tr)) {
-            lag.setValue(lag.getValue() + 1);
-          }
-        }
+      calcLagForEntry(keygroup, lag);
+    }
+  }
+
+  private void calcLagForEntry(final int keyGroup,
+          final Entry<Integer, Integer> lag) {
+    final int targetGroup = keyGroup + lag.getKey();
+    if (targetGroup >= 0 && targetGroup < groups.size()) {
+      calcLagEntryTargetGroup(targetGroup, lag);
+    }
+  }
+
+  private void calcLagEntryTargetGroup(final int targetGroup,
+          final Entry<Integer, Integer> lag) {
+    for (final Record tr : groups.get(targetGroup)) {
+      if (isTarget(tr)) {
+        lag.setValue(lag.getValue() + 1);
       }
     }
   }
