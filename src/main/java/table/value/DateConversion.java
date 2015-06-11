@@ -12,7 +12,8 @@ public class DateConversion {
   /**
    * Converts Excel Serial Date to a Java Date object.
    * 
-   * @param excelSerial Excel Style Date in SerialDate format. Double, date and time.
+   * @param excelSerial
+   *          Excel Style Date in SerialDate format. Double, date and time.
    * @return Date object in java.util.Date style
    */
   public static Date fromExcelSerialToDate(final double excelSerial) {
@@ -41,4 +42,6 @@ public class DateConversion {
     return c.getTime();
   }
 
+  private DateConversion() {
+  }
 }

@@ -1,6 +1,7 @@
 package operations.patterns;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import enums.CompareOperator;
 
@@ -15,6 +16,9 @@ import scriptlang.extra.Condition;
 
 import table.value.StringValue;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +32,8 @@ public class PatternFactoryTest {
   private PatternDescription oneCond;
   private PatternDescription twoCond;
   private PatternDescription multiCond;
-  
-  private RecordCondition occurCondition; 
+
+  private RecordCondition occurCondition;
   private RecordCondition condCondition;
 
   /**
@@ -40,12 +44,12 @@ public class PatternFactoryTest {
     final Count oneCount = new SingleCount(1);
     final Count twoCount = new SingleCount(2);
     final Count multiCount = new MultipleCount();
-    
+
     Condition condition = new Condition(CompareOperator.EQ, new StringValue("toCompare"));
-    
+
     occurCondition = new RecordOccurrenceCondition("tableName");
     condCondition = new RecordMatchesConditionCondition("columnName", condition);
-    
+
     oneOccur = new PatternDescription(oneCount, occurCondition);
     twoOccur = new PatternDescription(twoCount, occurCondition);
     multiOccur = new PatternDescription(multiCount, occurCondition);
@@ -53,71 +57,71 @@ public class PatternFactoryTest {
     twoCond = new PatternDescription(twoCount, condCondition);
     multiCond = new PatternDescription(multiCount, condCondition);
   }
-  
+
   @Test
   public void testOneSingleOccurrencePattern() {
     List<PatternDescription> list = new ArrayList<PatternDescription>();
     list.add(oneOccur);
-    
+
     Pattern expected = new SingleConditionPattern(occurCondition);
-    
+
     assertEquals(expected, PatternFactory.createPattern(list));
   }
-  
+
   @Test
   public void testOneSingleConditionPattern() {
     List<PatternDescription> list = new ArrayList<PatternDescription>();
     list.add(oneCond);
-    
+
     Pattern expected = new SingleConditionPattern(condCondition);
-    
+
     assertEquals(expected, PatternFactory.createPattern(list));
   }
-  
+
   @Test
   public void testTwoSingleOccurrencePattern() {
     List<PatternDescription> list = new ArrayList<PatternDescription>();
     list.add(twoOccur);
-    
+
     Pattern expectedEnd = new SingleConditionPattern(occurCondition);
     Pattern expected = new SingleConditionPattern(occurCondition);
     expected.setNextPattern(expectedEnd);
-    
+
     assertEquals(expected, PatternFactory.createPattern(list));
   }
-  
+
   @Test
   public void testTwoSingleConditionPattern() {
     List<PatternDescription> list = new ArrayList<PatternDescription>();
     list.add(twoCond);
-    
+
     Pattern expectedEnd = new SingleConditionPattern(condCondition);
     Pattern expected = new SingleConditionPattern(condCondition);
     expected.setNextPattern(expectedEnd);
-    
+
     assertEquals(expected, PatternFactory.createPattern(list));
   }
-  
+
   @Test
   public void testMultiOccurrencePattern() {
     List<PatternDescription> list = new ArrayList<PatternDescription>();
     list.add(multiOccur);
-    
+
     Pattern expected = new MultipleConditionPattern(occurCondition);
-    
+
     assertEquals(expected, PatternFactory.createPattern(list));
   }
-  
+
   @Test
   public void testMultiConditionPattern() {
     List<PatternDescription> list = new ArrayList<PatternDescription>();
     list.add(multiCond);
-    
+
     Pattern expected = new MultipleConditionPattern(condCondition);
-    
+
     assertEquals(expected, PatternFactory.createPattern(list));
   }
-  
+
   @Test
   public void testMultipleDescriptionsPattern() {
     List<PatternDescription> list = new ArrayList<PatternDescription>();
@@ -126,8 +130,8 @@ public class PatternFactoryTest {
     list.add(twoCond);
     list.add(multiOccur);
     list.add(twoOccur);
-    list.add(oneCond);    
-    
+    list.add(oneCond);
+
     Pattern expectedOneCond = new SingleConditionPattern(condCondition);
     Pattern expectedTwoOccurEnd = new SingleConditionPattern(occurCondition, expectedOneCond);
     Pattern expectedTwoOccur = new SingleConditionPattern(occurCondition, expectedTwoOccurEnd);
@@ -136,7 +140,16 @@ public class PatternFactoryTest {
     Pattern expectedTwoCond = new SingleConditionPattern(condCondition, expectedTwoCondEnd);
     Pattern expectedMultiCond = new MultipleConditionPattern(condCondition, expectedTwoCond);
     Pattern expected = new SingleConditionPattern(occurCondition, expectedMultiCond);
-    
+
     assertEquals(expected, PatternFactory.createPattern(list));
-  }  
+  }
+
+  @Test
+  public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<PatternFactory> constructor = PatternFactory.class.getDeclaredConstructor();
+    assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    constructor.setAccessible(true);
+    constructor.newInstance();
+  }
 }
