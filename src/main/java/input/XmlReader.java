@@ -73,9 +73,11 @@ public class XmlReader {
   /**
    * Reads an xml file and transforms it into a Settings object.
    * 
-   * @param xmlFile the filename.
+   * @param xmlFile
+   *          the filename.
    * @return a Settings object representing the file.
-   * @throws WrongXmlException when the file is wrongly formatted.
+   * @throws WrongXmlException
+   *           when the file is wrongly formatted.
    */
   public static Settings readXmlFile(final String xmlFile) throws WrongXmlException {
     final Settings res = new Settings();
@@ -106,5 +108,8 @@ public class XmlReader {
     }
 
     return res;
+  }
+
+  private XmlReader() {
   }
 }

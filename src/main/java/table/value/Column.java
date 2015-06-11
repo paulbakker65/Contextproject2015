@@ -128,4 +128,6 @@ public abstract class Column {
   public String toString() {
     return "name: " + name;
   }
+  
+  public abstract String getType();
 }

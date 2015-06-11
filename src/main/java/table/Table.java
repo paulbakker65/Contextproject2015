@@ -36,7 +36,25 @@ public class Table extends ArrayList<Record> implements Serializable {
    *          the other Table.
    */
   public Table(Table otherTable) {
+    this(otherTable, true);
+  }
+
+  /**
+   * Constructs a Table by copying the other Table's fields.
+   * 
+   * @param otherTable
+   *          the other Table.
+   * @param copyRecords
+   *          whether the Records must be copied.
+   */
+  public Table(Table otherTable, boolean copyRecords) {
     super(otherTable);
+    if (copyRecords) {
+      clear();
+      for (Record record : otherTable) {
+        add(new Record(record));
+      }
+    }
     name = new String(otherTable.name);
     chunks = new ArrayList<Chunk>(otherTable.chunks);
     codes = new HashMap<String, Code>(otherTable.codes);
@@ -173,7 +191,6 @@ public class Table extends ArrayList<Record> implements Serializable {
    */
   public List<Column> getColumns() {
     List<Column> res = new ArrayList<Column>();
-
     if (isEmpty()) {
       return res;
     }
@@ -185,7 +202,7 @@ public class Table extends ArrayList<Record> implements Serializable {
 
       if (columnType != null) {
         res.add(columnType);
-      }
+      }      
     }
 
     return res;

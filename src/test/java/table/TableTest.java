@@ -206,5 +206,4 @@ public class TableTest {
 
     assertEquals(table.size(), otherTable.size());
   }
-
 }

@@ -27,7 +27,8 @@ public class DateColumn extends Column {
   /**
    * Constructs a new DateColumn using a default format.
    * 
-   * @param name the name of the column.
+   * @param name
+   *          the name of the column.
    */
   public DateColumn(final String name) {
     this(name, isoFormatStr);
@@ -36,42 +37,47 @@ public class DateColumn extends Column {
   /**
    * Constructs a new DateColumn.
    * 
-   * @param name the name of the column.
-   * @param format the date format of the column.
+   * @param name
+   *          the name of the column.
+   * @param format
+   *          the date format of the column.
    */
   public DateColumn(final String name, final String format) {
     this(name, format, null);
   }
-  
+
   /**
    * Constructs a new DateColumn.
    * 
-   * @param name the name of the column.
-   * @param format the format of the column.
-   * @param targetDate the date column to link to if it is not null.
+   * @param name
+   *          the name of the column.
+   * @param format
+   *          the format of the column.
+   * @param targetDate
+   *          the date column to link to if it is not null.
    */
   public DateColumn(final String name, final String format, final String targetDate) {
     super(name);
     this.setFormat(format);
     this.setTargetDate(targetDate);
-  }  
+  }
 
   @Override
-  public Value convertToValue(final String text) throws ColumnTypeMismatchException {     
+  public Value convertToValue(final String text) throws ColumnTypeMismatchException {
     if ("null".equals(text.toLowerCase()) || text.isEmpty()) {
       return new NullValue();
     }
     if ("excel".equals(formatStr.toLowerCase())) {
       return new DateValue(convertExcelDate(text), this);
     }
-    
-    try { 
+
+    try {
       return new DateValue(format.parse(text), this);
-    } catch (final ParseException e) {      
+    } catch (final ParseException e) {
       return convertIsoFormat(text);
     }
   }
-  
+
   private Value convertIsoFormat(String text) throws ColumnTypeMismatchException {
     try {
       return new DateValue(isoFormat.parse(text), this);
@@ -79,7 +85,7 @@ public class DateColumn extends Column {
       throw getException(text);
     }
   }
-  
+
   private Date convertExcelDate(final String text) throws ColumnTypeMismatchException {
     try {
       return DateConversion.fromExcelSerialToDate(Double.parseDouble(text));
@@ -91,7 +97,7 @@ public class DateColumn extends Column {
   private ColumnTypeMismatchException getException(final String text) {
     return new ColumnTypeMismatchException("\"" + text + "\" does not satisfy the format \""
         + formatStr + "\"");
-  }  
+  }
 
   @Override
   public void read(final Element element) throws WrongXmlException {
@@ -99,7 +105,7 @@ public class DateColumn extends Column {
     readTarget(element);
     checkFormatExcelIsNotTime();
   }
-  
+
   private void checkFormatExcelIsNotTime() throws WrongXmlException {
     if ("excel".equals(formatStr) && isTime()) {
       throw new WrongXmlException("Excel format cannot also be a time!");
@@ -108,29 +114,29 @@ public class DateColumn extends Column {
 
   private void readFormat(final Element element) throws WrongXmlException {
     final String format = element.getAttribute("format");
-    
+
     if (format.isEmpty()) {
       throw new WrongXmlException("Format not specified!");
     }
-    
+
     setFormat(format);
   }
-  
+
   private void readTarget(final Element element) throws WrongXmlException {
     final String target = element.getAttribute("target");
     setTargetDate(target.isEmpty() ? null : target);
-  }  
-  
+  }
+
   public boolean isTime() {
     return targetDate != null;
   }
 
   @Override
   public String toString() {
-    return super.toString() + ",\ttype: date,\tformat: " + formatStr 
+    return super.toString() + ",\ttype: date,\tformat: " + formatStr
         + (!isTime() ? "" : ",\ttarget: " + targetDate);
   }
-  
+
   /**
    * Returns the column's date format.
    * 
@@ -148,11 +154,12 @@ public class DateColumn extends Column {
   public String getFormatStr() {
     return formatStr;
   }
-  
+
   /**
    * Gives the column a new date format.
    * 
-   * @param format the new date format.
+   * @param format
+   *          the new date format.
    */
   public void setFormat(final String format) {
     this.formatStr = format;
@@ -170,5 +177,11 @@ public class DateColumn extends Column {
 
   public void setTargetDate(String targetDate) {
     this.targetDate = targetDate;
-  }  
+  }
+
+  @Override
+  public String getType() {
+    return "date";
+  }
+
 }
