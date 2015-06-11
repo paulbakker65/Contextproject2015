@@ -14,7 +14,8 @@ public class NumberValue extends Value {
   /**
    * Constructs a new NumberValue.
    * 
-   * @param value the stored number.
+   * @param value
+   *          the stored number.
    */
   public NumberValue(final double value) {
     this.setValue(value);
@@ -23,7 +24,8 @@ public class NumberValue extends Value {
   /**
    * Compare this Number to another Number
    * 
-   * @param other The other Number.
+   * @param other
+   *          The other Number.
    * @return 1 if this > other, 0 if this == other, -1 if this < other.
    */
   public int compareToNumber(final NumberValue other) {
@@ -104,12 +106,13 @@ public class NumberValue extends Value {
   /**
    * Stores a new number value.
    * 
-   * @param value the new number value.
+   * @param value
+   *          the new number value.
    */
   public void setValue(final double value) {
     this.value = value;
   }
-  
+
   public void plusNumber(double value) {
     this.value += value;
   }

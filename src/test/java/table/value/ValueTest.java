@@ -86,7 +86,7 @@ public class ValueTest {
 
     final Value stringValue = new StringValue("text");
     assertFalse(stringValue.isDate());
-    
+
     final Value timeValue = new DateValue(new Date(), new DateColumn("name", "ddMMyy", "Date"));
     assertFalse(timeValue.isDate());
   }
@@ -149,7 +149,7 @@ public class ValueTest {
 
     final Value stringValue = new StringValue("text");
     assertFalse(stringValue.isTime());
-    
+
     final Value timeValue = new DateValue(new Date(), new DateColumn("name", "ddMMyy", "Date"));
     assertTrue(timeValue.isTime());
   }

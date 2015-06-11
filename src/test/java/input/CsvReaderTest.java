@@ -22,19 +22,19 @@ public class CsvReaderTest {
     final CsvReader reader = new CsvReader(filepath, settings.getDelimiter());
 
     final String[] row1Actual = reader.readRow();
-    final String[] row1expected = {"appel", "aardappel", "appelmoes"};
+    final String[] row1expected = { "appel", "aardappel", "appelmoes" };
     assertArrayEquals(row1expected, row1Actual);
 
     final String[] row2Actual = reader.readRow();
-    final String[] row2expected = {"", "wortel", "mayonaise"};
+    final String[] row2expected = { "", "wortel", "mayonaise" };
     assertArrayEquals(row2expected, row2Actual);
 
     final String[] row3Actual = reader.readRow();
-    final String[] row3expected = {"banaan", "bloemkool", ""};
+    final String[] row3expected = { "banaan", "bloemkool", "" };
     assertArrayEquals(row3expected, row3Actual);
 
     final String[] row4Actual = reader.readRow();
-    final String[] row4expected = {"mango;mango", "zuurkool met worst", "appel"};
+    final String[] row4expected = { "mango;mango", "zuurkool met worst", "appel" };
     assertArrayEquals(row4expected, row4Actual);
 
     reader.close();

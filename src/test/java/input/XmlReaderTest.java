@@ -121,7 +121,7 @@ public class XmlReaderTest {
   public void wrongTypeXmlTest() throws WrongXmlException {
     XmlReader.readXmlFile(folder + "/wrong_type.xml");
   }
-  
+
   @Test(expected = WrongXmlException.class)
   public void excelFormatTimeTest() throws WrongXmlException {
     XmlReader.readXmlFile(folder + "/excel_format_time.xml");

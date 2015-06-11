@@ -27,18 +27,20 @@ public class DisplayTableModelTest {
 
   private File datafile = new File(datafilename);
   private File settingsfile = new File(settingsfilename);
-  
-  String[] columnNames = {"number1", "date1" , "string1", "null1", "number"};
-  
+
+  String[] columnNames = { "number1", "date1", "string1", "null1", "number" };
+
   /**
    * Creates a table object from the test1.csv file.
-   * @throws Exception gets thrown if an error occures reading the csv file.
+   * 
+   * @throws Exception
+   *           gets thrown if an error occures reading the csv file.
    */
   @Before
   public void setUp() throws Exception {
     Input.clean();
     Input.addDataFile(datafile, settingsfile);
-    DataFile datafile =  Input.getFiles().get(0);
+    DataFile datafile = Input.getFiles().get(0);
     table = datafile.getParser().parse(datafile.getReader());
     model = new DisplayTableModel(table);
   }
@@ -89,10 +91,12 @@ public class DisplayTableModelTest {
     assertEquals("2014-02-13", model.getValueAt(7, findColumnIndex(columnNames[1])).toString());
     assertEquals("7", model.getValueAt(9, findColumnIndex(columnNames[0])).toString());
   }
-  
+
   /**
    * Finds the column index for the specified name.
-   * @param name the column name for wich the index should be found.
+   * 
+   * @param name
+   *          the column name for wich the index should be found.
    * @return returns the index of the column, retuns -1 of it is not found.
    */
   public int findColumnIndex(String name) {

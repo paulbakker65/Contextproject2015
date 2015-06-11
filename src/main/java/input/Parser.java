@@ -27,7 +27,8 @@ public class Parser {
   /**
    * Constructs a new parser given the settings to describe the file.
    * 
-   * @param settings the settings that describe the file.
+   * @param settings
+   *          the settings that describe the file.
    */
   public Parser(final Settings settings) {
     super();
@@ -76,11 +77,13 @@ public class Parser {
   /**
    * Parses the file given the Reader that reads the file.
    * 
-   * @param reader the reader that reads the file.
+   * @param reader
+   *          the reader that reads the file.
    * @return a Table object which represents the read file as a table.
-   * @throws IOException when something fail during reading.
-   * @throws ColumnTypeMismatchException when the read file contains other values than specified by
-   *         the settings.
+   * @throws IOException
+   *           when something fail during reading.
+   * @throws ColumnTypeMismatchException
+   *           when the read file contains other values than specified by the settings.
    */
   public Table parse(final Reader reader) throws IOException, ColumnTypeMismatchException {
     // Skip lines until the start line is reached.

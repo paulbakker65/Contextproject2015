@@ -115,11 +115,12 @@ public class ColumnTest {
     final DateColumn column = new DateColumn("testName", "dd-MM-yyyy");
     assertEquals("name: testName,\ttype: date,\tformat: dd-MM-yyyy", column.toString());
   }
-  
+
   @Test
   public void testDateColumnToStringTime() {
     final DateColumn column = new DateColumn("testName", "dd-MM-yyyy", "Date");
-    assertEquals("name: testName,\ttype: date,\tformat: dd-MM-yyyy,\ttarget: Date", column.toString());
+    assertEquals("name: testName,\ttype: date,\tformat: dd-MM-yyyy,\ttarget: Date",
+        column.toString());
   }
 
   @Test
