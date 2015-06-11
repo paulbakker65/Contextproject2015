@@ -1,5 +1,6 @@
 package main;
 
+import input.DataFile;
 import input.FilesTableModel;
 import input.Input;
 
@@ -21,8 +22,8 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,9 +35,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  * MainUI class implementing the main Graphical User Interface.
  */
-public class MainUI extends JDialog {
+public class MainUI extends JFrame {
   private static final long serialVersionUID = 1L;
- 
+
   // All GUI components:
   private JPanel contentPane;
   private JButton buttonRunScript;
@@ -51,38 +52,36 @@ public class MainUI extends JDialog {
   private JTextField textFieldOutputDir;
   private JButton browseButton;
   private JButton viewDirectoryButton;
+  private JButton buttonVisualizations;
+  private JButton settingsbuilderButton;
 
   // Filters for JFileChooser dialog
-  private static FileNameExtensionFilter xmlfilter = 
-      new FileNameExtensionFilter("XML files", "xml");
-  private static FileNameExtensionFilter csvfilter = 
-      new FileNameExtensionFilter("CSV and TXT files", "csv", "txt");
-  private static FileNameExtensionFilter xlsfilter = 
-      new FileNameExtensionFilter("Excel files", "xls", "xlsx");
-  private static FileNameExtensionFilter serfilter = 
-      new FileNameExtensionFilter("SER files", "ser");
+  private static FileNameExtensionFilter xmlfilter =
+          new FileNameExtensionFilter("XML files", "xml");
+  private static FileNameExtensionFilter csvfilter =
+          new FileNameExtensionFilter("CSV and TXT files", "csv", "txt");
+  private static FileNameExtensionFilter xlsfilter =
+          new FileNameExtensionFilter("Excel files", "xls", "xlsx");
+  private static FileNameExtensionFilter serfilter =
+          new FileNameExtensionFilter("SER files", "ser");
 
   private static File previousDirectory;
 
   private boolean exit = false;
 
   /**
-   * 
+   * Creates a gui for select input files.
    */
   public MainUI() {
-    super(null, ModalityType.TOOLKIT_MODAL);
-
     init();
 
-    // call onCancel() on ESCAPE
     contentPane.registerKeyboardAction(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         onCancel();
       }
-      }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-      JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+       JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-    // call onCancel() when cross is clicked
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent event) {
@@ -143,16 +142,29 @@ public class MainUI extends JDialog {
         onCancel();
       }
     });
+    
+    buttonVisualizations.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent event) {
+        onVisualizations();
+      }
+    });
+    
+    settingsbuilderButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent event) {
+        onSettingsBuilder();
+      }
+    });
   }
 
   /**
-   * Initializes the GUI. Sets the dialog look to match the system look, 
+   * Initializes the GUI. Sets the dialog look to match the system look,
    * loads the icon and sets the file path fields.
    */
   public void init() {
     GUI.setSystemLook();
     setContentPane(contentPane);
-    setModal(true);
 
     getRootPane().setDefaultButton(buttonRunScript);
 
@@ -235,7 +247,7 @@ public class MainUI extends JDialog {
       if (!Input.setOutputDir(chooser.getSelectedFile())) {
         JOptionPane.showMessageDialog(this,
                 "Error with output directory. "
-                    + "Selected path is a file or the direcotry could not be made.",
+                        + "Selected path is a file or the direcotry could not be made.",
                 "Directory not found.", JOptionPane.ERROR_MESSAGE);
         return;
       }
@@ -282,7 +294,7 @@ public class MainUI extends JDialog {
     filters.add(xlsfilter);
     return openFile(filters, "data file");
   }
-  
+
   /**
    * Shows a file dialog for the user to select a ser file.
    */
@@ -291,7 +303,7 @@ public class MainUI extends JDialog {
     filters.add(serfilter);
     return openFile(filters, "table file");
   }
-  
+
   /**
    * Shows a file dialog for the user to select the settings file.
    */
@@ -300,7 +312,7 @@ public class MainUI extends JDialog {
     filters.add(xmlfilter);
     return openFile(filters, "settings file");
   }
-  
+
   /**
    * Shows a file dialog for the user to select a file.
    */
@@ -308,11 +320,11 @@ public class MainUI extends JDialog {
     File file;
     JFileChooser chooser = new JFileChooser(previousDirectory);
     chooser.setDialogTitle("Open " + title + ".");
-    
+
     for (FileNameExtensionFilter filter : filters) {
       chooser.setFileFilter(filter);
     }
-    
+
     int state = chooser.showOpenDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {
@@ -328,10 +340,10 @@ public class MainUI extends JDialog {
       System.out.println("Selected " + title + ": " + file);
       return file;
     }
-    
+
     return null;
-  }  
-  
+  }
+
   /**
    * Opens a open file dialog for the user to select a data file and a settings file. When the user
    * is done, the file wil be displayed in the files table.
@@ -353,7 +365,7 @@ public class MainUI extends JDialog {
     try {
       Input.addDataFile(dataFile, settingsFile);
     } catch (Exception e) {
-      //addDataFile will throw an exception if an error occurs when 
+      //addDataFile will throw an exception if an error occurs when
       //creating the Reader and parsing the settings.
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
@@ -388,6 +400,17 @@ public class MainUI extends JDialog {
     filesTable.repaint();
   }
 
+  private void onSettingsBuilder() {
+
+  }
+
+  /**
+   * Open a blank visualizations window.
+   */
+  private void onVisualizations() {
+    VisualizationsGui.init(null);
+  }
+
   /**
    * Validates that the user has specified the required files and exits the gui.
    */
@@ -395,13 +418,20 @@ public class MainUI extends JDialog {
 
     if (!Input.hasScript() || !Input.hasOutput() || !Input.hasFiles()) {
       JOptionPane.showMessageDialog(null,
-              "Please make sure you have selected a script file, " 
-                  + "output directory and at least 1 data file.",
+              "Please make sure you have selected a script file, "
+                      + "output directory and at least 1 data file.",
               "Wrong input.", JOptionPane.INFORMATION_MESSAGE);
       return;
     }
 
-    dispose();
+    System.out.println("Run script with input:\n" 
+        + "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n" 
+        + "outputDir = " + Input.getOutputDir().getAbsolutePath() + "\n" 
+        + "files = ");
+    for (DataFile file : Input.getFiles()) {
+      System.out.println(file.toString());
+    }
+    ProgressGui.init();
   }
 
   /**
@@ -416,22 +446,22 @@ public class MainUI extends JDialog {
     return exit;
   }
 
- 
+
   {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
 // >>> IMPORTANT!! <<<
 // DO NOT EDIT OR ADD ANY CODE HERE!
-    setupUI();
+    $$$setupUI$$$();
   }
 
   /**
    * Method generated by IntelliJ IDEA GUI Designer
-   * IMPORTANT!!
+   * >>> IMPORTANT!! <<<
    * DO NOT edit this method OR call it in your code!
    *
    * @noinspection ALL
    */
-  private void setupUI() {
+  private void $$$setupUI$$$() {
     contentPane = new JPanel();
     contentPane.setLayout(new GridBagLayout());
     contentPane.setPreferredSize(new Dimension(800, 600));
@@ -576,12 +606,29 @@ public class MainUI extends JDialog {
     gbc.weighty = 1.0;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     filesPanel.add(editScriptButton, gbc);
+    buttonVisualizations = new JButton();
+    buttonVisualizations.setText("Visualizations");
+    gbc = new GridBagConstraints();
+    gbc.gridx = 3;
+    gbc.gridy = 5;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(0, 0, 3, 0);
+    filesPanel.add(buttonVisualizations, gbc);
+    settingsbuilderButton = new JButton();
+    settingsbuilderButton.setMargin(new Insets(2, 14, 2, 14));
+    settingsbuilderButton.setText("Settings Builder");
+    gbc = new GridBagConstraints();
+    gbc.gridx = 3;
+    gbc.gridy = 4;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(0, 0, 4, 0);
+    filesPanel.add(settingsbuilderButton, gbc);
   }
 
   /**
    * @noinspection ALL
    */
-  public JComponent getRootComponent() {
+  public JComponent $$$getRootComponent$$$() {
     return contentPane;
   }
 }
