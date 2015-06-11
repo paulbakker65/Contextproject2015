@@ -7,7 +7,6 @@ import org.w3c.dom.Element;
 
 import table.value.Column;
 import table.value.DateColumn;
-import table.value.TimeColumn;
 
 import java.io.File;
 
@@ -84,10 +83,8 @@ public class SettingsWriter {
     
     if (type.equals("date")) {
       element.setAttribute("format", ((DateColumn)column).getFormatStr());
-    } else if (type.equals("time")) {
-      element.setAttribute("format", ((TimeColumn)column).getFormatStr());
-      element.setAttribute("target", ((TimeColumn)column).getTargetDate());
     }
+    
     return element;
   }
   
