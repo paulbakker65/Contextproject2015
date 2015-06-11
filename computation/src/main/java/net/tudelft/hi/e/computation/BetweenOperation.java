@@ -157,42 +157,44 @@ public class BetweenOperation extends Operation {
       return false;
     }
     BetweenOperation other = (BetweenOperation) obj;
+    return this.equalDates(other) && this.equalValues(other) && this.equalEvent(
+        other);
+  }
+
+  private boolean equalDates(BetweenOperation other) {
     if (datecol == null) {
-      if (other.datecol != null) {
-        return false;
-      }
+      return false;
     } else if (!datecol.equals(other.datecol)) {
       return false;
     }
     if (datecol2 == null) {
-      if (other.datecol2 != null) {
-        return false;
-      }
+      return false;
     } else if (!datecol2.equals(other.datecol2)) {
-      return false;
-    }
-    if (ev1val == null) {
-      if (other.ev1val != null) {
-        return false;
-      }
-    } else if (!ev1val.equals(other.ev1val)) {
-      return false;
-    }
-    if (ev2val == null) {
-      if (other.ev2val != null) {
-        return false;
-      }
-    } else if (!ev2val.equals(other.ev2val)) {
-      return false;
-    }
-    if (eventcol == null) {
-      if (other.eventcol != null) {
-        return false;
-      }
-    } else if (!eventcol.equals(other.eventcol)) {
       return false;
     }
     return true;
   }
 
+  private boolean equalValues(BetweenOperation other) {
+    if (ev1val == null) {
+      return false;
+    } else if (!ev1val.equals(other.ev1val)) {
+      return false;
+    }
+    if (ev2val == null) {
+      return false;
+    } else if (!ev2val.equals(other.ev2val)) {
+      return false;
+    }
+    return true;
+  }
+
+
+  private boolean equalEvent(BetweenOperation other) {
+    if (eventcol == null) {
+      return false;
+    } else {
+      return eventcol.equals(other.eventcol);
+    }
+  }
 }

@@ -42,11 +42,8 @@ public class ConnectionOperation extends Operation {
       return false;
     }
 
-    if (inputData.isEmpty()) {
+    if (inputData.isEmpty() || otherTable.isEmpty()) {
       resultData.addAll(otherTable);
-      return true;
-    }
-    if (otherTable.isEmpty()) {
       resultData.addAll(inputData);
       return true;
     }
@@ -65,10 +62,10 @@ public class ConnectionOperation extends Operation {
     t1columns.removeAll(t2columns);
     t2columns.removeAll(t1temp);
 
-    final NullValue nullvalue = new NullValue();
+    final NullValue nullValue = new NullValue();
     for (final Record record : inputData) {
       for (final String column : t2columns) {
-        record.put(column, nullvalue);
+        record.put(column, nullValue);
       }
     }
 
@@ -76,7 +73,7 @@ public class ConnectionOperation extends Operation {
       record.rename(otherColumnName, columnName);
 
       for (final String column : t1columns) {
-        record.put(column, nullvalue);
+        record.put(column, nullValue);
       }
     }
 

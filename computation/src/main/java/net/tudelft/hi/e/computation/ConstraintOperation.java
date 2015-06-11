@@ -113,7 +113,10 @@ public class ConstraintOperation extends Operation {
       return false;
     }
     final ConstraintOperation other = (ConstraintOperation) obj;
+    return this.equalCondition(other);
+  }
 
+  private boolean equalCondition(ConstraintOperation other) {
     if (recordCondition == null) {
       if (other.recordCondition != null) {
         return false;

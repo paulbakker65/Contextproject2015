@@ -2,6 +2,7 @@ package net.tudelft.hi.e.computation;
 
 import java.util.Objects;
 import net.tudelft.hi.e.common.enums.CompareOperator;
+import static net.tudelft.hi.e.common.enums.CompareOperator.EQ;
 import net.tudelft.hi.e.data.Value;
 
 /**

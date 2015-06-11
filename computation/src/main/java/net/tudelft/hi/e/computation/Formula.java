@@ -65,6 +65,14 @@ public class Formula {
       return false;
     }
     final Formula other = (Formula) obj;
+    if (operator == other.operator) {
+      return this.equalFirstOperand(other) && this.equalSecondOperand(other);
+    } else {
+      return false;
+    }
+  }
+
+  private boolean equalFirstOperand(final Formula other) {
     if (operand1 == null) {
       if (other.operand1 != null) {
         return false;
@@ -72,14 +80,15 @@ public class Formula {
     } else if (!operand1.equals(other.operand1)) {
       return false;
     }
+    return true;
+  }
+
+  private boolean equalSecondOperand(final Formula other) {
     if (operand2 == null) {
       if (other.operand2 != null) {
         return false;
       }
     } else if (!operand2.equals(other.operand2)) {
-      return false;
-    }
-    if (operator != other.operator) {
       return false;
     }
     return true;

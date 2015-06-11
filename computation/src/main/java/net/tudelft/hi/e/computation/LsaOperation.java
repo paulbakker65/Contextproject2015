@@ -59,6 +59,28 @@ public class LsaOperation extends Operation {
       return table;
     }
 
+    @Override
+    public int hashCode() {
+      int hash = 7;
+      hash = 89 * hash + Objects.hashCode(this.cols);
+      return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj == null) {
+        return false;
+      }
+      if (getClass() != obj.getClass()) {
+        return false;
+      }
+      final LagTable other = (LagTable) obj;
+      if (!Objects.equals(this.cols, other.cols)) {
+        return false;
+      }
+      return true;
+    }
+
   }
 
   /**
@@ -193,28 +215,32 @@ public class LsaOperation extends Operation {
       return false;
     }
     final LsaOperation other = (LsaOperation) obj;
-    if (!Objects.equals(this.eventcol, other.eventcol)) {
-      return false;
-    }
-    if (this.from != other.from) {
-      return false;
-    }
-    if (this.to != other.to) {
-      return false;
-    }
-    if (!Objects.equals(this.key, other.key)) {
-      return false;
-    }
-    if (!Objects.equals(this.target, other.target)) {
-      return false;
-    }
-    if (!Objects.equals(this.lagtable, other.lagtable)) {
-      return false;
-    }
-    if (!Objects.equals(this.grouper, other.grouper)) {
-      return false;
-    }
-    return true;
+    return deepEquals(other);
+  }
+
+  private boolean deepEquals(LsaOperation other) {
+    return equalEventColumn(other) && equalRange(other) && equalKey(other)
+        && equalTarget(other) && equalGrouper(other);
+  }
+
+  private boolean equalEventColumn(LsaOperation other) {
+    return Objects.equals(this.eventcol, other.eventcol);
+  }
+
+  private boolean equalRange(LsaOperation other) {
+    return this.from == other.from && this.to == other.to;
+  }
+
+  private boolean equalKey(LsaOperation other) {
+    return Objects.equals(this.key, other.key);
+  }
+
+  private boolean equalTarget(LsaOperation other) {
+    return Objects.equals(this.target, other.target);
+  }
+
+  private boolean equalGrouper(LsaOperation other) {
+    return Objects.equals(this.grouper, other.grouper);
   }
 
 }
