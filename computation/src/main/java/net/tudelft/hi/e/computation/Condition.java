@@ -11,8 +11,8 @@ import net.tudelft.hi.e.data.Value;
  */
 public class Condition {
 
-  CompareOperator conditionOperator;
-  Value conditionValue;
+  private CompareOperator conditionOperator;
+  private Value conditionValue;
 
   public Condition(final CompareOperator operator, final Value value) {
     this.conditionOperator = operator;
@@ -35,8 +35,8 @@ public class Condition {
       return false;
     }
 
-    int compareResult = recordValue.compareTo(conditionValue);
-    switch (conditionOperator) {
+    int compareResult = recordValue.compareTo(getConditionValue());
+    switch (getConditionOperator()) {
       case EQ:
         return compareResult == 0;
       case NEQ:
@@ -79,23 +79,23 @@ public class Condition {
       return false;
     }
     final Condition other = (Condition) obj;
-    if (!Objects.equals(this.conditionOperator, other.conditionOperator)) {
+    if (!Objects.equals(this.getConditionOperator(), other.
+            getConditionOperator())) {
       return false;
     }
-    if (!Objects.equals(this.conditionValue, other.conditionValue)) {
-      return false;
-    }
-    return true;
+    return Objects.
+            equals(this.getConditionValue(), other.getConditionOperator());
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((conditionOperator == null) ? 0
-        : conditionOperator.hashCode());
-    result = prime * result + ((conditionValue == null) ? 0 : conditionValue.
-        hashCode());
+    result = prime * result + ((getConditionOperator() == null) ? 0
+            : getConditionOperator().hashCode());
+    result = prime * result + ((getConditionValue() == null) ? 0
+            : getConditionValue().
+            hashCode());
     return result;
   }
 
@@ -106,7 +106,7 @@ public class Condition {
    */
   @Override
   public final String toString() {
-    return conditionOperator.toString() + " " + conditionValue.
-        toString();
+    return getConditionOperator().toString() + " " + getConditionValue().
+            toString();
   }
 }
