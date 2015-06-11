@@ -40,7 +40,9 @@ public abstract class Column {
       case "time":
         res = new TimeColumn(name);
         break;
-      case "string":
+      case "string" :
+        res = new StringColumn(name);
+        break;
       case "":
         res = new StringColumn(name);
         break;
