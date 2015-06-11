@@ -288,7 +288,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     } else if (src == buttonFrequency) {
       onFrequency();
     } else if (src == buttonBar) {
-      onBarChart();
+      onBoxChart();
     } else if (src == buttonPie) {
       onPieChart();
     } else if (src == buttonStateT) {
@@ -371,13 +371,13 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     fc.setVisible(true);
   }
 
-  private void onBarChart() {
+  private void onBoxChart() {
     String column = (String) comboBar.getSelectedItem();
-    BoxPlotChart fc = new BoxPlotChart("Title", table, column);
-    fc.pack();
-    GUI.centreWindow(fc);
-    GUI.setIconImage(fc);
-    fc.setVisible(true);
+    BoxPlotChart bc = new BoxPlotChart("Title", table, column);
+    bc.pack();
+    GUI.centreWindow(bc);
+    GUI.setIconImage(bc);
+    bc.setVisible(true);
   }
 
   private void onPieChart() {

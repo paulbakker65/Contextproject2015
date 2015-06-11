@@ -3,6 +3,8 @@ package visualizations;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
@@ -68,6 +70,10 @@ public class BoxPlotChart extends JFrame {
         column, // range axis label
         (BoxAndWhiskerCategoryDataset) dataset, // data
         true);
+    CategoryPlot catplot = (CategoryPlot) chart.getPlot();
+    BoxAndWhiskerRenderer renderer = (BoxAndWhiskerRenderer) catplot.getRenderer();
+    renderer.setMaximumBarWidth(0.20);
+    
     return chart; 
   }
 }
