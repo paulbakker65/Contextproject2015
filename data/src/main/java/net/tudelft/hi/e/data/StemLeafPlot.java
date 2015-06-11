@@ -10,7 +10,7 @@ public class StemLeafPlot extends Table {
    */
   private static final long serialVersionUID = 1L;
   private Table table;
-  private List<Column> columns;
+  private transient List<Column> columns;
   private String column;
   private int order;
 

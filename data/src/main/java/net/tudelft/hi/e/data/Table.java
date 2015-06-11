@@ -13,7 +13,7 @@ public class Table extends ArrayList<Record> {
 
   private static final long serialVersionUID = 1L;
   private String name;
-  private Map<String, Code> codes;
+  private transient Map<String, Code> codes;
   private List<Chunk> chunks;
 
   /**

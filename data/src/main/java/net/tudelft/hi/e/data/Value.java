@@ -1,5 +1,7 @@
 package net.tudelft.hi.e.data;
 
+import java.util.Objects;
+
 /**
  * An abstract class to represent a String Date Time... etc.
  *
@@ -95,5 +97,15 @@ public abstract class Value implements Comparable<Value> {
    */
   public boolean isTime() {
     return false;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    return Objects.deepEquals(this, other);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this);
   }
 }
