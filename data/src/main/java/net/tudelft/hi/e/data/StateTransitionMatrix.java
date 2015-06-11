@@ -75,16 +75,21 @@ public class StateTransitionMatrix extends Table {
         if (codename.isEmpty()) {
           codename = code.toString();
         } else {
-          for (Record rec : this) {
-            if (rec.get("id").toString().equals(codename)) {
-              NumberValue num = (NumberValue) rec.get(code.toString());
-              num.plusNumber(1);
-              rec.put(code.toString(), num);
-            }
-          }
-          codename = code.toString();
+          codename = countTransitionsForRecord(codename, code);
         }
       }
     }
+  }
+
+  private String countTransitionsForRecord(final String codeName,
+          final Value code) {
+    for (Record rec : this) {
+      if (rec.get("id").toString().equals(codeName)) {
+        NumberValue num = (NumberValue) rec.get(code.toString());
+        num.plusNumber(1);
+        rec.put(code.toString(), num);
+      }
+    }
+    return code.toString();
   }
 }

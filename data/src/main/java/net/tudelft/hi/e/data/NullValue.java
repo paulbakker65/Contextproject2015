@@ -12,10 +12,6 @@ public class NullValue extends Value {
   public NullValue() {
   }
 
-  public int compareToNull(final NullValue other) {
-    return 0;
-  }
-
   @Override
   public boolean equals(final Object other) {
     return other instanceof NullValue;

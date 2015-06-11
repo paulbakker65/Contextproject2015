@@ -2,6 +2,7 @@ package net.tudelft.hi.e.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StemLeafPlot extends Table {
 
@@ -104,6 +105,47 @@ public class StemLeafPlot extends Table {
 
     }
 
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 23 * hash + Objects.hashCode(this.table);
+    hash = 23 * hash + Objects.hashCode(this.columns);
+    hash = 23 * hash + Objects.hashCode(this.column);
+    hash = 23 * hash + this.order;
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final StemLeafPlot other = (StemLeafPlot) obj;
+    return deepEquals(other);
+  }
+
+  private boolean deepEquals(StemLeafPlot other) {
+    return equalTargetColumn(other) && equalTable(other) && equalOrder(other);
+  }
+
+  private boolean equalTargetColumn(StemLeafPlot other) {
+    return Objects.equals(this.column, other.column);
+  }
+
+  private boolean equalTable(StemLeafPlot other) {
+    if (!Objects.equals(this.table, other.table)) {
+      return false;
+    }
+    return Objects.equals(this.columns, other.columns);
+  }
+
+  private boolean equalOrder(StemLeafPlot other) {
+    return this.order == other.order;
   }
 
 }

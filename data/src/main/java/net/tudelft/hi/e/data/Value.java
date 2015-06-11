@@ -41,7 +41,7 @@ public abstract class Value implements Comparable<Value> {
       }
     } else if (this instanceof NullValue) {
       if (other instanceof NullValue) {
-        return ((NullValue) this).compareToNull(((NullValue) other));
+        return 0;
       } else {
         return Integer.MAX_VALUE;
       }

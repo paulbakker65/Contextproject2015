@@ -3,6 +3,7 @@ package net.tudelft.hi.e.data;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import org.w3c.dom.Element;
 
@@ -95,13 +96,13 @@ public class TimeColumn extends Column {
 
   @Override
   public void read(final Element element) throws WrongXmlException {
-    final String format = element.getAttribute("format");
+    final String elementFormat = element.getAttribute("format");
 
-    if (format.isEmpty()) {
+    if (elementFormat.isEmpty()) {
       throw new WrongXmlException("Format not specified!");
     }
 
-    setFormat(format);
+    setFormat(elementFormat);
 
     final String target = element.getAttribute("target");
 
@@ -135,4 +136,40 @@ public class TimeColumn extends Column {
   public String toString() {
     return super.toString() + ",\ttype: time,\tformat: " + formatStr + ",\ttarget: " + targetDate;
   }
+
+  @Override
+  public int hashCode() {
+    int hash = 3;
+    hash = 29 * hash + Objects.hashCode(this.format);
+    hash = 29 * hash + Objects.hashCode(this.formatStr);
+    hash = 29 * hash + Objects.hashCode(this.targetDate);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final TimeColumn other = (TimeColumn) obj;
+    return deepEquals(other);
+  }
+
+  private boolean deepEquals(TimeColumn other) {
+    return equalFormat(other) && equalTarget(other);
+  }
+
+  private boolean equalFormat(TimeColumn other) {
+    return Objects.equals(this.format, other.format) && Objects.equals(
+            this.formatStr, other.formatStr);
+  }
+
+  private boolean equalTarget(TimeColumn other) {
+    return Objects.equals(this.targetDate, other.targetDate);
+  }
+
+
 }
