@@ -36,14 +36,16 @@ public class LsaOperation extends Operation {
     /**
      * Collumns that will be used when exporting to Table.
      */
-    public List<Column> cols = Arrays.asList(new Column[] {new NumberColumn("lag"),
-        new NumberColumn("occur")});
+    public List<Column> cols = Arrays.asList(new Column[] { new NumberColumn("lag"),
+        new NumberColumn("occur") });
 
     /**
      * Creates a lag table with 0 occurence for lag FROM til lag TO.
      * 
-     * @param from lowest lag to scan (inclusive)
-     * @param to highest lag to scan (exclusive)
+     * @param from
+     *          lowest lag to scan (inclusive)
+     * @param to
+     *          highest lag to scan (exclusive)
      */
     public LagTable(final int from, final int to) {
       super();
@@ -55,8 +57,8 @@ public class LsaOperation extends Operation {
     public Table toTable() {
       final Table table = new Table();
       for (final Entry<Integer, Integer> lag : this.entrySet()) {
-        table.add(new Record(cols, new Value[] {new NumberValue(lag.getKey()),
-            new NumberValue(lag.getValue())}));
+        table.add(new Record(cols, new Value[] { new NumberValue(lag.getKey()),
+            new NumberValue(lag.getValue()) }));
       }
       Collections.sort(table, new RecordLagComparator());
       return table;
@@ -91,35 +93,42 @@ public class LsaOperation extends Operation {
   /**
    * Creates a normal LSA with the default grouper. Lag is measured in amount of records.
    * 
-   * @param inputDataset the table to extract lag from
-   * @param eventcol the column where the eventtype of a record is stored
-   * @param from the lowest lag to measure (inclusive)
-   * @param to the highest lag to measure (exclusive)
-   * @param key the eventtype to analyse
-   * @param target the other eventtype where the lag is calculated between
+   * @param inputDataset
+   *          the table to extract lag from
+   * @param eventcol
+   *          the column where the eventtype of a record is stored
+   * @param from
+   *          the lowest lag to measure (inclusive)
+   * @param to
+   *          the highest lag to measure (exclusive)
+   * @param key
+   *          the eventtype to analyse
+   * @param target
+   *          the other eventtype where the lag is calculated between
    */
   public LsaOperation(final Table inputDataset, final String eventcol, final int from,
       final int to, final Value key, final Value target) {
-    super(inputDataset);
-    this.eventcol = eventcol;
-    this.from = from;
-    this.to = to;
-    this.key = key;
-    this.target = target;
-    this.grouper = new SingleGrouper();
+    this(inputDataset, eventcol, from, to, key, target, new SingleGrouper());
   }
 
   /**
    * Creates a LSA. The grouper determines in what unit the lag is measured. If records are grouped
    * in days, the LSA will show lag in days between events.
    * 
-   * @param inputDataset the table to extract lag from
-   * @param eventcol the column where the eventtype of a record is stored
-   * @param from the lowest lag to measure (inclusive)
-   * @param to the highest lag to measure (exclusive)
-   * @param key the eventtype to analyse
-   * @param target the other eventtype where the lag is calculated between
-   * @param grouper groups the records, used to calculate the lag of the LSA
+   * @param inputDataset
+   *          the table to extract lag from
+   * @param eventcol
+   *          the column where the eventtype of a record is stored
+   * @param from
+   *          the lowest lag to measure (inclusive)
+   * @param to
+   *          the highest lag to measure (exclusive)
+   * @param key
+   *          the eventtype to analyse
+   * @param target
+   *          the other eventtype where the lag is calculated between
+   * @param grouper
+   *          groups the records, used to calculate the lag of the LSA
    */
   public LsaOperation(final Table inputDataset, final String eventcol, final int from,
       final int to, final Value key, final Value target, final Grouper grouper) {
@@ -130,6 +139,12 @@ public class LsaOperation extends Operation {
     this.key = key;
     this.target = target;
     this.grouper = grouper;
+  }
+
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
   }
 
   private void calcLag(final int keygroup) {

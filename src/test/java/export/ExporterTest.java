@@ -2,6 +2,7 @@ package export;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,10 +11,15 @@ import table.Chunk;
 import table.Code;
 import table.Record;
 import table.Table;
+import table.TableFile;
 import table.value.StringValue;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +60,10 @@ public class ExporterTest {
     chunk1.add(dummyrow2);
 
     Code code = new Code("codeName");
-    Table event = (Table) dummydb.clone();
+    Table event = new Table(dummydb, false);
     code.addEvent(event);
 
-    dummydb2 = (Table) dummydb.clone();
+    dummydb2 = new Table(dummydb);
     dummydb.addChunk(chunk0);
     dummydb.addChunk(chunk1);
     dummydb.addCode(code);
@@ -73,7 +79,7 @@ public class ExporterTest {
   public void testExportWithChunkCodes() throws IOException {
     Exporter.ADD_CODE_FREQUENCY = false;
     final String expected =
-        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
+        "\"fruit\";\"groente\";\"saus\";\"Chunks 0\";\"Code\"\n"
             + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
             + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
 
@@ -98,7 +104,7 @@ public class ExporterTest {
   public void testExportWithCodeRecord() throws IOException {
     Exporter.ADD_CODE_FREQUENCY = true;
     final String expected =
-        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
+        "\"fruit\";\"groente\";\"saus\";\"Chunks 0\";\"Code\"\n"
             + "\"\";\"\";\"\";\"\";\"codeName=1\"\n"
             + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
             + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
@@ -118,5 +124,25 @@ public class ExporterTest {
   public void testGenerateRow2() {
     final String[] expected = { "banaan", "bloemkool", "" };
     assertArrayEquals(expected, Exporter.generateRow(dummyrow2, cols));
+  }
+
+  @Test
+  public void testExportSer() throws IOException, ClassNotFoundException {
+    Exporter.export(dummydb2, "src/test/resources/testExport", ".csv");
+
+    File exportFile = new File("src/test/resources/testExport.csv");
+    assertTrue(exportFile.exists());
+
+    Table dummyTable = TableFile.readTable("src/test/resources/testExport");
+    assertEquals(dummydb2, dummyTable);
+  }
+
+  @Test
+  public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<Exporter> constructor = Exporter.class.getDeclaredConstructor();
+    assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    constructor.setAccessible(true);
+    constructor.newInstance();
   }
 }

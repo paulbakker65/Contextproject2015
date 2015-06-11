@@ -6,9 +6,13 @@ import input.Input;
 import table.StateTransitionMatrix;
 import table.StemLeafPlot;
 import table.Table;
+import table.TableFile;
 import table.value.Column;
 import table.value.ColumnTypeMismatchException;
 import table.value.NumberColumn;
+
+import visualizations.FrequencyChart;
+import visualizations.HistogramChart;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -38,15 +42,16 @@ import javax.swing.JTextField;
 /**
  * A GUI for selecting visualizations.
  */
-public class VisualizationsGui extends JPanel implements ActionListener{
+public class VisualizationsGui extends JPanel implements ActionListener {
   private static final long serialVersionUID = 1L;
-  
+
   private JTextField datafile;
   private JTextField settings;
   private JButton openfile;
-  
+  private JButton opentable;
+
   private JTabbedPane tabbedPane;
-  
+
   private JComboBox<String> comboFrequency;
   private JButton buttonFrequency;
   private JComboBox<String> comboBar;
@@ -57,8 +62,12 @@ public class VisualizationsGui extends JPanel implements ActionListener{
   private JComboBox<String> comboStemLeaf;
   private JButton buttonStemLeaf;
   private JTextField textStemLeaf;
+  private JComboBox<String> comboHistogram;
+  private JButton buttonHistogram;
+  private JTextField textHistogram;
 
   private Table table;
+
   /**
    * Creates the Visualizations GUI.
    */
@@ -76,16 +85,15 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     GUI.centreWindow(frame);
     frame.setVisible(true);
   }
-  
+
   /**
    * Creates the GUI components, use init() instead.
    */
   public VisualizationsGui() {
     super(new BorderLayout());
-    
+
     GridBagConstraints gbc;
 
-    
     JPanel filepanel = new JPanel();
     filepanel.setLayout(new GridBagLayout());
     gbc = new GridBagConstraints();
@@ -94,155 +102,178 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     gbc.anchor = GridBagConstraints.CENTER;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 0, 5);
-    
+
     gbc.gridy = 1;
-    
+
     gbc.gridx = 1;
     filepanel.add(new JLabel("Data file:"), gbc);
     gbc.gridx = 2;
     filepanel.add(new JLabel("Settings file:"), gbc);
-    
+
     gbc.gridy = 2;
-    
+
     datafile = new JTextField();
     datafile.setEditable(false);
     gbc.gridx = 1;
     filepanel.add(datafile, gbc);
-    
+
     settings = new JTextField();
     settings.setEditable(false);
     gbc.gridx = 2;
     filepanel.add(settings, gbc);
-    
+
     openfile = new JButton("Open file");
     openfile.addActionListener(this);
     gbc.gridx = 3;
     gbc.weightx = 0.1;
     gbc.insets = new Insets(0, 0, 0, 0);
     filepanel.add(openfile, gbc);
-    
-    
-    
+
+    opentable = new JButton("Open table");
+    opentable.addActionListener(this);
+    gbc.gridx = 4;
+    gbc.weightx = 0.1;
+    gbc.insets = new Insets(0, 0, 0, 0);
+    filepanel.add(opentable, gbc);
+
     tabbedPane = new JTabbedPane();
     tabbedPane.setEnabled(false);
     ImageIcon icon = createImageIcon("icon.png");
-    
+
     JPanel emptypanel = new JPanel();
     emptypanel.add(new JLabel("Please select a file first."));
-    
+
     tabbedPane.addTab("Frequency Bar", icon, emptypanel, "Create a Frequency Bar diagram");
     tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-    
-    
+
     tabbedPane.addTab("Box Plot", icon, new JPanel(), "Create a Box Plor diagram");
     tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-
     tabbedPane.addTab("Pie Chart", icon, new JPanel(), "Create a Pie Chart");
     tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
-    
-    
+
     tabbedPane.addTab("Transition Matrix", icon, new JPanel(), "Create a Transition Matrix");
     tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
-    
+
     tabbedPane.addTab("Stem and Leaf", icon, new JPanel(), "Create a Stem and Leaf plot");
     tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
-    
+
+    tabbedPane.addTab("Histogram", icon, new JPanel(), "Create a Histogram");
+    tabbedPane.setMnemonicAt(5, KeyEvent.VK_6);
+
     add(filepanel, BorderLayout.PAGE_START);
     add(tabbedPane, BorderLayout.CENTER);
     setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
   }
-  
-  
+
   private JPanel createFrequencyPanel() {
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
-    
+
     comboFrequency = new JComboBox<String>(getColumns());
     panel.add(comboFrequency);
-    
+
     buttonFrequency = new JButton("Start");
     buttonFrequency.addActionListener(this);
     panel.add(buttonFrequency);
-    
+
     return panel;
   }
-  
+
   private JPanel createPieChartPanel() {
     JPanel panel = new JPanel();
-    
+
     buttonPie = new JButton("Start");
     buttonPie.addActionListener(this);
     panel.add(buttonPie);
-    
+
     return panel;
   }
-  
+
   private JPanel createBarChartPanel() {
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
-    
-    List<Class> allowed = new ArrayList<Class>();
+
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+
     allowed.add(NumberColumn.class);
     comboBar = new JComboBox<String>(getColumns(allowed, false));
     panel.add(comboBar);
-    
+
     buttonBar = new JButton("Start");
     buttonBar.addActionListener(this);
     panel.add(buttonBar);
-    
+
     return panel;
   }
-  
+
   private JPanel createStateTransitionPanel() {
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
 
     comboStateT = new JComboBox<String>(getColumns());
     panel.add(comboStateT);
-    
+
     buttonStateT = new JButton("Start");
     buttonStateT.addActionListener(this);
     panel.add(buttonStateT);
-    
+
     return panel;
   }
-  
+
   private JPanel createStemandLeafPanel() {
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
-    
-    List<Class> allowed = new ArrayList<Class>();
+
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(NumberColumn.class);
     comboStemLeaf = new JComboBox<String>(getColumns(allowed, false));
     panel.add(comboStemLeaf);
-    
+
     panel.add(new JLabel("Power: "));
-    
+
     textStemLeaf = new JTextField("2");
     panel.add(textStemLeaf);
-    
+
     buttonStemLeaf = new JButton("Start");
     buttonStemLeaf.addActionListener(this);
     panel.add(buttonStemLeaf);
-    
+
     return panel;
   }
-  
+
+  private JPanel createHistogramPanel() {
+    JPanel panel = new JPanel();
+    panel.add(new JLabel("Select a column: "));
+
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    allowed.add(NumberColumn.class);
+    comboHistogram = new JComboBox<String>(getColumns(allowed, false));
+    panel.add(comboHistogram);
+
+    panel.add(new JLabel("Power: "));
+
+    textHistogram = new JTextField("2");
+    panel.add(textHistogram);
+
+    buttonHistogram = new JButton("Start");
+    buttonHistogram.addActionListener(this);
+    panel.add(buttonHistogram);
+
+    return panel;
+  }
+
   private void updateTabbedPane() {
     tabbedPane.setComponentAt(0, createFrequencyPanel());
     tabbedPane.setComponentAt(1, createBarChartPanel());
     tabbedPane.setComponentAt(2, createPieChartPanel());
     tabbedPane.setComponentAt(3, createStateTransitionPanel());
     tabbedPane.setComponentAt(4, createStemandLeafPanel());
-    
+    tabbedPane.setComponentAt(5, createHistogramPanel());
+
     tabbedPane.setEnabled(true);
   }
 
-  
-  
-  
-  
   /**
    * Dispatch for button presses.
    */
@@ -251,6 +282,8 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     Object src = event.getSource();
     if (src == openfile) {
       onOpenFile();
+    } else if (src == opentable) {
+      onOpenTable();
     } else if (src == buttonFrequency) {
       onFrequency();
     } else if (src == buttonBar) {
@@ -261,10 +294,12 @@ public class VisualizationsGui extends JPanel implements ActionListener{
       onStateT();
     } else if (src == buttonStemLeaf) {
       onStemLeaf();
+    } else if (src == buttonHistogram) {
+      onHistogram();
     }
-  }      
- 
-  private void onOpenFile() {   
+  }
+
+  private void onOpenFile() {
     File dataFile;
     File settingsFile;
 
@@ -281,8 +316,8 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     try {
       Input.addDataFile(dataFile, settingsFile);
     } catch (Exception e) {
-      //addDataFile will throw an exception if an error occurs when 
-      //creating the Reader and parsing the settings.
+      // addDataFile will throw an exception if an error occurs when
+      // creating the Reader and parsing the settings.
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
@@ -290,8 +325,7 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     if (Input.getFiles().size() > 1) {
       Input.getFiles().remove(0);
     }
-    
-    
+
     DataFile df = Input.getFiles().get(0);
     try {
       table = df.getParser().parse(df.getReader());
@@ -304,50 +338,61 @@ public class VisualizationsGui extends JPanel implements ActionListener{
       e.printStackTrace();
       return;
     }
-    
-    
+
     datafile.setText(dataFile.getAbsolutePath());
     settings.setText(settingsFile.getAbsolutePath());
-        
+
     updateTabbedPane();
   }
 
+  private void onOpenTable() {
+    File tableFile = MainUI.openTableFile();
+
+    if (tableFile == null) {
+      return;
+    }
+
+    try {
+      table = TableFile.readTable(tableFile);
+      updateTabbedPane();
+    } catch (IOException | ClassNotFoundException e) {
+      JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+
+  }
+
   private void onFrequency() {
-    /*String column = (String)comboFrequency.getSelectedItem();
-    FrequencyChart fc = new FrequencyChart("Title", table, column);
+    String column = (String) comboFrequency.getSelectedItem();
+    FrequencyChart fc = new FrequencyChart("Frequency", table, column);
     fc.pack();
     GUI.centreWindow(fc);
     GUI.setIconImage(fc);
-    fc.setVisible(true);*/
+    fc.setVisible(true);
   }
-  
+
   private void onBarChart() {
-    /*String column = (String)comboFrequency.getSelectedItem();
-    BoxPlotChart fc = new BoxPlotChart("Title", table, column);
-    fc.pack();
-    GUI.centreWindow(fc);
-    GUI.setIconImage(fc);
-    fc.setVisible(true);*/
+    /*
+     * String column = (String)comboFrequency.getSelectedItem(); BoxPlotChart fc = new
+     * BoxPlotChart("Title", table, column); fc.pack(); GUI.centreWindow(fc); GUI.setIconImage(fc);
+     * fc.setVisible(true);
+     */
   }
-  
+
   private void onPieChart() {
     /*
-    PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
-    demo.pack();
-    GUI.setIconImage(demo);
-    GUI.centreWindow(demo);
-    demo.setVisible(true);
-    */
+     * PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
+     * demo.pack(); GUI.setIconImage(demo); GUI.centreWindow(demo); demo.setVisible(true);
+     */
   }
-  
+
   private void onStateT() {
-    String column = (String)comboStateT.getSelectedItem();
+    String column = (String) comboStateT.getSelectedItem();
     StateTransitionMatrix stm = new StateTransitionMatrix(table, column);
     DisplayTableGui.init(stm);
   }
-  
+
   private void onStemLeaf() {
-    String column = (String)comboStemLeaf.getSelectedItem();
+    String column = (String) comboStemLeaf.getSelectedItem();
     int power = 2;
     try {
       power = Integer.parseInt(textStemLeaf.getText());
@@ -358,10 +403,24 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     StemLeafPlot slp = new StemLeafPlot(table, column, power);
     DisplayTableGui.init(slp);
   }
-  
 
+  private void onHistogram() {
+    String column = (String) comboHistogram.getSelectedItem();
+    int power = 2;
+    try {
+      power = Integer.parseInt(textHistogram.getText());
+    } catch (NumberFormatException exception) {
+      exception.printStackTrace();
+      return;
+    }
 
-  
+    HistogramChart hchart = new HistogramChart(table, column, power);
+    hchart.pack();
+    GUI.centreWindow(hchart);
+    GUI.setIconImage(hchart);
+    hchart.setVisible(true);
+  }
+
   private static ImageIcon createImageIcon(String path) {
     java.net.URL imgUrl = ClassLoader.getSystemResource(path);
     if (imgUrl != null) {
@@ -371,17 +430,20 @@ public class VisualizationsGui extends JPanel implements ActionListener{
       return null;
     }
   }
-  
+
   /**
-   * Gives a list of all columns the selected settings file specifies.
-   * @param columntypes A list containing column classes. If set null, all class types are allowed.
-   * @param isblacklist If true columntypes is used as a blacklist, else it is used as a whitelist.
-   * @return Returns all the column names.
+   * Gives a list of all columns the table contains.
+   * 
+   * @param columntypes
+   *          a list containing column classes. If set null, all class types are allowed.
+   * @param isblacklist
+   *          if true, columntypes is used as a blacklist, else it is used as a whitelist.
+   * @return all the column names.
    */
-  private String[] getColumns(List<Class> columntypes, boolean isblacklist) {    
-    ArrayList<Column> columnlist = Input.getFiles().get(0).getSettings().getColumns();
+  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist) {
+    List<Column> columnlist = table.getColumns();
     ArrayList<String> columns = new ArrayList<String>();
-    
+
     for (Column column : columnlist) {
       if (columntypes == null || columntypes.contains(column.getClass()) != isblacklist) {
         columns.add(column.getName());
@@ -389,11 +451,11 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     }
     return columns.toArray(new String[0]);
   }
-  
+
   private String[] getColumns() {
     return getColumns(null, false);
   }
-  
+
   public static void main(String[] argv) {
     GUI.setSystemLook();
     VisualizationsGui.init();

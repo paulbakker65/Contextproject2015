@@ -124,4 +124,9 @@ public class DateColumn extends Column {
   public String toString() {
     return super.toString() + ",\ttype: date,\tformat: " + formatStr;
   }
+
+  @Override
+  public String getType() {
+    return "date";
+  }
 }

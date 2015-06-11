@@ -15,7 +15,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -57,6 +59,8 @@ public class MainUI extends JDialog {
       new FileNameExtensionFilter("CSV and TXT files", "csv", "txt");
   private static FileNameExtensionFilter xlsfilter = 
       new FileNameExtensionFilter("Excel files", "xls", "xlsx");
+  private static FileNameExtensionFilter serfilter = 
+      new FileNameExtensionFilter("SER files", "ser");
 
   private static File previousDirectory;
 
@@ -273,40 +277,42 @@ public class MainUI extends JDialog {
    * Shows a file dialog for the user to select the data file.
    */
   public static File openDataFile() {
-    File file;
-    JFileChooser chooser = new JFileChooser(previousDirectory);
-    chooser.setDialogTitle("Open data file.");
-    chooser.setFileFilter(xlsfilter);
-    chooser.setFileFilter(csvfilter);
-    
-    int state = chooser.showOpenDialog(null);
-
-    if (state == JFileChooser.APPROVE_OPTION) {
-
-      previousDirectory = chooser.getCurrentDirectory();
-      file = chooser.getSelectedFile();
-      if (!Input.exists(file)) {
-        JOptionPane.showMessageDialog(null,
-                "Error opening data file, the data file can not be found.",
-                "File not found.", JOptionPane.ERROR_MESSAGE);
-        return null;
-      }
-      System.out.println("Selected data file: " + file);
-      return file;
-    }
-    
-    return null;
+    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    filters.add(csvfilter);
+    filters.add(xlsfilter);
+    return openFile(filters, "data file");
+  }
+  
+  /**
+   * Shows a file dialog for the user to select a ser file.
+   */
+  public static File openTableFile() {
+    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    filters.add(serfilter);
+    return openFile(filters, "table file");
   }
   
   /**
    * Shows a file dialog for the user to select the settings file.
    */
   public static File openSettingsFile() {
+    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    filters.add(xmlfilter);
+    return openFile(filters, "settings file");
+  }
+  
+  /**
+   * Shows a file dialog for the user to select a file.
+   */
+  private static File openFile(List<FileNameExtensionFilter> filters, String title) {
     File file;
     JFileChooser chooser = new JFileChooser(previousDirectory);
-    chooser.setDialogTitle("Open settings file.");
-    chooser.setFileFilter(xmlfilter);
-
+    chooser.setDialogTitle("Open " + title + ".");
+    
+    for (FileNameExtensionFilter filter : filters) {
+      chooser.setFileFilter(filter);
+    }
+    
     int state = chooser.showOpenDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {
@@ -315,16 +321,16 @@ public class MainUI extends JDialog {
       file = chooser.getSelectedFile();
       if (!Input.exists(file)) {
         JOptionPane.showMessageDialog(null,
-                "Error opening settings file, the settings file can not be found.",
+                "Error opening " + title + ", the " + title + " can not be found.",
                 "File not found.", JOptionPane.ERROR_MESSAGE);
         return null;
       }
-      System.out.println("Selected settings file: " + file);
+      System.out.println("Selected " + title + ": " + file);
       return file;
     }
-
+    
     return null;
-  }
+  }  
   
   /**
    * Opens a open file dialog for the user to select a data file and a settings file. When the user

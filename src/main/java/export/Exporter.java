@@ -6,10 +6,12 @@ import table.Chunk;
 import table.Code;
 import table.Record;
 import table.Table;
+import table.TableFile;
 import table.value.NullValue;
 import table.value.StringValue;
 import table.value.Value;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -21,7 +23,26 @@ import java.util.TreeSet;
  * Exporter class that outputs internal datastructures into output files.
  */
 public final class Exporter {
-  static boolean ADD_CODE_FREQUENCY = true;
+  static boolean ADD_CODE_FREQUENCY = false;
+
+  /**
+   * The export method writes a Table to a writer instance.
+   *
+   * @param table
+   *          The Table to be written.
+   * @param path
+   *          The path where the Table has to been written to.
+   * @param extension
+   *          The extension the output file will have.
+   * @throws IOException
+   *           If the writing fails an IOException is thrown.
+   */
+  public static void export(Table table, String path, String extension) throws IOException {
+    FileWriter writer = new FileWriter(path + extension);
+    Table exportTable = new Table(table);
+    TableFile.writeTable(table, path);
+    export(exportTable, writer);
+  }
 
   /**
    * The export method writes a Table to a writer instance.
@@ -38,7 +59,7 @@ public final class Exporter {
     checkForChunksColumn(table);
     checkForCodesColumn(table);
     checkForEmptyKeys(table);
-    
+
     writeToFile(table, writer);
   }
 
@@ -65,27 +86,33 @@ public final class Exporter {
   }
 
   private static void checkForChunksColumn(Table table) {
-    if (!table.getChunks().isEmpty()) {
-      for (Chunk chunk : table.getChunks()) {
+    checkForChunksColumn(table.getChunks(), 0);
+  }
+
+  private static void checkForChunksColumn(List<Chunk> chunks, int depth) {
+    if (!chunks.isEmpty()) {
+      for (Chunk chunk : chunks) {
         for (Record record : chunk) {
-          record.put("Chunk", new StringValue(chunk.getLabel()));
+          record.put("Chunks " + depth, new StringValue(chunk.getLabel()));
         }
+        checkForChunksColumn(chunk.getChunks(), depth + 1);
       }
     }
   }
 
   private static void checkForCodesColumn(Table table) {
-    if (!table.getCodes().isEmpty()) {
-      for (Record record : table) {
-        record.put("Code", new NullValue());
-      }
-      for (Code code : table.getCodes().values()) {
-        checkForCodeRecord(table, code);
+    if (table.getCodes().isEmpty()) {
+      return;
+    }
+    for (Record record : table) {
+      record.put("Code", new NullValue());
+    }
+    for (Code code : table.getCodes().values()) {
+      checkForCodeRecord(table, code);
 
-        for (Table events : code.getEvents()) {
-          for (Record record : events) {
-            record.put("Code", new StringValue(code.getName()));
-          }
+      for (Table events : code.getEvents()) {
+        for (Record record : events) {
+          record.put("Code", new StringValue(code.getName()));
         }
       }
     }

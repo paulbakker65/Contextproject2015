@@ -41,7 +41,7 @@ public class CodingOperationTest {
     cols.add(new StringColumn("Measurement"));
     cols.add(new NumberColumn("Value"));
     cols.add(new StringColumn("Hospital"));
-    
+
     add("StatSensor", new StringValue("Crea"), nullValue, nullValue);
     add("WebsiteValue", nullValue, new NumberValue(140), nullValue);
     add("WebsiteValue", nullValue, new NumberValue(150), nullValue);
@@ -57,7 +57,7 @@ public class CodingOperationTest {
     add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
     add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
     add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
-    add("HospitalVisit", nullValue, nullValue, new StringValue("Erg ziek hoor"));
+    add("Hospital", nullValue, nullValue, new StringValue("Erg ziek hoor"));
     add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
     add("WebsiteValue", nullValue, new NumberValue(170), nullValue);
     add("WebsiteValue", nullValue, new NumberValue(160), nullValue);
@@ -70,7 +70,7 @@ public class CodingOperationTest {
     add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
     add("StatSensor", new StringValue("Crea2"), nullValue, nullValue);
   }
-  
+
   private void add(String tableName, Value... values) {
     table.add(new Record(cols, values, tableName));
   }
@@ -122,7 +122,7 @@ public class CodingOperationTest {
   }
 
   @Test
-  public void testSimplePattern() {    
+  public void testSimplePattern() {
     Pattern pattern = PatternFactory.createPattern("1 StatSensor", "5 WebsiteValue");
 
     final CodingOperation co = new CodingOperation(table, pattern, "1S5W");
@@ -132,12 +132,42 @@ public class CodingOperationTest {
   }
 
   @Test
-  public void testSimplePatternNotRecognized() {    
+  public void testSimplePatternNotRecognized() {
     Pattern pattern = PatternFactory.createPattern("1 StatSensor", "4 WebsiteValue");
 
     final CodingOperation co = new CodingOperation(table, pattern, "1S4W");
     co.execute();
 
     assertEquals(co.getResult().getCode("1S4W").getFrequency(), 0);
+  }
+
+  @Test
+  public void testPatternsCombined() {
+    Pattern pattern = PatternFactory.createPattern("1 Value == 170", "1 WebsiteValue");
+
+    final CodingOperation co = new CodingOperation(table, pattern, "1W1W");
+    co.execute();
+
+    assertEquals(co.getResult().getCode("1W1W").getFrequency(), 2);
+  }
+
+  @Test
+  public void testPatternsCombinedNotFound() {
+    Pattern pattern = PatternFactory.createPattern("1 Value == 160", "1 WebsiteValue");
+
+    final CodingOperation co = new CodingOperation(table, pattern, "1W1W");
+    co.execute();
+
+    assertEquals(co.getResult().getCode("1W1W").getFrequency(), 0);
+  }
+
+  @Test
+  public void testPatternsCombinedThreePatterns() {
+    Pattern pattern = PatternFactory.createPattern("1 Value == 180", "* StatSensor", "1 Hospital");
+
+    final CodingOperation co = new CodingOperation(table, pattern, "1W?S1H");
+    co.execute();
+
+    assertEquals(co.getResult().getCode("1W?S1H").getFrequency(), 1);
   }
 }
