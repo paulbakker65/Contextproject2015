@@ -1,6 +1,6 @@
 <settings startLine="7" delimiter=";" name="test">
-	<column name="Measurement" />
+	<column name="Measurement" type="string" />
 	<column name="Value" type="number" />
 	<column name="Date" type="date" format="yyMMdd" /> 
-	<column name="Time" type="time" format="hh:mm" target="Date"/>	
+	<column name="Time" type="date" format="hh:mm" target="Date"/>	
 </settings>

@@ -1,4 +1,4 @@
 <settings startLine="1" delimiter=","  name="test">
-	<column name="Time" type="time" target="Date"/> 
+	<column name="Time" type="date" target="Date"/> 
 	<column name="Date" type="date" format="yyMMdd" />	
 </settings>

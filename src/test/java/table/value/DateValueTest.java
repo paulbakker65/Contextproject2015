@@ -101,15 +101,28 @@ public class DateValueTest {
 
     date = new SimpleDateFormat("ddMMyy").parse("311213");
     calendar.setTime(date);
-    value.setValue(date);
+    value.setDate(date);
     assertEquals(calendar, value.getValue());
+
+    GregorianCalendar newCalendar = new GregorianCalendar();
+    value.setValue(newCalendar);
+    assertEquals(newCalendar, value.getValue());
   }
 
   @Test
   public void testDateValueToString() throws ParseException {
-    final Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    final DateValue value = new DateValue(date);
-    assertEquals("2014-12-31T00:00", value.toString());
+    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+    DateValue dateValue = new DateValue(date);
+    assertEquals("2014-12-31", dateValue.toString());
+
+    date = new SimpleDateFormat("HHmm").parse("1314");
+    DateValue timeValue = new DateValue(date);
+    timeValue.setTarget("Date");
+    assertEquals("13:14", timeValue.toString());
+
+    dateValue.addTime(timeValue.getValue());
+
+    assertEquals("2014-12-31T13:14", dateValue.toString());
   }
 
   @Test
@@ -121,6 +134,26 @@ public class DateValueTest {
 
     assertEquals(value.hashCode(), 31 + calendar.hashCode());
     assertEquals(valueNull.hashCode(), 31);
+  }
+
+  @Test
+  public void testGetSetTarget() {
+    DateValue value = new DateValue((Date) null, new DateColumn("name", "ddMMyy", "before"));
+
+    assertEquals("before", value.getTarget());
+    value.setTarget("after");
+
+    assertEquals("after", value.getTarget());
+  }
+
+  @Test
+  public void testGetSetFormat() {
+    DateValue value = new DateValue((Date) null, new DateColumn("name", "ddMMyy", null));
+
+    assertEquals("ddMMyy", value.getFormat());
+    value.setFormat("yyMMdd");
+
+    assertEquals("yyMMdd", value.getFormat());
   }
 
 }
