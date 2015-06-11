@@ -17,6 +17,12 @@ public class PatternMatcher {
   private static Pattern condNumberRegex = Pattern.compile("([^\\s]+)\\s*==\\s*([0-9]+)");
 
   /**
+   * Default hidden constructor because this class cannot be instantiated.
+   */
+  private PatternMatcher() {
+  }
+
+  /**
    * Creates a {@link PatternDescription} using a string.
    * @param expr
    *        the string representation of the description.
@@ -33,7 +39,7 @@ public class PatternMatcher {
     Matcher matcher = singleRegex.matcher(count);
     if (matcher.find()) {
       resCount = new SingleCount(Integer.parseInt(count));
-    } else if (count.equals("*")) {
+    } else if ("*".equals(count)) {
       resCount = new MultipleCount();
     } else {
       return null;

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.NumberValue;
@@ -169,4 +170,51 @@ public class LsaOperation extends Operation {
   private boolean isTarget(final Record record) {
     return target.equals(record.get(eventcol));
   }
+
+  @Override
+  public int hashCode() {
+    int hash = 3;
+    hash = 59 * hash + Objects.hashCode(this.eventcol);
+    hash = 59 * hash + this.from;
+    hash = 59 * hash + this.to;
+    hash = 59 * hash + Objects.hashCode(this.key);
+    hash = 59 * hash + Objects.hashCode(this.target);
+    hash = 59 * hash + Objects.hashCode(this.lagtable);
+    hash = 59 * hash + Objects.hashCode(this.grouper);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final LsaOperation other = (LsaOperation) obj;
+    if (!Objects.equals(this.eventcol, other.eventcol)) {
+      return false;
+    }
+    if (this.from != other.from) {
+      return false;
+    }
+    if (this.to != other.to) {
+      return false;
+    }
+    if (!Objects.equals(this.key, other.key)) {
+      return false;
+    }
+    if (!Objects.equals(this.target, other.target)) {
+      return false;
+    }
+    if (!Objects.equals(this.lagtable, other.lagtable)) {
+      return false;
+    }
+    if (!Objects.equals(this.grouper, other.grouper)) {
+      return false;
+    }
+    return true;
+  }
+
 }

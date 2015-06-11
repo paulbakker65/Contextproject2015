@@ -9,6 +9,12 @@ import java.util.List;
 public class PatternFactory {
 
   /**
+   * Default hidden constructor because this class cannot be instantiated.
+   */
+  private PatternFactory() {
+  }
+
+  /**
    * Creates a Pattern based on a list of descriptions.
    * @param patternDescriptions
    *        the list of descriptions.

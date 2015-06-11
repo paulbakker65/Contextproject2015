@@ -18,7 +18,7 @@ public class MultipleCount implements Count {
     if (other == null) {
       return false;
     }
-    return (other instanceof MultipleCount);
+    return other instanceof MultipleCount;
   }
 
   @Override

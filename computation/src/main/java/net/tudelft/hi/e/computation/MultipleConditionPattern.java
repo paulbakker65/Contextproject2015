@@ -1,5 +1,6 @@
 package net.tudelft.hi.e.computation;
 
+import java.util.Objects;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 
@@ -95,4 +96,27 @@ public class MultipleConditionPattern extends Pattern {
   private boolean matches(Record record) {
     return condition.matches(record);
   }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 47 * hash + Objects.hashCode(this.condition);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final MultipleConditionPattern other = (MultipleConditionPattern) obj;
+    if (!Objects.equals(this.condition, other.condition)) {
+      return false;
+    }
+    return true;
+  }
+
 }

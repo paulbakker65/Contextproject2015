@@ -49,26 +49,29 @@ public class SingleConditionPattern extends Pattern {
    * Checks if the pattern is found.
    */
   @Override
-  public boolean findPattern(final Table table, int fromIndex, final Table records) {
+  public boolean findPattern(final Table table, int fromIndex,
+      final Table records) {
+    int index = fromIndex;
+
     // If the end of the table has been reached, return.
-    if (fromIndex >= table.size()) {
+    if (index >= table.size()) {
       return false;
     }
     // Check whether the previous record differs.
-    if (records.isEmpty() && fromIndex > 0 && matches(table.get(fromIndex - 1))) {
+    if (records.isEmpty() && index > 0 && matches(table.get(index - 1))) {
       return false;
     }
 
-    final Record record = table.get(fromIndex++);
+    final Record record = table.get(index++);
     if (matches(record)) {
       records.add(record);
 
-      if (nextPattern instanceof NullPattern && fromIndex < table.size()
-          && matches(table.get(fromIndex))) {
+      if (nextPattern instanceof NullPattern && index < table.size()
+          && matches(table.get(index))) {
         return false;
       }
 
-      return nextPattern.findPattern(table, fromIndex, records);
+      return nextPattern.findPattern(table, index, records);
     } else {
       return false;
     }
