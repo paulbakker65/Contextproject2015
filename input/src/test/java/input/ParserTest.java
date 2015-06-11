@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.ColumnTypeMismatchException;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.NumberColumn;
@@ -86,7 +86,7 @@ public class ParserTest {
   }
 
   @Test
-  public void testParseCorrect() throws IOException, ColumnTypeMismatchException {
+  public void testParseCorrect() throws IOException, ParseFailedException {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
@@ -112,7 +112,8 @@ public class ParserTest {
   }
 
   @Test
-  public void testParseCorrectLastLineTooShort() throws IOException, ColumnTypeMismatchException {
+  public void testParseCorrectLastLineTooShort() throws IOException,
+      ParseFailedException {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
@@ -140,7 +141,8 @@ public class ParserTest {
   }
 
   @Test
-  public void testParseCorrectSkipFirstLine() throws IOException, ColumnTypeMismatchException {
+  public void testParseCorrectSkipFirstLine() throws IOException,
+      ParseFailedException {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
@@ -167,8 +169,8 @@ public class ParserTest {
   }
 
   @Test
-  public void testParseCorrectTimeDateLinks() throws IOException, ColumnTypeMismatchException,
-      ParseException {
+  public void testParseCorrectTimeDateLinks() throws IOException,
+      ParseException, ParseFailedException {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new TimeColumn("time", "hh:mm", "date"),
             new DateColumn("date", "ddMMyy")));

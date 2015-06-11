@@ -5,10 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingWorker;
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.computation.Operation;
-import net.tudelft.hi.e.data.ColumnTypeMismatchException;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.export.Exporter;
 import net.tudelft.hi.e.input.DataFile;
@@ -23,6 +25,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 class Task extends SwingWorker<Void, Void> {
+
+  private static final Logger LOG = Logger.getLogger(Task.class.getName());
+
   ArrayList<Table> tables = null;
 
   @Override
@@ -64,9 +69,8 @@ class Task extends SwingWorker<Void, Void> {
         tables.add(table);
         currentprogress = currentprogress + onefileprogress;
         setProgress(currentprogress);
-      } catch (ColumnTypeMismatchException | IOException e) {
-        error("Error parsing input files.");
-        e.printStackTrace();
+      } catch (ParseFailedException ex) {
+        LOG.log(Level.SEVERE, "Error prasing input files.");
         return false;
       }
     }

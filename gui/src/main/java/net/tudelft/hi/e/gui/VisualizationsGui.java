@@ -9,9 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,8 +24,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.ColumnTypeMismatchException;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.StateTransitionMatrix;
 import net.tudelft.hi.e.data.StemLeafPlot;
@@ -37,6 +38,9 @@ import net.tudelft.hi.e.input.Input;
  */
 public class VisualizationsGui extends JPanel implements ActionListener{
   private static final long serialVersionUID = 1L;
+
+  private static final Logger LOG
+      = Logger.getLogger(VisualizationsGui.class.getName());
 
   private JTextField datafile;
   private JTextField settings;
@@ -290,13 +294,8 @@ public class VisualizationsGui extends JPanel implements ActionListener{
     DataFile df = Input.getFiles().get(0);
     try {
       table = df.getParser().parse(df.getReader());
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-      return;
-    } catch (ColumnTypeMismatchException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (ParseFailedException ex) {
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
       return;
     }
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.ColumnTypeMismatchException;
 import net.tudelft.hi.e.data.DateValue;
@@ -78,39 +79,41 @@ public class Parser {
    *
    * @param reader the reader that reads the file.
    * @return a Table object which represents the read file as a table.
-   * @throws IOException when something fail during reading.
-   * @throws ColumnTypeMismatchException when the read file contains other values than specified by
-   *         the settings.
+   * @throws ParseFailedException IF the file fails to parse.
    */
-  public Table parse(final Reader reader) throws IOException, ColumnTypeMismatchException {
-    // Skip lines until the start line is reached.
-    for (int i = 0; i < settings.getStartLine() - 1; i++) {
-      reader.readRow();
-    }
-
+  public Table parse(final Reader reader) throws ParseFailedException {
     final Table table = new Table();
-    table.setName(settings.getName());
-
-    String[] row = reader.readRow();
-
-    // Read a row, convert the values and store them in the Table.
-    while (row != null && row.length == numColumns) {
-      final Value[] values = new Value[numColumns];
-      final Map<String, String> timeDateLinks = new HashMap<String, String>();
-
-      for (int i = 0; i < columns.size(); i++) {
-        values[i] = columns.get(i).convertToValue(row[i]);
-
-        if (values[i].isTime()) {
-          timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).getTargetDate());
-        }
+    try {
+      for (int i = 0; i < settings.getStartLine() - 1; i++) {
+        reader.readRow();
       }
 
-      final Record tuple = new Record(columns, values, settings.getName());
-      connectLinks(timeDateLinks, tuple);
-      table.add(tuple);
+      table.setName(settings.getName());
 
-      row = reader.readRow();
+      String[] row = reader.readRow();
+
+      // Read a row, convert the values and store them in the Table.
+      while (row != null && row.length == numColumns) {
+        final Value[] values = new Value[numColumns];
+        final Map<String, String> timeDateLinks = new HashMap<String, String>();
+
+        for (int i = 0; i < columns.size(); i++) {
+          values[i] = columns.get(i).convertToValue(row[i]);
+
+          if (values[i].isTime()) {
+            timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).
+                getTargetDate());
+          }
+        }
+
+        final Record tuple = new Record(columns, values, settings.getName());
+        connectLinks(timeDateLinks, tuple);
+        table.add(tuple);
+
+        row = reader.readRow();
+      }
+    } catch (IOException | ColumnTypeMismatchException ex) {
+      throw new ParseFailedException(ex);
     }
 
     return table;
