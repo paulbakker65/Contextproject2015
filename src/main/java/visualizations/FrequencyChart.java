@@ -24,13 +24,14 @@ public class FrequencyChart extends JFrame {
 
   private static final long serialVersionUID = 1L;
 
-  private Table table;
-  private String column;
-
+  /**
+   * Create frequency chart.
+   * @param windowTitle title
+   * @param table on which to create the frequency chart.
+   * @param column where the values are.
+   */
   public FrequencyChart(String windowTitle, Table table, String column) {
     super(windowTitle);
-    this.table = table;
-    this.column = column;
     
     Dataset dataset = createDataset(table, column);
 
@@ -46,7 +47,7 @@ public class FrequencyChart extends JFrame {
   /**
    * Creates a data set for frequency.
    * @param table source
-   * @param column collumn to check frequency on
+   * @param column column to check frequency on
    * @return frequency data set
    */
   public static Dataset createDataset(Table table, String column) {
@@ -55,6 +56,9 @@ public class FrequencyChart extends JFrame {
     for (Chunk ch : extractChunks(table)) {
       HashMap<String, Integer> amount = new HashMap<String, Integer>();
       for (Record r : ch) {
+        if (r.get(column).isNull()) {
+          continue;
+        }
         String eventtype = r.get(column).toString();
         Integer current = amount.get(eventtype);
         if (current == null) {

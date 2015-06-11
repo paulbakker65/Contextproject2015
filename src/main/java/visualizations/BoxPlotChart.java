@@ -24,6 +24,12 @@ public class BoxPlotChart extends JFrame {
   private Table table;
   private String column;
 
+  /**
+   * Create box plot chart.
+   * @param windowTitle title
+   * @param table on which to create the box plot chart.
+   * @param column where the values are.
+   */
   public BoxPlotChart(String windowTitle, Table table, String column) {
     super(windowTitle);
     this.table = table;
@@ -44,7 +50,10 @@ public class BoxPlotChart extends JFrame {
   private Dataset createDataset() {
     List<Double> items = new ArrayList<Double>();
     for (Record record : table) {
-      items.add(((NumberValue) record.get(column)).getValue());
+      if (record.get(column).isNumeric()) {
+        items.add(((NumberValue) record.get(column)).getValue());
+      }
+      
     }
 
     DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
