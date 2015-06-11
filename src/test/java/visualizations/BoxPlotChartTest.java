@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import input.DataFile;
 
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ import table.Table;
 
 import java.io.File;
 
-public class FrequencyChartTest {
+public class BoxPlotChartTest {
 
   @Before
   public void setUp() throws Exception {
@@ -25,13 +25,15 @@ public class FrequencyChartTest {
             "src/test/resources/test3.xml"));
     Table table = df.getParser().parse(df.getReader());
 
+
     
-    DefaultCategoryDataset ds =
-        (DefaultCategoryDataset) FrequencyChart.createDataset(table, "Soort");
+    DefaultBoxAndWhiskerCategoryDataset ds =
+        (DefaultBoxAndWhiskerCategoryDataset) BoxPlotChart.createDataset(table, "Beoordeling");
     
-    assertEquals(5,ds.getValue("Appel", FrequencyChart.DEFAULT_CHUNK_NAME));
-    assertEquals(2,ds.getValue("Peer", FrequencyChart.DEFAULT_CHUNK_NAME));
-    assertEquals(3,ds.getValue("Banaan", FrequencyChart.DEFAULT_CHUNK_NAME));
+    
+    System.out.println();
+    assertEquals(9.0, ds.getMaxOutlier("Beoordeling", FrequencyChart.DEFAULT_CHUNK_NAME));
+    assertEquals(1.0, ds.getMinOutlier("Beoordeling", FrequencyChart.DEFAULT_CHUNK_NAME));
 
   }
 

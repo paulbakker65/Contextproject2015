@@ -21,6 +21,8 @@ import javax.swing.JFrame;
 
 public class FrequencyChart extends JFrame {
 
+  public static final String DEFAULT_CHUNK_NAME = "Default Chunk";
+
   private static final long serialVersionUID = 1L;
 
   /**
@@ -102,15 +104,18 @@ public class FrequencyChart extends JFrame {
 
   /**
    * Extract the chunks in a table, or the table itself if there are no chunks.
-   * @param table table to extract from
+   * 
+   * @param table
+   *          table to extract from
    * @return list of chunks, or one chunk containing all the records
    */
   public static List<Chunk> extractChunks(Table table) {
     if (table.getChunks().isEmpty()) {
-      List<Chunk> chunkList = new ArrayList<Chunk>();
-      Chunk defaultChunk = new Chunk(0, "Default Chunk");
+      Chunk defaultChunk = new Chunk(0, DEFAULT_CHUNK_NAME);
       defaultChunk.addAll(table);
+      List<Chunk> chunkList = new ArrayList<Chunk>();
       chunkList.add(defaultChunk);
+      return chunkList;
     }
 
     return table.getChunks();
