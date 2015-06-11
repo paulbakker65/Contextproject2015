@@ -20,9 +20,11 @@ public class CsvReader extends Reader {
   /**
    * CsvReader constructor creates an CsvReader object that reads CSV files.
    * 
-   * @param filepath The CSV file path to be read.
-   * @throws FileNotFoundException If there is no file found at the designated file path an
-   *         FileNotFoundException is thrown.
+   * @param filepath
+   *          The CSV file path to be read.
+   * @throws FileNotFoundException
+   *           If there is no file found at the designated file path an FileNotFoundException is
+   *           thrown.
    */
   @SuppressFBWarnings(value = "I18N", justification = "Assume unicode")
   public CsvReader(final String filepath) throws FileNotFoundException {
@@ -48,15 +50,13 @@ public class CsvReader extends Reader {
 
   /**
    * The readRow method reads the next row in the CSV file.
+   * 
+   * @throws IOException
+   *           when an I/O error occurs.
    */
   @Override
-  public String[] readRow() {
-    String line = null;
-    try {
-      line = br.readLine();
-    } catch (final IOException e) {
-      e.printStackTrace();
-    }
+  public String[] readRow() throws IOException {
+    String line = br.readLine();
     if (line == null) {
       return null;
     }

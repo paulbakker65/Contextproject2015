@@ -101,17 +101,18 @@ public final class Exporter {
   }
 
   private static void checkForCodesColumn(Table table) {
-    if (!table.getCodes().isEmpty()) {
-      for (Record record : table) {
-        record.put("Code", new NullValue());
-      }
-      for (Code code : table.getCodes().values()) {
-        checkForCodeRecord(table, code);
+    if (table.getCodes().isEmpty()) {
+      return;
+    }
+    for (Record record : table) {
+      record.put("Code", new NullValue());
+    }
+    for (Code code : table.getCodes().values()) {
+      checkForCodeRecord(table, code);
 
-        for (Table events : code.getEvents()) {
-          for (Record record : events) {
-            record.put("Code", new StringValue(code.getName()));
-          }
+      for (Table events : code.getEvents()) {
+        for (Record record : events) {
+          record.put("Code", new StringValue(code.getName()));
         }
       }
     }
