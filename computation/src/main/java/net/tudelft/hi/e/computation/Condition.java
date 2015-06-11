@@ -1,6 +1,5 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.Objects;
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import static net.tudelft.hi.e.common.enums.CompareOperator.EQ;
 import net.tudelft.hi.e.data.Value;
@@ -79,12 +78,33 @@ public class Condition {
       return false;
     }
     final Condition other = (Condition) obj;
-    if (!Objects.equals(this.getConditionOperator(), other.
-            getConditionOperator())) {
+    return deepEquals(other);
+  }
+
+  private boolean deepEquals(Condition other) {
+    return equalConditionValue(other) && equalConditionOperator(other);
+  }
+
+  private boolean equalConditionValue(Condition other) {
+    if (conditionValue == null) {
+      if (other.getConditionValue() != null) {
+        return false;
+      }
+    } else if (!conditionValue.equals(other.getConditionValue())) {
       return false;
     }
-    return Objects.
-            equals(this.getConditionValue(), other.getConditionOperator());
+    return true;
+  }
+
+  private boolean equalConditionOperator(Condition other) {
+    if (conditionOperator == null) {
+      if (other.getConditionOperator() != null) {
+        return false;
+      }
+    } else if (!conditionOperator.equals(other.getConditionOperator())) {
+      return false;
+    }
+    return true;
   }
 
   @Override

@@ -60,47 +60,55 @@ public class MultipleConditionPattern extends Pattern {
 
   /**
    * The method checks if the pattern is recognized.
+   * @return true if the pattern is found, false if it isn't.
    */
   @Override
-  public boolean findPattern(final Table table, int fromIndex, final Table records) {
+  public boolean findPattern(final Table table, final int fromIndex,
+          final Table records) {
     if (!findPatternPreConditions(table, fromIndex, records)) {
       return false;
     }
 
-    final Record current = table.get(fromIndex++);
-    Record next = table.get(fromIndex++);
+    int index = fromIndex;
+
+    final Record current = table.get(index);
+    index++;
+    Record next = table.get(index);
+    index++;
 
     // Check if the current and next have the same column with values.
     if (matches(current) && matches(next)) {
       records.add(current);
 
-      while (fromIndex < table.size() && matches(next)) {
+      while (index < table.size() && matches(next)) {
         records.add(next);
-        next = table.get(fromIndex++);
+        next = table.get(index);
+        index++;
       }
-      // If a record from another file is found, decrease the index.
       if (!matches(next)) {
-        fromIndex--;
+        index--;
       }
       // Call the next pattern to continue the search.
-      return nextPattern.findPattern(table, fromIndex, records);
+      return nextPattern.findPattern(table, index, records);
     }
     return false;
   }
 
   private boolean findPatternPreConditions(final Table table,
-      final int fromIndex, final Table records) {
+          final int fromIndex, final Table records) {
     if (fromIndex >= table.size() - 1) {
       return false;
     }
-    if (records.isEmpty() && fromIndex > 0 && matches(table.get(fromIndex - 1))) {
-      return false;
-    }
-    return true;
+    return !(records.isEmpty() && fromIndex > 0 && matches(table.get(fromIndex
+            - 1)));
   }
 
   private boolean matches(Record record) {
     return condition.matches(record);
+  }
+
+  private RecordCondition getCondition() {
+    return condition;
   }
 
   @Override
@@ -119,10 +127,7 @@ public class MultipleConditionPattern extends Pattern {
       return false;
     }
     final MultipleConditionPattern other = (MultipleConditionPattern) obj;
-    if (!Objects.equals(this.condition, other.condition)) {
-      return false;
-    }
-    return true;
+    return Objects.equals(this.getCondition(), other.getCondition());
   }
 
 }
