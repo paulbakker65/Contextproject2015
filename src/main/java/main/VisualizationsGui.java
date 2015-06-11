@@ -12,6 +12,7 @@ import table.value.ColumnTypeMismatchException;
 import table.value.NumberColumn;
 
 import visualizations.FrequencyChart;
+import visualizations.HistogramChart;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -61,6 +62,9 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private JComboBox<String> comboStemLeaf;
   private JButton buttonStemLeaf;
   private JTextField textStemLeaf;
+  private JComboBox<String> comboHistogram;
+  private JButton buttonHistogram;
+  private JTextField textHistogram;
 
   private Table table;
 
@@ -154,6 +158,9 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     tabbedPane.addTab("Stem and Leaf", icon, new JPanel(), "Create a Stem and Leaf plot");
     tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
 
+    tabbedPane.addTab("Histogram", icon, new JPanel(), "Create a Histogram");
+    tabbedPane.setMnemonicAt(5, KeyEvent.VK_6);
+
     add(filepanel, BorderLayout.PAGE_START);
     add(tabbedPane, BorderLayout.CENTER);
     setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -188,6 +195,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     panel.add(new JLabel("Select a column: "));
 
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+
     allowed.add(NumberColumn.class);
     comboBar = new JComboBox<String>(getColumns(allowed, false));
     panel.add(comboBar);
@@ -234,12 +242,34 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     return panel;
   }
 
+  private JPanel createHistogramPanel() {
+    JPanel panel = new JPanel();
+    panel.add(new JLabel("Select a column: "));
+
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    allowed.add(NumberColumn.class);
+    comboHistogram = new JComboBox<String>(getColumns(allowed, false));
+    panel.add(comboHistogram);
+
+    panel.add(new JLabel("Power: "));
+
+    textHistogram = new JTextField("2");
+    panel.add(textHistogram);
+
+    buttonHistogram = new JButton("Start");
+    buttonHistogram.addActionListener(this);
+    panel.add(buttonHistogram);
+
+    return panel;
+  }
+
   private void updateTabbedPane() {
     tabbedPane.setComponentAt(0, createFrequencyPanel());
     tabbedPane.setComponentAt(1, createBarChartPanel());
     tabbedPane.setComponentAt(2, createPieChartPanel());
     tabbedPane.setComponentAt(3, createStateTransitionPanel());
     tabbedPane.setComponentAt(4, createStemandLeafPanel());
+    tabbedPane.setComponentAt(5, createHistogramPanel());
 
     tabbedPane.setEnabled(true);
   }
@@ -264,6 +294,8 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       onStateT();
     } else if (src == buttonStemLeaf) {
       onStemLeaf();
+    } else if (src == buttonHistogram) {
+      onHistogram();
     }
   }
 
@@ -370,6 +402,23 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     }
     StemLeafPlot slp = new StemLeafPlot(table, column, power);
     DisplayTableGui.init(slp);
+  }
+
+  private void onHistogram() {
+    String column = (String) comboHistogram.getSelectedItem();
+    int power = 2;
+    try {
+      power = Integer.parseInt(textHistogram.getText());
+    } catch (NumberFormatException exception) {
+      exception.printStackTrace();
+      return;
+    }
+
+    HistogramChart hchart = new HistogramChart(table, column, power);
+    hchart.pack();
+    GUI.centreWindow(hchart);
+    GUI.setIconImage(hchart);
+    hchart.setVisible(true);
   }
 
   private static ImageIcon createImageIcon(String path) {
