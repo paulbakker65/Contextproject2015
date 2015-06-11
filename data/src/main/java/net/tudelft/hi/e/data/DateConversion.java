@@ -10,8 +10,14 @@ import java.util.GregorianCalendar;
 public class DateConversion {
 
   /**
+   * Default hidden constructor because you cannot instantiate this object.
+   */
+  private DateConversion() {
+  }
+
+  /**
    * Converts Excel Serial Date to a Java Date object.
-   * 
+   *
    * @param excelSerial Excel Style Date in SerialDate format. Double, date and time.
    * @return Date object in java.util.Date style
    */

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import org.w3c.dom.Element;
 
@@ -49,15 +50,16 @@ public class DateColumn extends Column {
   }
 
   @Override
-  public Value convertToValue(final String text) throws ColumnTypeMismatchException {
+  public Value convertToValue(final String text) throws
+          ColumnTypeMismatchException {
+    Value val = convertToValueIsNullOrEmpty(text);
+    if (val instanceof NullValue) {
+      return val;
+    } else {
     try {
-      if (text.toLowerCase().equals("null") || text.isEmpty()) {
-        return new NullValue();
-      }
-      if (formatStr.toLowerCase().equals("excel")) {
+      if ("excel".equalsIgnoreCase(formatStr)) {
         return new DateValue(convertExcelDate(text));
       }
-
       return new DateValue(format.parse(text));
     } catch (final ParseException e) {
       // Fall back on ISO
@@ -66,6 +68,15 @@ public class DateColumn extends Column {
       } catch (final ParseException ex) {
         throw getException(text);
       }
+      }
+    }
+  }
+
+  private Value convertToValueIsNullOrEmpty(final String text) {
+    if ("null".equalsIgnoreCase(text) || text.isEmpty()) {
+      return new NullValue();
+    } else {
+      return null;
     }
   }
 
@@ -94,13 +105,13 @@ public class DateColumn extends Column {
 
   @Override
   public void read(final Element element) throws WrongXmlException {
-    final String format = element.getAttribute("format");
+    final String elementFormat = element.getAttribute("format");
 
-    if (format.isEmpty()) {
+    if (elementFormat.isEmpty()) {
       throw new WrongXmlException("Format not specified!");
     }
 
-    setFormat(format);
+    setFormat(elementFormat);
   }
 
   /**
@@ -111,11 +122,41 @@ public class DateColumn extends Column {
   public void setFormat(final String format) {
     this.formatStr = format;
 
-    if (formatStr.toLowerCase().equals("excel")) {
+    if ("excel".equalsIgnoreCase(formatStr)) {
       this.format = null;
     } else {
       this.format = new SimpleDateFormat(format);
     }
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 67 * hash + Objects.hashCode(this.format);
+    hash = 67 * hash + Objects.hashCode(this.formatStr);
+    hash = 67 * hash + Objects.hashCode(this.iso);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final DateColumn other = (DateColumn) obj;
+    if (!Objects.equals(this.format, other.format)) {
+      return false;
+    }
+    if (!Objects.equals(this.formatStr, other.formatStr)) {
+      return false;
+    }
+    if (!Objects.equals(this.iso, other.iso)) {
+      return false;
+    }
+    return true;
   }
 
   @Override

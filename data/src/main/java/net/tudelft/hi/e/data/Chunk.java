@@ -1,5 +1,7 @@
 package net.tudelft.hi.e.data;
 
+import java.util.Objects;
+
 /**
  * A chunk contains a table, index and a label.
  */
@@ -20,7 +22,7 @@ public class Chunk extends Table {
 
   /**
    * Constructor sets the label and index of the chunk.
-   * 
+   *
    * @param index Index of the chunk.
    * @param label Label of the chunk.
    */
@@ -29,29 +31,28 @@ public class Chunk extends Table {
     this.label = label;
   }
 
-  /**
-   * New equals method which also checks index and label.
-   */
   @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
     }
-    if (!super.equals(obj)) {
+    if (getClass() != obj.getClass()) {
       return false;
     }
     final Chunk other = (Chunk) obj;
-    if (index != other.index) {
-      return false;
-    }
-    if (label == null) {
-      if (other.label != null) {
-        return false;
-      }
-    } else if (!label.equals(other.label)) {
-      return false;
-    }
-    return true;
+    return deepEquals(other);
+  }
+
+  private boolean deepEquals(Chunk other) {
+    return equalLabel(other) && equalIndex(other);
+  }
+
+  private boolean equalLabel(Chunk other) {
+    return Objects.equals(this.label, other.getLabel());
+  }
+
+  private boolean equalIndex(Chunk other) {
+    return Objects.equals(this.index, other.getIndex());
   }
 
   /**
@@ -81,7 +82,7 @@ public class Chunk extends Table {
   }
 
   /**
-   * 
+   *
    * @param index of the chunk in the table which to set.
    */
   public void setIndex(final int index) {

@@ -23,6 +23,7 @@ public class Table extends ArrayList<Record> {
     super();
     chunks = new ArrayList<Chunk>();
     codes = new HashMap<String, Code>();
+    name = "";
   }
 
   /**
@@ -120,9 +121,10 @@ public class Table extends ArrayList<Record> {
    */
   public void setChunks(List<Chunk> set) {
     if (set == null) {
-      set = new ArrayList<Chunk>();
+      this.chunks = new ArrayList<Chunk>();
+    } else {
+      this.chunks = set;
     }
-    this.chunks = set;
   }
 
   /**

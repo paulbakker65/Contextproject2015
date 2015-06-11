@@ -96,6 +96,7 @@ public class ParserTest {
         new StringValue("ketchup")}));
 
     final Settings settings = new Settings();
+    settings.setName("");
     settings.setDelimiter(",");
     settings.setStartLine(1);
     settings.setColumns(columns);
@@ -126,6 +127,7 @@ public class ParserTest {
     settings.setDelimiter(",");
     settings.setStartLine(2);
     settings.setColumns(columns);
+    settings.setName("");
 
     testFile.add("onzin, dit wordt overgeslagen {");
     testFile.add("bloemkool,mayonaise");
@@ -155,6 +157,7 @@ public class ParserTest {
     settings.setDelimiter(",");
     settings.setStartLine(2);
     settings.setColumns(columns);
+    settings.setName("");
 
     testFile.add("onzin, dit wordt overgeslagen");
     testFile.add("bloemkool,mayonaise");
@@ -192,6 +195,7 @@ public class ParserTest {
     settings.setDelimiter(",");
     settings.setStartLine(1);
     settings.setColumns(columns);
+    settings.setName("");
 
     testFile.add("10:20,311214");
     delimiter = ",";

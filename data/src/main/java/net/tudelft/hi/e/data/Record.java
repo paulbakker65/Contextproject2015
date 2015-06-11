@@ -3,6 +3,7 @@ package net.tudelft.hi.e.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A timed event that can contain various properties ("columns"). Because it extends a HashMap new
@@ -126,4 +127,41 @@ public class Record extends HashMap<String, Value> {
   public List<String> getKeysInOrder() {
     return keysInOrder;
   }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 11 * hash + Objects.hashCode(this.tableName);
+    hash = 11 * hash + Objects.hashCode(this.keysInOrder);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final Record other = (Record) obj;
+    return deepEquals(other);
+  }
+
+  private boolean deepEquals(Record other) {
+    return equalTableName(other) && equalKeysInOrder(other) && equalSuper(other);
+  }
+
+  private boolean equalTableName(Record other) {
+    return Objects.equals(this.tableName, other.tableName);
+  }
+
+  private boolean equalKeysInOrder(Record other) {
+    return Objects.equals(this.keysInOrder, other.keysInOrder);
+  }
+
+  private boolean equalSuper(Record other) {
+    return super.equals(other);
+  }
+
 }

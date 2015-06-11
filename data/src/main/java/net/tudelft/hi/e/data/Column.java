@@ -1,5 +1,6 @@
 package net.tudelft.hi.e.data;
 
+import java.util.Objects;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import org.w3c.dom.Element;
 /**
@@ -70,10 +71,7 @@ public abstract class Column {
   public abstract Value convertToValue(String text) throws ColumnTypeMismatchException;
 
   @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
+  public boolean equals(Object obj) {
     if (obj == null) {
       return false;
     }
@@ -81,11 +79,7 @@ public abstract class Column {
       return false;
     }
     final Column other = (Column) obj;
-    if (name == null) {
-      if (other.name != null) {
-        return false;
-      }
-    } else if (!name.equals(other.name)) {
+    if (!Objects.equals(this.name, other.name)) {
       return false;
     }
     return true;

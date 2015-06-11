@@ -20,7 +20,7 @@ public class StringColumn extends Column {
 
   @Override
   public Value convertToValue(final String text) {
-    if (text.toLowerCase().equals("null") || text.isEmpty()) {
+    if ("null".equalsIgnoreCase(text) || text.isEmpty()) {
       return new NullValue();
     }
 

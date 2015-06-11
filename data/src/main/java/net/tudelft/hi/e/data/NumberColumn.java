@@ -21,7 +21,7 @@ public class NumberColumn extends Column {
   @Override
   public Value convertToValue(final String text) throws ColumnTypeMismatchException {
     try {
-      if (text.toLowerCase().equals("null") || text.isEmpty()) {
+      if ("null".equalsIgnoreCase(text) || text.isEmpty()) {
         return new NullValue();
       }
 

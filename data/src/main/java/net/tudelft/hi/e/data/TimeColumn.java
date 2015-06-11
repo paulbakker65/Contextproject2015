@@ -56,7 +56,7 @@ public class TimeColumn extends Column {
   @Override
   public Value convertToValue(final String text) throws ColumnTypeMismatchException {
     try {
-      if (text.toLowerCase().equals("null") || text.isEmpty()) {
+      if ("null".equalsIgnoreCase(text) || text.isEmpty()) {
         return new NullValue();
       }
       return new TimeValue(format.parse(text), targetDate);

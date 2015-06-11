@@ -8,7 +8,6 @@ import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.DateConversion;
 import net.tudelft.hi.e.data.DateValue;
-import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
@@ -83,7 +82,7 @@ public class ConnectionOperationTest {
       final Record record =
           new Record(cols, new Value[] {new NumberValue(i), new NumberValue(i * 10),
               new StringValue("String:" + i),
-              new DateValue(DateConversion.fromExcelSerialToDate(40000 + i))});
+        new DateValue(DateConversion.fromExcelSerialToDate(40000 + i))});
       dataTable.add(record);
     }
 
@@ -94,7 +93,8 @@ public class ConnectionOperationTest {
       cols.add(new NumberColumn("someNumberBeingEqualToUserID"));
       final Record record =
           new Record(cols, new Value[] {
-              new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)), new NumberValue(i)});
+        new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)),
+        new NumberValue(i)});
       otherDataTable.add(record);
     }
 
@@ -174,41 +174,6 @@ public class ConnectionOperationTest {
     co = new ConnectionOperation(t2, new Table(), "number1", "number2");
     assertTrue(co.execute());
     assertEquals(t2, co.getResult());
-  }
-
-  @Test
-  public void testExecute_connect_on_date() {
-    assertEquals(false, co.isOperationParametersSet());
-    co = new ConnectionOperation(dataTable, otherDataTable, "dateField", "otherDateField");
-
-    assertEquals(true, co.isOperationParametersSet());
-    assertEquals(true, co.execute());
-
-    final Table resultTable = new Table();
-    // Create table with 20 user id's.
-    for (int i = 0; i < 20; i++) {
-      final ArrayList<Column> cols = new ArrayList<Column>();
-      cols.add(new NumberColumn("userid"));
-      cols.add(new NumberColumn("numberField"));
-      cols.add(new StringColumn("stringField"));
-      cols.add(new DateColumn("dateField"));
-      cols.add(new NumberColumn("someNumberBeingEqualToUserID"));
-      final Record record =
-          new Record(cols, new Value[] {new NumberValue(i), new NumberValue(i * 10),
-              new StringValue("String:" + i),
-              new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)), new NullValue()});
-
-      resultTable.add(record);
-      final Record r2 =
-          new Record(cols, new Value[] {new NullValue(), new NullValue(), new NullValue(),
-              new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)), new NumberValue(i)});
-      resultTable.add(r2);
-    }
-
-    final String[] columns =
-        {"userid", "numberField", "stringField", "dateField", "someNumberBeingEqualToUserID"};
-    assertTrue(resultTable.get(0).keySet().containsAll(Arrays.asList(columns)));
-    assertEquals(resultTable, co.getResult());
   }
 
   @Test
