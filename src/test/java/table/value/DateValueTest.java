@@ -111,9 +111,18 @@ public class DateValueTest {
 
   @Test
   public void testDateValueToString() throws ParseException {
-    final Date date = new SimpleDateFormat("ddMMyy").parse("311214");
-    final DateValue value = new DateValue(date);
-    assertEquals("2014-12-31T00:00", value.toString());
+    Date date = new SimpleDateFormat("ddMMyy").parse("311214");
+    DateValue dateValue = new DateValue(date);
+    assertEquals("2014-12-31", dateValue.toString());
+    
+    date = new SimpleDateFormat("HHmm").parse("1314");
+    DateValue timeValue = new DateValue(date);
+    timeValue.setTarget("Date");
+    assertEquals("13:14", timeValue.toString());
+    
+    dateValue.addTime(timeValue.getValue());
+    
+    assertEquals("2014-12-31T13:14", dateValue.toString());
   }
 
   @Test

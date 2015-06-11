@@ -1,5 +1,7 @@
 package table.value;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -13,14 +15,18 @@ public class DateValue extends Value {
    * Serial version.
    */
   private static final long serialVersionUID = 1L;
+  private static final SimpleDateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  private static final SimpleDateFormat defaultTimeFormat = new SimpleDateFormat("HH:mm");
   private GregorianCalendar value;
   private String target;
   private String format;
+  private boolean timeAdded;
 
   /**
    * Constructs a new DateValue.
    * 
-   * @param value the stored date.
+   * @param value
+   *          the stored date.
    */
   public DateValue(final Date value) {
     this(value, null);
@@ -29,17 +35,21 @@ public class DateValue extends Value {
   /**
    * Constructs a new DateValue.
    * 
-   * @param value the stored date.
+   * @param value
+   *          the stored date.
    */
   public DateValue(final GregorianCalendar value) {
     this.value = value;
+    this.timeAdded = false;
   }
-  
+
   /**
    * Constructs a new DateValue.
    * 
-   * @param value the stored date.
-   * @param columnType the column to get the target and format from.
+   * @param value
+   *          the stored date.
+   * @param columnType
+   *          the column to get the target and format from.
    */
   public DateValue(final Date value, DateColumn columnType) {
     this(new GregorianCalendar(), columnType);
@@ -49,16 +59,19 @@ public class DateValue extends Value {
       setDate(value);
     }
   }
-  
+
   /**
    * Constructs a new DateValue.
    * 
-   * @param value the stored date.
-   * @param columnType the column to get the target and format from.
+   * @param value
+   *          the stored date.
+   * @param columnType
+   *          the column to get the target and format from.
    */
   public DateValue(final GregorianCalendar value, DateColumn columnType) {
     this.value = value;
-    
+    this.timeAdded = false;
+
     if (columnType != null) {
       this.target = columnType.getTargetDate();
       this.format = columnType.getFormatStr();
@@ -68,13 +81,15 @@ public class DateValue extends Value {
   /**
    * Adds the time (hours, minutes and milliseconds) to the date value.
    * 
-   * @param time a calendar representing the time.
+   * @param time
+   *          a calendar representing the time.
    */
   public void addTime(final GregorianCalendar time) {
-    value.add(Calendar.HOUR, time.get(Calendar.HOUR));
+    value.add(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
     value.add(Calendar.MINUTE, time.get(Calendar.MINUTE));
     value.add(Calendar.SECOND, time.get(Calendar.SECOND));
     value.add(Calendar.MILLISECOND, time.get(Calendar.MILLISECOND));
+    timeAdded = true;
   }
 
   public int compareToDate(final DateValue other) {
@@ -154,16 +169,18 @@ public class DateValue extends Value {
   /**
    * Stores a new date.
    * 
-   * @param value the new date.
+   * @param value
+   *          the new date.
    */
   public void setDate(final Date value) {
     this.value.setTime(value);
   }
-  
+
   /**
    * Stores a new date.
    * 
-   * @param value the new date.
+   * @param value
+   *          the new date.
    */
   public void setValue(final GregorianCalendar value) {
     this.value = value;
@@ -171,7 +188,10 @@ public class DateValue extends Value {
 
   @Override
   public String toString() {
-    return DateColumn.isoFormat.format(getValue().getTime());
+    DateFormat dateFormat =
+        (isTime() ? defaultTimeFormat : (timeAdded ? DateColumn.isoFormat : defaultDateFormat));
+
+    return dateFormat.format(getValue().getTime());
   }
 
   public String getTarget() {
