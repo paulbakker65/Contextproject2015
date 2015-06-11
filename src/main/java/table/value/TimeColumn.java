@@ -137,4 +137,9 @@ public class TimeColumn extends Column {
   public String toString() {
     return super.toString() + ",\ttype: time,\tformat: " + formatStr + ",\ttarget: " + targetDate;
   }
+
+  @Override
+  public String getType() {
+    return "time";
+  }
 }

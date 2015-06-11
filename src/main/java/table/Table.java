@@ -195,7 +195,6 @@ public class Table extends ArrayList<Record> implements Serializable {
    */
   public List<Column> getColumns() {
     List<Column> res = new ArrayList<Column>();
-
     if (isEmpty()) {
       return res;
     }
@@ -207,7 +206,7 @@ public class Table extends ArrayList<Record> implements Serializable {
 
       if (columnType != null) {
         res.add(columnType);
-      }
+      }      
     }
 
     return res;

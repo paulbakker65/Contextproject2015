@@ -35,4 +35,9 @@ public class StringColumn extends Column {
   public String toString() {
     return super.toString() + ",\ttype: text";
   }
+
+  @Override
+  public String getType() {
+    return "string";
+  }
 }
