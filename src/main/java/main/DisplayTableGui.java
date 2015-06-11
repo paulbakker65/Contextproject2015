@@ -5,9 +5,11 @@ import table.Table;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -56,10 +58,40 @@ public class DisplayTableGui extends JPanel {
     jtable = new JTable(new DisplayTableModel(table));
     jtable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
+    setVerticalHeader();
+
+    jtable.selectAll();
     packColumns(jtable);
-    
+    jtable.clearSelection();
+  
     add(new JScrollPane(jtable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+  }
+
+  /**
+   * JTable has no vertical header. 
+   * This method will set a custom renderer to the first column to mimic a header.
+   */
+  private void setVerticalHeader() {
+    jtable.getColumnModel().getColumn(0).setPreferredWidth(30);
+    jtable.getColumnModel().getColumn(0).setCellRenderer(
+        new TableCellRenderer() {
+          @Override
+          public Component getTableCellRendererComponent(JTable table, Object value, 
+              boolean isSelected, boolean hasFocus, int row, int column) {
+            TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
+            Component component = renderer.getTableCellRendererComponent(table, value, 
+                false, false, -1, -2);
+            ((JLabel) component).setHorizontalAlignment(JLabel.CENTER);
+            if (isSelected) {
+              component.setFont(component.getFont().deriveFont(Font.BOLD));
+            } else {
+              component.setFont(component.getFont().deriveFont(Font.PLAIN));
+            }
+            return component;
+          }
+        }
+    );
   }
   
   /**
