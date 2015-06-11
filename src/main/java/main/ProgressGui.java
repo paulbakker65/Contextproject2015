@@ -1,11 +1,13 @@
 package main;
 
+import input.Input;
+
 import table.Table;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dialog.ModalityType;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -13,12 +15,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -36,29 +39,29 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   private static final long serialVersionUID = 1L;
   private JProgressBar progressBar;
   private JTextPane log;
+  private JButton visualizationsButton;
   private JButton previewButton;
+  private JButton viewoutputdirButton;
   private JButton exitButton;
-  private static Task task;
-  private static JDialog dialog;
+  private Task task;
+  private JFrame frame;
   private JComboBox<String> comboPreviews;
   
   /**
    * Creates the GUI.
    */
   public static void init() {
-    dialog = new JDialog(null, ModalityType.TOOLKIT_MODAL);
-    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-    dialog.setTitle("Working...");
+    JFrame frame = new JFrame("Working...");
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     
     JComponent contentPane = new ProgressGui();
-    contentPane.setOpaque(true); //content panes must be opaque
+    contentPane.setOpaque(true);
     contentPane.setPreferredSize(new Dimension(800, 600));
-    dialog.setContentPane(contentPane);
+    frame.setContentPane(contentPane);
+    
+    ((ProgressGui)contentPane).setFrame(frame);
 
-    dialog.pack();
-    GUI.setIconImage(dialog);
-    GUI.centreWindow(dialog);
-    dialog.setVisible(true);
+    GUI.init(frame);
   }
   
   /**
@@ -76,6 +79,15 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     log.setMargin(new Insets(5, 5, 5, 5));
     log.setEditable(false);
     
+    visualizationsButton = new JButton("Visualizations");
+    visualizationsButton.setEnabled(false);
+    visualizationsButton.addActionListener(new ActionListener(){
+      @Override
+      public void actionPerformed(ActionEvent ae) {
+        onVisualizations();
+      }
+    });
+    
     previewButton = new JButton("Preview Table");
     previewButton.setEnabled(false);
     previewButton.addActionListener(new ActionListener(){
@@ -87,6 +99,14 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     
     comboPreviews = new JComboBox<String>();
     comboPreviews.setEnabled(false);
+    
+    viewoutputdirButton = new JButton("View output directory");
+    viewoutputdirButton.addActionListener(new ActionListener(){
+      @Override
+      public void actionPerformed(ActionEvent ae) {
+        onViewOutputDir();
+      }
+    });
     
     exitButton = new JButton("Exit");
     exitButton.addActionListener(new ActionListener(){
@@ -100,8 +120,10 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(progressBar);
     
     JPanel panel2 = new JPanel();
+    panel2.add(visualizationsButton);
     panel2.add(previewButton);
     panel2.add(comboPreviews);
+    panel2.add(viewoutputdirButton);
     panel2.add(exitButton);
  
     add(panel, BorderLayout.PAGE_START);
@@ -129,6 +151,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
       setCursor(null); 
       Toolkit.getDefaultToolkit().beep();
       appendToLog("Done!\n");
+      visualizationsButton.setEnabled(true);
       previewButton.setEnabled(true);
       setComboItems();
       comboPreviews.setEnabled(true);      
@@ -145,15 +168,32 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     }
   }
   
+  public void onVisualizations() {
+    Table table = task.getTable(comboPreviews.getSelectedIndex());
+    VisualizationsGui.init(table);
+  }
+  
   public void onPreview() {
     DisplayTableGui.init(task.getTable(comboPreviews.getSelectedIndex()));
   }
   
-  public void onExit() {
-    dialog.dispose();
+  public void onViewOutputDir() {
+    try {
+      Desktop.getDesktop().open(Input.getOutputDir());
+    } catch (IOException e1) {
+      System.out.println("Error trying to view the directory.");
+      e1.printStackTrace();
+    }
   }
   
-  
+  public void onExit() {
+    frame.dispose();
+  }
+    
+  public void setFrame(JFrame frame) {
+    this.frame = frame;
+  }
+
   private void appendToLog(String message) {
     appendToLog(message, Color.BLACK);
   }
