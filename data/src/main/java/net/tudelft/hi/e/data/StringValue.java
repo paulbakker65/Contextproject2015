@@ -37,6 +37,10 @@ public class StringValue extends Value {
       return false;
     }
     final StringValue other = (StringValue) obj;
+    return equalValue(other);
+  }
+
+  private boolean equalValue(StringValue other) {
     if (value == null) {
       if (other.value != null) {
         return false;

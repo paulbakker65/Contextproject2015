@@ -2,6 +2,7 @@ package net.tudelft.hi.e.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StateTransitionMatrix extends Table {
 
@@ -92,4 +93,42 @@ public class StateTransitionMatrix extends Table {
     }
     return code.toString();
   }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 37 * hash + Objects.hashCode(this.table);
+    hash = 37 * hash + Objects.hashCode(this.column);
+    hash = 37 * hash + Objects.hashCode(this.uniqueValues);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final StateTransitionMatrix other = (StateTransitionMatrix) obj;
+    return deepEquals(other);
+  }
+
+  private boolean deepEquals(StateTransitionMatrix other) {
+    return equalTable(other) && equalColumn(other) && equalUniqueValues(other);
+  }
+
+  private boolean equalTable(StateTransitionMatrix other) {
+    return Objects.equals(this.table, other.table);
+  }
+
+  private boolean equalColumn(StateTransitionMatrix other) {
+    return Objects.equals(this.column, other.column);
+  }
+
+  private boolean equalUniqueValues(StateTransitionMatrix other) {
+    return Objects.equals(this.uniqueValues, other.uniqueValues);
+  }
+
 }

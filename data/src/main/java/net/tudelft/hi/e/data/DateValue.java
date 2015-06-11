@@ -64,6 +64,10 @@ public class DateValue extends Value {
       return false;
     }
     final DateValue other = (DateValue) obj;
+    return equalValue(other);
+  }
+
+  private boolean equalValue(DateValue other) {
     if (value == null) {
       if (other.value != null) {
         return false;

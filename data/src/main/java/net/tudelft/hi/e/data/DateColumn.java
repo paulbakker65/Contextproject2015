@@ -150,13 +150,7 @@ public class DateColumn extends Column {
     if (!Objects.equals(this.format, other.format)) {
       return false;
     }
-    if (!Objects.equals(this.formatStr, other.formatStr)) {
-      return false;
-    }
-    if (!Objects.equals(this.iso, other.iso)) {
-      return false;
-    }
-    return true;
+    return Objects.equals(this.formatStr, other.formatStr);
   }
 
   @Override

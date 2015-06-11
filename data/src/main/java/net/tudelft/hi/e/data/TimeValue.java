@@ -59,6 +59,13 @@ public class TimeValue extends Value {
       return false;
     }
     final TimeValue other = (TimeValue) obj;
+    return deepEquals(other);
+  }
+
+  private boolean deepEquals(TimeValue other) {
+    return equalTargetDate(other) && equalValue(other);
+  }
+  private boolean equalTargetDate(TimeValue other) {
     if (targetDate == null) {
       if (other.targetDate != null) {
         return false;
@@ -66,6 +73,10 @@ public class TimeValue extends Value {
     } else if (!targetDate.equals(other.targetDate)) {
       return false;
     }
+    return true;
+  }
+
+  private boolean equalValue(TimeValue other) {
     if (value == null) {
       if (other.value != null) {
         return false;
