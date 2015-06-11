@@ -52,13 +52,14 @@ public class DisplayTableModelTest {
   @Test
   public void testGetColumnCount() {
     int actual = model.getColumnCount();
-    int expected = 5;
+    int expected = 6;
     assertEquals(expected, actual);
   }
 
   @Test
   public void testGetColumnName() {
     ArrayList<String> columns = new ArrayList<String>(Arrays.asList(columnNames));
+    columns.add(0, "");
     for (int i = 0; i < columnNames.length; i++) {
       String actual = model.getColumnName(i);
       assertTrue(columns.contains(actual));

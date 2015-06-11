@@ -23,11 +23,7 @@ public class CsvReader extends Reader {
    * @param filepath
    *          The CSV file path to be read.
    * @throws FileNotFoundException
-<<<<<<< HEAD
-   *           If there is no file found at the designated file path an FileNotFoundException is
-=======
    *           If there is no file found at the designated file path a FileNotFoundException is
->>>>>>> origin/csv_reader_fix
    *           thrown.
    */
   @SuppressFBWarnings(value = "I18N", justification = "Assume unicode")
