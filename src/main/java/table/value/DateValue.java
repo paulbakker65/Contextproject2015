@@ -1,6 +1,5 @@
 package table.value;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,6 +14,8 @@ public class DateValue extends Value {
    */
   private static final long serialVersionUID = 1L;
   private GregorianCalendar value;
+  private String target;
+  private String format;
 
   /**
    * Constructs a new DateValue.
@@ -22,10 +23,7 @@ public class DateValue extends Value {
    * @param value the stored date.
    */
   public DateValue(final Date value) {
-    if (value != null) {
-      this.value = new GregorianCalendar();
-      this.setValue(value);
-    }
+    this(value, null);
   }
 
   /**
@@ -35,6 +33,36 @@ public class DateValue extends Value {
    */
   public DateValue(final GregorianCalendar value) {
     this.value = value;
+  }
+  
+  /**
+   * Constructs a new DateValue.
+   * 
+   * @param value the stored date.
+   * @param columnType the column to get the target and format from.
+   */
+  public DateValue(final Date value, DateColumn columnType) {
+    this(new GregorianCalendar(), columnType);
+    if (value == null) {
+      this.value = null;
+    } else {
+      setDate(value);
+    }
+  }
+  
+  /**
+   * Constructs a new DateValue.
+   * 
+   * @param value the stored date.
+   * @param columnType the column to get the target and format from.
+   */
+  public DateValue(final GregorianCalendar value, DateColumn columnType) {
+    this.value = value;
+    
+    if (columnType != null) {
+      this.target = columnType.getTargetDate();
+      this.format = columnType.getFormatStr();
+    }
   }
 
   /**
@@ -54,10 +82,10 @@ public class DateValue extends Value {
   }
 
   /**
-   * @see java.lang.Object#equals(java.lang.Object)
+   * @see java.lang.Object#equals()
    */
   @Override
-  public boolean equals(final Object obj) {
+  public boolean equals(Object obj) {
     if (this == obj) {
       return true;
     }
@@ -67,7 +95,7 @@ public class DateValue extends Value {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final DateValue other = (DateValue) obj;
+    DateValue other = (DateValue) obj;
     if (value == null) {
       if (other.value != null) {
         return false;
@@ -100,7 +128,7 @@ public class DateValue extends Value {
 
   @Override
   public boolean isDate() {
-    return true;
+    return !isTime();
   }
 
   @Override
@@ -120,7 +148,7 @@ public class DateValue extends Value {
 
   @Override
   public boolean isTime() {
-    return false;
+    return target != null;
   }
 
   /**
@@ -128,12 +156,42 @@ public class DateValue extends Value {
    * 
    * @param value the new date.
    */
-  public void setValue(final Date value) {
+  public void setDate(final Date value) {
     this.value.setTime(value);
+  }
+  
+  /**
+   * Stores a new date.
+   * 
+   * @param value the new date.
+   */
+  public void setValue(final GregorianCalendar value) {
+    this.value = value;
   }
 
   @Override
   public String toString() {
-    return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(getValue().getTime());
+    return DateColumn.isoFormat.format(getValue().getTime());
+  }
+
+  public String getTarget() {
+    return target;
+  }
+
+  public void setTarget(String target) {
+    this.target = target;
+  }
+
+  public String getFormat() {
+    return format;
+  }
+
+  public void setFormat(String format) {
+    this.format = format;
+  }
+
+  @Override
+  public Column getType(String name) {
+    return new DateColumn(name, format, target);
   }
 }

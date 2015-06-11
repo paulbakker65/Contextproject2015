@@ -101,8 +101,12 @@ public class DateValueTest {
 
     date = new SimpleDateFormat("ddMMyy").parse("311213");
     calendar.setTime(date);
-    value.setValue(date);
+    value.setDate(date);
     assertEquals(calendar, value.getValue());
+    
+    GregorianCalendar newCalendar = new GregorianCalendar();
+    value.setValue(newCalendar);
+    assertEquals(newCalendar, value.getValue());
   }
 
   @Test
@@ -121,6 +125,26 @@ public class DateValueTest {
 
     assertEquals(value.hashCode(), 31 + calendar.hashCode());
     assertEquals(valueNull.hashCode(), 31);
+  }
+  
+  @Test 
+  public void testGetSetTarget() {
+    DateValue value = new DateValue((Date) null, new DateColumn("name", "ddMMyy", "before"));
+    
+    assertEquals("before", value.getTarget());
+    value.setTarget("after");
+    
+    assertEquals("after", value.getTarget());
+  }
+  
+  @Test 
+  public void testGetSetFormat() {
+    DateValue value = new DateValue((Date) null, new DateColumn("name", "ddMMyy", null));
+    
+    assertEquals("ddMMyy", value.getFormat());
+    value.setFormat("yyMMdd");
+    
+    assertEquals("yyMMdd", value.getFormat());
   }
 
 }

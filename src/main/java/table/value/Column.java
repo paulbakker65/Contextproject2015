@@ -37,9 +37,6 @@ public abstract class Column {
       case "date":
         res = new DateColumn(name);
         break;
-      case "time":
-        res = new TimeColumn(name);
-        break;
       case "string":
         res = new StringColumn(name);
         break;

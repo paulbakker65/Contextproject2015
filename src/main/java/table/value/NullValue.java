@@ -58,4 +58,9 @@ public class NullValue extends Value {
   public String toString() {
     return "";
   }
+
+  @Override
+  public Column getType(String name) {
+    return null;
+  }
 }
