@@ -4,8 +4,8 @@ import input.DataFile;
 import input.Reader;
 import input.Settings;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -28,6 +29,12 @@ public class SettingsWindow extends JFrame {
   private static final long serialVersionUID = 1L;
 
   private File example;
+
+  private JPanel filePanel;
+
+  private JPanel delimPanel;
+
+  private JPanel bottomPanel;
 
   private JLabel filePathLabel;
 
@@ -43,6 +50,8 @@ public class SettingsWindow extends JFrame {
 
   private ColumnSettingsTableModel cstm;
 
+  private JLabel nameLabel;
+
   private JTextField nameTextField;
 
   private JButton saveButton;
@@ -55,13 +64,18 @@ public class SettingsWindow extends JFrame {
 
     setTitle("Settings Generator");
 
-    setLayout(new FlowLayout());
+    setLayout(new BorderLayout());
+
+    // Filepanel
+
+    filePanel = new JPanel(new BorderLayout());
+    add(filePanel, BorderLayout.PAGE_START);
 
     filePathLabel = new JLabel("No file selected!");
-    add(filePathLabel);
+    filePanel.add(filePathLabel, BorderLayout.LINE_START);
 
     openFileButton = new JButton("Choose Example...");
-    add(openFileButton);
+    filePanel.add(openFileButton, BorderLayout.LINE_END);
 
     openFileButton.addActionListener(new ActionListener() {
       @Override
@@ -70,15 +84,20 @@ public class SettingsWindow extends JFrame {
       }
     });
 
+    // Delimiter panel
+
+    delimPanel = new JPanel(new BorderLayout());
+    filePanel.add(delimPanel, BorderLayout.PAGE_END);
+
     delimiterLabel = new JLabel("Delimiter: ");
-    add(delimiterLabel);
+    delimPanel.add(delimiterLabel, BorderLayout.LINE_START);
 
     delimiterTextField = new JTextField();
     delimiterTextField.setPreferredSize(new Dimension(100, 30));
-    add(delimiterTextField);
+    delimPanel.add(delimiterTextField, BorderLayout.CENTER);
 
     previewButton = new JButton("Preview...");
-    add(previewButton);
+    delimPanel.add(previewButton, BorderLayout.LINE_END);
 
     previewButton.addActionListener(new ActionListener() {
       @Override
@@ -87,16 +106,26 @@ public class SettingsWindow extends JFrame {
       }
     });
 
+    // Center
+
     csp = new ColumnSettingsPane(new JTable());
     csp.setPreferredSize(new Dimension(580, 200));
-    add(csp);
+    add(csp, BorderLayout.CENTER);
+
+    // Lower
+
+    bottomPanel = new JPanel(new BorderLayout());
+    add(bottomPanel, BorderLayout.PAGE_END);
+
+    nameLabel = new JLabel("Internal name:");
+    bottomPanel.add(nameLabel, BorderLayout.LINE_START);
 
     nameTextField = new JTextField("table_name");
     nameTextField.setPreferredSize(new Dimension(200, 50));
-    add(nameTextField);
+    bottomPanel.add(nameTextField, BorderLayout.CENTER);
 
     saveButton = new JButton("Save settings...");
-    add(saveButton);
+    bottomPanel.add(saveButton, BorderLayout.LINE_END);
 
     saveButton.addActionListener(new ActionListener() {
       @Override
@@ -156,14 +185,14 @@ public class SettingsWindow extends JFrame {
             JOptionPane.ERROR_MESSAGE);
       }
 
-      
-      
     }
   }
 
   /**
    * Main method for stand-alone run.
-   * @param args ignored
+   * 
+   * @param args
+   *          ignored
    */
   public static void main(String[] args) {
     SettingsWindow test = new SettingsWindow();
