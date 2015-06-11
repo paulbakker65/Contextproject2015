@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Stores all the required input and validates all input files.
@@ -14,7 +16,11 @@ public class Input {
   static List<DataFile> files = new ArrayList<DataFile>();
   static File scriptFile = null;
   static File outputDir = null;
+  private static final Logger LOG = Logger.getLogger(Input.class.getName());
 
+  /**
+   * Private constructor because this class cannot be instantiated.
+   */
   private Input() {
   }
 
@@ -23,8 +29,7 @@ public class Input {
    *
    * @param file The data file.
    * @param settings The settings file.
-   * @throws Exception Throws an exception if input can not be found or if reading the data file and
-   *         settings fails.
+   * @throws IOException If the data or settings file is not found or not valid.
    */
   public static void addDataFile(final File file, final File settings) throws
       IOException {
@@ -60,7 +65,7 @@ public class Input {
    */
   public static boolean exists(final File file) {
     if (!file.exists()) {
-      System.out.println(file.getAbsolutePath() + " does not exist!");
+      LOG.log(Level.SEVERE, file.getAbsolutePath() + " does not exist!");
       return false;
     }
     return true;
@@ -98,22 +103,24 @@ public class Input {
    * Set the output directory.
    *
    * @param outputDir The output directory.
-   * @return true iff the output directory was succesfully set. <br>
-   *         false iff the output directory was not set.
+   * @return true if and only if the output directory was successfully set. <br>
+   * false if and only if the output directory was not set.
    */
   public static boolean setOutputDir(final File outputDir) {
     if (outputDir == null) {
       return false;
     }
     if (!outputDir.isDirectory() && outputDir.exists()) {
-      System.out.println("'" + outputDir.getAbsolutePath() + "' is not a valid directory!");
+      LOG.log(Level.SEVERE, "\"{0}\" is not a valid directory!", outputDir.
+          getAbsolutePath());
       return false;
     }
     if (!exists(outputDir)) {
-      System.out.println("Trying to create directory.");
+      LOG.log(Level.INFO, "Trying to create directory.");
       final boolean ret = outputDir.mkdir();
       if (!ret) {
-        System.out.println("Error creating direcotry '" + outputDir.getAbsolutePath() + "'.");
+        LOG.log(Level.SEVERE, "Error creating direcotry ''{0}''.", outputDir.
+            getAbsolutePath());
         return false;
       }
     }
@@ -125,14 +132,14 @@ public class Input {
    * Set the script file.
    *
    * @param scriptFile The script file.
-   * @return true iff the script file was succesfully set. <br>
-   *         false iff the script file was not set.
+   * @return true if and only if the script file was successfully set. <br>
+   * false if and only if the script file was not set.
    */
-  public static boolean setScriptFile(final File scriptFile) {
-    if (scriptFile == null || !exists(scriptFile)) {
+  public static boolean setScriptFile(final File theScriptFile) {
+    if (theScriptFile == null || !exists(theScriptFile)) {
       return false;
     }
-    Input.scriptFile = scriptFile;
+    Input.scriptFile = theScriptFile;
     return true;
   }
 }

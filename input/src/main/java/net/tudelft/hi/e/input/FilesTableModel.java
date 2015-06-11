@@ -12,8 +12,7 @@ public class FilesTableModel implements TableModel {
 
   @Override
   public void addTableModelListener(final TableModelListener arg0) {
-    // TODO Auto-generated method stub
-
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -53,13 +52,11 @@ public class FilesTableModel implements TableModel {
 
   @Override
   public void removeTableModelListener(final TableModelListener arg0) {
-    // TODO Auto-generated method stub
-
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void setValueAt(final Object theValue, final int rowIndex, final int columnIndex) {
-    // TODO Auto-generated method stub
-
+    throw new UnsupportedOperationException();
   }
 }
