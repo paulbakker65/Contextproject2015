@@ -1,5 +1,8 @@
 package net.tudelft.hi.e.computation;
 
+import java.util.InputMismatchException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Table;
@@ -96,10 +99,16 @@ public class BetweenOperation extends Operation {
     }
     if (date.isDate()) {
       return ((DateValue) date).getValue().getTime().getTime();
+    } else {
+      InputMismatchException ex = new InputMismatchException(date.toString()
+          + " is not a date");
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
+      throw ex;
     }
-    throw new Error("Not a date in the column");
-
   }
+
+  private static final Logger LOG
+      = Logger.getLogger(BetweenOperation.class.getName());
 
   private boolean isFirstEvent(final int index) {
     return ev1val.equals(inputData.get(index).get(eventcol));

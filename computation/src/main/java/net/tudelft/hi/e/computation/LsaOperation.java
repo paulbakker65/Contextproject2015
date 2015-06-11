@@ -30,13 +30,13 @@ public class LsaOperation extends Operation {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Collumns that will be used when exporting to Table.
+     * Columns that will be used when exporting to Table.
      */
-    public List<Column> cols = Arrays.asList(new Column[] {new NumberColumn("lag"),
-        new NumberColumn("occur")});
+    public transient List<Column> cols = Arrays.asList(new Column[]{
+      new NumberColumn("lag"), new NumberColumn("occur")});
 
     /**
-     * Creates a lag table with 0 occurence for lag FROM til lag TO.
+     * Creates a lag table with 0 occurrence for lag FROM til lag TO.
      *
      * @param from lowest lag to scan (inclusive)
      * @param to highest lag to scan (exclusive)
