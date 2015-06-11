@@ -133,13 +133,7 @@ public class LsaOperation extends Operation {
    */
   public LsaOperation(final Table inputDataset, final String eventcol, final int from,
       final int to, final Value key, final Value target) {
-    super(inputDataset);
-    this.eventcol = eventcol;
-    this.from = from;
-    this.to = to;
-    this.key = key;
-    this.target = target;
-    this.grouper = new SingleGrouper();
+    this(inputDataset, eventcol, from, to, key, target, new SingleGrouper());
   }
 
   /**
@@ -163,6 +157,12 @@ public class LsaOperation extends Operation {
     this.key = key;
     this.target = target;
     this.grouper = grouper;
+  }
+
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
   }
 
   private void calcLag(final int keygroup) {

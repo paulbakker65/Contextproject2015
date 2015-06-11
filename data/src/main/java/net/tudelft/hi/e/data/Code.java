@@ -1,12 +1,18 @@
 package net.tudelft.hi.e.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Code which contains a list of tables. Each table represents an event.
  */
-public class Code {
+public class Code implements Serializable {
+
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
 
   /**
    * Each table represents an event. The event is for example a single device measurement – single

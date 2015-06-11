@@ -1,7 +1,11 @@
 package export;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import net.tudelft.hi.e.data.Chunk;
@@ -9,9 +13,11 @@ import net.tudelft.hi.e.data.Code;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.data.TableFile;
 import net.tudelft.hi.e.export.Exporter;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,10 +58,10 @@ public class ExporterTest {
     chunk1.add(dummyrow2);
 
     Code code = new Code("codeName");
-    Table event = (Table) dummydb.clone();
+    Table event = new Table(dummydb, false);
     code.addEvent(event);
 
-    dummydb2 = (Table) dummydb.clone();
+    dummydb2 = new Table(dummydb);
     dummydb.addChunk(chunk0);
     dummydb.addChunk(chunk1);
     dummydb.addCode(code);
@@ -71,7 +77,7 @@ public class ExporterTest {
   public void testExportWithChunkCodes() throws IOException {
     Exporter.setAddCodeFrequency(false);
     final String expected =
-        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
+        "\"fruit\";\"groente\";\"saus\";\"Chunks 0\";\"Code\"\n"
             + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
             + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
 
@@ -96,7 +102,7 @@ public class ExporterTest {
   public void testExportWithCodeRecord() throws IOException {
     Exporter.setAddCodeFrequency(true);
     final String expected =
-        "\"fruit\";\"groente\";\"saus\";\"Chunk\";\"Code\"\n"
+        "\"fruit\";\"groente\";\"saus\";\"Chunks 0\";\"Code\"\n"
             + "\"\";\"\";\"\";\"\";\"codeName=1\"\n"
             + "\"\";\"wortel\";\"mayonaise\";\"Chunk 0\";\"codeName\"\n"
             + "\"banaan\";\"bloemkool\";\"\";\"Chunk 1\";\"codeName\"\n";
@@ -116,5 +122,25 @@ public class ExporterTest {
   public void testGenerateRow2() {
     final String[] expected = { "banaan", "bloemkool", "" };
     assertArrayEquals(expected, Exporter.generateRow(dummyrow2, cols));
+  }
+
+  @Test
+  public void testExportSer() throws IOException, ClassNotFoundException {
+    Exporter.export(dummydb2, "src/test/resources/testExport", ".csv");
+
+    File exportFile = new File("src/test/resources/testExport.csv");
+    assertTrue(exportFile.exists());
+
+    Table dummyTable = TableFile.readTable("src/test/resources/testExport");
+    assertEquals(dummydb2, dummyTable);
+  }
+
+  @Test
+  public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<Exporter> constructor = Exporter.class.getDeclaredConstructor();
+    assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+    constructor.setAccessible(true);
+    constructor.newInstance();
   }
 }

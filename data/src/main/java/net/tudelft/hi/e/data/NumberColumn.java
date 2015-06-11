@@ -39,4 +39,9 @@ public class NumberColumn extends Column {
   public String toString() {
     return super.toString() + ",\ttype: number";
   }
+
+  @Override
+  public String getType() {
+    return "number";
+  }
 }

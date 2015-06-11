@@ -14,7 +14,7 @@ public class MultipleConditionPattern extends Pattern {
    * Constructor which creates the pattern without a next pattern.
    *
    * @param condition
-   *        the condition for the pattern.
+   *          the condition for the pattern.
    */
   public MultipleConditionPattern(final RecordCondition condition) {
     super();
@@ -36,9 +36,9 @@ public class MultipleConditionPattern extends Pattern {
    * Constructor which creates the pattern without a next pattern.
    *
    * @param condition
-   *        the condition for the pattern.
+   *          the condition for the pattern.
    * @param pattern
-   *        the pattern to use as next pattern.
+   *          the pattern to use as next pattern.
    */
   public MultipleConditionPattern(final RecordCondition condition, final Pattern pattern) {
     super(pattern);

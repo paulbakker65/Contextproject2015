@@ -17,19 +17,27 @@ public class ConstraintOperation extends Operation {
 
   /**
    * Creates an operation for filtering data.
+   *
    * @param dataset
-   *        the table to filter.
+   *          the table to filter.
    * @param columnName
-   *        the column name to which this constraint applies.
+   *          the column name to which this constraint applies.
    * @param constraintType
-   *        the type of constraint as defined in {@link CompareOperator}.
+   *          the type of constraint as defined in {@link CompareOperator}.
    * @param constraintValue
-   *        constraintValue the value which the constraint must meet.
+   *          constraintValue the value which the constraint must meet.
    */
   public ConstraintOperation(final Table dataset, final String columnName,
       final CompareOperator constraintType, final Value constraintValue) {
     super(dataset);
     setOperationParameters(columnName, constraintType, constraintValue);
+  }
+
+  @Override
+  public void resetData(Table inputData) {
+    this.inputData = inputData;
+    this.resultData = new Table(inputData);
+    this.resultData.clear();
   }
 
   /**
@@ -46,8 +54,8 @@ public class ConstraintOperation extends Operation {
    */
   public boolean setOperationParameters(final String columnName,
       final CompareOperator constraintType, final Value constraintValue) {
-    if (columnName == null || constraintValue == null
-        || constraintType == null || constraintType == CompareOperator.ND) {
+    if (columnName == null || constraintValue == null || constraintType == null
+        || constraintType == CompareOperator.ND) {
       this.operationParametersSet = false;
     } else {
       Condition condition = new Condition(constraintType, constraintValue);
@@ -61,7 +69,6 @@ public class ConstraintOperation extends Operation {
   public boolean isOperationParametersSet() {
     return operationParametersSet;
   }
-
 
   /**
    * Execute the operation. before the operation can be executed the setConstraint() function must

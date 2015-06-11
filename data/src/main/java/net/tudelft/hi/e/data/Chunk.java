@@ -1,11 +1,12 @@
 package net.tudelft.hi.e.data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * A chunk contains a table, index and a label.
  */
-public class Chunk extends Table {
+public class Chunk extends Table implements Serializable {
 
   /**
    * Serial version.
@@ -27,10 +28,28 @@ public class Chunk extends Table {
    * @param label Label of the chunk.
    */
   public Chunk(final int index, final String label) {
+    super();
     this.index = index;
     this.label = label;
   }
 
+  /**
+   * Constructs a new Chunk copying the old chunk's field and using the new data Table.
+   *
+   * @param oldChunk
+   *          the old chunk to use.
+   * @param newData
+   *          the new data to use.
+   */
+  public Chunk(Chunk oldChunk, Table newData) {
+    super(newData);
+    this.index = oldChunk.index;
+    this.label = new String(oldChunk.label);
+  }
+
+  /**
+   * New equals method which also checks index and label.
+   */
   @Override
   public boolean equals(Object obj) {
     if (obj == null) {
@@ -90,7 +109,8 @@ public class Chunk extends Table {
   }
 
   /**
-   * @param label of the chunk which to set.
+   * @param label
+   *          of the chunk which to set.
    */
   public void setLabel(final String label) {
     this.label = label;

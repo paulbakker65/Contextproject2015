@@ -16,8 +16,9 @@ public class PatternFactory {
 
   /**
    * Creates a Pattern based on a list of descriptions.
+   *
    * @param patternDescriptions
-   *        the list of descriptions.
+   *          the list of descriptions.
    * @return the created pattern.
    */
   public static Pattern createPattern(List<PatternDescription> patternDescriptions) {

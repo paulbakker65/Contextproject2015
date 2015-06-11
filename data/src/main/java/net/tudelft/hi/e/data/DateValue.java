@@ -4,12 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 /**
  * Case class for representing a date Value.
  *
  */
 public class DateValue extends Value {
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
   private GregorianCalendar value;
 
   /**
@@ -72,10 +77,8 @@ public class DateValue extends Value {
       if (other.value != null) {
         return false;
       }
-    } else if (!value.equals(other.value)) {
-      return false;
     }
-    return true;
+    return Objects.equals(value, other.value);
   }
 
   /**

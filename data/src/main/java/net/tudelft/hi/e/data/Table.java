@@ -1,35 +1,73 @@
 package net.tudelft.hi.e.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Special ArrayList that contains the records.
  */
-public class Table extends ArrayList<Record> {
-
+public class Table extends ArrayList<Record> implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name;
-  private transient Map<String, Code> codes;
+  private Map<String, Code> codes;
   private List<Chunk> chunks;
 
   /**
-   * Call the ArrayList constructor and initialize chunks.
+   * Call the ArrayList constructor and initialize own fields.
    */
   public Table() {
     super();
+    name = "";
     chunks = new ArrayList<Chunk>();
     codes = new HashMap<String, Code>();
     name = "";
   }
 
   /**
+   * Constructs a Table by copying the other Table's fields.
+   *
+   * @param otherTable
+   *          the other Table.
+   */
+  public Table(Table otherTable) {
+    this(otherTable, true);
+  }
+
+  /**
+   * Constructs a Table by copying the other Table's fields.
+   *
+   * @param otherTable
+   *          the other Table.
+   * @param copyRecords
+   *          whether the Records must be copied.
+   */
+  public Table(Table otherTable, boolean copyRecords) {
+    super(otherTable);
+    if (copyRecords) {
+      clear();
+      for (Record record : otherTable) {
+        add(new Record(record));
+      }
+    }
+    name = new String(otherTable.name);
+    chunks = new ArrayList<Chunk>(otherTable.chunks);
+    if (!otherTable.codes.isEmpty()) {
+      codes = new HashMap<String, Code>(otherTable.codes);
+    } else {
+      codes = new HashMap<String, Code>();
+    }
+  }
+
+  /**
    * Adding a chunk to the list of chunks for this table.
    *
-   * @param c chunk to add.
+   * @param chunk
+   *          chunk to add.
    */
   public void addChunk(final Chunk chunk) {
     chunks.add(chunk);
@@ -38,25 +76,16 @@ public class Table extends ArrayList<Record> {
   /**
    * Adding a code to the hashmap of codes for this table.
    *
-   * @param c code to add.
+   * @param c
+   *          code to add.
    */
   public void addCode(final Code code) {
     codes.put(code.getName(), code);
   }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public Object clone() {
-    final Table table = (Table) super.clone();
-    table.chunks = new ArrayList<Chunk>(this.chunks);
-    table.codes = (HashMap<String, Code>) ((HashMap<String, Code>) codes).
-            clone();
-    return table;
-  }
-
   /**
-   * New equals method that also checks if the list of chunks is equal to that
-   * of the other table. The same for the hashmap of codes.
+   * New equals method that also checks if the list of chunks is equal to that of the other table.
+   * The same for the hashmap of codes.
    */
   @Override
   public boolean equals(final Object obj) {
@@ -96,6 +125,16 @@ public class Table extends ArrayList<Record> {
   public Map<String, Code> getCodes() {
     return this.codes;
   }
+
+  /**
+   * Setter for the map of codes.
+   *
+   * @param codes
+   *          the new codes.
+   */
+  // public void setCodes(HashMap<String, Code> codes) {
+  // this.codes = codes;
+  // }
 
   /**
    * Getter for name.
@@ -157,6 +196,47 @@ public class Table extends ArrayList<Record> {
       this.codes.putAll(((Table) collection).codes);
     }
     return true;
+  }
+
+  /**
+   * Returns the list of present column types.
+   *
+   * @return the list of present column types.
+   */
+  public List<Column> getColumns() {
+    List<Column> res = new ArrayList<Column>();
+    if (isEmpty()) {
+      return res;
+    }
+
+    Record record = get(size() - 1);
+
+    for (String name : record.getKeysInOrder()) {
+      Column columnType = getColumnType(name);
+
+      if (columnType != null) {
+        res.add(columnType);
+      }
+    }
+
+    return res;
+  }
+
+  private Column getColumnType(String name) {
+    Iterator<Record> iterator = iterator();
+    Record finger = iterator.next();
+
+    while (iterator.hasNext() && finger.get(name).isNull()) {
+      finger = iterator.next();
+    }
+
+    return getColumnType(name, finger.get(name));
+  }
+
+  private Column getColumnType(String name, Value value) {
+    return (value.isString() ? new StringColumn(name) : (value.isDate() ? new DateColumn(name)
+        : (value.isNumeric() ? new NumberColumn(name) : (value.isTime() ? new TimeColumn(name)
+            : null))));
   }
 
 }

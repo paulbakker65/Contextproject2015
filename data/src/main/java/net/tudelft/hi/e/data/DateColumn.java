@@ -119,13 +119,13 @@ public class DateColumn extends Column {
    *
    * @param format the new date format.
    */
-  public void setFormat(final String format) {
-    this.formatStr = format;
+  public void setFormat(final String dateFormat) {
+    formatStr = dateFormat;
 
     if ("excel".equalsIgnoreCase(formatStr)) {
       this.format = null;
     } else {
-      this.format = new SimpleDateFormat(format);
+      this.format = new SimpleDateFormat(dateFormat);
     }
   }
 
@@ -156,5 +156,10 @@ public class DateColumn extends Column {
   @Override
   public String toString() {
     return super.toString() + ",\ttype: date,\tformat: " + formatStr;
+  }
+
+  @Override
+  public String getType() {
+    return "date";
   }
 }
