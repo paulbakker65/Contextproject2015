@@ -11,6 +11,7 @@ import table.value.Column;
 import table.value.ColumnTypeMismatchException;
 import table.value.NumberColumn;
 
+import visualizations.BoxPlotChart;
 import visualizations.FrequencyChart;
 import visualizations.HistogramChart;
 
@@ -371,11 +372,12 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   }
 
   private void onBarChart() {
-    /*
-     * String column = (String)comboFrequency.getSelectedItem(); BoxPlotChart fc = new
-     * BoxPlotChart("Title", table, column); fc.pack(); GUI.centreWindow(fc); GUI.setIconImage(fc);
-     * fc.setVisible(true);
-     */
+    String column = (String) comboBar.getSelectedItem();
+    BoxPlotChart fc = new BoxPlotChart("Title", table, column);
+    fc.pack();
+    GUI.centreWindow(fc);
+    GUI.setIconImage(fc);
+    fc.setVisible(true);
   }
 
   private void onPieChart() {

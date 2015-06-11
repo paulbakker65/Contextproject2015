@@ -7,6 +7,7 @@ import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 
+import table.Chunk;
 import table.Record;
 import table.Table;
 import table.value.NumberValue;
@@ -42,13 +43,17 @@ public class BoxPlotChart extends JFrame {
   
   
   private Dataset createDataset() {
-    List<Double> items = new ArrayList<Double>();
-    for (Record record : table) {
-      items.add(((NumberValue) record.get(column)).getValue());
-    }
-
+    
     DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
-    dataset.add(items, column, "Default Chunk");
+    for (Chunk chunk : table.getChunks()){
+      List<Double> items = new ArrayList<Double>();
+      for (Record record : chunk) {
+        items.add(((NumberValue) record.get(column)).getValue());
+      }
+      dataset.add(items, column, chunk.getLabel());     
+    }
+    
+
     
     return dataset;
   }
