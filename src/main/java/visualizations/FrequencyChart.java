@@ -46,8 +46,11 @@ public class FrequencyChart extends JFrame {
 
   /**
    * Creates a data set for frequency.
-   * @param table source
-   * @param column column to check frequency on
+   * 
+   * @param table
+   *          source
+   * @param column
+   *          collumn to check frequency on
    * @return frequency data set
    */
   public static Dataset createDataset(Table table, String column) {
