@@ -7,29 +7,39 @@ public enum CompareOperator {
   /**
    * equal.
    */
-  EQ,
-  /**
+  EQ("=="),      /**
    * not equal.
    */
-  NEQ,
+  NEQ("!="),
   /**
    * greater than.
    */
-  G,
+  G(">"),
   /**
    * greater than or equal.
    */
-  GEQ,
+  GEQ(">="),
   /**
    * less than.
    */
-  L,
+  L("<"),
   /**
    * less than or equal.
    */
-  LEQ,
+  LEQ("<="),
   /**
    * not defined.
    */
-  ND
+  ND("?");
+
+  private String typeString;
+
+  CompareOperator(String type) {
+    typeString = type;
+  }
+
+  @Override
+  public String toString() {
+    return typeString;
+  }
 }

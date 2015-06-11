@@ -104,15 +104,8 @@ public class Condition {
    * @see java.lang.Object#toString()
    */
   @Override
-  public String toString() {
-    switch (conditionOperator) {
-      case EQ: return "== " + conditionValue.toString();
-      case NEQ: return "!= " + conditionValue.toString();
-      case LEQ: return "<= " + conditionValue.toString();
-      case L: return "< " + conditionValue.toString();
-      case GEQ: return ">= " + conditionValue.toString();
-      case G: return "> " + conditionValue.toString();
-      default: return "? " + conditionValue.toString();
-    }
+  public final String toString() {
+    return conditionOperator.toString() + " " + conditionValue.
+        toString();
   }
 }
