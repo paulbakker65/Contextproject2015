@@ -17,6 +17,9 @@ import net.tudelft.hi.e.data.Value;
  */
 public class BetweenOperation extends Operation {
 
+  private static final Logger LOG
+      = Logger.getLogger(BetweenOperation.class.getName());
+
   private final String datecol;
   private final String datecol2;
   private final String eventcol;
@@ -106,9 +109,6 @@ public class BetweenOperation extends Operation {
       throw ex;
     }
   }
-
-  private static final Logger LOG
-      = Logger.getLogger(BetweenOperation.class.getName());
 
   private boolean isFirstEvent(final int index) {
     return ev1val.equals(inputData.get(index).get(eventcol));
