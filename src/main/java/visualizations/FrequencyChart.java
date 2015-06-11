@@ -24,14 +24,15 @@ public class FrequencyChart extends JFrame {
 
   private static final long serialVersionUID = 1L;
 
-  private Table table;
-  private String column;
-
+  /**
+   * Makes a new Frequency Frame
+   * @param windowTitle title of the frame
+   * @param table data to use
+   * @param column column with values to check frequencies on.
+   */
   public FrequencyChart(String windowTitle, Table table, String column) {
     super(windowTitle);
-    this.table = table;
-    this.column = column;
-    
+
     Dataset dataset = createDataset(table, column);
 
     JFreeChart chart = createChart(dataset, column);
@@ -45,8 +46,11 @@ public class FrequencyChart extends JFrame {
 
   /**
    * Creates a data set for frequency.
-   * @param table source
-   * @param column collumn to check frequency on
+   * 
+   * @param table
+   *          source
+   * @param column
+   *          collumn to check frequency on
    * @return frequency data set
    */
   public static Dataset createDataset(Table table, String column) {
