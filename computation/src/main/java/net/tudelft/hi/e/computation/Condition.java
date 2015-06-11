@@ -24,7 +24,8 @@ public class Condition {
    * it uses based on the actual subclass.
    *
    * @param recordValue record value, type generic Value
-   * @return <b>false</b> iff the record value does not meet the constraint,
+   * @return <b>false</b> if and only if the record value does not meet the
+   * constraint,
    * <br>
    * <b>true</b> if the record value meets the constraint, <br>
    * <b>true</b> if the constraint type is undefined

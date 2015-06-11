@@ -57,10 +57,10 @@ public class PatternFactory {
   }
 
   private static Pattern getLastNotNullPattern(Pattern pattern) {
-    while (!(pattern.getNextPattern() instanceof NullPattern)) {
-      pattern = pattern.getNextPattern();
+    Pattern nextPattern = pattern;
+    while (!(nextPattern.getNextPattern() instanceof NullPattern)) {
+      nextPattern = nextPattern.getNextPattern();
     }
-
-    return pattern;
+    return nextPattern;
   }
 }

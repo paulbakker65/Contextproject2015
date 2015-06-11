@@ -68,23 +68,34 @@ public class BetweenOperation extends Operation {
 
   @Override
   public boolean execute() {
+    executeFindForEveryEventIndex();
+
+    return true;
+  }
+
+  private boolean executeFindForEveryEventIndex() {
     resultData = (Table) inputData.clone();
 
-    int index1 = 0;
-    while (index1 < inputData.size()) {
-      if (isFirstEvent(index1)) {
-        int index2 = index1 + 1;
-        while (index2 < inputData.size() && !isFirstEvent(index2)) {
-          if (isSecondEvent(index2)) {
-            addEvent(index1, index2);
-            break;
-          }
-          index2++;
-        }
-      }
-      index1++;
-    }
+    int eventIndex = 0;
 
+    while (eventIndex < inputData.size()) {
+      if (isFirstEvent(eventIndex)) {
+        executeFindTargetEventForEvent(eventIndex);
+      }
+      eventIndex++;
+    }
+    return true;
+  }
+
+  private boolean executeFindTargetEventForEvent(final int eventIndex) {
+    int targetIndex = eventIndex + 1;
+    while (targetIndex < inputData.size() && !isFirstEvent(targetIndex)) {
+      if (isSecondEvent(targetIndex)) {
+        addEvent(eventIndex, targetIndex);
+        break;
+      }
+      targetIndex++;
+    }
     return true;
   }
 

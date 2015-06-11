@@ -33,7 +33,7 @@ public class LsaOperation extends Operation {
     /**
      * Columns that will be used when exporting to Table.
      */
-    public transient List<Column> cols = Arrays.asList(new Column[]{
+    private transient List<Column> cols = Arrays.asList(new Column[]{
       new NumberColumn("lag"), new NumberColumn("occur")});
 
     /**
@@ -52,7 +52,7 @@ public class LsaOperation extends Operation {
     public Table toTable() {
       final Table table = new Table();
       for (final Entry<Integer, Integer> lag : this.entrySet()) {
-        table.add(new Record(cols, new Value[] {new NumberValue(lag.getKey()),
+        table.add(new Record(getCols(), new Value[] {new NumberValue(lag.getKey()),
             new NumberValue(lag.getValue())}));
       }
       Collections.sort(table, new RecordLagComparator());
@@ -62,7 +62,7 @@ public class LsaOperation extends Operation {
     @Override
     public int hashCode() {
       int hash = 7;
-      hash = 89 * hash + Objects.hashCode(this.cols);
+      hash = 89 * hash + Objects.hashCode(this.getCols());
       return hash;
     }
 
@@ -79,6 +79,20 @@ public class LsaOperation extends Operation {
         return false;
       }
       return true;
+    }
+
+    /**
+     * @return the cols
+     */
+    public List<Column> getCols() {
+      return cols;
+    }
+
+    /**
+     * @param cols the cols to set
+     */
+    public void setCols(List<Column> cols) {
+      this.cols = cols;
     }
 
   }
