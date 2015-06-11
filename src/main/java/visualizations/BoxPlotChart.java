@@ -24,8 +24,7 @@ public class BoxPlotChart extends JFrame {
 
   private static final long serialVersionUID = 1L;
 
-  private Table table;
-  private String column;
+
 
   /**
    * Makes a new Box and Whisker plot, (boxplot).
@@ -35,12 +34,10 @@ public class BoxPlotChart extends JFrame {
    */
   public BoxPlotChart(String windowTitle, Table table, String column) {
     super(windowTitle);
-    this.table = table;
-    this.column = column;
 
-    Dataset dataset = createDataset();
+    Dataset dataset = createDataset(table, column);
 
-    JFreeChart chart = createChart(dataset);
+    JFreeChart chart = createChart(dataset, column);
 
     ChartPanel chartPanel = new ChartPanel(chart);
 
@@ -49,10 +46,16 @@ public class BoxPlotChart extends JFrame {
     setContentPane(chartPanel);
   }
 
-  private Dataset createDataset() {
+  /**
+   * Creates a Box plot dataset.
+   * @param table the source
+   * @param column column to take min, max, average etc.
+   * @return the dataset
+   */
+  public static Dataset createDataset(Table table, String column) {
 
     DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
-    for (Chunk chunk : table.getChunks()) {
+    for (Chunk chunk : FrequencyChart.extractChunks(table)) {
       List<Double> items = new ArrayList<Double>();
       for (Record record : chunk) {
         Value value = record.get(column);
@@ -67,9 +70,12 @@ public class BoxPlotChart extends JFrame {
   }
 
   /**
-   * Creates a chart.
+   * Creates a boxplot chart.
+   * @param dataset source
+   * @param column column to do calculations on
+   * @return boxplot
    */
-  private JFreeChart createChart(Dataset dataset) {
+  public static JFreeChart createChart(Dataset dataset, String column) {
     JFreeChart chart = ChartFactory.createBoxAndWhiskerChart("Code frequency", // chart title
         "", // domain axis label
         column, // range axis label
