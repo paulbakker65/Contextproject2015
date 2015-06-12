@@ -9,6 +9,7 @@ import table.Table;
 import table.TableFile;
 import table.value.Column;
 import table.value.ColumnTypeMismatchException;
+import table.value.DateColumn;
 import table.value.NumberColumn;
 
 import visualizations.FrequencyChart;
@@ -210,8 +211,11 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private JPanel createStateTransitionPanel() {
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
+    
+    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    allowed.add(DateColumn.class);
 
-    comboStateT = new JComboBox<String>(getColumns());
+    comboStateT = new JComboBox<String>(getColumns(allowed, false));
     panel.add(comboStateT);
 
     buttonStateT = new JButton("Start");
