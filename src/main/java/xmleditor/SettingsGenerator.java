@@ -121,7 +121,7 @@ public class SettingsGenerator extends JFrame {
 
     // Center
 
-    csp = new ColumnSettingsPane(new JTable());
+    csp = ColumnSettingsPane.createPanel();
     csp.setPreferredSize(new Dimension(580, 200));
     mainPanel.add(csp, BorderLayout.CENTER);
 
@@ -174,6 +174,8 @@ public class SettingsGenerator extends JFrame {
       String[] cols = reader.readRow();
       String[] firstrow = reader.readRow();
       cstm = new ColumnSettingsTableModel(cols, firstrow, delimiterTextField.getText(), "2");
+      
+
       csp.setModel(cstm);
 
     } catch (Exception e) {
