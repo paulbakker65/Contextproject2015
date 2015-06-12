@@ -2,5 +2,4 @@
 	<column name="Soort"/>
 	<column name="Persoon"/>
 	<column name="Beoordeling" type="number" />
-	<column name="Chunk" />
 </settings>
