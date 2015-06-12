@@ -45,6 +45,9 @@ public abstract class Column {
       case "":
         res = new StringColumn(name);
         break;
+      case "text":
+        res = new StringColumn(name);
+        break;
       default:
         throw new WrongXmlException("Wrong type specified!");
     }

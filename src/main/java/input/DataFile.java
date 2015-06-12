@@ -41,10 +41,12 @@ public class DataFile {
    * @return Returns the correct reader for the file.
    * @throws Exception If the data file cannot be found an Exception is thrown.
    */
-  private Reader createReader(final File file, final Settings settings) throws Exception {
+  public static Reader createReader(final File file, final Settings settings) throws Exception {
 
     final String fileextension = findExtension(file).toLowerCase();
 
+    Reader reader;
+    
     if (fileextension.equals("xls")) {
       throw new Exception(
           "Old .xls not supported. Please manually convert to the new Excel 2007 format: .xlsx");
@@ -54,7 +56,7 @@ public class DataFile {
       try {
         reader = new CsvReader(file.getPath(), settings.getDelimiter());
       } catch (final FileNotFoundException e) {
-        System.out.println("Error, CsvReader can't find the following file: " + datafile.getPath());
+        System.out.println("Error, CsvReader can't find the following file: " + file.getPath());
         throw new Exception("Data file not found.");
       }
     }
@@ -67,7 +69,7 @@ public class DataFile {
    * @param file The file to find the extension for.
    * @return Returns a String containing the file extension.
    */
-  private String findExtension(final File file) {
+  public static String findExtension(final File file) {
     final String filename = file.getName();
     final int dot = filename.lastIndexOf(".");
     return filename.substring(dot + 1);
