@@ -19,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -30,7 +29,7 @@ public class SettingsGenerator extends JFrame {
   private static final long serialVersionUID = 1L;
 
   private File example;
-  
+
   private JPanel mainPanel;
 
   private JPanel filePanel;
@@ -60,7 +59,7 @@ public class SettingsGenerator extends JFrame {
   private JButton saveButton;
 
   private static final int GAP = 8;
-  
+
   /**
    * Constructs a new settingswindow.
    */
@@ -69,20 +68,17 @@ public class SettingsGenerator extends JFrame {
 
     setTitle("Settings Generator");
 
+    setLayout(new BorderLayout(GAP, GAP));
 
-    setLayout(new BorderLayout(GAP,GAP));
-    
-    //Main panel
+    // Main panel
     mainPanel = new JPanel(new BorderLayout(GAP, GAP));
     mainPanel.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
-    mainPanel.setLayout(new BorderLayout(GAP,GAP));
+    mainPanel.setLayout(new BorderLayout(GAP, GAP));
     add(mainPanel, BorderLayout.CENTER);
-    
-    
-    
+
     // Filepanel
 
-    filePanel = new JPanel(new BorderLayout(GAP,GAP));
+    filePanel = new JPanel(new BorderLayout(GAP, GAP));
     mainPanel.add(filePanel, BorderLayout.PAGE_START);
 
     filePathLabel = new JLabel("No file selected!");
@@ -100,7 +96,7 @@ public class SettingsGenerator extends JFrame {
 
     // Delimiter panel
 
-    delimPanel = new JPanel(new BorderLayout(GAP,GAP));
+    delimPanel = new JPanel(new BorderLayout(GAP, GAP));
     filePanel.add(delimPanel, BorderLayout.PAGE_END);
 
     delimiterLabel = new JLabel("Delimiter: ");
@@ -174,7 +170,6 @@ public class SettingsGenerator extends JFrame {
       String[] cols = reader.readRow();
       String[] firstrow = reader.readRow();
       cstm = new ColumnSettingsTableModel(cols, firstrow, delimiterTextField.getText(), "2");
-      
 
       csp.setModel(cstm);
 
