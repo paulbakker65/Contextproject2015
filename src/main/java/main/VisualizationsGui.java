@@ -72,29 +72,42 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   /**
    * Creates the Visualizations GUI.
    */
-  public static void init() {
-    JFrame frame = new JFrame("Visualizations");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  public static void init(Table table) {
+    String name = (table == null ? "" : " - " + table.getName());
+    JFrame frame = new JFrame("Visualizations" + name);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    JComponent contentPane = new VisualizationsGui();
+    JComponent contentPane = new VisualizationsGui(table);
     contentPane.setOpaque(true);
     contentPane.setPreferredSize(new Dimension(1024, 600));
     frame.setContentPane(contentPane);
-
-    frame.pack();
-    GUI.setIconImage(frame);
-    GUI.centreWindow(frame);
-    frame.setVisible(true);
+    
+    GUI.init(frame);
   }
 
   /**
    * Creates the GUI components, use init() instead.
    */
-  public VisualizationsGui() {
+  public VisualizationsGui(Table table) {
     super(new BorderLayout());
-
+    
+    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    
+    createTabbedPane();
+    add(tabbedPane, BorderLayout.CENTER);
+    
+    this.table = table;
+    if (table == null) {
+      add(createFilePanel(), BorderLayout.PAGE_START);
+    } else {
+      updateTabbedPane();
+    }  
+  }
+  
+  
+  
+  private JPanel createFilePanel() {
     GridBagConstraints gbc;
-
     JPanel filepanel = new JPanel();
     filepanel.setLayout(new GridBagLayout());
     gbc = new GridBagConstraints();
@@ -136,10 +149,14 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     gbc.weightx = 0.1;
     gbc.insets = new Insets(0, 0, 0, 0);
     filepanel.add(opentable, gbc);
+    
+    return filepanel;
+  }
 
+  private JTabbedPane createTabbedPane() {
     tabbedPane = new JTabbedPane();
     tabbedPane.setEnabled(false);
-    ImageIcon icon = createImageIcon("icon.png");
+    ImageIcon icon = GUI.createImageIcon("icon.png");
 
     JPanel emptypanel = new JPanel();
     emptypanel.add(new JLabel("Please select a file first."));
@@ -161,12 +178,10 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     tabbedPane.addTab("Histogram", icon, new JPanel(), "Create a Histogram");
     tabbedPane.setMnemonicAt(5, KeyEvent.VK_6);
-
-    add(filepanel, BorderLayout.PAGE_START);
-    add(tabbedPane, BorderLayout.CENTER);
-    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    
+    return tabbedPane;
   }
-
+  
   private JPanel createFrequencyPanel() {
     JPanel panel = new JPanel();
     panel.add(new JLabel("Select a column: "));
@@ -362,16 +377,12 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     } catch (IOException | ClassNotFoundException e) {
       JOptionPane.showMessageDialog(null, e.getMessage());
     }
-
   }
 
   private void onFrequency() {
     String column = (String) comboFrequency.getSelectedItem();
     FrequencyChart fc = new FrequencyChart("Frequency", table, column);
-    fc.pack();
-    GUI.centreWindow(fc);
-    GUI.setIconImage(fc);
-    fc.setVisible(true);
+    GUI.init(fc);
   }
 
   private void onBarChart() {
@@ -419,20 +430,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     }
 
     HistogramChart hchart = new HistogramChart(table, column, power);
-    hchart.pack();
-    GUI.centreWindow(hchart);
-    GUI.setIconImage(hchart);
-    hchart.setVisible(true);
-  }
-
-  private static ImageIcon createImageIcon(String path) {
-    java.net.URL imgUrl = ClassLoader.getSystemResource(path);
-    if (imgUrl != null) {
-      return new ImageIcon(imgUrl);
-    } else {
-      System.err.println("Couldn't find file: " + path);
-      return null;
-    }
+    GUI.init(hchart);
   }
 
   /**
@@ -459,9 +457,9 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private String[] getColumns() {
     return getColumns(null, false);
   }
-
+  
   public static void main(String[] argv) {
     GUI.setSystemLook();
-    VisualizationsGui.init();
+    VisualizationsGui.init(null);
   }
 }

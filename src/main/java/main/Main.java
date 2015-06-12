@@ -16,7 +16,7 @@ public class Main{
    * Main
    * @param args A array of arguments.
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) {  
     if (!parseCommandline(args)) {
       return;
     }
@@ -25,7 +25,7 @@ public class Main{
       return;
     }
 
-    ProgressGui.init();
+    //ProgressGui.init();
 
     return;
   }
@@ -80,23 +80,10 @@ public class Main{
    */
   public static boolean openGui() {
     String windowTitle = "Contextproject 2015 Groep 5/E";
-    MainUI dialog = new MainUI();
-    dialog.pack();
-    dialog.setTitle(windowTitle);
-    GUI.centreWindow(dialog);
-    dialog.setVisible(true);
-
-    if (dialog.isExit()) {
-      return false;
-    }
-
-    System.out.println("GUI done\n" 
-        + "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n" 
-        + "outputDir = " + Input.getOutputDir().getAbsolutePath() + "\n" 
-        + "files = ");
-    for (DataFile file : Input.getFiles()) {
-      System.out.println(file.toString());
-    }
+    MainUI frame = new MainUI();
+    frame.setTitle(windowTitle);
+    
+    GUI.init(frame);
     
     return true;
   }
