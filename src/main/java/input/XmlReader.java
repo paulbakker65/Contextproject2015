@@ -8,7 +8,6 @@ import org.xml.sax.SAXException;
 
 import table.value.Column;
 import table.value.DateColumn;
-import table.value.TimeColumn;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,8 +51,8 @@ public class XmlReader {
 
       // If a time column is present, the target column should be present as
       // well.
-      if (newColumn instanceof TimeColumn) {
-        checkContains.add(((TimeColumn) newColumn).getTargetDate());
+      if (newColumn instanceof DateColumn && ((DateColumn) newColumn).isTime()) {
+        checkContains.add(((DateColumn) newColumn).getTargetDate());
       }
 
       settings.addColumn(newColumn);

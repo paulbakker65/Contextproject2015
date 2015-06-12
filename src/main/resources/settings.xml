@@ -4,5 +4,5 @@
 	<column name="Unit" />
 	<column name="Useless" /> 
 	<column name="Date" type="date" format="yyMMdd" /> 
-	<column name="Time" type="time" format="hhmm" target="Date"/>  
+	<column name="Time" type="date" format="hhmm" target="Date"/>  
 </settings>

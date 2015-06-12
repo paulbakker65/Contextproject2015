@@ -5,7 +5,6 @@ import table.Table;
 import table.value.Column;
 import table.value.ColumnTypeMismatchException;
 import table.value.DateValue;
-import table.value.TimeValue;
 import table.value.Value;
 
 import java.io.IOException;
@@ -28,7 +27,8 @@ public class Parser {
   /**
    * Constructs a new parser given the settings to describe the file.
    * 
-   * @param settings the settings that describe the file.
+   * @param settings
+   *          the settings that describe the file.
    */
   public Parser(final Settings settings) {
     super();
@@ -39,7 +39,7 @@ public class Parser {
 
   private void connectLinks(final Map<String, String> links, final Record record) {
     for (final Entry<String, String> entry : links.entrySet()) {
-      final TimeValue timeValue = (TimeValue) record.get(entry.getKey());
+      final DateValue timeValue = (DateValue) record.get(entry.getKey());
       final DateValue dateValue = (DateValue) record.get(entry.getValue());
 
       dateValue.addTime(timeValue.getValue());
@@ -77,11 +77,13 @@ public class Parser {
   /**
    * Parses the file given the Reader that reads the file.
    * 
-   * @param reader the reader that reads the file.
+   * @param reader
+   *          the reader that reads the file.
    * @return a Table object which represents the read file as a table.
-   * @throws IOException when something fail during reading.
-   * @throws ColumnTypeMismatchException when the read file contains other values than specified by
-   *         the settings.
+   * @throws IOException
+   *           when something fail during reading.
+   * @throws ColumnTypeMismatchException
+   *           when the read file contains other values than specified by the settings.
    */
   public Table parse(final Reader reader) throws IOException, ColumnTypeMismatchException {
     // Skip lines until the start line is reached.
@@ -103,7 +105,7 @@ public class Parser {
         values[i] = columns.get(i).convertToValue(row[i]);
 
         if (values[i].isTime()) {
-          timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).getTargetDate());
+          timeDateLinks.put(columns.get(i).getName(), ((DateValue) values[i]).getTarget());
         }
       }
 

@@ -15,8 +15,6 @@ import table.value.NumberColumn;
 import table.value.NumberValue;
 import table.value.StringColumn;
 import table.value.StringValue;
-import table.value.TimeColumn;
-import table.value.TimeValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +42,7 @@ public class TableTest {
 
     final Table clone = new Table(table);
     assertEquals(clone, new Table(table));
-    
+
     clone.addCode(new Code("test2"));
     assertNotEquals(clone, new Table(table));
   }
@@ -128,83 +126,84 @@ public class TableTest {
 
     assertEquals(table.hashCode(), (31 + chunks.hashCode()) * 31 + codes.hashCode());
   }
-  
+
   @Test
   public void testGetColumns() {
     final Table table = new Table();
     Record record = new Record();
-    
+
     record.put("string", new StringValue(null));
     record.put("number", new NumberValue(0));
-    record.put("date", new DateValue((Date) null));
-    record.put("time", new TimeValue((Date) null, null));
+    record.put("date", new DateValue((Date) null, new DateColumn("date", "ddMMyy", null)));
+    record.put("time", new DateValue((Date) null, new DateColumn("date", "ddMMyy", "date")));
     record.put("string2", new NullValue());
-    
+
     Record record2 = new Record();
-    
+
     record2.put("string", new NullValue());
     record2.put("number", new NullValue());
     record2.put("date", new NullValue());
     record2.put("time", new NullValue());
     record2.put("string2", new StringValue(null));
-    
+
     table.add(record);
     table.add(record2);
-    
-    List<Column> expected = new ArrayList<Column>(Arrays.asList(new StringColumn("string"), 
-        new NumberColumn("number"), new DateColumn("date"), new TimeColumn("time"), 
-        new StringColumn("string2")));
-    
+
+    List<Column> expected =
+        new ArrayList<Column>(Arrays.asList(new StringColumn("string"), new NumberColumn("number"),
+            new DateColumn("date", "ddMMyy", null), new DateColumn("time", "ddMMyy", "date"),
+            new StringColumn("string2")));
+
     assertEquals(expected, table.getColumns());
   }
-  
+
   @Test
   public void testGetColumnsEmptyTable() {
     final Table table = new Table();
     List<Column> expected = new ArrayList<Column>();
-    
+
     assertEquals(expected, table.getColumns());
   }
-  
+
   @Test
   public void testGetColumnsNullColumn() {
     final Table table = new Table();
     Record record = new Record();
-    
+
     record.put("string", new StringValue(null));
     record.put("string2", new NullValue());
-    
+
     table.add(record);
-    
+
     List<Column> expected = new ArrayList<Column>(Arrays.asList(new StringColumn("string")));
-    
+
     assertEquals(expected, table.getColumns());
   }
-  
+
   @Test
   public void testAddAllTable() {
     final Table table = new Table();
     final Table otherTable = new Table();
-    
+
     final Code code = new Code("test");
     otherTable.addCode(code);
     final Chunk chunk = new Chunk(1, "Chunk 1");
     otherTable.addChunk(chunk);
-    
+
     table.addAll(otherTable);
-    
+
     assertEquals(table, otherTable);
   }
-  
+
   @Test
   public void testAddAllNoTable() {
     final Table table = new Table();
     final Record record = new Record();
     final List<Record> otherTable = new ArrayList<Record>();
-    
+
     otherTable.add(record);
     table.addAll(otherTable);
-    
+
     assertEquals(table.size(), otherTable.size());
   }
 }

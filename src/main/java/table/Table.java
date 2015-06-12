@@ -1,10 +1,6 @@
 package table;
 
 import table.value.Column;
-import table.value.DateColumn;
-import table.value.NumberColumn;
-import table.value.StringColumn;
-import table.value.TimeColumn;
 import table.value.Value;
 
 import java.io.Serializable;
@@ -224,9 +220,7 @@ public class Table extends ArrayList<Record> implements Serializable {
   }
 
   private Column getColumnType(String name, Value value) {
-    return (value.isString() ? new StringColumn(name) : (value.isDate() ? new DateColumn(name)
-        : (value.isNumeric() ? new NumberColumn(name) : (value.isTime() ? new TimeColumn(name)
-            : null))));
+    return value.getType(name);
   }
 
 }
