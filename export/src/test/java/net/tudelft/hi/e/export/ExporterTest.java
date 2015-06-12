@@ -14,7 +14,6 @@ import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.TableFile;
-import net.tudelft.hi.e.export.Exporter;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
