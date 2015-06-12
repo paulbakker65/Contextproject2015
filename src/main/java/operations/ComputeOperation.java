@@ -40,7 +40,9 @@ public class ComputeOperation extends Operation {
   }
 
   private boolean setOperationParameters(ComputeOperator operator, String column) {
-    this.operationParametersSet = column != null;
+    this.operationParametersSet =
+        column != null && inputData != null && !inputData.isEmpty()
+            && inputData.get(0).get(column) != null;
 
     if (this.operationParametersSet) {
       this.computation = ComputationFactory.createComputation(operator);
@@ -62,12 +64,12 @@ public class ComputeOperation extends Operation {
     Column computationColumn = new StringColumn("Computation");
     Column resultColumn = result.getType("Result");
     List<Column> columns = new ArrayList<Column>(Arrays.asList(computationColumn, resultColumn));
-    Value[] recordValues = new Value[]{ getDescription(), result };
+    Value[] recordValues = new Value[] { getDescription(), result };
     resultData.add(new Record(columns, recordValues, "Computation"));
 
     return true;
   }
-  
+
   private List<Value> getValues() {
     List<Value> values = new ArrayList<Value>();
 
@@ -76,10 +78,10 @@ public class ComputeOperation extends Operation {
         values.add(record.get(column));
       }
     }
-    
+
     return values;
   }
-  
+
   private StringValue getDescription() {
     return new StringValue(operator + "(" + column + ")");
   }
