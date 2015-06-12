@@ -11,7 +11,6 @@ import org.jfree.data.general.Dataset;
 import table.Chunk;
 import table.Record;
 import table.Table;
-import table.value.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,13 +21,19 @@ import javax.swing.JFrame;
 
 public class FrequencyChart extends JFrame {
 
+  public static final String DEFAULT_CHUNK_NAME = "Default Chunk";
+
   private static final long serialVersionUID = 1L;
 
   /**
-   * Create frequency chart.
-   * @param windowTitle title
-   * @param table on which to create the frequency chart.
-   * @param column where the values are.
+   * Makes a new Frequency Frame
+   * 
+   * @param windowTitle
+   *          title of the frame
+   * @param table
+   *          data to use
+   * @param column
+   *          column with values to check frequencies on.
    */
   public FrequencyChart(String windowTitle, Table table, String column) {
     super(windowTitle);
@@ -100,32 +105,22 @@ public class FrequencyChart extends JFrame {
     return chart;
   }
 
-  private static List<Chunk> extractChunks(Table table) {
-    if (table.getChunks().size() == 0) {
-      // regen chunks
-
-      HashMap<String, List<Record>> chunkhm = new HashMap<String, List<Record>>();
-      for (Record r : table) {
-        Value chunkvalue = r.get("Chunk");
-        String chunkname = (chunkvalue == null) ? "" : chunkvalue.toString();
-        List<Record> chunk = chunkhm.get(chunkname);
-        if (chunk == null) {
-          chunk = new ArrayList<Record>();
-        }
-        chunk.add(r);
-        chunkhm.put(chunkname, chunk);
-      }
-      int ii = 0;
-      for (Entry<String, List<Record>> e : chunkhm.entrySet()) {
-        Chunk chunk = new Chunk(ii, e.getKey());
-        ii++;
-        for (Record r : e.getValue()) {
-          chunk.add(r);
-        }
-        table.addChunk(chunk);
-
-      }
+  /**
+   * Extract the chunks in a table, or the table itself if there are no chunks.
+   * 
+   * @param table
+   *          table to extract from
+   * @return list of chunks, or one chunk containing all the records
+   */
+  public static List<Chunk> extractChunks(Table table) {
+    if (table.getChunks().isEmpty()) {
+      Chunk defaultChunk = new Chunk(0, DEFAULT_CHUNK_NAME);
+      defaultChunk.addAll(table);
+      List<Chunk> chunkList = new ArrayList<Chunk>();
+      chunkList.add(defaultChunk);
+      return chunkList;
     }
+
     return table.getChunks();
   }
 }
