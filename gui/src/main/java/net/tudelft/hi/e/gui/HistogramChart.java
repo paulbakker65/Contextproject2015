@@ -1,20 +1,17 @@
-package visualizations;
+package net.tudelft.hi.e.gui;
 
-import org.apache.commons.lang.ArrayUtils;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import net.tudelft.hi.e.data.NumberValue;
+import net.tudelft.hi.e.data.Record;
+import net.tudelft.hi.e.data.Table;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.HistogramDataset;
-
-import table.Record;
-import table.Table;
-import table.value.NumberValue;
-
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
 
 public class HistogramChart extends JFrame {
 
@@ -26,7 +23,7 @@ public class HistogramChart extends JFrame {
 
   /**
    * Creates histogram of a stem leaf plot.
-   * 
+   *
    * @param table
    *          stem leaf plot to make a histogram of.
    */
@@ -45,7 +42,7 @@ public class HistogramChart extends JFrame {
 
   /**
    * Create a dataset for the histogram.
-   * 
+   *
    * @param columnName
    *          the column in which all the values are saved.
    * @param power
@@ -74,7 +71,7 @@ public class HistogramChart extends JFrame {
 
   /**
    * Removes values whom are out of bounds.
-   * 
+   *
    * @param values
    *          to check
    * @param lowerBound
@@ -96,7 +93,7 @@ public class HistogramChart extends JFrame {
 
   /**
    * Returns the chart using JFreeCharts.
-   * 
+   *
    * @param dataset
    *          dataset created above.
    * @return JFreeChart Histogram.

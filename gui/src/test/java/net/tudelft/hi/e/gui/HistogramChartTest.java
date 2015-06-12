@@ -1,25 +1,22 @@
-package visualizations;
+package net.tudelft.hi.e.gui;
 
-import static org.junit.Assert.assertEquals;
-
+import java.util.ArrayList;
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.NullValue;
+import net.tudelft.hi.e.data.NumberColumn;
+import net.tudelft.hi.e.data.NumberValue;
+import net.tudelft.hi.e.data.Record;
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.data.Value;
 import org.jfree.data.statistics.HistogramDataset;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import table.Record;
-import table.Table;
-import table.value.Column;
-import table.value.NullValue;
-import table.value.NumberColumn;
-import table.value.NumberValue;
-import table.value.Value;
-
-import java.util.ArrayList;
-
 public class HistogramChartTest {
-  
+
   Table table;
-  
+
   /**
    * Creating a table for testing.
    */
@@ -49,11 +46,11 @@ public class HistogramChartTest {
     table.add(new Record(col, new Value[] { new NumberValue(50) }));
     table.add(new Record(col, new Value[] { new NumberValue(13) }));
   }
-  
+
   @Test
   public void testHistogram() {
     HistogramDataset dataset = HistogramChart.createDataset(table, "numbers", 2);
-       
+
     assertEquals(dataset.getY(0, 0), 1.0);
     assertEquals(dataset.getY(0, 1), 3.0);
     assertEquals(dataset.getY(0, 2), 3.0);
@@ -64,7 +61,7 @@ public class HistogramChartTest {
     assertEquals(dataset.getY(0, 7), 0.0);
     assertEquals(dataset.getY(0, 8), 0.0);
     assertEquals(dataset.getY(0, 9), 0.0);
-    
+
   }
 
 }

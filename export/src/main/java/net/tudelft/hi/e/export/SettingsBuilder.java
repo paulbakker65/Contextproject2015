@@ -1,14 +1,16 @@
-package export;
+package net.tudelft.hi.e.export;
 
-import input.Settings;
-
-import table.Table;
-import table.value.Column;
-
-import java.util.ArrayList;
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.input.Settings;
 
 public class SettingsBuilder {
-  
+
+  /**
+   * Default hidden constructor.
+   */
+  private SettingsBuilder() {
+  }
+
   /**
    * Generates a settings object for the given table.
    * @param table The table to generate the settings for.
@@ -23,12 +25,9 @@ public class SettingsBuilder {
     settings.setName(table.getName());
     settings.setDelimiter(delimiter);
     settings.setStartLine(startline);
-        
-    settings.setColumns((ArrayList<Column>) table.getColumns());
+
+    settings.setColumns(table.getColumns());
 
     return settings;
   }
-  
-  private SettingsBuilder() { }
-
 }

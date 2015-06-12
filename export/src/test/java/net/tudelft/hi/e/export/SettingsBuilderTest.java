@@ -1,21 +1,17 @@
-package export;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import input.DataFile;
-import input.Input;
-import input.Settings;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import table.Table;
+package net.tudelft.hi.e.export;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Input;
+import net.tudelft.hi.e.input.Settings;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SettingsBuilderTest {
   private Table t1;
@@ -29,7 +25,7 @@ public class SettingsBuilderTest {
 
   /**
    * Setup
-   * 
+   *
    * @throws Exception
    *           for parsing.
    */

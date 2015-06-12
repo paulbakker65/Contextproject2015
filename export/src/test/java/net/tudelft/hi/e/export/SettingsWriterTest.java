@@ -1,20 +1,17 @@
-package export;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import input.DataFile;
-import input.Input;
-import input.Settings;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+package net.tudelft.hi.e.export;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Input;
+import net.tudelft.hi.e.input.Settings;
+import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SettingsWriterTest {
   private DataFile f1;

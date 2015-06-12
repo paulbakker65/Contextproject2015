@@ -1,4 +1,4 @@
-package gui;
+package net.tudelft.hi.e.gui;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
