@@ -290,8 +290,8 @@ public class MainUI extends JFrame {
    */
   public static File openDataFile() {
     List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
-    filters.add(csvfilter);
     filters.add(xlsfilter);
+    filters.add(csvfilter);
     return openFile(filters, "data file");
   }
 

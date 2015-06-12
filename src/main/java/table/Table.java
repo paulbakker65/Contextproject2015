@@ -36,7 +36,7 @@ public class Table extends ArrayList<Record> implements Serializable {
    *          the other Table.
    */
   public Table(Table otherTable) {
-    this(otherTable, true);
+    this(otherTable, false);
   }
 
   /**

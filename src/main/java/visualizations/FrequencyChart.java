@@ -37,7 +37,7 @@ public class FrequencyChart extends JFrame {
    */
   public FrequencyChart(String windowTitle, Table table, String column) {
     super(windowTitle);
-
+    
     Dataset dataset = createDataset(table, column);
 
     JFreeChart chart = createChart(dataset, column);
@@ -64,6 +64,9 @@ public class FrequencyChart extends JFrame {
     for (Chunk ch : extractChunks(table)) {
       HashMap<String, Integer> amount = new HashMap<String, Integer>();
       for (Record r : ch) {
+        if (r.get(column).isNull()) {
+          continue;
+        }
         String eventtype = r.get(column).toString();
         Integer current = amount.get(eventtype);
         if (current == null) {

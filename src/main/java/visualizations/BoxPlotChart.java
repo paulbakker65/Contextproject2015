@@ -53,7 +53,6 @@ public class BoxPlotChart extends JFrame {
    * @return the dataset
    */
   public static Dataset createDataset(Table table, String column) {
-
     DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
     for (Chunk chunk : FrequencyChart.extractChunks(table)) {
       List<Double> items = new ArrayList<Double>();
