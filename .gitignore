@@ -1,6 +1,7 @@
 /target/
 /medical/
 /demo_output/
+/src/main/resources/prev_directory.txt
 *.csv
 *.xls
 *.xlsx
