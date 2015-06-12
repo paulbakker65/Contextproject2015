@@ -18,7 +18,7 @@ Group: Health Informatics 5
 |  | Make prototype/presentation for friday| Paul | 8 hours | Medium |
 |	| Code base should be devided into modules | Matthijs | 15 hours | High
 |	| Untested classes must be tested where possible | Robin | 8 hours | Medium
-|	| An interview for testing the code should be made for the final report | Robin | 8 hours & | High
+|	| An interview for testing the code should be made for the final report | Robin | 8 hours | High
 |	| Draft of the final report must be made | Julian & Jan  | 5 hours each | High
 |  | Sprint plan and reflection| Paul (scrum master) | 2 hours | Medium
 
