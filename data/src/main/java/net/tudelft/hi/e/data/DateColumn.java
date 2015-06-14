@@ -38,7 +38,12 @@ public class DateColumn extends Column {
    */
   public DateColumn(final String name, final String format) {
     super(name);
-    this.setFormat(format);
+    this.formatStr = format;
+    if ("excel".equalsIgnoreCase(this.formatStr)) {
+      this.format = null;
+    } else {
+      this.format = new SimpleDateFormat(this.formatStr);
+    }
   }
 
   private Date convertExcelDate(final String text) throws ColumnTypeMismatchException {
@@ -147,10 +152,7 @@ public class DateColumn extends Column {
       return false;
     }
     final DateColumn other = (DateColumn) obj;
-    if (!Objects.equals(this.format, other.format)) {
-      return false;
-    }
-    return Objects.equals(this.formatStr, other.formatStr);
+    return Objects.equals(getName(), other.getName());
   }
 
   @Override
