@@ -141,7 +141,7 @@ public class DateValue extends Value {
 
   @Override
   public boolean isDate() {
-    return !isTime();
+    return true;
   }
 
   @Override
