@@ -13,7 +13,7 @@ public class StateTransitionMatrix extends Table {
   private static final long serialVersionUID = 1L;
   private Table table;
   private Table codeTable;
-  private ArrayList<String> uniqueValues;
+  private List<String> uniqueValues;
 
   /**
    * Creates a state transition matrix of the given table looking at the datecolumn specified.
@@ -69,7 +69,7 @@ public class StateTransitionMatrix extends Table {
     codeTable = new Table();
     for (Code code : table.getCodes().values()) {
       for (Table event : code.getEvents()) {
-        ArrayList<Column> column = new ArrayList<Column>();
+        List<Column> column = new ArrayList<Column>();
         column.add(new StringColumn("Code"));
         column.add(new StringColumn("Date"));
         Record record =
@@ -92,14 +92,7 @@ public class StateTransitionMatrix extends Table {
       if (codename.isEmpty()) {
         codename = code.toString();
       } else {
-        for (Record rec : this) {
-          if (rec.get("id").toString().equals(codename)) {
-            NumberValue num = (NumberValue) rec.get(code.toString());
-            num.plusNumber(1);
-            rec.put(code.toString(), num);
-          }
-        }
-        codename = code.toString();
+        codename = countTransitionsForRecord(codename, code);
       }
     }
 
@@ -145,10 +138,6 @@ public class StateTransitionMatrix extends Table {
   private boolean equalTable(StateTransitionMatrix other) {
     return Objects.equals(this.table, other.table);
   }
-
-//  private boolean equalColumn(StateTransitionMatrix other) {
-//    return Objects.equals(this.column, other.column);
-//  }
 
   private boolean equalUniqueValues(StateTransitionMatrix other) {
     return Objects.equals(this.uniqueValues, other.uniqueValues);

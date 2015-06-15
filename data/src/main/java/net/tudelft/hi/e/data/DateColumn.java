@@ -60,10 +60,10 @@ public class DateColumn extends Column {
 
   @Override
   public Value convertToValue(final String text) throws ColumnTypeMismatchException {
-    if ("null".equals(text.toLowerCase()) || text.isEmpty()) {
+    if ("null".equalsIgnoreCase(text) || text.isEmpty()) {
       return new NullValue();
     }
-    if ("excel".equals(formatStr.toLowerCase())) {
+    if ("excel".equalsIgnoreCase(formatStr)) {
       return new DateValue(convertExcelDate(text), this);
     }
 
@@ -109,13 +109,13 @@ public class DateColumn extends Column {
   }
 
   private void readFormat(final Element element) throws WrongXmlException {
-    final String format = element.getAttribute("format");
+    final String elementFormat = element.getAttribute("format");
 
-    if (format.isEmpty()) {
+    if (elementFormat.isEmpty()) {
       throw new WrongXmlException("Format not specified!");
     }
 
-    setFormat(format);
+    setFormat(elementFormat);
   }
 
   private void readTarget(final Element element) throws WrongXmlException {

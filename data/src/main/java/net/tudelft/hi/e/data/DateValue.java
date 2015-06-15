@@ -113,10 +113,8 @@ public class DateValue extends Value {
   }
 
   private boolean equalValue(DateValue other) {
-    if (value == null) {
-      if (other.value != null) {
-        return false;
-      }
+    if (value == null && other.value != null) {
+      return false;
     }
     return Objects.equals(value, other.value);
   }
@@ -173,7 +171,7 @@ public class DateValue extends Value {
   @Override
   public String toString() {
     DateFormat dateFormat =
-        (isTime() ? defaultTimeFormat : (timeAdded ? DateColumn.isoFormat : defaultDateFormat));
+        isTime() ? defaultTimeFormat : (timeAdded ? DateColumn.isoFormat : defaultDateFormat);
 
     return dateFormat.format(getValue().getTime());
   }

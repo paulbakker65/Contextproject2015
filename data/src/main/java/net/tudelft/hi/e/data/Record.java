@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -88,7 +89,7 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
    *          The new name to use.
    */
   public void rename(final String oldName, final String newName) {
-    LinkedHashMap<String, Value> entries = new LinkedHashMap<String, Value>(this);
+    Map<String, Value> entries = new LinkedHashMap<String, Value>(this);
     clear();
 
     for (String key : entries.keySet()) {

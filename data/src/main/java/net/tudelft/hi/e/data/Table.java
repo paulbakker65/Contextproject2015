@@ -132,9 +132,9 @@ public class Table extends ArrayList<Record> implements Serializable {
    * @param codes
    *          the new codes.
    */
-  // public void setCodes(HashMap<String, Code> codes) {
-  // this.codes = codes;
-  // }
+  public void setCodes(HashMap<String, Code> codes) {
+    this.codes = codes;
+  }
 
   /**
    * Getter for name.
@@ -211,8 +211,8 @@ public class Table extends ArrayList<Record> implements Serializable {
 
     Record record = get(size() - 1);
 
-    for (String name : record.getKeysInOrder()) {
-      Column columnType = getColumnType(name);
+    for (String columnName : record.getKeysInOrder()) {
+      Column columnType = getColumnType(columnName);
 
       if (columnType != null) {
         res.add(columnType);
