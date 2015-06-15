@@ -57,13 +57,13 @@ public class MainUI extends JFrame {
 
   // Filters for JFileChooser dialog
   private static FileNameExtensionFilter xmlfilter =
-          new FileNameExtensionFilter("XML files", "xml");
-  private static FileNameExtensionFilter csvfilter =
-          new FileNameExtensionFilter("CSV and TXT files", "csv", "txt");
-  private static FileNameExtensionFilter xlsfilter =
-          new FileNameExtensionFilter("Excel files", "xls", "xlsx");
+      new FileNameExtensionFilter("XML files", "xml");
+  private static FileNameExtensionFilter csvfilter = new FileNameExtensionFilter(
+      "CSV and TXT files", "csv", "txt");
+  private static FileNameExtensionFilter xlsfilter = new FileNameExtensionFilter("Excel files",
+      "xls", "xlsx");
   private static FileNameExtensionFilter serfilter =
-          new FileNameExtensionFilter("SER files", "ser");
+      new FileNameExtensionFilter("SER files", "ser");
 
   private static File previousDirectory;
 
@@ -75,12 +75,13 @@ public class MainUI extends JFrame {
   public MainUI() {
     init();
 
-    contentPane.registerKeyboardAction(new ActionListener() {
-      public void actionPerformed(ActionEvent event) {
-        onCancel();
-      }
-    }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-       JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    contentPane
+        .registerKeyboardAction(new ActionListener() {
+          public void actionPerformed(ActionEvent event) {
+            onCancel();
+          }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     addWindowListener(new WindowAdapter() {
@@ -142,25 +143,34 @@ public class MainUI extends JFrame {
         onCancel();
       }
     });
-    
+
     buttonVisualizations.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent event) {
         onVisualizations();
       }
     });
-    
+
     settingsbuilderButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent event) {
         onSettingsBuilder();
       }
     });
+
+    if (Runtime.getRuntime().maxMemory() < 1300000000L) {
+      JOptionPane.showMessageDialog(this,
+          "Your VM does not run with the recommended amount of memory "
+              + "This can cause problems when loading large Excel files."
+              + "\nPlease run with the argument: -Xmx1500M", "Memory Warning",
+          JOptionPane.WARNING_MESSAGE);
+    }
+
   }
 
   /**
-   * Initializes the GUI. Sets the dialog look to match the system look,
-   * loads the icon and sets the file path fields.
+   * Initializes the GUI. Sets the dialog look to match the system look, loads the icon and sets the
+   * file path fields.
    */
   public void init() {
     GUI.setSystemLook();
@@ -191,8 +201,8 @@ public class MainUI extends JFrame {
       previousDirectory = chooser.getCurrentDirectory();
       if (!Input.setScriptFile(chooser.getSelectedFile())) {
         JOptionPane.showMessageDialog(this,
-                "Error opening script file, please select a valid script file.",
-                "File not found.", JOptionPane.ERROR_MESSAGE);
+            "Error opening script file, please select a valid script file.", "File not found.",
+            JOptionPane.ERROR_MESSAGE);
         return;
       }
       textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
@@ -205,7 +215,8 @@ public class MainUI extends JFrame {
    */
   private void onEditScript() {
     if (!Input.hasScript()) {
-      int option = JOptionPane.showConfirmDialog(null,
+      int option =
+          JOptionPane.showConfirmDialog(null,
               "No scipt file selected.\nWould you like to select one now?", "No script file.",
               JOptionPane.YES_NO_OPTION);
       if (option == JOptionPane.YES_OPTION) {
@@ -222,7 +233,7 @@ public class MainUI extends JFrame {
     try {
       Desktop.getDesktop().open(Input.getScriptFile());
     } catch (IOException e1) {
-      //also gets thrown if system has no defaut editor for the file type.
+      // also gets thrown if system has no defaut editor for the file type.
       System.out.println("Error trying to open default editor.");
       e1.printStackTrace();
     }
@@ -245,13 +256,11 @@ public class MainUI extends JFrame {
       previousDirectory = chooser.getCurrentDirectory();
 
       if (!Input.setOutputDir(chooser.getSelectedFile())) {
-        JOptionPane.showMessageDialog(this,
-                "Error with output directory. "
-                        + "Selected path is a file or the direcotry could not be made.",
-                "Directory not found.", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error with output directory. "
+            + "Selected path is a file or the direcotry could not be made.",
+            "Directory not found.", JOptionPane.ERROR_MESSAGE);
         return;
       }
-
 
       textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
     }
@@ -263,7 +272,8 @@ public class MainUI extends JFrame {
    */
   private void onViewOutputDir() {
     if (!Input.hasOutput()) {
-      int option = JOptionPane.showConfirmDialog(null,
+      int option =
+          JOptionPane.showConfirmDialog(null,
               "No output directory selected.\nWould you like to select one now?",
               "No output directory.", JOptionPane.YES_NO_OPTION);
       if (option == JOptionPane.YES_OPTION) {
@@ -332,9 +342,8 @@ public class MainUI extends JFrame {
       previousDirectory = chooser.getCurrentDirectory();
       file = chooser.getSelectedFile();
       if (!Input.exists(file)) {
-        JOptionPane.showMessageDialog(null,
-                "Error opening " + title + ", the " + title + " can not be found.",
-                "File not found.", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error opening " + title + ", the " + title
+            + " can not be found.", "File not found.", JOptionPane.ERROR_MESSAGE);
         return null;
       }
       System.out.println("Selected " + title + ": " + file);
@@ -365,8 +374,8 @@ public class MainUI extends JFrame {
     try {
       Input.addDataFile(dataFile, settingsFile);
     } catch (Exception e) {
-      //addDataFile will throw an exception if an error occurs when
-      //creating the Reader and parsing the settings.
+      // addDataFile will throw an exception if an error occurs when
+      // creating the Reader and parsing the settings.
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
@@ -383,7 +392,7 @@ public class MainUI extends JFrame {
       return;
     }
 
-    //make sure the selected row index is not out of bound.
+    // make sure the selected row index is not out of bound.
     for (int i : selectedRows) {
       if (i >= rowcount) {
         return;
@@ -417,17 +426,15 @@ public class MainUI extends JFrame {
   private void onRunScript() {
 
     if (!Input.hasScript() || !Input.hasOutput() || !Input.hasFiles()) {
-      JOptionPane.showMessageDialog(null,
-              "Please make sure you have selected a script file, "
-                      + "output directory and at least 1 data file.",
-              "Wrong input.", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(null, "Please make sure you have selected a script file, "
+          + "output directory and at least 1 data file.", "Wrong input.",
+          JOptionPane.INFORMATION_MESSAGE);
       return;
     }
 
-    System.out.println("Run script with input:\n" 
-        + "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n" 
-        + "outputDir = " + Input.getOutputDir().getAbsolutePath() + "\n" 
-        + "files = ");
+    System.out.println("Run script with input:\n" + "scriptFile = "
+        + Input.getScriptFile().getAbsolutePath() + "\n" + "outputDir = "
+        + Input.getOutputDir().getAbsolutePath() + "\n" + "files = ");
     for (DataFile file : Input.getFiles()) {
       System.out.println(file.toString());
     }
@@ -446,18 +453,16 @@ public class MainUI extends JFrame {
     return exit;
   }
 
-
   {
-// GUI initializer generated by IntelliJ IDEA GUI Designer
-// >>> IMPORTANT!! <<<
-// DO NOT EDIT OR ADD ANY CODE HERE!
+    // GUI initializer generated by IntelliJ IDEA GUI Designer
+    // >>> IMPORTANT!! <<<
+    // DO NOT EDIT OR ADD ANY CODE HERE!
     $$$setupUI$$$();
   }
 
   /**
-   * Method generated by IntelliJ IDEA GUI Designer
-   * >>> IMPORTANT!! <<<
-   * DO NOT edit this method OR call it in your code!
+   * Method generated by IntelliJ IDEA GUI Designer >>> IMPORTANT!! <<< DO NOT edit this method OR
+   * call it in your code!
    *
    * @noinspection ALL
    */
