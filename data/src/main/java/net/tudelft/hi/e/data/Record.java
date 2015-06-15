@@ -17,7 +17,6 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
    */
   private static final long serialVersionUID = 1L;
   private String tableName;
-  private ArrayList<String> keysInOrder;
 
   /**
    * Creates a Record.
@@ -64,7 +63,6 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
   public Record(final List<Column> columns, final Value[] values, String tableName) {
     super();
     this.tableName = tableName;
-    this.keysInOrder = new ArrayList<String>();
 
     for (int i = 0; i < columns.size(); i++) {
       this.put(columns.get(i).getName(), values[i]);
@@ -153,15 +151,11 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
   }
 
   private boolean deepEquals(Record other) {
-    return equalTableName(other) && equalKeysInOrder(other) && equalSuper(other);
+    return equalTableName(other) && equalSuper(other);
   }
 
   private boolean equalTableName(Record other) {
     return Objects.equals(this.tableName, other.tableName);
-  }
-
-  private boolean equalKeysInOrder(Record other) {
-    return Objects.equals(this.getKeysInOrder(), other.getKeysInOrder());
   }
 
   private boolean equalSuper(Record other) {

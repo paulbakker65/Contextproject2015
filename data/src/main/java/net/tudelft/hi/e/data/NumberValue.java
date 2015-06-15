@@ -48,7 +48,7 @@ public class NumberValue extends Value {
       return false;
     }
     final NumberValue other = (NumberValue) obj;
-    if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
+    if (!Double.valueOf(value).equals(other.value)) {
       return false;
     }
     return true;

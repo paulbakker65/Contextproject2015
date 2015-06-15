@@ -43,16 +43,16 @@ public class StateTransitionMatrixTest {
     for (Record record : stMatrix) {
       switch (record.get("id").toString()) {
         case "1Stat":
-          assertEquals(record, createRecord("1Stat", 0, 1, 72, 5));
+          assertEquals(createRecord("1Stat", 0, 1, 72, 5), record);
           break;
         case "2Stat":
-          assertEquals(record, createRecord("2Stat", 0, 0, 14, 2));
+          assertEquals(createRecord("2Stat", 0, 0, 14, 2), record);
           break;
         case "5Web":
-          assertEquals(record, createRecord("5Web", 79, 10, 2, 0));
+          assertEquals(createRecord("5Web", 79, 10, 2, 0), record);
           break;
         case "2ndMeas":
-          assertEquals(record, createRecord("2ndMeas", 0, 5, 2, 0));
+          assertEquals(createRecord("2ndMeas", 0, 1, 0, 3), record);
           break;
         default:
           assertTrue(false);
