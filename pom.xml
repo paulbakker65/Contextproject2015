@@ -14,6 +14,13 @@
       <module>gui</module>
       <module>export</module>
     </modules>
+    <dependencies>
+      <dependency>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.5.201505241946</version>
+      </dependency>
+    </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
