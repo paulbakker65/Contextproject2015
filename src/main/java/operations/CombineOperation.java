@@ -3,8 +3,6 @@ package operations;
 import table.Record;
 import table.Table;
 
-import java.util.List;
-
 public class CombineOperation extends Operation {
 
   private String column;
