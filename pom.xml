@@ -14,11 +14,17 @@
       <module>gui</module>
       <module>export</module>
     </modules>
+    <dependency>
+      <groupId>maven-plugins</groupId>
+      <artifactId>maven-(PLUGIN_NAME)-plugin</artifactId>
+      <version>(PLUGIN_VERSION)</version>
+      <type>plugin</type>
+    </dependency>
     <dependencies>
       <dependency>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.5.201505241946</version>
+        <groupId>cobertura</groupId>
+        <artifactId>cobertura</artifactId>
+        <version>1.8</version>
       </dependency>
     </dependencies>
     <properties>
