@@ -14,12 +14,6 @@
       <module>gui</module>
       <module>export</module>
     </modules>
-    <dependency>
-      <groupId>maven-plugins</groupId>
-      <artifactId>maven-(PLUGIN_NAME)-plugin</artifactId>
-      <version>(PLUGIN_VERSION)</version>
-      <type>plugin</type>
-    </dependency>
     <dependencies>
       <dependency>
         <groupId>cobertura</groupId>
