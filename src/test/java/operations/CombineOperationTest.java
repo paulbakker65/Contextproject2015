@@ -22,6 +22,9 @@ public class CombineOperationTest {
   private Table table;
   ArrayList<Column> columns;
 
+  /**
+   * Creates the dummy table.
+   */
   @Before
   public void setUp() {
     table = new Table();
