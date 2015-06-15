@@ -6,20 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.tudelft.hi.e.data.Chunk;
-import net.tudelft.hi.e.data.Code;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.DateColumn;
-import net.tudelft.hi.e.data.DateValue;
-import net.tudelft.hi.e.data.NullValue;
-import net.tudelft.hi.e.data.NumberColumn;
-import net.tudelft.hi.e.data.NumberValue;
-import net.tudelft.hi.e.data.Record;
-import net.tudelft.hi.e.data.StringColumn;
-import net.tudelft.hi.e.data.StringValue;
-import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.data.TimeColumn;
-import net.tudelft.hi.e.data.TimeValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -137,8 +123,8 @@ public class TableTest {
 
     record.put("string", new StringValue(null));
     record.put("number", new NumberValue(0));
-    record.put("date", new DateValue((Date) null));
-    record.put("time", new TimeValue((Date) null, null));
+    record.put("date", new DateValue((Date) null, new DateColumn("date", "ddMMyy", null)));
+    record.put("time", new DateValue((Date) null, new DateColumn("date", "ddMMyy", "date")));
     record.put("string2", new NullValue());
 
     Record record2 = new Record();
@@ -152,9 +138,10 @@ public class TableTest {
     table.add(record);
     table.add(record2);
 
-    List<Column> expected = new ArrayList<Column>(Arrays.asList(new StringColumn("string"),
-        new NumberColumn("number"), new DateColumn("date"), new TimeColumn("time"),
-        new StringColumn("string2")));
+    List<Column> expected =
+        new ArrayList<Column>(Arrays.asList(new StringColumn("string"), new NumberColumn("number"),
+            new DateColumn("date", "ddMMyy", null), new DateColumn("time", "ddMMyy", "date"),
+            new StringColumn("string2")));
 
     assertEquals(expected, table.getColumns());
   }

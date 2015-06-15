@@ -83,11 +83,6 @@ public class XmlReaderTest {
     XmlReader.readXmlFile(folder + "/no_table_name.xml");
   }
 
-  @Test(expected = WrongXmlException.class)
-  public void noTargetTimeXmlTest() throws WrongXmlException {
-    XmlReader.readXmlFile(folder + "/no_target_time.xml");
-  }
-
   @Test
   public void toStringTest() {
     final Settings settings = new Settings();
@@ -125,6 +120,11 @@ public class XmlReaderTest {
   @Test(expected = WrongXmlException.class)
   public void wrongTypeXmlTest() throws WrongXmlException {
     XmlReader.readXmlFile(folder + "/wrong_type.xml");
+  }
+
+  @Test(expected = WrongXmlException.class)
+  public void excelFormatTimeTest() throws WrongXmlException {
+    XmlReader.readXmlFile(folder + "/excel_format_time.xml");
   }
 
   @Test

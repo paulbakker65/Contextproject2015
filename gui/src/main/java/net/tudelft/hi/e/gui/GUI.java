@@ -7,6 +7,7 @@ import java.awt.Window;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -51,6 +52,32 @@ public class GUI {
       window.setIconImage(icon);
     } catch (IOException e1) {
       System.err.println("Error opening icon from resource.");
+    }
+  }
+  
+  /**
+   * Packs the window, sets the icon, centres the window and sets it visible.
+   * @param window The window to initialize.
+   */
+  public static void init(Window window) {
+    window.pack();
+    GUI.setIconImage(window);
+    GUI.centreWindow(window);
+    window.setVisible(true);
+  }
+  
+  /**
+   * Creates an image icon from a file in resource.
+   * @param path The path of the file in the resource directory.
+   * @return Returns an image icon if succeeded, null if an error occurred.
+   */
+  public static ImageIcon createImageIcon(String path) {
+    java.net.URL imgUrl = ClassLoader.getSystemResource(path);
+    if (imgUrl != null) {
+      return new ImageIcon(imgUrl);
+    } else {
+      System.err.println("Couldn't find file: " + path);
+      return null;
     }
   }
 }

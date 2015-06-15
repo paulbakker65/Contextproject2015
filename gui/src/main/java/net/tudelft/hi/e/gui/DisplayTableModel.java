@@ -25,6 +25,7 @@ public class DisplayTableModel implements TableModel{
     } else {
       columns = new ArrayList<String>();
     }
+    columns.add(0, "");
   }
 
   @Override
@@ -54,6 +55,9 @@ public class DisplayTableModel implements TableModel{
 
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
+    if (columnIndex == 0) {
+      return rowIndex + 1;
+    }
     Record record = table.get(rowIndex);
     return record.get(getColumnName(columnIndex));
   }

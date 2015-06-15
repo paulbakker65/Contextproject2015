@@ -12,7 +12,7 @@ public class FilesTableModel implements TableModel {
 
   @Override
   public void addTableModelListener(final TableModelListener arg0) {
-    throw new UnsupportedOperationException();
+//    throw new UnsupportedOperationException();
   }
 
   @Override

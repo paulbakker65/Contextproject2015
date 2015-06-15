@@ -16,12 +16,7 @@ import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.data.TimeColumn;
-import net.tudelft.hi.e.data.TimeValue;
 import net.tudelft.hi.e.data.Value;
-import net.tudelft.hi.e.input.Parser;
-import net.tudelft.hi.e.input.Reader;
-import net.tudelft.hi.e.input.Settings;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
@@ -90,10 +85,10 @@ public class ParserTest {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
-    expected.add(new Record(columns, new Value[] {new StringValue("bloemkool"),
-        new StringValue("mayonaise")}));
-    expected.add(new Record(columns, new Value[] {new StringValue("spruitjes"),
-        new StringValue("ketchup")}));
+    expected.add(new Record(columns, new Value[] { new StringValue("bloemkool"),
+        new StringValue("mayonaise") }));
+    expected.add(new Record(columns, new Value[] { new StringValue("spruitjes"),
+        new StringValue("ketchup") }));
 
     final Settings settings = new Settings();
     settings.setName("");
@@ -118,10 +113,10 @@ public class ParserTest {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
-    expected.add(new Record(columns, new Value[] {new StringValue("bloemkool"),
-        new StringValue("mayonaise")}));
-    expected.add(new Record(columns, new Value[] {new StringValue("spruitjes"),
-        new StringValue("ketchup")}));
+    expected.add(new Record(columns, new Value[] { new StringValue("bloemkool"),
+        new StringValue("mayonaise") }));
+    expected.add(new Record(columns, new Value[] { new StringValue("spruitjes"),
+        new StringValue("ketchup") }));
 
     final Settings settings = new Settings();
     settings.setDelimiter(",");
@@ -148,10 +143,10 @@ public class ParserTest {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
-    expected.add(new Record(columns, new Value[] {new StringValue("bloemkool"),
-        new StringValue("mayonaise")}));
-    expected.add(new Record(columns, new Value[] {new StringValue("spruitjes"),
-        new StringValue("ketchup")}));
+    expected.add(new Record(columns, new Value[] { new StringValue("bloemkool"),
+        new StringValue("mayonaise") }));
+    expected.add(new Record(columns, new Value[] { new StringValue("spruitjes"),
+        new StringValue("ketchup") }));
 
     final Settings settings = new Settings();
     settings.setDelimiter(",");
@@ -175,27 +170,28 @@ public class ParserTest {
   public void testParseCorrectTimeDateLinks() throws IOException,
       ParseException, ParseFailedException {
     final ArrayList<Column> columns =
-        new ArrayList<Column>(Arrays.asList(new TimeColumn("time", "hh:mm", "date"),
+        new ArrayList<Column>(Arrays.asList(new DateColumn("time", "HH:mm", "date"),
             new DateColumn("date", "ddMMyy")));
     final Table expected = new Table();
     final GregorianCalendar dateCalendar = new GregorianCalendar();
     dateCalendar.setTime(new SimpleDateFormat("ddMMyy").parse("311214"));
-    final DateValue dateValue = new DateValue(dateCalendar);
+    final DateValue dateValue = new DateValue(dateCalendar, new DateColumn("date", "ddMMyy", null));
 
     final GregorianCalendar timeCalendar = new GregorianCalendar();
-    timeCalendar.setTime(new SimpleDateFormat("hh:mm").parse("10:20"));
-    final TimeValue timeValue = new TimeValue(timeCalendar, "date");
+    timeCalendar.setTime(new SimpleDateFormat("HH:mm").parse("10:20"));
+    final DateValue timeValue =
+        new DateValue(timeCalendar, new DateColumn("time", "HH:mm", "date"));
 
     dateValue.addTime(timeValue.getValue());
     timeValue.setValue(dateValue.getValue());
 
-    expected.add(new Record(columns, new Value[] {timeValue, dateValue}));
+    expected.add(new Record(columns, new Value[] { timeValue, dateValue }, "tableName"));
 
     final Settings settings = new Settings();
     settings.setDelimiter(",");
     settings.setStartLine(1);
     settings.setColumns(columns);
-    settings.setName("");
+    settings.setName("tableName");
 
     testFile.add("10:20,311214");
     delimiter = ",";

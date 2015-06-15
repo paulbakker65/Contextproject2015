@@ -28,8 +28,9 @@ public abstract class Column {
    *
    * @param element Element to be read.
    * @return Subclass of Column object as specified in Element.
-   * @throws WrongXmlException If the element either doesn't contain a name nor contains a correct
-   *         type a WrongXmlException is thrown.
+   * @throws WrongXmlException
+   *           If the element either doesn't contain a name nor contains a correct type a
+   *           WrongXmlException is thrown.
    */
   public static Column readColumn(final Element element) throws WrongXmlException {
     final String name = element.getAttribute("name");
@@ -46,9 +47,6 @@ public abstract class Column {
         break;
       case "date":
         res = new DateColumn(name);
-        break;
-      case "time":
-        res = new TimeColumn(name);
         break;
       case "string":
         res = new StringColumn(name);
@@ -67,9 +65,11 @@ public abstract class Column {
   /**
    * Convert a string into a value if it satisfies the column's type.
    *
-   * @param text the string to convert
+   * @param text
+   *          the string to convert
    * @return a Value that has the correct type.
-   * @throws ColumnTypeMismatchException if the string cannot be converted.
+   * @throws ColumnTypeMismatchException
+   *           if the string cannot be converted.
    */
   public abstract Value convertToValue(String text) throws ColumnTypeMismatchException;
 
@@ -120,6 +120,6 @@ public abstract class Column {
   public String toString() {
     return "name: " + name;
   }
-  
+
   public abstract String getType();
 }

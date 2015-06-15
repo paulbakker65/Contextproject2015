@@ -11,7 +11,6 @@ import net.tudelft.hi.e.data.ColumnTypeMismatchException;
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.data.TimeValue;
 import net.tudelft.hi.e.data.Value;
 
 /**
@@ -39,7 +38,7 @@ public class Parser {
 
   private void connectLinks(final Map<String, String> links, final Record record) {
     for (final Entry<String, String> entry : links.entrySet()) {
-      final TimeValue timeValue = (TimeValue) record.get(entry.getKey());
+      final DateValue timeValue = (DateValue) record.get(entry.getKey());
       final DateValue dateValue = (DateValue) record.get(entry.getValue());
 
       dateValue.addTime(timeValue.getValue());
@@ -114,8 +113,8 @@ public class Parser {
       values[i] = columns.get(i).convertToValue(row[i]);
 
       if (values[i].isTime()) {
-        timeDateLinks.put(columns.get(i).getName(), ((TimeValue) values[i]).
-                getTargetDate());
+        timeDateLinks.put(columns.get(i).getName(), ((DateValue) values[i]).
+            getTarget());
       }
     }
     final Record tuple = new Record(columns, values, settings.getName());

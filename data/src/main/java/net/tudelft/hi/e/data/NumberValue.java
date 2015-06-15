@@ -98,4 +98,9 @@ public class NumberValue extends Value {
   public String toString() {
     return Integer.toString((int) value);
   }
+
+  @Override
+  public Column getType(String name) {
+    return new NumberColumn(name);
+  }
 }

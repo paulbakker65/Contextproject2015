@@ -3,12 +3,6 @@ package net.tudelft.hi.e.data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import net.tudelft.hi.e.data.DateValue;
-import net.tudelft.hi.e.data.NullValue;
-import net.tudelft.hi.e.data.NumberValue;
-import net.tudelft.hi.e.data.StringValue;
-import net.tudelft.hi.e.data.TimeValue;
-import net.tudelft.hi.e.data.Value;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -41,7 +35,7 @@ public class ValueTest {
   public void testCompareToNull() {
     final NullValue nv1 = new NullValue();
     final NullValue nv2 = new NullValue();
-    final TimeValue tv = new TimeValue(new Date(), "target");
+    final StringValue tv = new StringValue("text");
 
     assertEquals(nv1.compareTo(nv2), 0);
     assertEquals(nv2.compareTo(nv1), 0);
@@ -78,23 +72,6 @@ public class ValueTest {
   }
 
   @Test
-  public void testCompareToTime() throws ParseException {
-    final Date d1 = new SimpleDateFormat("HH:mm").parse("10:20");
-    final Date d2 = new SimpleDateFormat("HH:mm").parse("12:10");
-
-    final TimeValue tv1 = new TimeValue(d1, "target");
-    final TimeValue tv2 = new TimeValue(d2, "target");
-    final TimeValue tv3 = new TimeValue(d1, "target");
-    final StringValue sv = new StringValue("text");
-
-    assertEquals(tv1.compareTo(tv2), -1);
-    assertEquals(tv1.compareTo(tv3), 0);
-    assertEquals(tv2.compareTo(tv1), 1);
-    assertEquals(tv1.compareTo(sv), Integer.MAX_VALUE);
-    assertEquals(sv.compareTo(tv1), Integer.MAX_VALUE);
-  }
-
-  @Test
   public void testIsDate() {
     final Value nullValue = new NullValue();
     assertFalse(nullValue.isDate());
@@ -102,13 +79,13 @@ public class ValueTest {
     final Value numberValue = new NumberValue(1.0);
     assertFalse(numberValue.isDate());
 
-    final Value dateValue = new DateValue(new Date());
+    final Value dateValue = new DateValue(new Date(), new DateColumn("name", "ddMMyy", null));
     assertTrue(dateValue.isDate());
 
     final Value stringValue = new StringValue("text");
     assertFalse(stringValue.isDate());
 
-    final Value timeValue = new TimeValue(new Date(), "target");
+    final Value timeValue = new DateValue(new Date(), new DateColumn("name", "ddMMyy", "Date"));
     assertFalse(timeValue.isDate());
   }
 
@@ -125,9 +102,6 @@ public class ValueTest {
 
     final Value stringValue = new StringValue("text");
     assertFalse(stringValue.isNull());
-
-    final Value timeValue = new TimeValue(new Date(), "target");
-    assertFalse(timeValue.isNull());
   }
 
   @Test
@@ -143,9 +117,6 @@ public class ValueTest {
 
     final Value stringValue = new StringValue("text");
     assertFalse(stringValue.isNumeric());
-
-    final Value timeValue = new TimeValue(new Date(), "target");
-    assertFalse(timeValue.isNumeric());
   }
 
   @Test
@@ -161,9 +132,6 @@ public class ValueTest {
 
     final Value stringValue = new StringValue("text");
     assertTrue(stringValue.isString());
-
-    final Value timeValue = new TimeValue(new Date(), "target");
-    assertFalse(timeValue.isString());
   }
 
   @Test
@@ -174,13 +142,13 @@ public class ValueTest {
     final Value numberValue = new NumberValue(1.0);
     assertFalse(numberValue.isTime());
 
-    final Value dateValue = new DateValue(new Date());
+    final Value dateValue = new DateValue(new Date(), new DateColumn("name", "ddMMyy", null));
     assertFalse(dateValue.isTime());
 
     final Value stringValue = new StringValue("text");
     assertFalse(stringValue.isTime());
 
-    final Value timeValue = new TimeValue(new Date(), "target");
+    final Value timeValue = new DateValue(new Date(), new DateColumn("name", "ddMMyy", "Date"));
     assertTrue(timeValue.isTime());
   }
 }

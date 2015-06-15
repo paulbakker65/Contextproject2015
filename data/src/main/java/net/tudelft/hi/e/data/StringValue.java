@@ -90,4 +90,9 @@ public class StringValue extends Value {
   public String toString() {
     return value;
   }
+
+  @Override
+  public Column getType(String name) {
+    return new StringColumn(name);
+  }
 }

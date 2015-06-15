@@ -145,6 +145,25 @@
               <text value="Edit Script"/>
             </properties>
           </component>
+          <component id="ef177" class="javax.swing.JButton" binding="buttonVisualizations">
+            <constraints>
+              <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="3" right="0" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="Visualizations"/>
+            </properties>
+          </component>
+          <component id="8be7c" class="javax.swing.JButton" binding="settingsbuilderButton">
+            <constraints>
+              <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="4" right="0" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <margin top="2" left="14" bottom="2" right="14"/>
+              <text value="Settings Builder"/>
+            </properties>
+          </component>
         </children>
       </grid>
     </children>

@@ -2,18 +2,6 @@ package net.tudelft.hi.e.data;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.ColumnTypeMismatchException;
-import net.tudelft.hi.e.data.DateColumn;
-import net.tudelft.hi.e.data.DateValue;
-import net.tudelft.hi.e.data.NullValue;
-import net.tudelft.hi.e.data.NumberColumn;
-import net.tudelft.hi.e.data.NumberValue;
-import net.tudelft.hi.e.data.StringColumn;
-import net.tudelft.hi.e.data.StringValue;
-import net.tudelft.hi.e.data.TimeColumn;
-import net.tudelft.hi.e.data.TimeValue;
-import net.tudelft.hi.e.data.Value;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -65,8 +53,8 @@ public class ColumnTest {
     final DateColumn column = new DateColumn("testName");
     assertNotNull(column);
     assertEquals("testName", column.getName());
-    assertEquals("yyyy-MM-dd", column.getFormatStr());
-    assertEquals(new SimpleDateFormat("yyyy-MM-dd"), column.getFormat());
+    assertEquals(DateColumn.isoFormatStr, column.getFormatStr());
+    assertEquals(DateColumn.isoFormat, column.getFormat());
   }
 
   @Test
@@ -124,6 +112,13 @@ public class ColumnTest {
   public void testDateColumnToString() {
     final DateColumn column = new DateColumn("testName", "dd-MM-yyyy");
     assertEquals("name: testName,\ttype: date,\tformat: dd-MM-yyyy", column.toString());
+  }
+
+  @Test
+  public void testDateColumnToStringTime() {
+    final DateColumn column = new DateColumn("testName", "dd-MM-yyyy", "Date");
+    assertEquals("name: testName,\ttype: date,\tformat: dd-MM-yyyy,\ttarget: Date",
+        column.toString());
   }
 
   @Test
@@ -206,77 +201,5 @@ public class ColumnTest {
   public void testStringColumnToString() {
     final StringColumn column = new StringColumn("testName");
     assertEquals("name: testName,\ttype: text", column.toString());
-  }
-
-  @Test
-  public void testTimeColumnConstructorDefaultFormatDefaultTarget() {
-    final TimeColumn column = new TimeColumn("testName");
-    assertNotNull(column);
-    assertEquals("testName", column.getName());
-    assertEquals("hh:mm", column.getFormatStr());
-    assertEquals(new SimpleDateFormat("hh:mm"), column.getFormat());
-    assertEquals(null, column.getTargetDate());
-  }
-
-  @Test
-  public void testTimeColumnConstructorWithFormatDefaultTarget() {
-    final TimeColumn column = new TimeColumn("testName", "hhmm");
-    assertNotNull(column);
-    assertEquals("testName", column.getName());
-    assertEquals("hhmm", column.getFormatStr());
-    assertEquals(new SimpleDateFormat("hhmm"), column.getFormat());
-    assertEquals(null, column.getTargetDate());
-  }
-
-  @Test
-  public void testTimeColumnConstructorWithFormatWithTarget() {
-    final TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
-    assertNotNull(column);
-    assertEquals("testName", column.getName());
-    assertEquals("hhmm", column.getFormatStr());
-    assertEquals(new SimpleDateFormat("hhmm"), column.getFormat());
-    assertEquals("Date", column.getTargetDate());
-  }
-
-  @Test
-  public void testTimeColumnConvertToValueCorrect() throws ColumnTypeMismatchException,
-      ParseException {
-    final TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
-    final TimeValue value = new TimeValue(new SimpleDateFormat("hhmm").parse("1020"), "Date");
-    assertEquals(value, column.convertToValue("1020"));
-  }
-
-  @Test
-  public void testTimeColumnConvertToValueEmpty() throws ColumnTypeMismatchException {
-    final TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
-    final NullValue value = new NullValue();
-    assertEquals(value, column.convertToValue(""));
-  }
-
-  @SuppressWarnings("unused")
-  @Test(expected = ColumnTypeMismatchException.class)
-  public void testTimeColumnConvertToValueExcelException() throws ColumnTypeMismatchException,
-      ParseException {
-    final TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
-    final Value value = column.convertToValue("text");
-  }
-
-  @Test(expected = ColumnTypeMismatchException.class)
-  public void testTimeColumnConvertToValueException() throws ColumnTypeMismatchException,
-      ParseException {
-    new TimeColumn("testName", "hhmm", "Date").convertToValue("31/12/2014");
-  }
-
-  @Test
-  public void testTimeColumnConvertToValueNull() throws ColumnTypeMismatchException {
-    final TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
-    final NullValue value = new NullValue();
-    assertEquals(value, column.convertToValue("NULL"));
-  }
-
-  @Test
-  public void testTimeColumnToString() {
-    final TimeColumn column = new TimeColumn("testName", "hhmm", "Date");
-    assertEquals("name: testName,\ttype: time,\tformat: hhmm,\ttarget: Date", column.toString());
   }
 }

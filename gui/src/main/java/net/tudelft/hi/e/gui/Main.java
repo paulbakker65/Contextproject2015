@@ -1,7 +1,6 @@
 package net.tudelft.hi.e.gui;
 
 import java.io.File;
-import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
 
 
@@ -24,7 +23,7 @@ public class Main{
       return;
     }
 
-    ProgressGui.init();
+    // ProgressGui.init();
 
     return;
   }
@@ -79,23 +78,10 @@ public class Main{
    */
   public static boolean openGui() {
     String windowTitle = "Contextproject 2015 Groep 5/E";
-    MainUI dialog = new MainUI();
-    dialog.pack();
-    dialog.setTitle(windowTitle);
-    GUI.centreWindow(dialog);
-    dialog.setVisible(true);
+    MainUI frame = new MainUI();
+    frame.setTitle(windowTitle);
 
-    if (dialog.isExit()) {
-      return false;
-    }
-
-    System.out.println("GUI done\n"
-        + "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n"
-        + "outputDir = " + Input.getOutputDir().getAbsolutePath() + "\n"
-        + "files = ");
-    for (DataFile file : Input.getFiles()) {
-      System.out.println(file.toString());
-    }
+    GUI.init(frame);
 
     return true;
   }

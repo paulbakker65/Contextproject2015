@@ -12,7 +12,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
-import net.tudelft.hi.e.data.TimeColumn;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -54,8 +53,8 @@ public class XmlReader {
 
       // If a time column is present, the target column should be present as
       // well.
-      if (newColumn instanceof TimeColumn) {
-        checkContains.add(((TimeColumn) newColumn).getTargetDate());
+      if (newColumn instanceof DateColumn && ((DateColumn) newColumn).isTime()) {
+        checkContains.add(((DateColumn) newColumn).getTargetDate());
       }
 
       settings.addColumn(newColumn);
@@ -75,14 +74,8 @@ public class XmlReader {
 
   /**
    * Reads an xml file and transforms it into a Settings object.
-<<<<<<< HEAD:input/src/main/java/net/tudelft/hi/e/input/XmlReader.java
    *
    * @param xmlFile the filename.
-=======
-   *
-   * @param xmlFile
-   *          the filename.
->>>>>>> 9dc477f549173d9540bcf01151eaccbbfcd43c25:src/main/java/input/XmlReader.java
    * @return a Settings object representing the file.
    * @throws WrongXmlException
    *           when the file is wrongly formatted.

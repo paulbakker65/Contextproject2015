@@ -1,7 +1,5 @@
 package net.tudelft.hi.e.data;
 
-import java.util.Objects;
-
 import java.io.Serializable;
 
 /**
@@ -16,7 +14,7 @@ public abstract class Value implements Comparable<Value>, Serializable {
    * Serial version.
    */
   private static final long serialVersionUID = 1L;
-  
+
   /**
    * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
    * the instance of the Value to pick a specific compareTo overload.
@@ -46,15 +44,9 @@ public abstract class Value implements Comparable<Value>, Serializable {
       } else {
         return Integer.MAX_VALUE;
       }
-    } else if (this instanceof NullValue) {
+    } else {
       if (other instanceof NullValue) {
         return 0;
-      } else {
-        return Integer.MAX_VALUE;
-      }
-    } else { // The only other instance is a TimeValue
-      if (other instanceof TimeValue) {
-        return ((TimeValue) this).compareToTime(((TimeValue) other));
       } else {
         return Integer.MAX_VALUE;
       }
@@ -98,21 +90,21 @@ public abstract class Value implements Comparable<Value>, Serializable {
   }
 
   /**
-   * Returns whether a Value is a time.
+   * Returns whether a Value is a string.
    *
-   * @return whether a Value is a time.
+   * @return whether a Value is a string.
    */
   public boolean isTime() {
     return false;
   }
 
-  @Override
-  public boolean equals(Object other) {
-    return Objects.deepEquals(this, other);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(this);
-  }
+  /**
+   * Returns the type of the value.
+   *
+   * @param name
+   *          the column name;
+   * @return the type of the value.
+   */
+  public abstract Column getType(String name);
 }

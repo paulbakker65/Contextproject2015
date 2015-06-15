@@ -35,7 +35,7 @@ public class Table extends ArrayList<Record> implements Serializable {
    *          the other Table.
    */
   public Table(Table otherTable) {
-    this(otherTable, true);
+    this(otherTable, false);
   }
 
   /**
@@ -234,9 +234,7 @@ public class Table extends ArrayList<Record> implements Serializable {
   }
 
   private Column getColumnType(String name, Value value) {
-    return (value.isString() ? new StringColumn(name) : (value.isDate() ? new DateColumn(name)
-        : (value.isNumeric() ? new NumberColumn(name) : (value.isTime() ? new TimeColumn(name)
-            : null))));
+    return value.getType(name);
   }
 
 }
