@@ -1,6 +1,11 @@
+<<<<<<< HEAD
+*/target/
+*/medical/
+=======
 /target/
 /medical/
 /demo_output/
+>>>>>>> 9dc477f549173d9540bcf01151eaccbbfcd43c25
 *.csv
 *.xls
 *.xlsx
@@ -8,3 +13,7 @@
 ~$*
 !test3.csv
 !test3.xml
+<<<<<<< HEAD
+*.DS_Store
+=======
+>>>>>>> 9dc477f549173d9540bcf01151eaccbbfcd43c25
