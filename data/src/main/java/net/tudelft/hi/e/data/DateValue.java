@@ -91,7 +91,17 @@ public class DateValue extends Value {
   }
 
   public int compareToDate(final DateValue other) {
-    return this.value.compareTo(other.value);
+    return checkDate(this).compareTo(checkDate(other));
+  }
+  
+  private GregorianCalendar checkDate(DateValue check) {
+	  if (check.value.get(Calendar.HOUR_OF_DAY) == 0 && check.value.get(Calendar.MINUTE) == 0) {
+		  GregorianCalendar checkCalendar = (GregorianCalendar) check.value.clone();
+		  checkCalendar.add(Calendar.HOUR_OF_DAY, 23);
+		  checkCalendar.add(Calendar.MINUTE, 59);
+		  return checkCalendar;
+	  }
+	  return check.value;
   }
 
   /**
@@ -170,8 +180,12 @@ public class DateValue extends Value {
 
   @Override
   public String toString() {
+	if (getValue().get(Calendar.DAY_OF_MONTH) == 4) {
+		System.out.println();
+	}
+	  
     DateFormat dateFormat =
-        isTime() ? defaultTimeFormat : (timeAdded ? DateColumn.isoFormat : defaultDateFormat);
+        isTime() ? defaultTimeFormat : (timeAdded || DateColumn.isoFormatStr.equals(format) ? DateColumn.isoFormat : defaultDateFormat);
 
     return dateFormat.format(getValue().getTime());
   }
