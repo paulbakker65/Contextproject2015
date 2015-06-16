@@ -76,8 +76,8 @@ public class BetweenOperationTest {
     final Table res = lo.getResult();
 
     assertEquals(9, res.size());
-    assertEquals(new NumberValue(86400 * 2 / (60 * 60)), res.get(1).get("time_before_B"));
-    assertEquals(new NumberValue(86400 * 1 / (60 * 60)), res.get(6).get("time_before_B"));
+    assertEquals(new NumberValue(86400 * 2 / (60 * 60)), res.get(1).get("time_before"));
+    assertEquals(new NumberValue(86400 * 1 / (60 * 60)), res.get(6).get("time_before"));
 
   }
 
