@@ -14,13 +14,6 @@
       <module>gui</module>
       <module>export</module>
     </modules>
-    <dependencies>
-      <dependency>
-        <groupId>cobertura</groupId>
-        <artifactId>cobertura</artifactId>
-        <version>1.8</version>
-      </dependency>
-    </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
