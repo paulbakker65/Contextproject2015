@@ -1,4 +1,4 @@
-package enums;
+package net.tudelft.hi.e.common.enums;
 
 public enum ComputeOperator {
   /**

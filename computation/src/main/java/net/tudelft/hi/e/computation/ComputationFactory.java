@@ -1,6 +1,6 @@
-package operations.compute;
+package net.tudelft.hi.e.computation;
 
-import enums.ComputeOperator;
+import net.tudelft.hi.e.common.enums.ComputeOperator;
 
 /**
  * Factory for creating implementations of {@link Computation}.

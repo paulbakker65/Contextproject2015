@@ -1,8 +1,16 @@
-package operations.compute;
+package net.tudelft.hi.e.computation;
 
+import net.tudelft.hi.e.computation.ComputationFactory;
+import net.tudelft.hi.e.computation.CountComputation;
+import net.tudelft.hi.e.computation.Computation;
+import net.tudelft.hi.e.computation.SumComputation;
+import net.tudelft.hi.e.computation.MinComputation;
+import net.tudelft.hi.e.computation.AvgComputation;
+import net.tudelft.hi.e.computation.StdevComputation;
+import net.tudelft.hi.e.computation.MaxComputation;
 import static org.junit.Assert.assertTrue;
 
-import enums.ComputeOperator;
+import net.tudelft.hi.e.common.enums.ComputeOperator;
 
 import org.junit.Test;
 
