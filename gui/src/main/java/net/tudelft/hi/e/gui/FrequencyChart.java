@@ -11,9 +11,11 @@ import javax.swing.JFrame;
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.Code;
+import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.data.Value;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -105,7 +107,7 @@ public class FrequencyChart extends JFrame {
 	 * @return frequency data set
 	 */
 	static Dataset createDataset(Table table, String column, int chunkDepth) {
-		if (isDateColumn(table, column)) {
+		if (isTimeColumn(table, column)) {
 			return createDatesDataset(table, column, chunkDepth);
 		}
 
@@ -152,7 +154,7 @@ public class FrequencyChart extends JFrame {
 		return dataset;
 	}
 
-	private static boolean isDateColumn(Table table, String column) {
+	private static boolean isTimeColumn(Table table, String column) {
 		if (table.isEmpty()) {
 			return false;
 		}
@@ -163,7 +165,9 @@ public class FrequencyChart extends JFrame {
 		while (curRecord.get(column).isNull() && iterator.hasNext()) {
 			curRecord = iterator.next();
 		}
-		return curRecord.get(column).isDate();
+		Value value = curRecord.get(column);
+		return value.isTime() || (value.isDate() && 
+				DateColumn.isoFormatStr.equals(((DateValue) value).getFormat()));
 	}
 
 	/**
