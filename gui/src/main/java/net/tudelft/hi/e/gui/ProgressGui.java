@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -38,11 +39,13 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   private JTextPane log;
   private JButton visualizationsButton;
   private JButton previewButton;
+  private JLabel comboLabel;
+  private JComboBox<String> comboPreviews;
   private JButton viewoutputdirButton;
   private JButton exitButton;
   private Task task;
   private JFrame frame;
-  private JComboBox<String> comboPreviews;
+
 
   /**
    * Creates the GUI.
@@ -62,11 +65,20 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   }
 
   /**
-   * ProgressGui.init() should be used instead. Creates all all gui components.
+   * ProgressGui.init() should be used instead.
+   * Creates all all gui components.
    */
   public ProgressGui() {
     super(new BorderLayout());
 
+    createPanels();
+
+    task = new Task();
+    task.addPropertyChangeListener(this);
+    task.execute();
+  }
+
+  private void createPanels() {
     progressBar = new JProgressBar(0, 100);
     progressBar.setValue(0);
     progressBar.setStringPainted(true);
@@ -75,16 +87,38 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     log.setMargin(new Insets(5, 5, 5, 5));
     log.setEditable(false);
 
+    JPanel panel = new JPanel();
+    panel.add(progressBar);
+
+    add(panel, BorderLayout.PAGE_START);
+    add(new JScrollPane(log), BorderLayout.CENTER);
+    add(createButtonPanel(), BorderLayout.PAGE_END);
+    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+  }
+
+  private JPanel createButtonPanel() {
+    JPanel panel = new JPanel(new BorderLayout());
+    panel.add(createLeftButtonPanel(), BorderLayout.WEST);
+    panel.add(createRightButtonPanel(), BorderLayout.EAST);
+
+    return panel;
+  }
+
+  private JPanel createLeftButtonPanel() {
+    JPanel panel = new JPanel();
     visualizationsButton = new JButton("Visualizations");
+    visualizationsButton.setIcon(GUI.createImageIcon("icon.png"));
     visualizationsButton.setEnabled(false);
-    visualizationsButton.addActionListener(new ActionListener(){
+    visualizationsButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
         onVisualizations();
       }
     });
+    panel.add(visualizationsButton);
 
     previewButton = new JButton("Preview Table");
+    previewButton.setIcon(GUI.createImageIcon("table.png"));
     previewButton.setEnabled(false);
     previewButton.addActionListener(new ActionListener() {
       @Override
@@ -92,44 +126,43 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
         onPreview();
       }
     });
+    panel.add(previewButton);
 
+    JPanel comboPanel = new JPanel(new BorderLayout());
+    comboLabel = new JLabel("Table selected:");
+    comboLabel.setEnabled(false);
+    comboPanel.add(comboLabel, BorderLayout.NORTH);
     comboPreviews = new JComboBox<String>();
     comboPreviews.setEnabled(false);
+    comboPanel.add(comboPreviews, BorderLayout.SOUTH);
+    panel.add(comboPanel);
 
+    return panel;
+  }
+
+  private JPanel createRightButtonPanel() {
+    JPanel panel = new JPanel();
     viewoutputdirButton = new JButton("View output directory");
-    viewoutputdirButton.addActionListener(new ActionListener(){
+    viewoutputdirButton.setIcon(GUI.createImageIcon("folder.png"));
+    viewoutputdirButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
         onViewOutputDir();
       }
     });
+    panel.add(viewoutputdirButton);
 
     exitButton = new JButton("Exit");
+    exitButton.setIcon(GUI.createImageIcon("exit.png"));
     exitButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
         onExit();
       }
     });
+    panel.add(exitButton);
 
-    JPanel panel = new JPanel();
-    panel.add(progressBar);
-
-    JPanel panel2 = new JPanel();
-    panel2.add(visualizationsButton);
-    panel2.add(previewButton);
-    panel2.add(comboPreviews);
-    panel2.add(viewoutputdirButton);
-    panel2.add(exitButton);
-
-    add(panel, BorderLayout.PAGE_START);
-    add(new JScrollPane(log), BorderLayout.CENTER);
-    add(panel2, BorderLayout.PAGE_END);
-    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-    task = new Task();
-    task.addPropertyChangeListener(this);
-    task.execute();
+    return panel;
   }
 
   /**
@@ -140,22 +173,26 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     if ("progress" == prop) {
       int progress = (Integer) evt.getNewValue();
       progressBar.setValue(progress);
-      appendToLog(String.format("Completed %d%% of task.\n", task.getProgress()));
     } else if ("starting" == prop) {
       setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     } else if ("done" == evt.getPropertyName()) {
-      setCursor(null);
-      Toolkit.getDefaultToolkit().beep();
-      appendToLog("Done!\n");
-      visualizationsButton.setEnabled(true);
-      previewButton.setEnabled(true);
-      setComboItems();
-      comboPreviews.setEnabled(true);
+      done();
     } else if ("log" == prop) {
-      appendToLog((String) evt.getNewValue());
+      appendToLog((String) evt.getNewValue(), (boolean)evt.getOldValue());
     } else if ("error" == prop) {
-      appendToLog((String) evt.getNewValue(), Color.RED);
+      appendToLog((String) evt.getNewValue(), Color.RED, false);
     }
+  }
+
+  private void done() {
+    setCursor(null);
+    Toolkit.getDefaultToolkit().beep();
+    appendToLog("Done!\n");
+    visualizationsButton.setEnabled(true);
+    previewButton.setEnabled(true);
+    comboLabel.setEnabled(true);
+    setComboItems();
+    comboPreviews.setEnabled(true);
   }
 
   private void setComboItems() {
@@ -190,17 +227,20 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     this.frame = frame;
   }
 
-  private void appendToLog(String message) {
-    appendToLog(message, Color.BLACK);
+  private void appendToLog(String message, boolean... options) {
+    boolean bold = (options.length > 0 ? options[0] : false);
+
+    appendToLog(message, Color.BLACK, bold);
   }
 
-  private void appendToLog(String message, Color color) {
+  private void appendToLog(String message, Color color, boolean bold) {
     log.setEditable(true);
     StyleContext sc = StyleContext.getDefaultStyleContext();
     AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
 
     aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
     aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+    aset = sc.addAttribute(aset,  StyleConstants.Bold, bold);
 
     int len = log.getDocument().getLength();
     log.setCaretPosition(len);

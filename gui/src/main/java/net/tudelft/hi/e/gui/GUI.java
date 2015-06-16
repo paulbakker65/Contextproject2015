@@ -48,7 +48,7 @@ public class GUI {
    */
   public static void setIconImage(Window window){
     try {
-      Image icon = ImageIO.read(ClassLoader.getSystemResource("icon.png"));
+      Image icon = ImageIO.read(ClassLoader.getSystemResource("icons/icon.png"));
       window.setIconImage(icon);
     } catch (IOException e1) {
       System.err.println("Error opening icon from resource.");
@@ -72,7 +72,7 @@ public class GUI {
    * @return Returns an image icon if succeeded, null if an error occurred.
    */
   public static ImageIcon createImageIcon(String path) {
-    java.net.URL imgUrl = ClassLoader.getSystemResource(path);
+    java.net.URL imgUrl = ClassLoader.getSystemResource("icons/" + path);
     if (imgUrl != null) {
       return new ImageIcon(imgUrl);
     } else {

@@ -61,7 +61,7 @@ class Task extends SwingWorker<Void, Void> {
    * @return returns true if succeeded, false if an error occurred during parsing.
    */
   private boolean parseFiles() {
-    log("Parsing input files.");
+    log("Parsing input files.", true);
     tables = new ArrayList<Table>();
 
     int currentprogress = 0;
@@ -80,7 +80,7 @@ class Task extends SwingWorker<Void, Void> {
         return false;
       }
     }
-    log("Done parsing input files.\n");
+    log("Done parsing input files.\n", true);
     setProgress(30);
 
     return true;
@@ -91,7 +91,7 @@ class Task extends SwingWorker<Void, Void> {
    * @return returns true if succeeded, false if an error occurred during parsing or execution.
    */
   private boolean execScript() {
-    log("Executing script.");
+    log("Executing script.", true);
 
     ANTLRInputStream input = null;
     try {
@@ -125,7 +125,7 @@ class Task extends SwingWorker<Void, Void> {
       }
     }
 
-    log("Done executing script.\n");
+    log("Done executing script.\n", true);
     setProgress(80);
     return true;
   }
@@ -136,13 +136,17 @@ class Task extends SwingWorker<Void, Void> {
   private void exportFiles() {
     File outputDir = Input.getOutputDir();
 
-    log("Writing output files.##############");
+    int progress = getProgress();
+    int percent = (100 - progress) / tables.size();
+    log("Writing output files.", true);
     for (Table table : tables) {
       String filepath = outputDir.getAbsolutePath() + "/output_" + table.getName();
       exportFile(table, filepath);
       exportSettings(table, filepath + ".xml");
+      progress += percent;
+      setProgress(progress);
     }
-    log("Done writing output files.##############\n");
+    log("Done writing output files.\n", true);
 
     setProgress(100);
   }
@@ -154,7 +158,7 @@ class Task extends SwingWorker<Void, Void> {
    */
   private void exportFile(Table table, String filepath) {
     log("Writing data file: " + filepath);
-    try {      
+    try {
       Exporter.export(table, filepath, ".csv");
     } catch (Exception e) {
       error("Error writing file: " + filepath);
@@ -182,9 +186,10 @@ class Task extends SwingWorker<Void, Void> {
     }
   }
 
-  private void log(String message) {
+  private void log(String message, boolean... options) {
+    boolean bold = (options.length > 0 ? options[0] : false);
     System.out.println("log: " + message);
-    this.firePropertyChange("log", null, message + System.lineSeparator());
+    this.firePropertyChange("log", bold, message + System.lineSeparator());
   }
 
   private void error(String error) {
