@@ -12,12 +12,14 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -26,7 +28,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+
 import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.export.Exporter;
 import net.tudelft.hi.e.input.Input;
 
 /**
@@ -39,6 +43,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   private JTextPane log;
   private JButton visualizationsButton;
   private JButton previewButton;
+  private JButton exportButton;
   private JLabel comboLabel;
   private JComboBox<String> comboPreviews;
   private JButton viewoutputdirButton;
@@ -127,6 +132,17 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
       }
     });
     panel.add(previewButton);
+    
+    exportButton = new JButton("Export with custom delimiter");
+    exportButton.setIcon(GUI.createImageIcon("table.png"));
+    exportButton.setEnabled(false);
+    exportButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent ae) {
+        onExport();
+      }
+    });
+    panel.add(exportButton);
 
     JPanel comboPanel = new JPanel(new BorderLayout());
     comboLabel = new JLabel("Table selected:");
@@ -190,6 +206,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     appendToLog("Done!\n");
     visualizationsButton.setEnabled(true);
     previewButton.setEnabled(true);
+    exportButton.setEnabled(true);
     comboLabel.setEnabled(true);
     setComboItems();
     comboPreviews.setEnabled(true);
@@ -208,6 +225,24 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
 
   public void onPreview() {
     DisplayTableGui.init(task.getTable(comboPreviews.getSelectedIndex()));
+  }
+  
+  public void onExport() {
+	  Character[] delimiters = new Character[]{',',  ';', '.', '\t'};
+	  Object result = JOptionPane.showInputDialog(frame, "Please select delimiter:", "Change delimiter", JOptionPane.PLAIN_MESSAGE, GUI.createImageIcon("table.png"), delimiters, ',');
+	  if (result == null) {
+		  return;
+	  }
+	  Exporter.delimiter = (char) result;
+	  
+	 
+	  Table table = task.getTable(comboPreviews.getSelectedIndex());
+	  String filepath = Input.getOutputDir() + "/output_" + table.getName();
+      task.exportFile(table, filepath);
+      task.exportSettings(table, filepath + ".xml");
+	  
+	  
+	  
   }
 
   public void onViewOutputDir() {

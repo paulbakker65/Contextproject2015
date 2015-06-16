@@ -156,7 +156,7 @@ class Task extends SwingWorker<Void, Void> {
    * @param table The table to export.
    * @param filepath The file path to save the table in.
    */
-  private void exportFile(Table table, String filepath) {
+  public void exportFile(Table table, String filepath) {
     log("Writing data file: " + filepath);
     try {
       Exporter.export(table, filepath, ".csv");
@@ -171,7 +171,7 @@ class Task extends SwingWorker<Void, Void> {
    * @param table The table to export settings for.
    * @param filepath The file path to save the settings in.
    */
-  private void exportSettings(Table table, String filepath) {
+  public void exportSettings(Table table, String filepath) {
     Settings settings = SettingsBuilder.generateSettings(table, ",", 2);
     if (settings == null) {
       error("Error generating settings for: " + table.getName());
