@@ -69,7 +69,7 @@ public class BetweenOperation extends Operation {
 
   private void addEvent(final int index1, final int index2) {
     final int timeDif = (int) ((getTimeStamp(index2) - getTimeStamp(index1)) / (1000 * 60 * 60));
-    resultData.get(index1).put("time_before_" + ev2val.toString(), new NumberValue(timeDif));
+    resultData.get(index1).put("time_before", new NumberValue(timeDif));
   }
 
   @Override
