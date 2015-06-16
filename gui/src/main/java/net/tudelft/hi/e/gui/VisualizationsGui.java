@@ -24,8 +24,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Column;
@@ -33,7 +35,6 @@ import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.StateTransitionMatrix;
 import net.tudelft.hi.e.data.StemLeafPlot;
-import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.TableFile;
 import net.tudelft.hi.e.input.DataFile;
@@ -45,8 +46,7 @@ import net.tudelft.hi.e.input.Input;
 public class VisualizationsGui extends JPanel implements ActionListener {
   private static final long serialVersionUID = 1L;
 
-  private static final Logger LOG
-      = Logger.getLogger(VisualizationsGui.class.getName());
+  private static final Logger LOG = Logger.getLogger(VisualizationsGui.class.getName());
 
   private JTextField datafile;
   private JTextField settings;
@@ -68,7 +68,8 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private JComboBox<String> comboHistogram;
   private JButton buttonHistogram;
   private JTextField textHistogram;
-  
+  private SpinnerNumberModel frequencyDepthModel;
+
   public static final String CODE = "* CODE *";
 
   private Table table;
@@ -107,8 +108,6 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       updateTabbedPane();
     }
   }
-
-
 
   private JPanel createFilePanel() {
     GridBagConstraints gbc;
@@ -188,6 +187,13 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private JPanel createFrequencyPanel() {
     JPanel panel = new JPanel();
+
+    panel.add(new JLabel("Chunk depth: "));
+    
+    frequencyDepthModel = new SpinnerNumberModel(0, 0, 9, 1);
+
+    panel.add(new JSpinner(frequencyDepthModel));
+    
     panel.add(new JLabel("Select a column: "));
 
     comboFrequency = new JComboBox<String>(getColumns(true));
@@ -380,13 +386,14 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private void onFrequency() {
     String column = (String) comboFrequency.getSelectedItem();
+    int depth = frequencyDepthModel.getNumber().intValue();
     FrequencyChart fc;
-    if (column.equals(CODE)){
-      fc = new FrequencyChart("Frequency", table, 0);
+    if (column.equals(CODE)) {
+      fc = new FrequencyChart("Frequency", table, depth);
+    } else {
+      fc = new FrequencyChart("Frequency", table, depth, column);
     }
-    else {
-      fc = new FrequencyChart("Frequency", table, column);
-    };
+    ;
     GUI.init(fc);
   }
 
@@ -450,7 +457,8 @@ public class VisualizationsGui extends JPanel implements ActionListener {
    *          wether the special CODE should be added
    * @return all the column names.
    */
-  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist, boolean codes) {
+  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist,
+      boolean codes) {
     List<Column> columnlist = table.getColumns();
     ArrayList<String> columns = new ArrayList<String>();
 
@@ -459,11 +467,11 @@ public class VisualizationsGui extends JPanel implements ActionListener {
         columns.add(column.getName());
       }
     }
-    
-    if (codes){
+
+    if (codes) {
       columns.add(CODE);
     }
-    
+
     return columns.toArray(new String[0]);
   }
 
