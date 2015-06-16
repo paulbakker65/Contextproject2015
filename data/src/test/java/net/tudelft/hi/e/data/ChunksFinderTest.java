@@ -12,6 +12,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+/**
+ * Class for testing ChunksFinder.
+ */
 public class ChunksFinderTest {
 	@Test
 	public void testGetChunkListsEmpty() {
@@ -103,6 +106,24 @@ public class ChunksFinderTest {
 
 		assertEquals(expected, ChunksFinder.getChunks(table, 2));
 		assertEquals(expected, ChunksFinder.getChunks(table, 6));
+	}
+	
+	@Test
+	public void testExtractChunksEmpty() {
+		Table table = new Table();
+		Chunk result = new Chunk(0, ChunksFinder.DEFAULT_CHUNK_NAME);
+		List<Chunk> expected = new ArrayList<Chunk>(Arrays.asList(result));
+		assertEquals(expected, ChunksFinder.extractChunks(table, 0));
+		assertEquals(expected, ChunksFinder.extractChunks(table, 1));
+	}
+	
+	@Test
+	public void testExtractChunksNonEmpty() {
+		Table table = new Table();
+		Chunk chunk = new Chunk(0, "Chunk 0");
+		table.addChunk(chunk);
+		
+		assertEquals(ChunksFinder.getChunks(table, 1), ChunksFinder.extractChunks(table, 1));
 	}
 
 	@Test

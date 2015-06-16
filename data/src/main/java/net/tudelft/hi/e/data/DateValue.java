@@ -179,11 +179,7 @@ public class DateValue extends Value {
   }
 
   @Override
-  public String toString() {
-	if (getValue().get(Calendar.DAY_OF_MONTH) == 4) {
-		System.out.println();
-	}
-	  
+  public String toString() {	  
     DateFormat dateFormat =
         isTime() ? defaultTimeFormat : (timeAdded || DateColumn.isoFormatStr.equals(format) ? DateColumn.isoFormat : defaultDateFormat);
 

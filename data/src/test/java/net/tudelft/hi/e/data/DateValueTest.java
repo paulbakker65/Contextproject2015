@@ -123,6 +123,12 @@ public class DateValueTest {
     dateValue.addTime(timeValue.getValue());
 
     assertEquals("2014-12-31T13:14", dateValue.toString());
+    
+    date = DateColumn.isoFormat.parse("2014-12-31T13:14");
+    dateValue = new DateValue(date);
+    dateValue.setFormat(DateColumn.isoFormatStr);
+    
+    assertEquals("2014-12-31T13:14", dateValue.toString());
   }
 
   @Test
@@ -154,6 +160,18 @@ public class DateValueTest {
     value.setFormat("yyMMdd");
 
     assertEquals("yyMMdd", value.getFormat());
+  }
+  
+  @Test
+  public void testCompareTo() {
+	  GregorianCalendar first = new GregorianCalendar(2015, 6, 10, 10, 20);
+	  GregorianCalendar second = new GregorianCalendar(2015, 6, 11, 0, 20);
+	  GregorianCalendar third = new GregorianCalendar(2015, 6, 11);
+	  
+	  assertEquals(-1, new DateValue(first).compareTo(new DateValue(second)));
+	  assertEquals(-1, new DateValue(first).compareTo(new DateValue(third)));
+	  assertEquals(1, new DateValue(third).compareTo(new DateValue(second)));
+	  assertEquals(0, new DateValue(third).compareTo(new DateValue(third)));
   }
 
 }
