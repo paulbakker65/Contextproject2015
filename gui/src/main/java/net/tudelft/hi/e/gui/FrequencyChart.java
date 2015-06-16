@@ -23,7 +23,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 
-public class FrequencyChart extends JFrame {	
+public class FrequencyChart extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Table table;
 	private int chunkDepth;
@@ -38,32 +38,46 @@ public class FrequencyChart extends JFrame {
 	 *            data to use
 	 * @param column
 	 *            column with values to check frequencies on.
+	 * @param chunkDepth
+	 *            depth of chunks
 	 */
-	public FrequencyChart(String windowTitle, Table table, int chunkDepth, String column) {
+	public FrequencyChart(String windowTitle, Table table, int chunkDepth,
+			String column) {
 		this(windowTitle, table, chunkDepth, column, true);
 
 		Dataset dataset = createDataset();
-		createChartPanel(createChart(dataset, column));		
+		createChartPanel(createChart(dataset, column));
 	}
 
+	/**
+	 * Makes a Frequency Frame with codes
+	 * 
+	 * @param windowTitle
+	 *            title of the frame
+	 * @param table
+	 *            data to use
+	 * @param chunkDepth
+	 *            depth of chunks
+	 */
 	public FrequencyChart(String windowTitle, Table table, int chunkDepth) {
 		this(windowTitle, table, chunkDepth, null, true);
 
 		Dataset dataset = createCodesDataset();
 		createChartPanel(createChart(dataset, "Codes"));
 	}
-	
+
 	public FrequencyChart(String windowTitle, Table table, String column) {
 		this(windowTitle, table, 1, column);
 	}
-	
-	private FrequencyChart(String windowTitle, Table table, int chunkDepth, String column, boolean useLess) {
+
+	private FrequencyChart(String windowTitle, Table table, int chunkDepth,
+			String column, boolean useLess) {
 		super(windowTitle);
 		this.table = table;
 		this.chunkDepth = chunkDepth;
 		this.column = column;
 	}
-	
+
 	private void createChartPanel(JFreeChart chart) {
 		ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
@@ -72,13 +86,14 @@ public class FrequencyChart extends JFrame {
 
 	private Dataset createCodesDataset() {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		
+
 		for (Chunk chunk : ChunksFinder.extractChunks(table, chunkDepth)) {
 			for (Code code : chunk.getCodes().values()) {
-				dataset.addValue(code.getFrequency(), code.getName(), chunk.getLabel());
+				dataset.addValue(code.getFrequency(), code.getName(),
+						chunk.getLabel());
 			}
 		}
-		
+
 		return dataset;
 	}
 
