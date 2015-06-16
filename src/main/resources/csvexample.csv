@@ -1,3 +1,0 @@
-id;Revision;Moment;Date;Sequence;Value;Value2;IsMaverick;RegressionCoefficient;K1;k2;k3;comment;created;createdate;modifiedby;modifydate;userid;custommeasurementId;MesurementUnit
-34543;1;Dag;23-08-15;0;174;NULL;0;NULL;NULL ;NULL;NULL;NULL;admire;24-08-05;admire2;25-08-15;3554;Kreatinine;test
-34544;1;Avond;24-08-15;0;280;NULL;1;NULL;NULL ;NULL;NULL;NULL;admire;25-08-05;admire3;26-08-15;3555;Kreatinine;test2

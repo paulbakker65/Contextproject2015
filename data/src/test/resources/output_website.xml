@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<settings delimiter="," name="website" startLine="2">
+<column name="Measurement" type="string"/>
+<column name="Value" type="number"/>
+<column name="Unit" type="string"/>
+<column name="Useless" type="string"/>
+<column format="yyMMdd" name="Date" type="date"/>
+<column format="hhmm" name="Time" type="date"/>
+<column name="CMI_id" type="number"/>
+<column name="Revision" type="number"/>
+<column name="Moment" type="string"/>
+<column name="Sequence" type="number"/>
+<column name="Value2" type="number"/>
+<column name="IsMaverick" type="number"/>
+<column name="RegCoef" type="number"/>
+<column name="KARI" type="number"/>
+<column name="KAAI" type="number"/>
+<column name="KADRI" type="number"/>
+<column name="CreatedBy" type="string"/>
+<column format="dd/MM/yy" name="CreatedDate" type="date"/>
+<column name="ModifiedBy" type="string"/>
+<column format="dd/MM/yy" name="ModifiedDate" type="date"/>
+<column name="UserId" type="number"/>
+<column name="CM_Id" type="number"/>
+<column name="Login" type="string"/>
+<column name="CM_Id2" type="number"/>
+<column name="MeasUnit" type="string"/>
+<column name="Code" type="string"/>
+</settings>

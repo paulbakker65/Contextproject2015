@@ -1,3 +1,5 @@
+*/target/
+*/medical/
 /target/
 /medical/
 /demo_output/
@@ -9,3 +11,7 @@
 ~$*
 !test3.csv
 !test3.xml
+*.DS_Store
+*.prefs
+*.classpath
+*.project
