@@ -33,9 +33,16 @@ public class DisplayTableGui extends JPanel {
     super(new BorderLayout());
 
     jtable = new JTable(new DisplayTableModel(table));
+    jtable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-    add(new JScrollPane(jtable), BorderLayout.CENTER);
-    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    setVerticalHeader();
+
+    jtable.selectAll();
+    packColumns(jtable);
+    jtable.clearSelection();
+
+    add(new JScrollPane(jtable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
   }
 
   /**
@@ -53,10 +60,7 @@ public class DisplayTableGui extends JPanel {
 
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-    frame.pack();
-    GUI.setIconImage(frame);
-    GUI.centreWindow(frame);
-    frame.setVisible(true);
+    GUI.init(frame);
   }
 
   /**
