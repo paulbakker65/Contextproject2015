@@ -93,16 +93,18 @@ public class BetweenOperation extends Operation {
     return true;
   }
 
-  private boolean executeFindTargetEventForEvent(final int eventIndex) {
+  private void executeFindTargetEventForEvent(final int eventIndex) {
     int targetIndex = eventIndex + 1;
-    while (targetIndex < inputData.size() && !isFirstEvent(targetIndex)) {
+    while (targetIndex < inputData.size()) {
       if (isSecondEvent(targetIndex)) {
         addEvent(eventIndex, targetIndex);
         break;
       }
+      else if (isFirstEvent(targetIndex)) {
+    	  break;
+      }
       targetIndex++;
     }
-    return true;
   }
 
   @Override
