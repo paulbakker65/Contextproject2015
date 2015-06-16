@@ -438,7 +438,7 @@ public class MainUI extends JFrame {
   }
   
   private void readPreviousDirectory() {
-    File prevDirectoryFile = new File("src/main/resources/prev_directory.txt");
+    File prevDirectoryFile = new File("prev_directory.txt");
     
     if (!(prevDirectoryFile.exists() && prevDirectoryFile.isFile())) {
       return;
@@ -462,7 +462,7 @@ public class MainUI extends JFrame {
     }
     
     try {
-      FileWriter writer = new FileWriter("src/main/resources/prev_directory.txt");
+      FileWriter writer = new FileWriter("prev_directory.txt");
       writer.write(previousDirectory.getAbsolutePath());
       writer.close();
     } catch (IOException e) {
