@@ -29,7 +29,7 @@ public class FrequencyChartTest {
 
     
     DefaultCategoryDataset ds =
-        (DefaultCategoryDataset) new FrequencyChart("Title", table, "Soort").createDataset();
+        (DefaultCategoryDataset) FrequencyChart.createDataset(table, "Soort", 1);
     
     assertEquals(5,ds.getValue("Appel", ChunksFinder.DEFAULT_CHUNK_NAME));
     assertEquals(2,ds.getValue("Peer", ChunksFinder.DEFAULT_CHUNK_NAME));

@@ -27,7 +27,6 @@ public class FrequencyChart extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Table table;
 	private int chunkDepth;
-	private String column;
 
 	/**
 	 * Makes a new Frequency Frame
@@ -43,9 +42,9 @@ public class FrequencyChart extends JFrame {
 	 */
 	public FrequencyChart(String windowTitle, Table table, int chunkDepth,
 			String column) {
-		this(windowTitle, table, chunkDepth, column, true);
+		this(windowTitle, table, chunkDepth, true);
 
-		Dataset dataset = createDataset();
+		Dataset dataset = createDataset(table, column, chunkDepth);
 		createChartPanel(createChart(dataset, column));
 	}
 
@@ -60,7 +59,7 @@ public class FrequencyChart extends JFrame {
 	 *            depth of chunks
 	 */
 	public FrequencyChart(String windowTitle, Table table, int chunkDepth) {
-		this(windowTitle, table, chunkDepth, null, true);
+		this(windowTitle, table, chunkDepth, true);
 
 		Dataset dataset = createCodesDataset();
 		createChartPanel(createChart(dataset, "Codes"));
@@ -71,11 +70,10 @@ public class FrequencyChart extends JFrame {
 	}
 
 	private FrequencyChart(String windowTitle, Table table, int chunkDepth,
-			String column, boolean useLess) {
+			boolean useLess) {
 		super(windowTitle);
 		this.table = table;
 		this.chunkDepth = chunkDepth;
-		this.column = column;
 	}
 
 	private void createChartPanel(JFreeChart chart) {
@@ -106,9 +104,9 @@ public class FrequencyChart extends JFrame {
 	 *            column to check frequency on
 	 * @return frequency data set
 	 */
-	public Dataset createDataset() {
-		if (isDateColumn()) {
-			return createDatesDataset();
+	static Dataset createDataset(Table table, String column, int chunkDepth) {
+		if (isDateColumn(table, column)) {
+			return createDatesDataset(table, column, chunkDepth);
 		}
 
 		DefaultCategoryDataset ds = new DefaultCategoryDataset();
@@ -135,7 +133,7 @@ public class FrequencyChart extends JFrame {
 		return ds;
 	}
 
-	private Dataset createDatesDataset() {
+	private static Dataset createDatesDataset(Table table, String column, int chunkDepth) {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 		for (Chunk chunk : ChunksFinder.extractChunks(table, chunkDepth)) {
@@ -154,7 +152,7 @@ public class FrequencyChart extends JFrame {
 		return dataset;
 	}
 
-	private boolean isDateColumn() {
+	private static boolean isDateColumn(Table table, String column) {
 		if (table.isEmpty()) {
 			return false;
 		}
