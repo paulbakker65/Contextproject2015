@@ -1,15 +1,17 @@
 package net.tudelft.hi.e.gui;
 
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Contains methods for GUI's.
@@ -79,5 +81,20 @@ public class GUI {
       System.err.println("Couldn't find file: " + path);
       return null;
     }
+  }
+
+  /**
+   * Creates a JInternalFrame with the container as it's content pane.
+   * @param windowTitle The title for the frame.
+   * @param container The container to set as the content pane.
+   * @return returns a JInternalFrame.
+   */
+  public static JInternalFrame createInternalFrame(String windowTitle, Container container) {
+    JInternalFrame frame = new JInternalFrame(windowTitle, true, true, true, true);
+    frame.setContentPane(container);
+    frame.setFrameIcon(GUI.createImageIcon("icon.png"));
+    frame.setSize(container.getPreferredSize());
+    frame.setVisible(true);
+    return frame;
   }
 }

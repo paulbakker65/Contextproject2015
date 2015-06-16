@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import javax.swing.JFrame;
+
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.data.Value;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -16,6 +15,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class FrequencyChart extends JFrame {
 
@@ -35,7 +37,11 @@ public class FrequencyChart extends JFrame {
    */
   public FrequencyChart(String windowTitle, Table table, String column) {
     super(windowTitle);
-    
+
+    setContentPane(createFrequencyChartPanel(table, column));
+  }
+
+  public static JPanel createFrequencyChartPanel(Table table, String column) {
     Dataset dataset = createDataset(table, column);
 
     JFreeChart chart = createChart(dataset, column);
@@ -44,7 +50,7 @@ public class FrequencyChart extends JFrame {
 
     chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 
-    setContentPane(chartPanel);
+    return chartPanel;
   }
 
   /**

@@ -1,7 +1,7 @@
 package net.tudelft.hi.e.gui;
 
 import java.util.ArrayList;
-import javax.swing.JFrame;
+
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
@@ -12,6 +12,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.HistogramDataset;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class HistogramChart extends JFrame {
 
@@ -27,7 +30,14 @@ public class HistogramChart extends JFrame {
    * @param table
    *          stem leaf plot to make a histogram of.
    */
-  public HistogramChart(Table table, String columnName, int power) {
+  public HistogramChart(String windowTitle, Table table, String columnName, int power) {
+    super(windowTitle);
+
+
+    setContentPane(createPanel(table, columnName, power));
+  }
+
+  public static JPanel createPanel(Table table, String columnName, int power){
     HistogramChart.dataset = createDataset(table, columnName, power);
 
     JFreeChart chart = createChart(dataset);
@@ -36,8 +46,7 @@ public class HistogramChart extends JFrame {
 
     chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 
-    setContentPane(chartPanel);
-
+    return chartPanel;
   }
 
   /**

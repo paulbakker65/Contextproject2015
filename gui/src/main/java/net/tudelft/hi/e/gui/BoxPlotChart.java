@@ -2,7 +2,7 @@ package net.tudelft.hi.e.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
+
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
@@ -17,11 +17,14 @@ import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class BoxPlotChart extends JFrame {
-
   private static final long serialVersionUID = 1L;
 
+  static int openFrameCount = 0;
+  static final int xOffset = 30, yOffset = 30;
 
 
   /**
@@ -33,6 +36,10 @@ public class BoxPlotChart extends JFrame {
   public BoxPlotChart(String windowTitle, Table table, String column) {
     super(windowTitle);
 
+    setContentPane(createBoxPlotPanel(table, column));
+  }
+
+  public static JPanel createBoxPlotPanel(Table table, String column) {
     Dataset dataset = createDataset(table, column);
 
     JFreeChart chart = createChart(dataset, column);
@@ -41,7 +48,7 @@ public class BoxPlotChart extends JFrame {
 
     chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 
-    setContentPane(chartPanel);
+    return chartPanel;
   }
 
   /**
