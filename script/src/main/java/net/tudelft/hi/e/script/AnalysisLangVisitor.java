@@ -52,12 +52,6 @@ public interface AnalysisLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCode_operation(@NotNull AnalysisLangParser.Code_operationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AnalysisLangParser#compare_operation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCompare_operation(@NotNull AnalysisLangParser.Compare_operationContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link AnalysisLangParser#compute_operation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -117,12 +111,6 @@ public interface AnalysisLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCode_param(@NotNull AnalysisLangParser.Code_paramContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AnalysisLangParser#compare_param}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCompare_param(@NotNull AnalysisLangParser.Compare_paramContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AnalysisLangParser#compute_param}.
 	 * @param ctx the parse tree

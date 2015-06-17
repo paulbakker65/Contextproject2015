@@ -77,8 +77,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override
   public final BetweenOperation visitBetween_operation(
       Between_operationContext ctx) {
-    BetweenOperation op = visitBetween_param(ctx.param);
-    return op;
+    return visitBetween_param(ctx.param);
   }
 
   @Override
@@ -102,8 +101,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override
   public final ChunkingOperation visitChunk_operation(
       Chunk_operationContext ctx) {
-    ChunkingOperation op = visitChunk_param(ctx.param);
-    return op;
+    return visitChunk_param(ctx.param);
   }
 
   @Override
@@ -140,26 +138,18 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override
   public final Object visitCode_operation(
       AnalysisLangParser.Code_operationContext ctx) {
-    CodingOperation op = visitCode_param(ctx.param);
-    return op;
+    return visitCode_param(ctx.param);
   }
 
   @Override
   public final CodingOperation visitCode_param(
       AnalysisLangParser.Code_paramContext ctx) {
     try {
-      return new CodingOperation(getTableForTableName(visitTable(ctx.tableparam)), visitPattern(
-          ctx.patternparam), visitText(ctx.codenameparam).toString());
+      return new CodingOperation(getTableForTableName(visitTable(ctx.tableparam)), visitPattern(ctx.patternparam), visitText(ctx.codenameparam).toString());
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
       return null;
     }
-  }
-
-  @Override
-  public final Object visitCompare_operation(
-      AnalysisLangParser.Compare_operationContext ctx) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   @Override
@@ -169,16 +159,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   }
 
   @Override
-  public final Object visitCompare_param(
-      AnalysisLangParser.Compare_paramContext ctx) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
   public final ComputeOperation visitCompute_operation(
       AnalysisLangParser.Compute_operationContext ctx) {
-    ComputeOperation op = visitCompute_param(ctx.param);
-    return op;
+    return visitCompute_param(ctx.param);
   }
 
   @Override
@@ -214,8 +197,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override
   public final ConnectionOperation visitConnect_operation(
       AnalysisLangParser.Connect_operationContext ctx) {
-    ConnectionOperation op = visitConnect_param(ctx.param);
-    return op;
+    return visitConnect_param(ctx.param);
   }
 
   @Override
@@ -235,8 +217,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override
   public final ConstraintOperation visitConstraint_operation(
       Constraint_operationContext ctx) {
-    ConstraintOperation op = visitConstraint_param(ctx.param);
-    return op;
+    return visitConstraint_param(ctx.param);
   }
 
   @Override
@@ -282,8 +263,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override
   public final Object visitForeach_chunk_operation(
       AnalysisLangParser.Foreach_chunk_operationContext ctx) {
-    ForEachChunkOperation op = visitForeach_chunk_param(ctx.param);
-    return op;
+    return visitForeach_chunk_param(ctx.param);
   }
 
   @Override
@@ -306,8 +286,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override
   public final LsaOperation visitLsa_operation(
       AnalysisLangParser.Lsa_operationContext ctx) {
-    LsaOperation op = visitLsa_param(ctx.param);
-    return op;
+    return visitLsa_param(ctx.param);
   }
 
   @Override
