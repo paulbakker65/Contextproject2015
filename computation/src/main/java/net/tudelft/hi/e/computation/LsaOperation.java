@@ -7,12 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
+
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Implements Lag Sequential Analysis according to the slides.
@@ -33,14 +36,16 @@ public class LsaOperation extends Operation {
     /**
      * Columns that will be used when exporting to Table.
      */
-    private transient List<Column> cols = Arrays.asList(new Column[]{
-      new NumberColumn("lag"), new NumberColumn("occur")});
+    private transient List<Column> cols = Arrays.asList(new Column[] { new NumberColumn("lag"),
+        new NumberColumn("occur") });
 
     /**
      * Creates a lag table with 0 occurrence for lag FROM til lag TO.
      *
-     * @param from lowest lag to scan (inclusive)
-     * @param to highest lag to scan (exclusive)
+     * @param from
+     *          lowest lag to scan (inclusive)
+     * @param to
+     *          highest lag to scan (exclusive)
      */
     public LagTable(final int from, final int to) {
       super();
@@ -52,8 +57,8 @@ public class LsaOperation extends Operation {
     public Table toTable() {
       final Table table = new Table();
       for (final Entry<Integer, Integer> lag : this.entrySet()) {
-        table.add(new Record(getCols(), new Value[] {new NumberValue(lag.getKey()),
-            new NumberValue(lag.getValue())}));
+        table.add(new Record(getCols(), new Value[] { new NumberValue(lag.getKey()),
+            new NumberValue(lag.getValue()) }));
       }
       Collections.sort(table, new RecordLagComparator());
       return table;
@@ -89,7 +94,8 @@ public class LsaOperation extends Operation {
     }
 
     /**
-     * @param cols the cols to set
+     * @param cols
+     *          the cols to set
      */
     public void setCols(List<Column> cols) {
       this.cols = cols;
@@ -124,12 +130,18 @@ public class LsaOperation extends Operation {
   /**
    * Creates a normal LSA with the default grouper. Lag is measured in amount of records.
    *
-   * @param inputDataset the table to extract lag from
-   * @param eventcol the column where the eventtype of a record is stored
-   * @param from the lowest lag to measure (inclusive)
-   * @param to the highest lag to measure (exclusive)
-   * @param key the eventtype to analyse
-   * @param target the other eventtype where the lag is calculated between
+   * @param inputDataset
+   *          the table to extract lag from
+   * @param eventcol
+   *          the column where the eventtype of a record is stored
+   * @param from
+   *          the lowest lag to measure (inclusive)
+   * @param to
+   *          the highest lag to measure (exclusive)
+   * @param key
+   *          the eventtype to analyse
+   * @param target
+   *          the other eventtype where the lag is calculated between
    */
   public LsaOperation(final Table inputDataset, final String eventcol, final int from,
       final int to, final Value key, final Value target) {
@@ -140,13 +152,20 @@ public class LsaOperation extends Operation {
    * Creates a LSA. The grouper determines in what unit the lag is measured. If records are grouped
    * in days, the LSA will show lag in days between events.
    *
-   * @param inputDataset the table to extract lag from
-   * @param eventcol the column where the eventtype of a record is stored
-   * @param from the lowest lag to measure (inclusive)
-   * @param to the highest lag to measure (exclusive)
-   * @param key the eventtype to analyse
-   * @param target the other eventtype where the lag is calculated between
-   * @param grouper groups the records, used to calculate the lag of the LSA
+   * @param inputDataset
+   *          the table to extract lag from
+   * @param eventcol
+   *          the column where the eventtype of a record is stored
+   * @param from
+   *          the lowest lag to measure (inclusive)
+   * @param to
+   *          the highest lag to measure (exclusive)
+   * @param key
+   *          the eventtype to analyse
+   * @param target
+   *          the other eventtype where the lag is calculated between
+   * @param grouper
+   *          groups the records, used to calculate the lag of the LSA
    */
   public LsaOperation(final Table inputDataset, final String eventcol, final int from,
       final int to, final Value key, final Value target, final Grouper grouper) {
@@ -171,16 +190,14 @@ public class LsaOperation extends Operation {
     }
   }
 
-  private void calcLagForEntry(final int keyGroup,
-          final Entry<Integer, Integer> lag) {
+  private void calcLagForEntry(final int keyGroup, final Entry<Integer, Integer> lag) {
     final int targetGroup = keyGroup + lag.getKey();
     if (targetGroup >= 0 && targetGroup < groups.size()) {
       calcLagEntryTargetGroup(targetGroup, lag);
     }
   }
 
-  private void calcLagEntryTargetGroup(final int targetGroup,
-          final Entry<Integer, Integer> lag) {
+  private void calcLagEntryTargetGroup(final int targetGroup, final Entry<Integer, Integer> lag) {
     for (final Record tr : groups.get(targetGroup)) {
       if (isTarget(tr)) {
         lag.setValue(lag.getValue() + 1);
@@ -219,15 +236,7 @@ public class LsaOperation extends Operation {
 
   @Override
   public int hashCode() {
-    int hash = 3;
-    hash = 59 * hash + Objects.hashCode(this.eventcol);
-    hash = 59 * hash + this.from;
-    hash = 59 * hash + this.to;
-    hash = 59 * hash + Objects.hashCode(this.key);
-    hash = 59 * hash + Objects.hashCode(this.target);
-    hash = 59 * hash + Objects.hashCode(this.lagtable);
-    hash = 59 * hash + Objects.hashCode(this.grouper);
-    return hash;
+    return Objects.hash(eventcol, from, to, key, target, grouper);
   }
 
   @Override
@@ -239,35 +248,9 @@ public class LsaOperation extends Operation {
       return false;
     }
     final LsaOperation other = (LsaOperation) obj;
-    return deepEquals(other);
-  }
-
-  private boolean deepEquals(LsaOperation other) {
-    boolean equalRangeKeyTarget = equalRange(other) && equalKey(other)
-        && equalTarget(other);
-    boolean equalEventGrouper = equalGrouper(other) && equalEventColumn(other);
-
-    return equalRangeKeyTarget && equalEventGrouper;
-  }
-
-  private boolean equalEventColumn(LsaOperation other) {
-    return Objects.equals(this.eventcol, other.eventcol);
-  }
-
-  private boolean equalRange(LsaOperation other) {
-    return this.from == other.from && this.to == other.to;
-  }
-
-  private boolean equalKey(LsaOperation other) {
-    return Objects.equals(this.key, other.key);
-  }
-
-  private boolean equalTarget(LsaOperation other) {
-    return Objects.equals(this.target, other.target);
-  }
-
-  private boolean equalGrouper(LsaOperation other) {
-    return Objects.equals(this.grouper, other.grouper);
+    return new EqualsBuilder().append(eventcol, other.eventcol).append(from, other.from)
+        .append(to, other.to).append(key, other.key).append(target, other.target)
+        .append(grouper, other.grouper).isEquals();
   }
 
 }
