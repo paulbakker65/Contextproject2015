@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -30,6 +33,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.FilesTableModel;
 import net.tudelft.hi.e.input.Input;
@@ -39,6 +43,7 @@ import net.tudelft.hi.e.input.Input;
  */
 public class MainUI extends JFrame {
   private static final long serialVersionUID = 1L;
+  private static final Logger LOG = Logger.getLogger(MainUI.class.getName());
 
   // All GUI components:
   private JPanel contentPane;
@@ -452,7 +457,8 @@ public class MainUI extends JFrame {
         previousDirectory = prevDirectory;
       }
       reader.close();
-    } catch (IOException e) {      
+    } catch (IOException e) {  
+    	LOG.log(Level.WARNING, e.getMessage());
     }
   }
   
@@ -466,6 +472,7 @@ public class MainUI extends JFrame {
       writer.write(previousDirectory.getAbsolutePath());
       writer.close();
     } catch (IOException e) {
+    	LOG.log(Level.WARNING, e.getMessage());
     }
   }
 
