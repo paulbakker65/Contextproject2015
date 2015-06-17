@@ -66,10 +66,13 @@ public class StateTransitionMatrixTest {
   @Test
   public void testEqualsHashCode() {
     StateTransitionMatrix testMatrix = new StateTransitionMatrix(new Table(), "Date");
-    testMatrix.add(createRecord("2ndMeas", 0, 5, 2, 0));
-    testMatrix.add(createRecord("5Web", 79, 10, 2, 0));
-    testMatrix.add(createRecord("1Stat", 0, 1, 72, 5));
     testMatrix.add(createRecord("2Stat", 0, 0, 14, 2));
+    testMatrix.add(createRecord("1Stat", 0, 1, 72, 5));
+    testMatrix.add(createRecord("5Web", 79, 10, 2, 0));
+    testMatrix.add(createRecord("2ndMeas", 0, 5, 2, 0));
+
+    
+    
 
     StateTransitionMatrix stMatrix = new StateTransitionMatrix(table, "Date");
 
