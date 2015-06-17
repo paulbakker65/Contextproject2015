@@ -3,6 +3,7 @@ package net.tudelft.hi.e.computation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import net.tudelft.hi.e.data.Record;
 
 /**
@@ -17,6 +18,17 @@ public class SingleGrouper extends Grouper {
       res.add(Arrays.asList(new Record[] {r}));
     }
     return res;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    return getClass() != obj.getClass();
   }
 
 }

@@ -46,16 +46,16 @@ public class StateTransitionMatrixTest {
     for (Record record : stMatrix) {
       switch (record.get("id").toString()) {
         case "1Stat":
-          assertEquals(createRecord("1Stat", 0, 1, 72, 5), record);
+          assertEquals(createRecord("1Stat", 0, 0, 77, 0), record);
           break;
         case "2Stat":
-          assertEquals(createRecord("2Stat", 0, 0, 14, 2), record);
+          assertEquals(createRecord("2Stat", 6, 0, 12, 0), record);
           break;
         case "5Web":
-          assertEquals(createRecord("5Web", 79, 10, 2, 0), record);
+          assertEquals(createRecord("5Web", 71, 18, 1, 0), record);
           break;
         case "2ndMeas":
-          assertEquals(createRecord("2ndMeas", 0, 5, 2, 0), record);
+          assertEquals(createRecord("2ndMeas", 0, 0, 0, 0), record);
           break;
         default:
           assertTrue(false);
@@ -66,10 +66,10 @@ public class StateTransitionMatrixTest {
   @Test
   public void testEqualsHashCode() {
     StateTransitionMatrix testMatrix = new StateTransitionMatrix(new Table(), "Date");
-    testMatrix.add(createRecord("2Stat", 0, 0, 14, 2));
-    testMatrix.add(createRecord("1Stat", 0, 1, 72, 5));
-    testMatrix.add(createRecord("5Web", 79, 10, 2, 0));
-    testMatrix.add(createRecord("2ndMeas", 0, 5, 2, 0));
+    testMatrix.add(createRecord("2Stat", 6, 0, 12, 0));
+    testMatrix.add(createRecord("1Stat", 0, 0, 77, 0));
+    testMatrix.add(createRecord("5Web", 71, 18, 1, 0));
+    testMatrix.add(createRecord("2ndMeas", 0, 0, 0, 0));
 
     
     

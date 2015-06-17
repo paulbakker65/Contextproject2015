@@ -20,8 +20,8 @@ public class DateColumn extends Column {
   private String formatStr;
   private String targetDate;
 
-  static final String isoFormatStr = "yyyy-MM-dd'T'HH:mm";
-  static final DateFormat isoFormat = new SimpleDateFormat(isoFormatStr);
+  public static final String isoFormatStr = "yyyy-MM-dd'T'HH:mm";
+  public static final DateFormat isoFormat = new SimpleDateFormat(isoFormatStr);
 
   /**
    * Constructs a new DateColumn using a default format.

@@ -76,7 +76,7 @@ class Task extends SwingWorker<Void, Void> {
         currentprogress = currentprogress + onefileprogress;
         setProgress(currentprogress);
       } catch (ParseFailedException ex) {
-        LOG.log(Level.SEVERE, "Error prasing input files.");
+        LOG.log(Level.SEVERE, "Error parsing input files: " + ex.getMessage() + ".");
         return false;
       }
     }
