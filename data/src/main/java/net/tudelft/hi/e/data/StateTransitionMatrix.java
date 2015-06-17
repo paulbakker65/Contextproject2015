@@ -15,7 +15,7 @@ public class StateTransitionMatrix extends Table {
   /**
    * Creates a state transition matrix of the given table looking at the datecolumn specified.
    *
-   * @param input
+   * @param table
    *          table on which to check
    * @param dateColumn
    *          column where the date values are.
