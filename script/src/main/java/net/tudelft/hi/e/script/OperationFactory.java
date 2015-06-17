@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.script;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +51,7 @@ class OperationFactory {
    */
   static List<Operation> createOperationsFromFile(final List<Table> tableList,
       final String filePath) {
-    List<Operation> listOfOperations = null;
+    List<Operation> listOfOperations = new ArrayList<Operation>();
     try {
       listOfOperations
           .addAll(createOperationsUsingInputStream(tableList,

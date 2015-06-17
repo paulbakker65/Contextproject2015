@@ -16,17 +16,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"}) public class AnalysisLangLexer
     extends Lexer {
 
-  public static final int T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5
-      = 6, T__6 = 7,
-      T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13
-      = 14, T__14 = 15,
-      T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, T__20 = 21, T__21
-      = 22, T__22 = 23, T__23 = 24, ID = 25, EQ = 26, NEQ = 27, GEQ = 28, G = 29, LEQ
-      = 30, L = 31, MULTIPLY = 32,
-      DIVIDE = 33, PLUS = 34, MINUS = 35, MODULO = 36, AVG = 37, COUNT = 38, MAX
-      = 39, MIN = 40,
-      SUM = 41, STDDEV = 42, NUMBER = 43, WS = 44, STRING = 45, CHAR = 46;
-
   public static final String[] ruleNames = {"T__0", "T__1", "T__2", "T__3",
     "T__4", "T__5", "T__6", "T__7", "T__8", "T__9", "T__10",
     "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", "T__17", "T__18",
