@@ -86,7 +86,7 @@ public class ValueTest {
     assertFalse(stringValue.isDate());
 
     final Value timeValue = new DateValue(new Date(), new DateColumn("name", "ddMMyy", "Date"));
-    assertFalse(timeValue.isDate());
+    assertTrue(timeValue.isDate());
   }
 
   @Test
