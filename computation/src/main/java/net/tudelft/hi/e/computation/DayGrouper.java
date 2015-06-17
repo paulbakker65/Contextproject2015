@@ -5,9 +5,13 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
+
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.RecordComparator;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Groups days on basis of the day in a date column.
@@ -27,8 +31,10 @@ public class DayGrouper extends Grouper {
   /**
    * Test if two calendars are on the same day.
    *
-   * @param cal1 The first calendar.
-   * @param cal2 The second calendar.
+   * @param cal1
+   *          The first calendar.
+   * @param cal2
+   *          The second calendar.
    * @return True if the two calendars are on the same day. Else False.
    */
   public static boolean sameDay(final Calendar cal1, final Calendar cal2) {
@@ -67,6 +73,26 @@ public class DayGrouper extends Grouper {
     days.add(buffer);
     buffer = new ArrayList<Record>();
     curdate.add(Calendar.DAY_OF_MONTH, 1);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(datecol);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    DayGrouper other = (DayGrouper) obj;
+    return new EqualsBuilder().append(datecol, other.datecol).isEquals();
   }
 
 }
