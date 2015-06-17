@@ -59,7 +59,6 @@ public class SingleOccurrenceValuePatternTest {
     table.add(record);
 
     final Pattern pattern = PatternFactory.createPattern("1 StatSensor == 'Crea'");
-    System.out.println(pattern);
     final Table event = new Table();
     assertTrue(pattern.findPattern(table, 0, event));
     assertEquals(table, event);

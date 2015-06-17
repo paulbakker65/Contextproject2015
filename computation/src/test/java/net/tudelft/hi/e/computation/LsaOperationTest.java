@@ -1,13 +1,16 @@
 package net.tudelft.hi.e.computation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
-import net.tudelft.hi.e.computation.DayGrouper;
-import net.tudelft.hi.e.computation.LsaOperation;
+
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.DateValue;
@@ -18,9 +21,7 @@ import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
 import net.tudelft.hi.e.input.Settings;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,8 +30,8 @@ import org.junit.Test;
  */
 public class LsaOperationTest {
 
-  public static List<Column> rescols = Arrays.asList(new Column[] {new NumberColumn("lag"),
-      new NumberColumn("occur")});
+  public static List<Column> rescols = Arrays.asList(new Column[] { new NumberColumn("lag"),
+      new NumberColumn("occur") });
 
   Table dataTable;
   Settings settings;
@@ -40,7 +41,8 @@ public class LsaOperationTest {
   /**
    * Creates a dummy table.
    *
-   * @throws ParseException if data parsing goes wrong
+   * @throws ParseException
+   *           if data parsing goes wrong
    */
   @Before
   public void setUp() throws ParseException {
@@ -52,24 +54,24 @@ public class LsaOperationTest {
 
     dataTable = new Table();
 
-    dataTable.add(new Record(cols, new Value[] {new StringValue("A"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("120599"))}));
-    dataTable.add(new Record(cols, new Value[] {new StringValue("A"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("130599"))}));
-    dataTable.add(new Record(cols, new Value[] {new StringValue("C"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("140599"))}));
-    dataTable.add(new Record(cols, new Value[] {new StringValue("B"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("150599"))}));
-    dataTable.add(new Record(cols, new Value[] {new StringValue("B"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("160599"))}));
-    dataTable.add(new Record(cols, new Value[] {new StringValue("B"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("170599"))}));
-    dataTable.add(new Record(cols, new Value[] {new StringValue("A"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("180599"))}));
-    dataTable.add(new Record(cols, new Value[] {new StringValue("B"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("190599"))}));
-    dataTable.add(new Record(cols, new Value[] {new StringValue("A"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("200599"))}));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("120599")) }));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("130599")) }));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("C"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("140599")) }));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("150599")) }));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("160599")) }));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("170599")) }));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("180599")) }));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("190599")) }));
+    dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("200599")) }));
 
     settings = new Settings();
     settings.getColumns().addAll(cols);
@@ -77,14 +79,14 @@ public class LsaOperationTest {
 
   @Test
   public void testDayGrouperSameDay() throws ParseException {
-    final GregorianCalendar calendar =
-        new DateValue(new SimpleDateFormat("yyMMdd").parse("121110")).getValue();
-    final GregorianCalendar calendar2 =
-        new DateValue(new SimpleDateFormat("yyMMdd").parse("121109")).getValue();
-    final GregorianCalendar calendar3 =
-        new DateValue(new SimpleDateFormat("yyMMdd").parse("121010")).getValue();
-    final GregorianCalendar calendar4 =
-        new DateValue(new SimpleDateFormat("yyMMdd").parse("111110")).getValue();
+    final GregorianCalendar calendar = new DateValue(new SimpleDateFormat("yyMMdd").parse("121110"))
+        .getValue();
+    final GregorianCalendar calendar2 = new DateValue(
+        new SimpleDateFormat("yyMMdd").parse("121109")).getValue();
+    final GregorianCalendar calendar3 = new DateValue(
+        new SimpleDateFormat("yyMMdd").parse("121010")).getValue();
+    final GregorianCalendar calendar4 = new DateValue(
+        new SimpleDateFormat("yyMMdd").parse("111110")).getValue();
 
     assertTrue(DayGrouper.sameDay(calendar, calendar));
     assertFalse(DayGrouper.sameDay(calendar, calendar2));
@@ -94,9 +96,8 @@ public class LsaOperationTest {
 
   @Test
   public void testDayLag() {
-    lsa =
-        new LsaOperation(dataTable, "eventtype", -2, 3, new StringValue("A"), new StringValue("B"),
-            new DayGrouper("date"));
+    lsa = new LsaOperation(dataTable, "eventtype", -2, 3, new StringValue("A"),
+        new StringValue("B"), new DayGrouper("date"));
     lsa.execute();
     final Table res = lsa.getResult();
 
@@ -109,8 +110,8 @@ public class LsaOperationTest {
 
   @Test
   public void testRecordLag() {
-    lsa =
-        new LsaOperation(dataTable, "eventtype", -2, 3, new StringValue("A"), new StringValue("B"));
+    lsa = new LsaOperation(dataTable, "eventtype", -2, 3, new StringValue("A"),
+        new StringValue("B"));
     lsa.execute();
     final Table res = lsa.getResult();
 
@@ -121,5 +122,57 @@ public class LsaOperationTest {
     assertEquals(new NumberValue(1), res.get(3).get("occur"));
     assertEquals(new NumberValue(1), res.get(4).get("occur"));
   }
+
+  @Test
+  public void equalityTest() {
+    LsaOperation o1 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("5"));
+    LsaOperation o2 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("5"));
+    assertEquals(o1, o2);
+  }
+  
+  @Test
+  public void equalInstanceTest() {
+    LsaOperation o1 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("5"));
+    assertTrue(o1.equals(o1));
+  }
+  
+  @Test
+  public void equalityNullTest() {
+    LsaOperation o1 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("5"));
+    assertFalse(o1.equals(null));
+  }
+  
+  @Test
+  public void equalityStringTest() {
+    LsaOperation o1 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("5"));
+    assertFalse(o1.equals("foobar"));
+  }
+  
+  @Test
+  public void wrongPropertyTest() {
+    LsaOperation o1 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("5"));
+    LsaOperation o2 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("6"));
+    assertFalse(o1.equals(o2));
+  }
+  
+  @Test
+  public void hashEqualsTest() {
+    LsaOperation o1 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("5"));
+    LsaOperation o2 = new LsaOperation(dataTable, "0", 1, 2, new NumberValue(3),
+        new NumberValue(4), new DayGrouper("5"));
+    assertEquals(o1.hashCode(),o2.hashCode());
+  }
+  
+  
+  
+  
 
 }
