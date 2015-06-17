@@ -1,7 +1,8 @@
-package operations;
+package net.tudelft.hi.e.computation;
 
-import table.Record;
-import table.Table;
+import net.tudelft.hi.e.data.Record;
+import net.tudelft.hi.e.data.Table;
+
 
 public class CombineOperation extends Operation {
 

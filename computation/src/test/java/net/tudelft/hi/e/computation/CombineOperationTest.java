@@ -1,21 +1,21 @@
-package operations;
+package net.tudelft.hi.e.computation;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import table.Record;
-import table.Table;
-import table.value.Column;
-import table.value.DateColumn;
-import table.value.DateValue;
-import table.value.StringColumn;
-import table.value.StringValue;
-import table.value.Value;
-
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.DateColumn;
+import net.tudelft.hi.e.data.DateValue;
+import net.tudelft.hi.e.data.Record;
+import net.tudelft.hi.e.data.StringColumn;
+import net.tudelft.hi.e.data.StringValue;
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.data.Value;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class CombineOperationTest {
 
@@ -72,8 +72,8 @@ public class CombineOperationTest {
         new CombineOperation(table, "Measurement", "Crea", "Kreatinine", "Date");
     combineOperation.execute();
 
-    columns.add(new StringColumn("Measurement1"));
-    columns.add(new DateColumn("Date1"));
+    columns.add(new StringColumn("Measurement_1"));
+    columns.add(new DateColumn("Date_1"));
 
     Table test = new Table();
     test.add(new Record(columns, new Value[] { new StringValue("Crea"),
@@ -89,7 +89,8 @@ public class CombineOperationTest {
         new DateValue(new GregorianCalendar(2015, 1, 10)), new StringValue("Crea"),
         new DateValue(new GregorianCalendar(2015, 1, 10)) }));
 
-    assertEquals(test.toString(), combineOperation.getResult().toString());
+    Table result = combineOperation.getResult();
+    assertEquals(test, result);
   }
 
 }
