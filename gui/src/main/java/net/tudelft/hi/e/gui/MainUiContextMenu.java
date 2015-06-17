@@ -24,6 +24,10 @@ public class MainUiContextMenu extends MouseAdapter implements ActionListener{
 
     private JTable table;
 
+    /**
+     * Creates a popup menu and sets the action listener for the filesTable.
+     * @param filesTable The table to add the popup menu to
+     */
     public MainUiContextMenu(JTable filesTable) {
         super();
         this.table = filesTable;
@@ -49,30 +53,34 @@ public class MainUiContextMenu extends MouseAdapter implements ActionListener{
 
     @Override
     public void mouseReleased(MouseEvent event) {
-        if(!event.isPopupTrigger()) {
+        if(!event.isPopupTrigger() || selectRow(event) == -1) {
             return;
         }
 
-        selectRow(event);
-
-        showPopup(event);
+        popupMenu.show(event.getComponent(), event.getX(), event.getY());
     }
 
-    private void selectRow(MouseEvent event) {
+    /**
+     * Selects the row at the location of the mouse pointer.
+     * @param event The click event.
+     * @return Returns the index of the selected row, if now row is selected -1 is returned.
+     */
+    private int selectRow(MouseEvent event) {
         int r = table.rowAtPoint(event.getPoint());
         if (r >= 0 && r < table.getRowCount()) {
             table.setRowSelectionInterval(r, r);
+            return r;
         } else {
             table.clearSelection();
+            return -1;
         }
     }
 
-    private void showPopup(MouseEvent event) {
-        if (event.isPopupTrigger()) {
-            popupMenu.show(event.getComponent(), event.getX(), event.getY());
-        }
-    }
-
+    /**
+     * Checks if the row is in the bounds of the filesTable.
+     * @param row The index to check.
+     * @return Returns true if the index is not valid, false if the index is a valid row.
+     */
     private boolean isOutOfBounds(int row) {
         int rowcount = table.getRowCount();
         if(row < 0 || row > rowcount){

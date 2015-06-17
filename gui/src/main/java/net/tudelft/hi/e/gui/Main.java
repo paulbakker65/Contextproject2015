@@ -1,6 +1,9 @@
 package net.tudelft.hi.e.gui;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.tudelft.hi.e.input.Input;
 
 
@@ -9,7 +12,8 @@ import net.tudelft.hi.e.input.Input;
  * Main will parse command line arguments and start the GUI.
  */
 public class Main{
-
+  private static final Logger LOG = Logger.getLogger(Task.class.getName());
+  private static boolean nogui = false;
   /**
    * Main
    * @param args A array of arguments.
@@ -19,18 +23,19 @@ public class Main{
       return;
     }
 
-    if (!openGui()) {
-      return;
+    if(nogui) {
+      nooGui();
+    } else {
+      if (!openGui()) {
+        return;
+      }
     }
-
-    // ProgressGui.init();
 
     return;
   }
 
   /**
    * Parses command line arguments.
-   *
    * @param argv String[] containing all arguments.
    */
   public static boolean parseCommandline(String[] argv) {
@@ -60,12 +65,15 @@ public class Main{
           return false;
         }
         i++;
+      } else if (argv[i].equals("-nogui")) {
+        nogui = true;
       } else {
         String usage = "Error in program arguments.\n"
             + "Available commands are:\n"
             + "    -f <data file> <settings file>\n"
             + "    -s <script file>\n"
-            + "    -o <output directory>\n";
+            + "    -o <output directory>\n"
+            + "    -nogui\n";
         System.out.println(usage);
         return false;
       }
@@ -84,5 +92,17 @@ public class Main{
     GUI.init(frame);
 
     return true;
+  }
+
+  public static void nooGui() {
+    if (!Input.hasScript() || !Input.hasOutput() || !Input.hasFiles()) {
+      LOG.log(Level.SEVERE, "Wrong input!\n"
+              + "Please make sure you have selected a script file,\n"
+              + "output directory and at least 1 data file.\n");
+      return;
+    }
+    LOG.log(Level.INFO, "Starting task now.\n");
+    Task task = new Task();
+    task.doInBackground();
   }
 }
