@@ -3,7 +3,6 @@ package net.tudelft.hi.e.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class StateTransitionMatrix extends Table {
 
@@ -11,9 +10,7 @@ public class StateTransitionMatrix extends Table {
    * Default serial version ID.
    */
   private static final long serialVersionUID = 1L;
-  private Table table;
   private Table codeTable;
-  private List<String> uniqueValues;
 
   /**
    * Creates a state transition matrix of the given table looking at the datecolumn specified.
@@ -23,26 +20,25 @@ public class StateTransitionMatrix extends Table {
    * @param dateColumn
    *          column where the date values are.
    */
-  public StateTransitionMatrix(Table input, String dateColumn) {
-    this.table = input;
+  public StateTransitionMatrix(Table table, String dateColumn) {
     this.setName("transition matrix for " + table.getName());
-    determineUniqueCodes();
-    createTable();
-    createCodeTable(dateColumn);
+    ArrayList<String> uniqueValues = determineUniqueCodes(table);
+    createTable(uniqueValues);
+    createCodeTable(table, dateColumn);
     countTransitions();
   }
 
   /**
    * Look at the codes and add them to an arraylist.
    */
-  public void determineUniqueCodes() {
-    uniqueValues = new ArrayList<String>(table.getCodes().keySet());
+  public ArrayList<String> determineUniqueCodes(Table table) {
+    return new ArrayList<String>(table.getCodes().keySet());
   }
 
   /**
    * Create the table with all the values set to zero.
    */
-  public void createTable() {
+  public void createTable(ArrayList<String> uniqueValues) {
     List<Column> col = new ArrayList<Column>();
 
     col.add(new StringColumn("id"));
@@ -65,7 +61,7 @@ public class StateTransitionMatrix extends Table {
    * @param dateColumn
    *          date.
    */
-  public void createCodeTable(String dateColumn) {
+  public void createCodeTable(Table table, String dateColumn) {
     codeTable = new Table();
     for (Code code : table.getCodes().values()) {
       for (Table event : code.getEvents()) {
@@ -113,9 +109,8 @@ public class StateTransitionMatrix extends Table {
   @Override
   public int hashCode() {
     int hash = 7;
-    hash = 37 * hash + Objects.hashCode(this.table);
 //    hash = 37 * hash + Objects.hashCode(this.column);
-    hash = 37 * hash + Objects.hashCode(this.uniqueValues);
+    hash = 37 * hash + this.getName().hashCode();
     return hash;
   }
 
@@ -128,19 +123,9 @@ public class StateTransitionMatrix extends Table {
       return false;
     }
     final StateTransitionMatrix other = (StateTransitionMatrix) obj;
-    return deepEquals(other);
+    return super.equals(other);
   }
 
-  private boolean deepEquals(StateTransitionMatrix other) {
-    return equalTable(other) && equalUniqueValues(other);
-  }
 
-  private boolean equalTable(StateTransitionMatrix other) {
-    return Objects.equals(this.table, other.table);
-  }
-
-  private boolean equalUniqueValues(StateTransitionMatrix other) {
-    return Objects.equals(this.uniqueValues, other.uniqueValues);
-  }
 
 }
