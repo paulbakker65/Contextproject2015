@@ -226,5 +226,46 @@ public class ChunkingOperationTest {
     assertEquals(temp, co.getResult());
     assertEquals(temp.toString(), co.toString());
   }
+  
+  @Test
+  public void testPhaseChunkresult() {
+		for (int count = 0; count < 18; count++) {
+		    final Record record =
+		        new Record(cols, new Value[] {new NumberValue(count), new NumberValue(count * 10),
+		            new StringValue("String:" + count),
+		            new DateValue(DateConversion.fromExcelSerialToDate(40000 + count * 7))});
+		    dataTable.add(record);
+		}
+		co = new ChunkingOperation(dataTable, "dateField", ChunkType.PHASE);
+	    co.execute();
+	    final Table temp = (Table) dataTable.clone();
+	    final Chunk chunk1 = new Chunk(0, "Chunk 0");
+	    final Chunk chunk2 = new Chunk(1, "Chunk 1");
+	    final Chunk chunk3 = new Chunk(2, "Chunk 2");
+	    final Chunk chunk4 = new Chunk(3, "Chunk 3");
+	    int count = 0;
+	    while (count < 5) {
+	      chunk1.add(dataTable.get(count));
+	      count++;
+	    }
+	    while (count < 10) {
+	      chunk2.add(dataTable.get(count));
+	      count++;
+	    }
+	    while (count < 16) {
+	      chunk3.add(dataTable.get(count));
+	      count++;
+	    }
+	    while (count < 18) {
+	      chunk4.add(dataTable.get(count));
+	      count++;
+	    }
+	    temp.addChunk(chunk1);
+	    temp.addChunk(chunk2);
+	    temp.addChunk(chunk3);
+	    temp.addChunk(chunk4);
+	    
+	    assertEquals(temp, co.getResult());
+  }
 
 }

@@ -90,6 +90,7 @@ public class ChunkingOperation extends Operation {
       case MONTH: return new MonthCondition();
       case YEAR: return new YearCondition();
       case PATIENT: return new PatientCondition();
+      case PHASE: return new PhaseCondition();
       default: return null;
     }
   }
