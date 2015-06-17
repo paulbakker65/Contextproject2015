@@ -14,12 +14,12 @@ import org.antlr.v4.runtime.CommonTokenStream;
  * Operation Factory to create Operations according to the specifications in a
  * script file.
  */
-public class OperationFactory {
+class OperationFactory {
 
   /**
    * Class wide logger used for logging exceptions.
    */
-  private static final Logger LOG = Logger.getLogger(OperationFactory.class.
+  static final Logger LOG = Logger.getLogger(OperationFactory.class.
       getName());
 
   /**
@@ -29,7 +29,7 @@ public class OperationFactory {
    * @param scriptInput script input.
    * @return list of operations.
    */
-  public static final List<Operation> createOperationsFromString(
+  static List<Operation> createOperationsFromString(
       final List<Table> tableList, final String scriptInput) {
     return createOperationsUsingInputStream(tableList, new ANTLRInputStream(
         scriptInput));
@@ -42,12 +42,12 @@ public class OperationFactory {
    * @param filePath script file path.
    * @return list of operations.
    */
-  public static final List<Operation> createOperationsFromFile(
+  static List<Operation> createOperationsFromFile(
       final List<Table> tableList, final String filePath) {
     List<Operation> listOfOperations = null;
     try {
-      createOperationsUsingInputStream(tableList, new ANTLRFileStream(
-          filePath));
+      listOfOperations.addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(
+          filePath)));
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
