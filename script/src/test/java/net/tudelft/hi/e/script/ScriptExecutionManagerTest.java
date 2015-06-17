@@ -54,14 +54,8 @@ public class ScriptExecutionManagerTest {
   public void setUp() {
     tables = new ArrayList<Table>();
     try {
-      Input.addDataFile(new File("/Users/mawdegroot/aaa/ADMIRE_13.txt"),
-          new File("/Users/mawdegroot/aaa/settings.xml"));
-      Input.addDataFile(new File(
-          "/Users/mawdegroot/aaa/Afspraken_geanonimiseerd.csv"),
-          new File("/Users/mawdegroot/aaa/settings_hospital.xml"));
-      Input.addDataFile(new File(
-          "/Users/mawdegroot/aaa/Q_ADMIRE_metingen_pagevisits_141214.csv"),
-          new File("/Users/mawdegroot/aaa/settings_website.xml"));
+      Input.addDataFile(new File("src/test/resources/test4.csv"),
+          new File("src/test/resources/test4.xml"));
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -79,14 +73,8 @@ public class ScriptExecutionManagerTest {
     Input.clean();
     tablesExpected = new ArrayList<Table>();
     try {
-      Input.addDataFile(new File("/Users/mawdegroot/aaa/ADMIRE_13.txt"),
-          new File("/Users/mawdegroot/aaa/settings.xml"));
-      Input.addDataFile(new File(
-          "/Users/mawdegroot/aaa/Afspraken_geanonimiseerd.csv"),
-          new File("/Users/mawdegroot/aaa/settings_hospital.xml"));
-      Input.addDataFile(new File(
-          "/Users/mawdegroot/aaa/Q_ADMIRE_metingen_pagevisits_141214.csv"),
-          new File("/Users/mawdegroot/aaa/settings_website.xml"));
+      Input.addDataFile(new File("src/test/resources/test4.csv"),
+          new File("src/test/resources/test4.xml"));
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -118,11 +106,11 @@ public class ScriptExecutionManagerTest {
     List<Table> actual = manager.getResultDataTables();
 
     ConstraintOperation operation = new ConstraintOperation(tablesExpected.
-        get(2),
-        "Login", CompareOperator.EQ, new StringValue("admire13"));
+        get(0),
+        "login", CompareOperator.EQ, new StringValue("admire13"));
     operation.execute();
 
-    assertEquals(operation.getResult(), actual.get(2));
+    assertEquals(operation.getResult(), actual.get(0));
   }
 
   /**
@@ -130,16 +118,16 @@ public class ScriptExecutionManagerTest {
    */
   @Test
   public void testAddScriptString() {
-    manager.addScriptString("CONSTRAINT [website].[Login] == \"admire13\"");
+    manager.addScriptString("CONSTRAINT [website].[login] == \"admire13\"");
     manager.executeAllScripts();
     List<Table> actual = manager.getResultDataTables();
 
     ConstraintOperation operation = new ConstraintOperation(tablesExpected.
-        get(2),
-        "Login", CompareOperator.EQ, new StringValue("admire13"));
+        get(0),
+        "login", CompareOperator.EQ, new StringValue("admire13"));
     operation.execute();
 
-    assertEquals(operation.getResult(), actual.get(2));
+    assertEquals(operation.getResult(), actual.get(0));
   }
 
   /**
@@ -147,10 +135,10 @@ public class ScriptExecutionManagerTest {
    */
   @Test
   public void testExecuteAllScripts() {
-    manager.addScriptString("CONSTRAINT [website].[Login] == \"admire13\"");
-    manager.addScriptString("CHUNK [website].[Date] USING MONTH 1");
+    manager.addScriptString("CONSTRAINT [website].[login] == \"admire13\"");
+    manager.addScriptString("CHUNK [website].[date] USING MONTH 1");
     manager.addScriptString(
-        "FOR EACH CHUNK [website] 1 COMPUTE [website] COUNT() [website].[Login]");
+        "FOR EACH CHUNK [website] 1 COMPUTE [website] COUNT() [website].[login]");
 
     manager.executeAllScripts();
     List<Table> actual = manager.getResultDataTables();
@@ -160,13 +148,13 @@ public class ScriptExecutionManagerTest {
     for (Table t : tablesExpected) {
       tableMap.put(t.getName(), t);
     }
-    opList.add(new ConstraintOperation(tablesExpected.get(2),
-        "Login", CompareOperator.EQ, new StringValue("admire13")));
-    opList.add(new ChunkingOperation(tablesExpected.get(2),
-        "Date", ChunkType.MONTH));
-    ComputeOperation operation = new ComputeOperation(tablesExpected.get(2),
-        ComputeOperator.COUNT, "Login");
-    opList.add(new ForEachChunkOperation(tablesExpected.get(2), 1, operation));
+    opList.add(new ConstraintOperation(tablesExpected.get(0),
+        "login", CompareOperator.EQ, new StringValue("admire13")));
+    opList.add(new ChunkingOperation(tablesExpected.get(0),
+        "date", ChunkType.MONTH));
+    ComputeOperation operation = new ComputeOperation(tablesExpected.get(0),
+        ComputeOperator.COUNT, "login");
+    opList.add(new ForEachChunkOperation(tablesExpected.get(0), 1, operation));
 
     for (int i = 0; i < opList.size(); i++) {
       opList.get(i).execute();
@@ -177,7 +165,7 @@ public class ScriptExecutionManagerTest {
       operationResultTable.addAll(opList.get(i).getResult());
     }
 
-    assertEquals(tableMap.get("website"), actual.get(2));
+    assertEquals(tableMap.get("website"), actual.get(0));
   }
 
   /**
