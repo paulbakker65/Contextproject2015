@@ -17,62 +17,67 @@ import net.tudelft.hi.e.data.Table;
  */
 public class ScriptExecutionManager {
 
-  private Map<String, Table> tableMap;
-
   private List<Table> tableList;
 
   private List<Operation> opList;
 
   public ScriptExecutionManager(List<Table> tables) {
-    tableMap = new LinkedHashMap<String, Table>();
-    for (Table t : tables) {
-      tableMap.put(t.getName(), t);
-    }
     tableList = tables;
     opList = new ArrayList<Operation>();
   }
 
   public void addScriptFile(String filePath) {
-    updateTableList();
     opList.
         addAll(OperationFactory.createOperationsFromFile(tableList, filePath));
   }
 
   public void addScriptString(String scriptString) {
-    updateTableList();
     opList.addAll(OperationFactory.createOperationsFromString(tableList,
         scriptString));
   }
 
   public List<Table> executeAllScripts() {
     for (int i = 0; i < opList.size(); i++) {
+      String inputTableName = opList.get(i).getInputTableName();
+      String resultTableName = opList.get(i).getResultTableName();
+      opList.get(i).resetData(getTableForTableName(inputTableName));
       opList.get(i).execute();
-      createTableIfNotExists(opList.get(i).getResultTableName());
-      Table operationResultTable = tableMap.get(opList.get(i).
-          getResultTableName());
-
-      operationResultTable.clear();
-      operationResultTable.addAll(opList.get(i).getResult());
+      setTableForTableName(resultTableName, opList.get(i).getResult());
     }
-    return tableList;
+    return getResultDataTables();
   }
 
   private void createTableIfNotExists(String resultTableName) {
-    if (!tableMap.containsKey(resultTableName)) {
+    if (!tableList.contains(resultTableName)) {
       Table newTable = new Table();
       newTable.setName(resultTableName);
-      updateTableList();
     }
   }
 
   public List<Table> getResultDataTables() {
-    updateTableList();
     return tableList;
   }
 
-  private void updateTableList() {
-    tableList.clear();
-    tableList.addAll(tableMap.values());
+  private Table getTableForTableName(String tableName) {
+    for (Table t : tableList) {
+      if (t.getName().equals(tableName)) {
+        return t;
+      }
+    }
+    return null;
+  }
+
+  private void setTableForTableName(String tableName, Table newTable) {
+    tableList.set(getTableIndexForTableName(tableName), newTable);
+  }
+
+  private int getTableIndexForTableName(String tableName) {
+    for (int i = 0; i < tableList.size(); i++) {
+      if (tableList.get(i).getName().equals(tableName)) {
+        return i;
+      }
+    }
+    return -1;
   }
 
 }

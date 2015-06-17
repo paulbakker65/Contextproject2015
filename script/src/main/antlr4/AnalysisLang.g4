@@ -1,9 +1,19 @@
 grammar AnalysisLang;
 
 @header {
-package net.tudelft.hi.e.script;
+import net.tudelft.hi.e.common.enums.CalcOperator;
+import net.tudelft.hi.e.common.enums.CompareOperator;
+import net.tudelft.hi.e.common.enums.ComputeOperator;
+import net.tudelft.hi.e.computation.*;
+import net.tudelft.hi.e.data.Value;
+import net.tudelft.hi.e.data.DateValue;
+import net.tudelft.hi.e.data.NumberValue;
+import net.tudelft.hi.e.data.StringValue;
 
-import java.util.*;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 }
 
 parse
@@ -22,7 +32,6 @@ operation
 | code_operation
 | connect_operation
 | constraint_operation
-| convert_operation
 | compute_operation
 | lsa_operation
 ;
@@ -60,10 +69,6 @@ constraint_operation
 : 'CONSTRAINT' param=constraint_param
 ;
 
-convert_operation
-: 'CONVERT' param=convert_param
-;
-
 lsa_operation
 : 'LSA' param=lsa_param
 ;
@@ -80,8 +85,7 @@ between_param
 // Chunk                             //
 ///////////////////////////////////////
 chunk_param
-: fieldparam=field 'USING' rangeparam=range
-| fieldparam=field 'USING' type=chunk_type numberparam=number
+: fieldparam=field 'USING' type=chunk_type numberparam=number
 ;
 
 chunk_type returns [int i]
@@ -122,15 +126,7 @@ connect_param
 // Constraint                        //
 ///////////////////////////////////////
 constraint_param
-: fieldparam=field opparam=compare_operator anotherfieldparam=field
-| fieldparam=field opparam=compare_operator valueparam=value
-;
-
-///////////////////////////////////////
-// Convert                           //
-///////////////////////////////////////
-convert_param
-: fieldparam=field 'TO' formulaparam=formula
+: fieldparam=field opparam=compare_operator valueparam=value
 ;
 
 ///////////////////////////////////////
@@ -201,24 +197,11 @@ compute_operator returns [ComputeOperator op]
 | opparam=SUM                        { $op = ComputeOperator.SUM;    }
 ;
 
-formula returns [Formula form]
-: fieldparam=field opparam=calc_operator anotherfieldparam=field
-  { $form = new Formula($fieldparam.fieldname, $opparam.op, $anotherfieldparam.fieldname); }
-| fieldparam=field opparam=calc_operator valueparam=number
-  { $form = new Formula($fieldparam.fieldname, $opparam.op, $valueparam.val); }
-| fieldparam=field opparam=calc_operator formulaparam=formula
-  { $form = new Formula($fieldparam.fieldname, $opparam.op, $formulaparam.form); }
-;
-
 condition returns [Condition cond]
 : opparam=compare_operator valueparam=value
   { $cond = new Condition($opparam.op, $valueparam.val); }
 | opparam=compare_operator valueparam=value 'AND' anothercond=condition
   { $cond = new Condition($opparam.op, $valueparam.val); }
-;
-
-range
-: '>' g=value 'AND' '<' l=value
 ;
 
 value returns [Value val]

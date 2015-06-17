@@ -78,19 +78,7 @@ public abstract class Operation {
     this.resultTableName = tableName;
   }
 
-  @Override public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
-    Operation operation = (Operation) o;
-    return Objects.equals(operationParametersSet, operation.operationParametersSet) &&
-        Objects.equals(inputData, operation.inputData) &&
-        Objects.equals(resultData, operation.resultData) &&
-        Objects.equals(resultTableName, operation.resultTableName);
-  }
-
-  @Override public int hashCode() {
-    return Objects.hash(inputData, resultData, operationParametersSet, resultTableName);
+  public String getInputTableName() {
+    return inputData.getName();
   }
 }

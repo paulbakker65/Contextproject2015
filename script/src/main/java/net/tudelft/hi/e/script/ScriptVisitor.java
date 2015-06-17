@@ -234,17 +234,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
     }
   }
 
-  @Override
-  public final Object visitConvert_operation(
-      AnalysisLangParser.Convert_operationContext ctx) {
-    return visitConvert_param(ctx.param);
-  }
-
-  @Override public final Object visitConvert_param(
-      AnalysisLangParser.Convert_paramContext ctx) {
-    return null;
-  }
-
   @Override public final Object visitCount_pattern(
       AnalysisLangParser.Count_patternContext ctx) {
     return ctx.count;
@@ -274,12 +263,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
       return null;
     }
-  }
-
-  @Override public final Object visitFormula(
-      AnalysisLangParser.FormulaContext ctx) {
-    throw new UnsupportedOperationException(
-        "Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   @Override
@@ -330,11 +313,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override public final Pattern visitPattern(
       AnalysisLangParser.PatternContext ctx) {
     return PatternFactory.createPattern(ctx.patterndesc);
-  }
-
-  @Override public final Object visitRange(AnalysisLangParser.RangeContext ctx) {
-    throw new UnsupportedOperationException(
-        "Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
   @Override
