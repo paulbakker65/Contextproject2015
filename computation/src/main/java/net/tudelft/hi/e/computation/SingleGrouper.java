@@ -22,13 +22,13 @@ public class SingleGrouper extends Grouper {
   
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
+    if (super.equals(obj)) {
       return true;
     }
     if (obj == null) {
       return false;
     }
-    return getClass() != obj.getClass();
+    return getClass() == obj.getClass();
   }
 
 }
