@@ -2,8 +2,6 @@
 
 package net.tudelft.hi.e.script;
 
-import java.util.*;
-
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

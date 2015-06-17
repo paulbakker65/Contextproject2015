@@ -1,14 +1,15 @@
 package net.tudelft.hi.e.script;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Operation Factory to create Operations according to the specifications in a
@@ -19,8 +20,14 @@ class OperationFactory {
   /**
    * Class wide logger used for logging exceptions.
    */
-  static final Logger LOG = Logger.getLogger(OperationFactory.class.
+  private static final Logger LOG = Logger.getLogger(OperationFactory.class.
       getName());
+
+  /**
+   * Default hidden constructor because this class cannot be instantiated.
+   */
+  private OperationFactory() {
+  }
 
   /**
    * Create operations using a input script given as String.
