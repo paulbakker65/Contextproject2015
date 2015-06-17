@@ -44,7 +44,14 @@ public class CodingOperation extends Operation {
     }
 
     int index = 0;
-    final Code code = new Code(name);
+    final Code code;
+    if (resultData.getCode(name) != null) {
+    	code = resultData.getCode(name);
+    }
+    else {
+    	code = new Code(name);
+    	resultData.addCode(code);
+    }
 
     while (index < inputData.size()) {
       final Table records = new Table();
@@ -55,7 +62,7 @@ public class CodingOperation extends Operation {
       index++;
     }
 
-    resultData.addCode(code);
+    
 
     return true;
   }
