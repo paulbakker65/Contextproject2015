@@ -54,7 +54,7 @@ public class BetweenOperation extends Operation {
    * @param eventcol Column where the type of the event is stored
    * @param datecol Column where the timing of the event is stored
    * @param ev1val Event 1 identifier
-   * @param ev2val Event 2 identifiter
+   * @param ev2val Event 2 identifier
    */
   public BetweenOperation(final Table inputDataset, final String eventcol, final String datecol,
       final Value ev1val, final Value ev2val) {
@@ -69,7 +69,7 @@ public class BetweenOperation extends Operation {
 
   private void addEvent(final int index1, final int index2) {
     final int timeDif = (int) ((getTimeStamp(index2) - getTimeStamp(index1)) / (1000 * 60 * 60));
-    resultData.get(index1).put("time_before_" + ev2val.toString(), new NumberValue(timeDif));
+    resultData.get(index1).put("time_between", new NumberValue(timeDif));
   }
 
   @Override
@@ -80,8 +80,6 @@ public class BetweenOperation extends Operation {
   }
 
   private boolean executeFindForEveryEventIndex() {
-    resultData = (Table) inputData.clone();
-
     int eventIndex = 0;
 
     while (eventIndex < inputData.size()) {
@@ -93,16 +91,18 @@ public class BetweenOperation extends Operation {
     return true;
   }
 
-  private boolean executeFindTargetEventForEvent(final int eventIndex) {
+  private void executeFindTargetEventForEvent(final int eventIndex) {
     int targetIndex = eventIndex + 1;
-    while (targetIndex < inputData.size() && !isFirstEvent(targetIndex)) {
+    while (targetIndex < inputData.size()) {
       if (isSecondEvent(targetIndex)) {
         addEvent(eventIndex, targetIndex);
         break;
       }
+      else if (isFirstEvent(targetIndex)) {
+    	  break;
+      }
       targetIndex++;
     }
-    return true;
   }
 
   @Override

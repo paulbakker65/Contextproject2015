@@ -1,9 +1,9 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
 import net.tudelft.hi.e.data.Chunk;
+import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.Table;
 
 /**
@@ -51,7 +51,7 @@ public class ForEachChunkOperation extends Operation {
       return false;
     }
 
-    for (List<Chunk> chunkList : getChunks()) {
+    for (List<Chunk> chunkList : ChunksFinder.getChunkLists(resultData, chunkDepth)) {
       for (int i = 0; i < chunkList.size(); i++) {
         Chunk chunk = chunkList.get(i);
         operation.resetData(new Table(chunk));
@@ -65,85 +65,6 @@ public class ForEachChunkOperation extends Operation {
     }
 
     return true;
-  }
-
-  /**
-   * Returns all chunklists to apply the operation on. We need the chunklist so that we know on
-   * which position to put the newly created chunk.
-   *
-   * @return all chunklists to apply the operation on.
-   */
-  List<List<Chunk>> getChunks() {
-    int maxDepth = maxDepth(resultData);
-    int depth = chunkDepth;
-
-    if (chunkDepth > maxDepth) {
-      depth = maxDepth;
-    }
-
-    return getChunksListAtDepth(resultData, depth - 1);
-  }
-
-  /**
-   * Returns the maximum depth found in the table.
-   *
-   * @param table
-   *          the table to search.
-   * @return the maximum depth found in the table.
-   */
-  int maxDepth(Table table) {
-    return maxDepth(table.getChunks());
-  }
-
-  private int maxDepth(List<Chunk> chunks) {
-    if (chunks.isEmpty()) {
-      return 0;
-    }
-
-    int max = Integer.MIN_VALUE;
-    for (Chunk chunk : chunks) {
-      int depth = maxDepth(chunk.getChunks());
-      if (depth > max) {
-        max = depth;
-      }
-    }
-    return 1 + max;
-  }
-
-  /**
-   * Returns all the chunklists at a certain depth (assuming that these lists are not empty).
-   *
-   * @param table
-   *          the table to search.
-   * @param depth
-   *          the depth to return the chunklists from.
-   * @return all the chunklists at a certain depth.
-   */
-  private List<List<Chunk>> getChunksListAtDepth(Table table, int depth) {
-    if (depth == -1) {
-      return new ArrayList<List<Chunk>>();
-    }
-    if (depth == 0) {
-      return new ArrayList<List<Chunk>>(Arrays.asList(table.getChunks()));
-    }
-
-    return getChunksListAtDepth(table.getChunks(), depth - 1);
-  }
-
-  private List<List<Chunk>> getChunksListAtDepth(List<Chunk> chunks, int depth) {
-    if (depth == 0) {
-      List<List<Chunk>> res = new ArrayList<List<Chunk>>();
-      for (Chunk chunk : chunks) {
-        res.add(chunk.getChunks());
-      }
-      return res;
-    }
-
-    List<Chunk> newChunks = new ArrayList<Chunk>();
-    for (Chunk chunk : chunks) {
-      newChunks.addAll(chunk.getChunks());
-    }
-    return getChunksListAtDepth(newChunks, depth - 1);
   }
 
   @Override
