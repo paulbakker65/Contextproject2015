@@ -78,7 +78,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   public final BetweenOperation visitBetween_operation(
       Between_operationContext ctx) {
     BetweenOperation op = visitBetween_param(ctx.param);
-    operationList.add(op);
     return op;
   }
 
@@ -104,7 +103,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   public final ChunkingOperation visitChunk_operation(
       Chunk_operationContext ctx) {
     ChunkingOperation op = visitChunk_param(ctx.param);
-    operationList.add(op);
     return op;
   }
 
@@ -143,7 +141,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   public final Object visitCode_operation(
       AnalysisLangParser.Code_operationContext ctx) {
     CodingOperation op = visitCode_param(ctx.param);
-    operationList.add(op);
     return op;
   }
 
@@ -181,7 +178,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   public final ComputeOperation visitCompute_operation(
       AnalysisLangParser.Compute_operationContext ctx) {
     ComputeOperation op = visitCompute_param(ctx.param);
-    operationList.add(op);
     return op;
   }
 
@@ -219,7 +215,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   public final ConnectionOperation visitConnect_operation(
       AnalysisLangParser.Connect_operationContext ctx) {
     ConnectionOperation op = visitConnect_param(ctx.param);
-    operationList.add(op);
     return op;
   }
 
@@ -241,7 +236,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   public final ConstraintOperation visitConstraint_operation(
       Constraint_operationContext ctx) {
     ConstraintOperation op = visitConstraint_param(ctx.param);
-    operationList.add(op);
     return op;
   }
 
@@ -289,7 +283,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   public final Object visitForeach_chunk_operation(
       AnalysisLangParser.Foreach_chunk_operationContext ctx) {
     ForEachChunkOperation op = visitForeach_chunk_param(ctx.param);
-    operationList.add(op);
     return op;
   }
 
@@ -298,7 +291,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
       AnalysisLangParser.Foreach_chunk_paramContext ctx) {
     try {
       return new ForEachChunkOperation(getTableForTableName(visitTable(ctx.tableparam)),
-          visitNumberGetInt(ctx.levelparam), visitOperation(ctx.operationparam));
+          visitNumberGetInt(ctx.levelparam), visitOperationNoAdd(ctx.operationparam));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
       return null;
@@ -314,7 +307,6 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   public final LsaOperation visitLsa_operation(
       AnalysisLangParser.Lsa_operationContext ctx) {
     LsaOperation op = visitLsa_param(ctx.param);
-    operationList.add(op);
     return op;
   }
 
@@ -345,6 +337,11 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
   @Override
   public final Operation visitOperation(
       AnalysisLangParser.OperationContext ctx) {
+    operationList.add((Operation) visitChildren(ctx));
+    return operationList.get(operationList.size() - 1);
+  }
+
+  private Operation visitOperationNoAdd(AnalysisLangParser.OperationContext ctx) {
     return (Operation) visitChildren(ctx);
   }
 

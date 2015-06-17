@@ -9,15 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import net.tudelft.hi.e.common.enums.ChunkType;
 import net.tudelft.hi.e.common.enums.CompareOperator;
-import net.tudelft.hi.e.computation.BetweenOperation;
-import net.tudelft.hi.e.computation.ChunkingOperation;
-import net.tudelft.hi.e.computation.ConstraintOperation;
-import net.tudelft.hi.e.computation.Operation;
+import net.tudelft.hi.e.common.enums.ComputeOperator;
+import net.tudelft.hi.e.computation.*;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.input.Input;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,13 +37,20 @@ public class ScriptVisitorTest {
 
   @Before
   public void setUp() {
-    tables = new ArrayList<Table>();
-    for (int i = 0; i < 4; i++) {
-      Table t = new Table();
-      t.setName("table" + i);
-      tables.add(t);
-    }
-    visitor = new ScriptVisitor(tables);
+      tables = new ArrayList<Table>();
+      for (int i = 0; i < 4; i++) {
+          Table t = new Table();
+          t.setName("table" + i);
+          tables.add(t);
+      }
+      visitor = new ScriptVisitor(tables);
+  }
+
+  @After
+  public void tearDown() {
+    Input.clean();
+    visitor = null;
+    tables.clear();
   }
 
   /**
@@ -82,13 +90,6 @@ public class ScriptVisitorTest {
   }
 
   /**
-   * Test of visitCalc_operator method, of class ScriptVisitor.
-   */
-  @Test
-  public void testCalcOperator() {
-  }
-
-  /**
    * Test of visitChunk_param method, of class ScriptVisitor.
    */
   @Test
@@ -115,6 +116,25 @@ public class ScriptVisitorTest {
    */
   @Test
   public void testCodeOperation() {
+    final ANTLRInputStream input = new ANTLRInputStream(
+        "CODE [table0] ON { 1 [table0].[field] > 10 } AS \"tralala\"");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+
+    ArrayList<PatternDescription> patternList
+        = new ArrayList<PatternDescription>();
+    patternList.add(new PatternDescription(new SingleCount(1),
+        new RecordMatchesConditionCondition("field", new Condition(
+                CompareOperator.G, new NumberValue(10)))));
+    CodingOperation expected = new CodingOperation(tables.get(0),
+        PatternFactory.createPattern(patternList), "tralala");
+
+    List<Operation> parsedOperationList = visitor.getOperationList();
+
+    assertEquals(1, parsedOperationList.size());
+    assertEquals(expected, parsedOperationList.get(0));
   }
 
   /**
@@ -122,13 +142,7 @@ public class ScriptVisitorTest {
    */
   @Test
   public void testCompareOperation() {
-  }
 
-  /**
-   * Test of visitCompare_operator method, of class ScriptVisitor.
-   */
-  @Test
-  public void testCompareOperator() {
   }
 
   /**
@@ -136,13 +150,19 @@ public class ScriptVisitorTest {
    */
   @Test
   public void testComputeOperation() {
-  }
+    final ANTLRInputStream input = new ANTLRInputStream(
+        "COMPUTE [table0] AVG [table0].[field]");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
 
-  /**
-   * Test of visitCondition method, of class ScriptVisitor.
-   */
-  @Test
-  public void testCondition() {
+    ComputeOperation expected = new ComputeOperation(tables.get(0), ComputeOperator.AVG,
+        "field");
+    List<Operation> parsedOperationList = visitor.getOperationList();
+
+    assertEquals(1, parsedOperationList.size());
+    assertEquals(expected, parsedOperationList.get(0));
   }
 
   /**
@@ -150,6 +170,19 @@ public class ScriptVisitorTest {
    */
   @Test
   public void testConnectOperation() {
+    final ANTLRInputStream input = new ANTLRInputStream(
+        "CONNECT [table0].[field1] TO [table1].[field1]");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+
+    ConnectionOperation expected = new ConnectionOperation(tables.get(0), tables.get(1), "field1",
+        "field1");
+    List<Operation> parsedOperationList = visitor.getOperationList();
+
+    assertEquals(1, parsedOperationList.size());
+    assertEquals(expected, parsedOperationList.get(0));
   }
 
 
@@ -181,27 +214,7 @@ public class ScriptVisitorTest {
    */
   @Test
   public void testConvertOperation() {
-  }
 
-  /**
-   * Test of visitCount_pattern method, of class ScriptVisitor.
-   */
-  @Test
-  public void testCountPattern() {
-  }
-
-  /**
-   * Test of visitDate method, of class ScriptVisitor.
-   */
-  @Test
-  public void testDate() {
-  }
-
-  /**
-   * Test of visitField method, of class ScriptVisitor.
-   */
-  @Test
-  public void testField() {
   }
 
   /**
@@ -209,82 +222,20 @@ public class ScriptVisitorTest {
    */
   @Test
   public void testForeachChunkOperation() {
+    final ANTLRInputStream input = new ANTLRInputStream(
+        "FOR EACH CHUNK [table0] 1 CONSTRAINT [table0].[field3] == 10");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+
+    ForEachChunkOperation expected = new ForEachChunkOperation(tables.get(0), 1, new
+        ConstraintOperation(tables.get(0), "field3", CompareOperator.EQ, new NumberValue(10)));
+
+    List<Operation> parsedOperationList = visitor.getOperationList();
+
+    assertEquals(1, parsedOperationList.size());
+    assertEquals(expected, parsedOperationList.get(0));
   }
 
-  /**
-   * Test of visitFormula method, of class ScriptVisitor.
-   */
-  @Test
-  public void testFormula() {
-  }
-
-  /**
-   * Test of visitLsa_operation method, of class ScriptVisitor.
-   */
-  @Test
-  public void testLsaOperation() {
-  }
-
-  /**
-   * Test of visitNumber method, of class ScriptVisitor.
-   */
-  @Test
-  public void testNumber() {
-  }
-
-  /**
-   * Test of visitOperation method, of class ScriptVisitor.
-   */
-  @Test
-  public void testOperation() {
-  }
-
-  /**
-   * Test of visitParse method, of class ScriptVisitor.
-   */
-  @Test
-  public void testParse() {
-  }
-
-  /**
-   * Test of visitPattern method, of class ScriptVisitor.
-   */
-  @Test
-  public void testPattern() {
-  }
-
-  /**
-   * Test of visitRange method, of class ScriptVisitor.
-   */
-  @Test
-  public void testRange() {
-  }
-
-  /**
-   * Test of visitRecord_condition method, of class ScriptVisitor.
-   */
-  @Test
-  public void testRecordCondition() {
-  }
-
-  /**
-   * Test of visitTable method, of class ScriptVisitor.
-   */
-  @Test
-  public void testTable() {
-  }
-
-  /**
-   * Test of visitText method, of class ScriptVisitor.
-   */
-  @Test
-  public void testText() {
-  }
-
-  /**
-   * Test of visitValue method, of class ScriptVisitor.
-   */
-  @Test
-  public void testValue() {
-  }
 }

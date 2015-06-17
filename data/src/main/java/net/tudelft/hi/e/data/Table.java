@@ -25,7 +25,6 @@ public class Table extends ArrayList<Record> implements Serializable {
     name = "";
     chunks = new ArrayList<Chunk>();
     codes = new HashMap<String, Code>();
-    name = "";
   }
 
   /**
@@ -76,8 +75,7 @@ public class Table extends ArrayList<Record> implements Serializable {
   /**
    * Adding a code to the hashmap of codes for this table.
    *
-   * @param c
-   *          code to add.
+   * @param code code to add.
    */
   public void addCode(final Code code) {
     codes.put(code.getName(), code);
