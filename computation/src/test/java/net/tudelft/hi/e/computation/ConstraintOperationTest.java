@@ -79,6 +79,19 @@ public class ConstraintOperationTest {
     }
     assertEquals(resultTable, fo.getResult());
   }
+  
+  @Test
+  public void testExecute_date_neq() {
+    fo.setOperationParameters("dateField", CompareOperator.NEQ,
+        new DateValue(DateConversion.fromExcelSerialToDate(40010)));
+    assertEquals(true, fo.execute());
+
+    final Table resultTable = (Table) fo.inputData.clone();
+    // Create expected result table
+    resultTable.remove(10);
+    
+    assertEquals(resultTable, fo.getResult());
+  }
 
   @Test
   public void testExecute_date_g() {

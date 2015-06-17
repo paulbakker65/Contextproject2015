@@ -12,7 +12,8 @@ public class StringColumn extends Column {
   /**
    * Constructs a new StringColumn.
    *
-   * @param name the name of the column.
+   * @param name
+   *          the name of the column.
    */
   public StringColumn(final String name) {
     super(name);
