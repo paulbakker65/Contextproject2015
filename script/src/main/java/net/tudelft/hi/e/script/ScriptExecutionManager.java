@@ -5,13 +5,12 @@
  */
 package net.tudelft.hi.e.script;
 
-import net.tudelft.hi.e.computation.Operation;
-import net.tudelft.hi.e.data.Table;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import net.tudelft.hi.e.computation.Operation;
+import net.tudelft.hi.e.data.Table;
 
 /**
  * @author mawdegroot
@@ -41,7 +40,8 @@ public class ScriptExecutionManager {
 
   public void addScriptString(String scriptString) {
     updateTableList();
-    opList.addAll(OperationFactory.createOperationsFromString(tableList, scriptString));
+    opList.addAll(OperationFactory.createOperationsFromString(tableList,
+        scriptString));
   }
 
   public List<Table> executeAllScripts() {

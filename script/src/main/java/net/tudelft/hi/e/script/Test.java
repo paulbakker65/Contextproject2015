@@ -5,16 +5,15 @@
  */
 package net.tudelft.hi.e.script;
 
-import net.tudelft.hi.e.common.exceptions.ParseFailedException;
-import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.input.DataFile;
-import net.tudelft.hi.e.input.Input;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Input;
 
 /**
  * @author mawdegroot
@@ -29,9 +28,11 @@ public class Test {
     try {
       Input.addDataFile(new File("/Users/mawdegroot/aaa/ADMIRE_13.txt"),
           new File("/Users/mawdegroot/aaa/settings.xml"));
-      Input.addDataFile(new File("/Users/mawdegroot/aaa/Afspraken_geanonimiseerd.csv"),
+      Input.addDataFile(new File(
+          "/Users/mawdegroot/aaa/Afspraken_geanonimiseerd.csv"),
           new File("/Users/mawdegroot/aaa/settings_hospital.xml"));
-      Input.addDataFile(new File("/Users/mawdegroot/aaa/Q_ADMIRE_metingen_pagevisits_141214.csv"),
+      Input.addDataFile(new File(
+          "/Users/mawdegroot/aaa/Q_ADMIRE_metingen_pagevisits_141214.csv"),
           new File("/Users/mawdegroot/aaa/settings_website.xml"));
     } catch (Exception ex) {
 
@@ -49,7 +50,8 @@ public class Test {
     ScriptExecutionManager exec = new ScriptExecutionManager(tables);
     exec.addScriptString("CONSTRAINT [website].[Login] == \"admire13\"");
     exec.addScriptString("CHUNK [website].[Date] USING MONTH 1");
-    exec.addScriptString("FOR EACH CHUNK [website] 1 COMPUTE [website] COUNT() [website].[Login]");
+    exec.addScriptString(
+        "FOR EACH CHUNK [website] 1 COMPUTE [website] COUNT() [website].[Login]");
 
     exec.executeAllScripts();
 

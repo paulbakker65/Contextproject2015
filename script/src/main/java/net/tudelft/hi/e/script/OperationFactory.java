@@ -1,15 +1,14 @@
 package net.tudelft.hi.e.script;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Operation Factory to create Operations according to the specifications in a
@@ -54,7 +53,8 @@ class OperationFactory {
     List<Operation> listOfOperations = null;
     try {
       listOfOperations
-          .addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(filePath)));
+          .addAll(createOperationsUsingInputStream(tableList,
+                  new ANTLRFileStream(filePath)));
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -70,7 +70,8 @@ class OperationFactory {
    * @param inputStream input stream that provides script input.
    * @return list of operations.
    */
-  private static List<Operation> createOperationsUsingInputStream(final List<Table> tableList,
+  private static List<Operation> createOperationsUsingInputStream(
+      final List<Table> tableList,
       final ANTLRInputStream inputStream) {
     final AnalysisLangLexer lexer = new AnalysisLangLexer(inputStream);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
