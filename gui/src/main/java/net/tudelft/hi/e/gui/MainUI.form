@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="main.MainUI">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="net.tudelft.hi.e.gui.MainUI">
   <grid id="cbd77" binding="contentPane" layout-manager="GridBagLayout">
     <constraints>
       <xy x="48" y="54" width="584" height="556"/>
     </constraints>
     <properties>
-      <preferredSize width="800" height="600"/>
+      <opaque value="true"/>
+      <preferredSize width="1024" height="720"/>
     </properties>
     <border type="none"/>
     <children>
@@ -23,6 +24,9 @@
               <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
+              <focusPainted value="false"/>
+              <horizontalAlignment value="2"/>
+              <icon value="icons/add.png"/>
               <text value="Add File(s)"/>
             </properties>
           </component>
@@ -32,6 +36,9 @@
               <gridbag weightx="1.0" weighty="100.0"/>
             </constraints>
             <properties>
+              <focusPainted value="false"/>
+              <horizontalAlignment value="2"/>
+              <icon value="icons/remove.png"/>
               <text value="Remove Selected"/>
             </properties>
           </component>
@@ -42,7 +49,7 @@
             </constraints>
             <properties>
               <cellSelectionEnabled value="true"/>
-              <columnSelectionAllowed value="false"/>
+              <columnSelectionAllowed value="true"/>
               <showVerticalLines value="true"/>
             </properties>
           </component>
@@ -52,6 +59,11 @@
               <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
+              <focusPainted value="false"/>
+              <hideActionText value="false"/>
+              <horizontalAlignment value="2"/>
+              <horizontalTextPosition value="11"/>
+              <icon value="icons/exit.png"/>
               <text value="Cancel"/>
             </properties>
           </component>
@@ -61,6 +73,9 @@
               <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
+              <focusPainted value="false"/>
+              <horizontalAlignment value="2"/>
+              <icon value="icons/run.png"/>
               <text value="Run Script"/>
             </properties>
           </component>
@@ -91,6 +106,9 @@
             </constraints>
             <properties>
               <enabled value="true"/>
+              <focusPainted value="false"/>
+              <horizontalAlignment value="2"/>
+              <icon value="icons/folder.png"/>
               <text value="View Directory"/>
             </properties>
           </component>
@@ -100,8 +118,10 @@
               <gridbag top="3" left="0" bottom="0" right="5" weightx="0.0" weighty="1.0"/>
             </constraints>
             <properties>
-              <maximumSize width="106" height="32"/>
-              <minimumSize width="106" height="32"/>
+              <focusPainted value="false"/>
+              <icon value="icons/search.png"/>
+              <maximumSize width="116" height="41"/>
+              <minimumSize width="116" height="41"/>
               <preferredSize width="120" height="26"/>
               <text value="Browse"/>
             </properties>
@@ -126,22 +146,15 @@
               <editable value="false"/>
             </properties>
           </component>
-          <component id="ea440" class="javax.swing.JButton" binding="openFileButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="0" bottom="0" right="5" weightx="0.0" weighty="1.0"/>
-            </constraints>
-            <properties>
-              <preferredSize width="120" height="26"/>
-              <text value="Open File"/>
-            </properties>
-          </component>
           <component id="cd194" class="javax.swing.JButton" binding="editScriptButton" default-binding="true">
             <constraints>
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="1.0"/>
             </constraints>
             <properties>
+              <focusPainted value="false"/>
+              <horizontalAlignment value="2"/>
+              <icon value="icons/edit.png"/>
               <text value="Edit Script"/>
             </properties>
           </component>
@@ -151,6 +164,9 @@
               <gridbag top="0" left="0" bottom="3" right="0" weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <focusPainted value="false"/>
+              <horizontalAlignment value="10"/>
+              <icon value="icons/icon.png"/>
               <text value="Visualizations"/>
             </properties>
           </component>
@@ -160,8 +176,23 @@
               <gridbag top="0" left="0" bottom="4" right="0" weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <focusPainted value="false"/>
+              <horizontalAlignment value="2"/>
+              <icon value="icons/settings.png"/>
               <margin top="2" left="14" bottom="2" right="14"/>
               <text value="Settings Builder"/>
+            </properties>
+          </component>
+          <component id="ea440" class="javax.swing.JButton" binding="openFileButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="0" right="5" weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <focusPainted value="false"/>
+              <icon value="icons/search.png"/>
+              <preferredSize width="120" height="26"/>
+              <text value="Open File"/>
             </properties>
           </component>
         </children>

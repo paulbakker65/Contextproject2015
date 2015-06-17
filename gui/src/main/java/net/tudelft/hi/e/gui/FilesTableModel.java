@@ -1,4 +1,7 @@
-package net.tudelft.hi.e.input;
+package net.tudelft.hi.e.gui;
+
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Input;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;

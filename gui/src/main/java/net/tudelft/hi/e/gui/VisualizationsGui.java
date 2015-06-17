@@ -94,7 +94,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     JComponent contentPane = new VisualizationsGui(table);
     contentPane.setOpaque(true);
-    contentPane.setPreferredSize(new Dimension(1024, 600));
+    contentPane.setPreferredSize(new Dimension(1024, 720));
     frame.setContentPane(contentPane);
 
     GUI.init(frame);

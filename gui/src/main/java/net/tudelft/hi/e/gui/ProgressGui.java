@@ -61,7 +61,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
 
     JComponent contentPane = new ProgressGui();
     contentPane.setOpaque(true);
-    contentPane.setPreferredSize(new Dimension(800, 600));
+    contentPane.setPreferredSize(new Dimension(1024, 720));
     frame.setContentPane(contentPane);
 
     ((ProgressGui)contentPane).setFrame(frame);
@@ -134,7 +134,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(previewButton);
     
     exportButton = new JButton("Export with custom delimiter");
-    exportButton.setIcon(GUI.createImageIcon("table.png"));
+    exportButton.setIcon(GUI.createImageIcon("save.png"));
     exportButton.setEnabled(false);
     exportButton.addActionListener(new ActionListener() {
       @Override
@@ -181,6 +181,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     return panel;
   }
 
+
   /**
    * Invoked when task's progress property changes.
    */
@@ -218,6 +219,8 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     }
   }
 
+
+
   public void onVisualizations() {
     Table table = task.getTable(comboPreviews.getSelectedIndex());
     VisualizationsGui.init(table);
@@ -229,20 +232,16 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   
   public void onExport() {
 	  Character[] delimiters = new Character[]{',',  ';', '.', '\t'};
-	  Object result = JOptionPane.showInputDialog(frame, "Please select delimiter:", "Change delimiter", JOptionPane.PLAIN_MESSAGE, GUI.createImageIcon("table.png"), delimiters, ',');
+	  Object result = JOptionPane.showInputDialog(frame, "Please select delimiter:", "Change delimiter", JOptionPane.PLAIN_MESSAGE, GUI.createImageIcon("save.png"), delimiters, ',');
 	  if (result == null) {
 		  return;
 	  }
 	  Exporter.delimiter = (char) result;
-	  
-	 
+
 	  Table table = task.getTable(comboPreviews.getSelectedIndex());
 	  String filepath = Input.getOutputDir() + "/output_" + table.getName();
       task.exportFile(table, filepath);
       task.exportSettings(table, filepath + ".xml");
-	  
-	  
-	  
   }
 
   public void onViewOutputDir() {
@@ -257,6 +256,9 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   public void onExit() {
     frame.dispose();
   }
+
+
+
 
   public void setFrame(JFrame frame) {
     this.frame = frame;
