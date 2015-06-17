@@ -83,11 +83,19 @@ public class BetweenOperationTest {
 
     assertEquals(9, res.size());
     
+<<<<<<< HEAD
     assertEquals(new NumberValue(86400 * 2 / (60 * 60)), res.get(1).get("time_between"));
     assertEquals(new NumberValue(86400 * 1 / (60 * 60)), res.get(6).get("time_between"));
 
     for (int index : Arrays.asList(new Integer[] {0, 2, 3, 4, 5, 7, 8})) {
       assertNull(res.get(index).get("time_between"));
+=======
+    assertEquals(new NumberValue(86400 * 2 / (60 * 60)), res.get(1).get("time_before_B"));
+    assertEquals(new NumberValue(86400 * 1 / (60 * 60)), res.get(6).get("time_before_B"));
+
+    for (int index : Arrays.asList(new Integer[] {0, 2, 3, 4, 5, 7, 8})) {
+      assertNull(res.get(index).get("time_before_B"));
+>>>>>>> d92a7eaa896d3a5033f4951e9f88b5325390f93c
     }
     
   }
