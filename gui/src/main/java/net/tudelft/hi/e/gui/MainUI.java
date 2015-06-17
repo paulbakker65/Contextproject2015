@@ -62,10 +62,11 @@ public class MainUI extends JFrame {
       new FileNameExtensionFilter("Excel files", "xls", "xlsx");
   private static FileNameExtensionFilter serfilter =
       new FileNameExtensionFilter("SER files", "ser");
+  private static FileNameExtensionFilter allsupportedfilter =
+          new FileNameExtensionFilter("All supported files", "csv", "txt", "xls", "xlsx");
 
   private static File previousDirectory;
 
-  private boolean exit = false;
 
   /**
    * Creates a gui for select input files.
@@ -73,12 +74,38 @@ public class MainUI extends JFrame {
   public MainUI() {
     init();
 
+    setCloseOperation();
+
+    setButtonActionListeners();
+
+    new MainUiContextMenu(filesTable);
+  }
+
+  /**
+   * Initializes the GUI. Sets the dialog look to match the system look,
+   * loads the icon and sets the file path fields.
+   */
+  public void init() {
+    GUI.setSystemLook();
+    setContentPane(contentPane);
+
+    getRootPane().setDefaultButton(buttonRunScript);
+
+    if (Input.hasScript()) {
+      textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
+    }
+    if (Input.hasOutput()) {
+      textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
+    }
+  }
+
+  private void setCloseOperation() {
     contentPane.registerKeyboardAction(new ActionListener() {
-      public void actionPerformed(ActionEvent event) {
-        onCancel();
-      }
-    }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-       JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                                         public void actionPerformed(ActionEvent event) {
+                                           onCancel();
+                                         }
+                                       }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     addWindowListener(new WindowAdapter() {
@@ -86,7 +113,9 @@ public class MainUI extends JFrame {
         onCancel();
       }
     });
+  }
 
+  private void setButtonActionListeners() {
     openFileButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent event) {
@@ -156,25 +185,9 @@ public class MainUI extends JFrame {
     });
   }
 
-  /**
-   * Initializes the GUI. Sets the dialog look to match the system look,
-   * loads the icon and sets the file path fields.
-   */
-  public void init() {
-    GUI.setSystemLook();
-    setContentPane(contentPane);
 
-    getRootPane().setDefaultButton(buttonRunScript);
 
-    GUI.setIconImage(this);
 
-    if (Input.hasScript()) {
-      textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
-    }
-    if (Input.hasOutput()) {
-      textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
-    }
-  }
 
   /**
    * Opens a open file dialog for the user to select the script file.
@@ -284,65 +297,6 @@ public class MainUI extends JFrame {
   }
 
   /**
-   * Shows a file dialog for the user to select the data file.
-   */
-  public static File openDataFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
-    filters.add(xlsfilter);
-    filters.add(csvfilter);
-    return openFile(filters, "data file");
-  }
-
-  /**
-   * Shows a file dialog for the user to select a ser file.
-   */
-  public static File openTableFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
-    filters.add(serfilter);
-    return openFile(filters, "table file");
-  }
-
-  /**
-   * Shows a file dialog for the user to select the settings file.
-   */
-  public static File openSettingsFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
-    filters.add(xmlfilter);
-    return openFile(filters, "settings file");
-  }
-
-  /**
-   * Shows a file dialog for the user to select a file.
-   */
-  private static File openFile(List<FileNameExtensionFilter> filters, String title) {
-    File file;
-    JFileChooser chooser = new JFileChooser(previousDirectory);
-    chooser.setDialogTitle("Open " + title + ".");
-
-    for (FileNameExtensionFilter filter : filters) {
-      chooser.setFileFilter(filter);
-    }
-
-    int state = chooser.showOpenDialog(null);
-
-    if (state == JFileChooser.APPROVE_OPTION) {
-
-      previousDirectory = chooser.getCurrentDirectory();
-      file = chooser.getSelectedFile();
-      if (!Input.exists(file)) {
-        JOptionPane.showMessageDialog(null,
-                "Error opening " + title + ", the " + title + " can not be found.",
-                "File not found.", JOptionPane.ERROR_MESSAGE);
-        return null;
-      }
-      System.out.println("Selected " + title + ": " + file);
-      return file;
-    }
-
-    return null;
-  }
-
-  /**
    * Opens a open file dialog for the user to select a data file and a settings file. When the user
    * is done, the file wil be displayed in the files table.
    */
@@ -398,6 +352,7 @@ public class MainUI extends JFrame {
     filesTable.repaint();
   }
 
+
   private void onSettingsBuilder() {
 
   }
@@ -437,12 +392,72 @@ public class MainUI extends JFrame {
    */
   private void onCancel() {
     dispose();
-    exit = true;
   }
 
-  public boolean isExit() {
-    return exit;
+
+
+
+  /**
+   * Shows a file dialog for the user to select the data file.
+   */
+  public static File openDataFile() {
+    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    filters.add(xlsfilter);
+    filters.add(csvfilter);
+    filters.add(allsupportedfilter);
+    return openFile(filters, "data file");
   }
+
+  /**
+   * Shows a file dialog for the user to select a ser file.
+   */
+  public static File openTableFile() {
+    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    filters.add(serfilter);
+    return openFile(filters, "table file");
+  }
+
+  /**
+   * Shows a file dialog for the user to select the settings file.
+   */
+  public static File openSettingsFile() {
+    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    filters.add(xmlfilter);
+    return openFile(filters, "settings file");
+  }
+
+  /**
+   * Shows a file dialog for the user to select a file.
+   */
+  private static File openFile(List<FileNameExtensionFilter> filters, String title) {
+    File file;
+    JFileChooser chooser = new JFileChooser(previousDirectory);
+    chooser.setDialogTitle("Open " + title + ".");
+
+    for (FileNameExtensionFilter filter : filters) {
+      chooser.setFileFilter(filter);
+    }
+
+    int state = chooser.showOpenDialog(null);
+
+    if (state == JFileChooser.APPROVE_OPTION) {
+
+      previousDirectory = chooser.getCurrentDirectory();
+      file = chooser.getSelectedFile();
+      if (!Input.exists(file)) {
+        JOptionPane.showMessageDialog(null,
+                "Error opening " + title + ", the " + title + " can not be found.",
+                "File not found.", JOptionPane.ERROR_MESSAGE);
+        return null;
+      }
+      System.out.println("Selected " + title + ": " + file);
+      return file;
+    }
+
+    return null;
+  }
+
+
 
 
   {
