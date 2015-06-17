@@ -211,44 +211,42 @@ public class ColumnTest {
     final StringColumn column = new StringColumn("testName");
     assertEquals("name: testName,\ttype: text", column.toString());
   }
-  
+
   @Test
   public void testReadColumn() throws WrongXmlException {
-	  Element element = Mockito.mock(Element.class);	  
-	  when(element.getAttribute("name")).thenReturn("Test");
-	  
-	  when(element.getAttribute("type")).thenReturn("number");
-	  assertEquals(new NumberColumn("Test"), Column.readColumn(element));
-	  
-	  when(element.getAttribute("type")).thenReturn("string");
-	  assertEquals(new StringColumn("Test"), Column.readColumn(element));
-	  
-	  when(element.getAttribute("type")).thenReturn("date");
-	  when(element.getAttribute("format")).thenReturn("dd-MM-yyyy");
-	  when(element.getAttribute("target")).thenReturn("Date");
-	  assertEquals(new DateColumn("Test"), Column.readColumn(element));
-	  
-	  when(element.getAttribute("type")).thenReturn("");
-	  assertEquals(new StringColumn("Test"), Column.readColumn(element));  
+    Element element = Mockito.mock(Element.class);
+    when(element.getAttribute("name")).thenReturn("Test");
+
+    when(element.getAttribute("type")).thenReturn("number");
+    assertEquals(new NumberColumn("Test"), Column.readColumn(element));
+
+    when(element.getAttribute("type")).thenReturn("string");
+    assertEquals(new StringColumn("Test"), Column.readColumn(element));
+
+    when(element.getAttribute("type")).thenReturn("date");
+    when(element.getAttribute("format")).thenReturn("dd-MM-yyyy");
+    when(element.getAttribute("target")).thenReturn("Date");
+    assertEquals(new DateColumn("Test"), Column.readColumn(element));
+
+    when(element.getAttribute("type")).thenReturn("");
+    assertEquals(new StringColumn("Test"), Column.readColumn(element));
   }
-  
-  @Test (expected = WrongXmlException.class) 
+
+  @Test(expected = WrongXmlException.class)
   public void testReadColumnNoName() throws WrongXmlException {
-	  Element element = Mockito.mock(Element.class);
-	  when(element.getAttribute("name")).thenReturn("");
-	  
-	  Column.readColumn(element);
+    Element element = Mockito.mock(Element.class);
+    when(element.getAttribute("name")).thenReturn("");
+
+    Column.readColumn(element);
   }
-  
-  @Test (expected = WrongXmlException.class) 
+
+  @Test(expected = WrongXmlException.class)
   public void testReadColumnWrongType() throws WrongXmlException {
-	  Element element = Mockito.mock(Element.class);
-	  when(element.getAttribute("name")).thenReturn("Test");
-	  when(element.getAttribute("type")).thenReturn("test");
-	  
-	  Column.readColumn(element);
+    Element element = Mockito.mock(Element.class);
+    when(element.getAttribute("name")).thenReturn("Test");
+    when(element.getAttribute("type")).thenReturn("test");
+
+    Column.readColumn(element);
   }
-  
-  
-  
+
 }

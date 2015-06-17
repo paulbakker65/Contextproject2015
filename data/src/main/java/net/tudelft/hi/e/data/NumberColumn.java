@@ -12,7 +12,8 @@ public class NumberColumn extends Column {
   /**
    * Constructs a new NumberColumn.
    *
-   * @param name the name of the column.
+   * @param name
+   *          the name of the column.
    */
   public NumberColumn(final String name) {
     super(name);

@@ -26,7 +26,8 @@ public class DateColumn extends Column {
   /**
    * Constructs a new DateColumn using a default format.
    *
-   * @param name the name of the column.
+   * @param name
+   *          the name of the column.
    */
   public DateColumn(final String name) {
     this(name, isoFormatStr);
@@ -35,8 +36,10 @@ public class DateColumn extends Column {
   /**
    * Constructs a new DateColumn.
    *
-   * @param name the name of the column.
-   * @param format the date format of the column.
+   * @param name
+   *          the name of the column.
+   * @param format
+   *          the date format of the column.
    */
   public DateColumn(final String name, final String format) {
     this(name, format, null);
