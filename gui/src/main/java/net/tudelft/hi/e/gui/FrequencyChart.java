@@ -1,18 +1,25 @@
 package net.tudelft.hi.e.gui;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+
 import javax.swing.JFrame;
+
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
@@ -41,6 +48,10 @@ public class FrequencyChart extends JFrame {
     JFreeChart chart = createChart(dataset, column);
 
     ChartPanel chartPanel = new ChartPanel(chart);
+    CategoryPlot plot = (CategoryPlot) chart.getPlot();
+    BarRenderer renderer = (BarRenderer) plot.getRenderer();
+    renderer.setShadowVisible(false);
+    renderer.setBarPainter(new StandardBarPainter());
 
     chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 
