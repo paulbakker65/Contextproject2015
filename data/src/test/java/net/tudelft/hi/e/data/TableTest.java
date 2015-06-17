@@ -138,10 +138,9 @@ public class TableTest {
     table.add(record);
     table.add(record2);
 
-    List<Column> expected =
-        new ArrayList<Column>(Arrays.asList(new StringColumn("string"), new NumberColumn("number"),
-            new DateColumn("date", "ddMMyy", null), new DateColumn("time", "ddMMyy", "date"),
-            new StringColumn("string2")));
+    List<Column> expected = new ArrayList<Column>(Arrays.asList(new StringColumn("string"),
+        new NumberColumn("number"), new DateColumn("date", "ddMMyy", null), new DateColumn("time",
+            "ddMMyy", "date"), new StringColumn("string2")));
 
     assertEquals(expected, table.getColumns());
   }

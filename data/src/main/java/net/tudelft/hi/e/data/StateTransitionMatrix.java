@@ -68,9 +68,8 @@ public class StateTransitionMatrix extends Table {
         List<Column> column = new ArrayList<Column>();
         column.add(new StringColumn("Code"));
         column.add(new StringColumn("Date"));
-        Record record =
-            new Record(column, new Value[] { new StringValue(code.getName()),
-                event.get(0).get(dateColumn) });
+        Record record = new Record(column, new Value[] { new StringValue(code.getName()),
+            event.get(0).get(dateColumn) });
         codeTable.add(record);
       }
     }
@@ -94,8 +93,7 @@ public class StateTransitionMatrix extends Table {
 
   }
 
-  private String countTransitionsForRecord(final String codeName,
-          final Value code) {
+  private String countTransitionsForRecord(final String codeName, final Value code) {
     for (Record rec : this) {
       if (rec.get("id").toString().equals(codeName)) {
         NumberValue num = (NumberValue) rec.get(code.toString());
@@ -109,7 +107,7 @@ public class StateTransitionMatrix extends Table {
   @Override
   public int hashCode() {
     int hash = 7;
-//    hash = 37 * hash + Objects.hashCode(this.column);
+    // hash = 37 * hash + Objects.hashCode(this.column);
     hash = 37 * hash + this.getName().hashCode();
     return hash;
   }
@@ -125,7 +123,5 @@ public class StateTransitionMatrix extends Table {
     final StateTransitionMatrix other = (StateTransitionMatrix) obj;
     return super.equals(other);
   }
-
-
 
 }

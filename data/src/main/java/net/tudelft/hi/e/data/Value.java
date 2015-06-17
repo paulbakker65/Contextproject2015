@@ -19,7 +19,8 @@ public abstract class Value implements Comparable<Value>, Serializable {
    * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
    * the instance of the Value to pick a specific compareTo overload.
    *
-   * @param other Value object to compare to
+   * @param other
+   *          Value object to compare to
    * @return 0 if equal to o <br>
    *         -1 if less than o <br>
    *         1 if more than o, or if the values cannot be compared <br>
@@ -97,7 +98,6 @@ public abstract class Value implements Comparable<Value>, Serializable {
   public boolean isTime() {
     return false;
   }
-
 
   /**
    * Returns the type of the value.
