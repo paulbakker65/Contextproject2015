@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutFocusTraversalPolicy;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import net.tudelft.hi.e.export.SettingsWriter;
@@ -185,6 +186,7 @@ public class SettingsGenerator extends JFrame {
       example = chooser.getSelectedFile();
       filePathLabel.setText(example.getAbsolutePath());
       nameTextField.setText(example.getName());
+      csp.showPreviewHint();
     }
   }
 

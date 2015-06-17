@@ -1,6 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
@@ -23,8 +22,8 @@ public class ColumnSettingsPane extends JScrollPane {
   private ColumnSettingsPane(JTable empty) {
     super(empty);
     theTable = empty;
-    DefaultTableModel dtm = new DefaultTableModel(0,1);
-    dtm.setColumnIdentifiers(new Object[] {"Click 'Choose example' and then 'Preview' to get started."});
+    DefaultTableModel dtm = new DefaultTableModel(0, 1);
+    dtm.setColumnIdentifiers(new Object[] { "Click 'Choose example' and then 'Preview' to get started." });
     theTable.setModel(dtm);
   }
 
@@ -48,6 +47,12 @@ public class ColumnSettingsPane extends JScrollPane {
     comboBox.addItem("date");
 
     theTable.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(comboBox));
+  }
+
+  public void showPreviewHint() {
+    DefaultTableModel dtm = new DefaultTableModel(0, 1);
+    dtm.setColumnIdentifiers(new Object[] { "Set the header, starting line and delimiter, and then press 'Preview' to edit the columns" });
+    theTable.setModel(dtm);
   }
 
 }
