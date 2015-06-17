@@ -18,9 +18,9 @@ parse
 operation
 : between_operation
 | chunk_operation
+| foreach_chunk_operation
 | code_operation
 | connect_operation
-| compare_operation
 | constraint_operation
 | convert_operation
 | compute_operation
@@ -40,12 +40,12 @@ chunk_operation
 : 'CHUNK' param=chunk_param
 ;
 
-code_operation
-: 'CODE' param=code_param
+foreach_chunk_operation
+: 'FOR EACH CHUNK' param=foreach_chunk_param
 ;
 
-compare_operation
-: 'COMPARE' param=compare_param
+code_operation
+: 'CODE' param=code_param
 ;
 
 compute_operation
@@ -91,6 +91,13 @@ chunk_type returns [int i]
 ;
 
 ///////////////////////////////////////
+// For each Chunk                    //
+///////////////////////////////////////
+foreach_chunk_param
+: tableparam=table levelparam=number operationparam=operation
+;
+
+///////////////////////////////////////
 // Code                              //
 ///////////////////////////////////////
 code_param
@@ -98,17 +105,10 @@ code_param
 ;
 
 ///////////////////////////////////////
-// Compare                           //
-///////////////////////////////////////
-compare_param
-: fieldparam=field opparam=compare_operator anotherfieldparam=field
-;
-
-///////////////////////////////////////
 // Compute                           //
 ///////////////////////////////////////
 compute_param
-: fieldparam=field '<-' formulaparam=formula
+: tableparam=table computeopparam=compute_operator fieldparam=field
 ;
 
 ///////////////////////////////////////
@@ -192,6 +192,15 @@ calc_operator returns [CalcOperator op]
 | opparam=MODULO                     { $op = CalcOperator.MODULO;  }
 ;
 
+compute_operator returns [ComputeOperator op]
+: opparam=AVG                        { $op = ComputeOperator.AVG;    }
+| opparam=COUNT                      { $op = ComputeOperator.COUNT;  }
+| opparam=MAX                        { $op = ComputeOperator.MAX;    }
+| opparam=MIN                        { $op = ComputeOperator.MIN;    }
+| opparam=STDDEV                     { $op = ComputeOperator.STDEV; }
+| opparam=SUM                        { $op = ComputeOperator.SUM;    }
+;
+
 formula returns [Formula form]
 : fieldparam=field opparam=calc_operator anotherfieldparam=field
   { $form = new Formula($fieldparam.fieldname, $opparam.op, $anotherfieldparam.fieldname); }
@@ -251,6 +260,13 @@ DIVIDE   : '/' ;
 PLUS     : '+' ;
 MINUS    : '-' ;
 MODULO   : '%' ;
+AVG      : 'AVG()' ;
+COUNT    : 'COUNT()' ;
+MAX      : 'MAX()' ;
+MIN      : 'MIN()' ;
+SUM      : 'SUM()' ;
+STDDEV   : 'STDDEV()' ;
+
 
 NUMBER
 : INT
