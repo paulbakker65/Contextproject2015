@@ -41,9 +41,9 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
    * Creates a Record.
    *
    * @param columns
-   *        The list of column names.
+   *          The list of column names.
    * @param values
-   *        An array of values.
+   *          An array of values.
    * @param tableName
    *          the original file name.
    */
@@ -55,9 +55,9 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
    * Creates a Record.
    *
    * @param columns
-   *        The list of column names.
+   *          The list of column names.
    * @param values
-   *        An array of values.
+   *          An array of values.
    * @param tableName
    *          the original file name.
    */
@@ -73,7 +73,8 @@ public class Record extends LinkedHashMap<String, Value> implements Serializable
   /**
    * Creates a record by copying the other record.
    *
-   * @param otherRecord the record to copy.
+   * @param otherRecord
+   *          the record to copy.
    */
   public Record(Record otherRecord) {
     super(otherRecord);

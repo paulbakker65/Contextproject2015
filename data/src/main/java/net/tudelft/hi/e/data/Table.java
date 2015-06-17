@@ -3,7 +3,7 @@ package net.tudelft.hi.e.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class Table extends ArrayList<Record> implements Serializable {
     super();
     name = "";
     chunks = new ArrayList<Chunk>();
-    codes = new HashMap<String, Code>();
+    codes = new LinkedHashMap<String, Code>();
     name = "";
   }
 
@@ -57,9 +57,9 @@ public class Table extends ArrayList<Record> implements Serializable {
     name = new String(otherTable.name);
     chunks = new ArrayList<Chunk>(otherTable.chunks);
     if (!otherTable.codes.isEmpty()) {
-      codes = new HashMap<String, Code>(otherTable.codes);
+      codes = new LinkedHashMap<String, Code>(otherTable.codes);
     } else {
-      codes = new HashMap<String, Code>();
+      codes = new LinkedHashMap<String, Code>();
     }
   }
 
@@ -132,7 +132,7 @@ public class Table extends ArrayList<Record> implements Serializable {
    * @param codes
    *          the new codes.
    */
-  public void setCodes(HashMap<String, Code> codes) {
+  public void setCodes(LinkedHashMap<String, Code> codes) {
     this.codes = codes;
   }
 

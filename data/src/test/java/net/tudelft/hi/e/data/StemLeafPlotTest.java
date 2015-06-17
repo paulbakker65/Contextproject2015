@@ -1,18 +1,10 @@
 package net.tudelft.hi.e.data;
 
-import java.util.ArrayList;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.NullValue;
-import net.tudelft.hi.e.data.NumberColumn;
-import net.tudelft.hi.e.data.NumberValue;
-import net.tudelft.hi.e.data.Record;
-import net.tudelft.hi.e.data.StemLeafPlot;
-import net.tudelft.hi.e.data.StringColumn;
-import net.tudelft.hi.e.data.StringValue;
-import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.data.Value;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,25 +58,25 @@ public class StemLeafPlotTest {
 
     for (Record record : plot) {
       switch (record.get("Stem").toString()) {
-        case "1" :
+        case "1":
           assertEquals(record, test.get(0));
           break;
-        case "2" :
+        case "2":
           assertEquals(record, test.get(1));
           break;
-        case "4" :
+        case "4":
           assertEquals(record, test.get(2));
           break;
-        case "5" :
+        case "5":
           assertEquals(record, test.get(3));
           break;
-        case "3" :
+        case "3":
           assertEquals(record, test.get(4));
           break;
-        case "0" :
+        case "0":
           assertEquals(record, test.get(5));
           break;
-        default :
+        default:
           assertTrue(false);
       }
     }
@@ -104,16 +96,51 @@ public class StemLeafPlotTest {
 
     for (Record record : plot) {
       switch (record.get("Stem").toString()) {
-        case "0" :
+        case "0":
           assertEquals(record, test.get(0));
           break;
-        case "1" :
+        case "1":
           assertEquals(record, test.get(1));
           break;
-        default :
+        default:
           assertTrue(false);
       }
     }
+  }
+
+  @Test
+  public void testEqualsHashCode() {
+    final StemLeafPlot plot = new StemLeafPlot(table, "numbers", 2);
+    final StemLeafPlot plot2 = new StemLeafPlot(table, "numbers", 3);
+
+    ArrayList<Column> column = new ArrayList<Column>();
+    column.add(new StringColumn("Stem"));
+    column.add(new StringColumn("Leaf"));
+
+    StemLeafPlot test = new StemLeafPlot(new Table(), "numbers", 2);
+    test.add(new Record(column, new Value[] { new StringValue("1"), new StringValue("133") }));
+    test.add(new Record(column, new Value[] { new StringValue("2"), new StringValue("2833") }));
+    test.add(new Record(column, new Value[] { new StringValue("4"), new StringValue("465558") }));
+    test.add(new Record(column, new Value[] { new StringValue("5"), new StringValue("60") }));
+    test.add(new Record(column, new Value[] { new StringValue("3"), new StringValue("4") }));
+    test.add(new Record(column, new Value[] { new StringValue("0"), new StringValue("5") }));
+
+    assertEquals(test, plot);
+
+    StemLeafPlot test2 = new StemLeafPlot(new Table(), "numbers", 3);
+    test2.add(new Record(column, new Value[] { new StringValue("0"),
+        new StringValue("1122424544430451") }));
+    test2.add(new Record(column, new Value[] { new StringValue("1"), new StringValue("2") }));
+
+    assertEquals(test2, plot2);
+
+    assertEquals(
+        ((((((23 * 5 + table.hashCode()) * 23) + column.hashCode()) * 23) + "numbers".hashCode()) * 23) + 2,
+        plot.hashCode());
+    assertEquals(
+        ((((((23 * 5 + table.hashCode()) * 23) + column.hashCode()) * 23) + "numbers".hashCode()) * 23) + 3,
+        plot2.hashCode());
+
   }
 
 }

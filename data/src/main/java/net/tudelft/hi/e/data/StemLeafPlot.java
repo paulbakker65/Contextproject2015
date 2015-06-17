@@ -126,26 +126,7 @@ public class StemLeafPlot extends Table {
       return false;
     }
     final StemLeafPlot other = (StemLeafPlot) obj;
-    return deepEquals(other);
-  }
-
-  private boolean deepEquals(StemLeafPlot other) {
-    return equalTargetColumn(other) && equalTable(other) && equalOrder(other);
-  }
-
-  private boolean equalTargetColumn(StemLeafPlot other) {
-    return Objects.equals(this.column, other.column);
-  }
-
-  private boolean equalTable(StemLeafPlot other) {
-    if (!Objects.equals(this.table, other.table)) {
-      return false;
-    }
-    return Objects.equals(this.columns, other.columns);
-  }
-
-  private boolean equalOrder(StemLeafPlot other) {
-    return this.order == other.order;
+    return super.equals(other);
   }
 
 }
