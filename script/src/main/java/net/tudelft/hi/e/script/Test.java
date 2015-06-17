@@ -5,18 +5,18 @@
  */
 package net.tudelft.hi.e.script;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
- *
  * @author mawdegroot
  */
 public class Test {
@@ -27,13 +27,11 @@ public class Test {
     List<Table> tables = new ArrayList<Table>();
 
     try {
-    Input.addDataFile(new File("/Users/mawdegroot/aaa/ADMIRE_13.txt"), new File(
-        "/Users/mawdegroot/aaa/settings.xml"));
-    Input.addDataFile(new File(
-        "/Users/mawdegroot/aaa/Afspraken_geanonimiseerd.csv"), new File(
-            "/Users/mawdegroot/aaa/settings_hospital.xml"));
-    Input.addDataFile(new File(
-        "/Users/mawdegroot/aaa/Q_ADMIRE_metingen_pagevisits_141214.csv"),
+      Input.addDataFile(new File("/Users/mawdegroot/aaa/ADMIRE_13.txt"),
+          new File("/Users/mawdegroot/aaa/settings.xml"));
+      Input.addDataFile(new File("/Users/mawdegroot/aaa/Afspraken_geanonimiseerd.csv"),
+          new File("/Users/mawdegroot/aaa/settings_hospital.xml"));
+      Input.addDataFile(new File("/Users/mawdegroot/aaa/Q_ADMIRE_metingen_pagevisits_141214.csv"),
           new File("/Users/mawdegroot/aaa/settings_website.xml"));
     } catch (Exception ex) {
 

@@ -36,8 +36,8 @@ class OperationFactory {
    * @param scriptInput script input.
    * @return list of operations.
    */
-  static List<Operation> createOperationsFromString(
-      final List<Table> tableList, final String scriptInput) {
+  static List<Operation> createOperationsFromString(final List<Table> tableList,
+      final String scriptInput) {
     return createOperationsUsingInputStream(tableList, new ANTLRInputStream(
         scriptInput));
   }
@@ -49,12 +49,12 @@ class OperationFactory {
    * @param filePath script file path.
    * @return list of operations.
    */
-  static List<Operation> createOperationsFromFile(
-      final List<Table> tableList, final String filePath) {
+  static List<Operation> createOperationsFromFile(final List<Table> tableList,
+      final String filePath) {
     List<Operation> listOfOperations = null;
     try {
-      listOfOperations.addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(
-          filePath)));
+      listOfOperations
+          .addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(filePath)));
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -63,15 +63,15 @@ class OperationFactory {
 
   /**
    * The underlying createOperations method using an ANTLR Input Stream.
-   *
+   * <p>
    * The other methods use this function to do the actual creating.
    *
    * @param tableList list of tables on which operations will be executed.
    * @param inputStream input stream that provides script input.
    * @return list of operations.
    */
-  private static List<Operation> createOperationsUsingInputStream(
-      final List<Table> tableList, final ANTLRInputStream inputStream) {
+  private static List<Operation> createOperationsUsingInputStream(final List<Table> tableList,
+      final ANTLRInputStream inputStream) {
     final AnalysisLangLexer lexer = new AnalysisLangLexer(inputStream);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);

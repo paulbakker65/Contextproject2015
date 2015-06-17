@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author mawdegroot
  */
 public class ScriptExecutionManager {
@@ -36,7 +35,8 @@ public class ScriptExecutionManager {
 
   public void addScriptFile(String filePath) {
     updateTableList();
-    opList.addAll(OperationFactory.createOperationsFromFile(tableList, filePath));
+    opList.
+        addAll(OperationFactory.createOperationsFromFile(tableList, filePath));
   }
 
   public void addScriptString(String scriptString) {
@@ -48,7 +48,8 @@ public class ScriptExecutionManager {
     for (int i = 0; i < opList.size(); i++) {
       opList.get(i).execute();
       createTableIfNotExists(opList.get(i).getResultTableName());
-      Table operationResultTable = tableMap.get(opList.get(i).getResultTableName());
+      Table operationResultTable = tableMap.get(opList.get(i).
+          getResultTableName());
 
       operationResultTable.clear();
       operationResultTable.addAll(opList.get(i).getResult());
