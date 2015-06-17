@@ -2,10 +2,13 @@ package net.tudelft.hi.e.data;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 
 /**
  * Class for reading and writing table files.
@@ -24,15 +27,21 @@ public class TableFile {
    * @throws IOException
    *           when the Table cannot be written to a file.
    */
-  public static void writeTable(Table table, String path) throws IOException {
+  public static void writeTable(Table table, String path) throws TableNotFoundException {
     if (!path.endsWith(".ser")) {
       path += ".ser";
     }
 
-    FileOutputStream fos = new FileOutputStream(path);
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
-    oos.writeObject(table);
-    oos.close();
+    FileOutputStream fos;
+    try {
+      fos = new FileOutputStream(path);
+      ObjectOutputStream oos = new ObjectOutputStream(fos);
+      oos.writeObject(table);
+      oos.close();
+    } catch (IOException e) {
+      throw new TableNotFoundException("File not found");
+    }
+
   }
 
   /**
@@ -44,12 +53,16 @@ public class TableFile {
    * @throws IOException
    *           when no Table can be read.
    */
-  public static Table readTable(String path) throws IOException, ClassNotFoundException {
+  public static Table readTable(String path) throws TableNotFoundException {
     if (!path.endsWith(".ser")) {
       path += ".ser";
     }
 
-    return readTable(new FileInputStream(path));
+    try {
+      return readTable(new FileInputStream(path));
+    } catch (FileNotFoundException e) {
+     throw new TableNotFoundException("File not found");
+    }
   }
 
   /**
@@ -61,14 +74,28 @@ public class TableFile {
    * @throws IOException
    *           when no Table can be read.
    */
-  public static Table readTable(File file) throws IOException, ClassNotFoundException {
-    return readTable(new FileInputStream(file));
+  public static Table readTable(File file) throws TableNotFoundException {
+    try {
+      return readTable(new FileInputStream(file));
+    } catch (FileNotFoundException e) {
+      throw new TableNotFoundException("File not found");
+    }
   }
 
-  private static Table readTable(FileInputStream fis) throws IOException, ClassNotFoundException {
-    ObjectInputStream ois = new ObjectInputStream(fis);
-    Table res = (Table) ois.readObject();
-    ois.close();
-    return res;
+  private static Table readTable(FileInputStream fis) throws TableNotFoundException {
+    
+    
+    try {
+      ObjectInputStream ois = new ObjectInputStream(fis);
+      Table res = new Table();
+      res = (Table) ois.readObject();
+      ois.close();
+      return res;
+    } catch (ClassNotFoundException e) {
+      throw new TableNotFoundException("Table class not found!");
+    } catch (IOException e) {
+      throw new TableNotFoundException("Table file not found, wrong path");
+    }
+    
   }
 }
