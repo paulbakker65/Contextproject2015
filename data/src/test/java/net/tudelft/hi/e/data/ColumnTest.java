@@ -225,6 +225,8 @@ public class ColumnTest {
 
     when(element.getAttribute("type")).thenReturn("date");
     when(element.getAttribute("format")).thenReturn("dd-MM-yyyy");
+    when(element.getAttribute("target")).thenReturn("");
+    assertEquals(new DateColumn("Test"), Column.readColumn(element));
     when(element.getAttribute("target")).thenReturn("Date");
     assertEquals(new DateColumn("Test"), Column.readColumn(element));
 
@@ -248,5 +250,27 @@ public class ColumnTest {
 
     Column.readColumn(element);
   }
+  
+  @Test(expected = WrongXmlException.class)
+  public void testReadColumnEmptyFormat() throws WrongXmlException {
+    Element element = Mockito.mock(Element.class);
+    when(element.getAttribute("name")).thenReturn("Test");
+    when(element.getAttribute("type")).thenReturn("date");
+    when(element.getAttribute("format")).thenReturn("");
+
+    Column.readColumn(element);
+  }
+  
+  @Test(expected = WrongXmlException.class)
+  public void testReadColumnExcelTime() throws WrongXmlException {
+    Element element = Mockito.mock(Element.class);
+    when(element.getAttribute("name")).thenReturn("Test");
+    when(element.getAttribute("type")).thenReturn("date");
+    when(element.getAttribute("format")).thenReturn("excel");
+    when(element.getAttribute("target")).thenReturn("Date");
+    Column.readColumn(element);
+  }
+  
+  
 
 }
