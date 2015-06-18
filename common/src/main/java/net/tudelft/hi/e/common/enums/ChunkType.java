@@ -25,6 +25,10 @@ public enum ChunkType {
    */
   PATIENT,
   /**
+   * Chunking by admire Phase.
+   */
+  PHASE,
+  /**
    * Chunking test value.
    */
   TEST

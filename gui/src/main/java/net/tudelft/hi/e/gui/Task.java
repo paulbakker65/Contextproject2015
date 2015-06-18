@@ -2,17 +2,17 @@ package net.tudelft.hi.e.gui;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import javax.swing.SwingWorker;
 
+
+import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
-import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
-import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.export.Exporter;
 import net.tudelft.hi.e.export.SettingsBuilder;
@@ -20,15 +20,7 @@ import net.tudelft.hi.e.export.SettingsWriter;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
 import net.tudelft.hi.e.input.Settings;
-import net.tudelft.hi.e.script.AnalysisLangLexer;
-import net.tudelft.hi.e.script.AnalysisLangParser;
-import net.tudelft.hi.e.script.OperationSpec;
-import net.tudelft.hi.e.script.ScriptListener;
-
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import net.tudelft.hi.e.script.ScriptExecutionManager;
 
 class Task extends SwingWorker<Void, Void> {
 
@@ -81,6 +73,9 @@ class Task extends SwingWorker<Void, Void> {
       currentprogress = currentprogress + onefileprogress;
       setProgress(currentprogress);
     }
+    log("Done parsing input files.\n", true);
+    setProgress(30);
+
     return true;
   }
 
@@ -91,37 +86,24 @@ class Task extends SwingWorker<Void, Void> {
   private boolean execScript() {
     log("Executing script.", true);
 
-    ANTLRInputStream input;
+    ScriptExecutionManager exec = new ScriptExecutionManager(tables);
+    ExceptionHandler.getExceptionHandlerInstance().getLogRecords();
     try {
-      input = new ANTLRFileStream(Input.getScriptFile().getAbsolutePath());
-    } catch (IOException e) {
-      log("Error reading script file.");
-      e.printStackTrace();
+      exec.addScriptFile(Input.getScriptFile().getAbsolutePath());
+    } catch (ParseFailedException ex) {
+      error("Error parsing the script file!");
+      error(ex.getMessage());
       return false;
     }
-    AnalysisLangLexer lexer = new AnalysisLangLexer(input);
-    CommonTokenStream tokens = new CommonTokenStream(lexer);
-    AnalysisLangParser parser = new AnalysisLangParser(tokens);
-    ScriptListener listener = new ScriptListener(tables);
-    ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
-
-    List<OperationSpec> operationList = listener.getOpList();
-
-    for (OperationSpec o : operationList) {
-      Operation op;
-      try {
-        op = o.getOperationForThisSpec();
-        op.execute();
-
-        o.getTableForTableName((String) o.getOperandList().get(0)).clear();
-        o.getTableForTableName((String) o.getOperandList().get(0)).addAll(op.getResult());
-      } catch (TableNotFoundException e) {
-        error(e.getMessage());
-        e.printStackTrace();
-
-        return false;
+    if (!ExceptionHandler.getExceptionHandlerInstance().getLogRecords().isEmpty()) {
+      error("Error parsing the script file!");
+      for(LogRecord r : ExceptionHandler.getExceptionHandlerInstance().getLogRecords()) {
+        error(r.getMessage());
       }
+      return false;
     }
+    exec.executeAllScripts();
+    tables = exec.getResultDataTables();
 
     log("Done executing script.\n", true);
     setProgress(80);

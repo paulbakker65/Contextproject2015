@@ -6,11 +6,15 @@ import java.util.List;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.StandardXYBarPainter;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.HistogramDataset;
 
@@ -94,8 +98,15 @@ class HistogramChart {
    *          dataset created above.
    * @return JFreeChart Histogram.
    */
-  private static JFreeChart createChart(Dataset dataset) {
-    return ChartFactory.createHistogram("Histogram", "Stem", "Frequency", (HistogramDataset) dataset,
-        PlotOrientation.VERTICAL, false, false, false);
+  protected static JFreeChart createChart(Dataset dataset) {
+    JFreeChart chart =
+        ChartFactory.createHistogram("Histogram", "Stem", "Frequency", (HistogramDataset) dataset,
+            PlotOrientation.VERTICAL, false, false, false);
+    XYPlot xyplot = (XYPlot) chart.getPlot();
+    XYBarRenderer xybarrenderer = (XYBarRenderer)xyplot.getRenderer();
+    xybarrenderer.setBarPainter(new StandardXYBarPainter());
+    xybarrenderer.setShadowVisible(false);
+    return chart;
+
   }
 }

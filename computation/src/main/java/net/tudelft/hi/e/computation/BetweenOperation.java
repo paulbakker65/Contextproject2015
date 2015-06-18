@@ -110,10 +110,9 @@ public class BetweenOperation extends Operation {
     while (targetIndex < inputData.size()) {
       if (isSecondEvent(targetIndex)) {
         addEvent(eventIndex, targetIndex);
-        break;
-      }
-      else if (isFirstEvent(targetIndex)) {
-    	  break;
+        return;
+      } else if (isFirstEvent(targetIndex)) {
+    	  return;
       }
       targetIndex++;
     }

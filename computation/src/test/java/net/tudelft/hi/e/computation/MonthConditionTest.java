@@ -12,14 +12,35 @@ import org.junit.Test;
 public class MonthConditionTest {
 
   @Test
-  public void testMatches() throws ParseException {
-    final Date date = new SimpleDateFormat("yyMMdd").parse("121110");
-    final Date date2 = new SimpleDateFormat("yyMMdd").parse("121010");
-    final Date date3 = new SimpleDateFormat("yyMMdd").parse("111110");
+  public void testMatches1Month() throws ParseException {
+    final Date date = new SimpleDateFormat("yyMMdd").parse("121010");
+    final Date date2 = new SimpleDateFormat("yyMMdd").parse("121015");
+    final Date date3 = new SimpleDateFormat("yyMMdd").parse("121110");
+    final Date date4 = new SimpleDateFormat("yyMMdd").parse("121114");
+    final Date date5 = new SimpleDateFormat("yyMMdd").parse("121210");
+    
+    MonthCondition cond = new MonthCondition(0);
 
-    assertTrue(new MonthCondition().matches(new DateValue(date), new DateValue(date)));
-    assertFalse(new MonthCondition().matches(new DateValue(date), new DateValue(date2)));
-    assertFalse(new MonthCondition().matches(new DateValue(date), new DateValue(date3)));
+    assertTrue(cond.matches(new DateValue(date)));
+    assertTrue(cond.matches(new DateValue(date2)));
+    assertFalse(cond.matches(new DateValue(date3)));
+    assertTrue(cond.matches(new DateValue(date4)));
+    assertFalse(cond.matches(new DateValue(date5)));
+  }
+  
+  @Test
+  public void testMatches2Months() throws ParseException {
+    final Date date = new SimpleDateFormat("yyMMdd").parse("121010");
+    final Date date2 = new SimpleDateFormat("yyMMdd").parse("121015");
+    final Date date3 = new SimpleDateFormat("yyMMdd").parse("121110");
+    final Date date4 = new SimpleDateFormat("yyMMdd").parse("121210");
+    
+    MonthCondition cond = new MonthCondition(1);
+
+    assertTrue(cond.matches(new DateValue(date)));
+    assertTrue(cond.matches(new DateValue(date2)));
+    assertTrue(cond.matches(new DateValue(date3)));
+    assertFalse(cond.matches(new DateValue(date4)));
   }
 
 }
