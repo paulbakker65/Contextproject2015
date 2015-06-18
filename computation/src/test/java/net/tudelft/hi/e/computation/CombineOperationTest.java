@@ -74,10 +74,6 @@ public class CombineOperationTest {
         new DateValue(new GregorianCalendar(2015, 1, 13)) }));
     table.add(new Record(columns, new Value[] { new StringValue("Crea"),
         new DateValue(new GregorianCalendar(2015, 1, 14)) }));
-    
-    System.out.println(table);
-    System.out.println();
-    System.out.println(table2);
   }
 
   @Test
@@ -110,8 +106,6 @@ public class CombineOperationTest {
         new DateValue(new GregorianCalendar(2015, 1, 10)) }));
 
     Table result = combineOperation.getResult();
-    System.out.println();
-    System.out.println(result);
     assertEquals(test, result);
   }
   
