@@ -52,7 +52,7 @@ public class ForEachChunkOperation extends Operation {
       return false;
     }
 
-    for (List<Chunk> chunkList : ChunksFinder.getChunkLists(inputData, chunkDepth)) {
+    for (List<Chunk> chunkList : ChunksFinder.getChunkLists(resultData, chunkDepth)) {
       for (int i = 0; i < chunkList.size(); i++) {
         Chunk chunk = chunkList.get(i);
         operation.resetData(new Table(chunk));
