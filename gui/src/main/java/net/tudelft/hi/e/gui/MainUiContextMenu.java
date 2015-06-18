@@ -110,7 +110,7 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
             return;
         }
         Input.getFiles().remove(selectedRow);
-        table.repaint();
+        table.revalidate();
     }
 
     private void onMenuPreview() {

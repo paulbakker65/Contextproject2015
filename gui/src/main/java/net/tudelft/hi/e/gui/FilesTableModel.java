@@ -36,9 +36,9 @@ class FilesTableModel extends AbstractTableModel {
   public String getValueAt(final int rowIndex, final int columnIndex) {
     final DataFile file = Input.getFiles().get(rowIndex);
     if (columnIndex == 0) {
-      return file.getFilepath();
+      return file.getRawDataFile().getName();
     } else {
-      return file.getSettingsfilepath();
+      return file.getSettingsfile().getName();
     }
   }
 

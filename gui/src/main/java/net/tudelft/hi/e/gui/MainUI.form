@@ -144,7 +144,7 @@
               <focusPainted value="false"/>
               <horizontalAlignment value="2"/>
               <icon value="icons/edit.png"/>
-              <text value="&amp;Edit Script"/>
+              <text value="&amp;New Script"/>
             </properties>
           </component>
           <component id="ef177" class="javax.swing.JButton" binding="buttonVisualizations">

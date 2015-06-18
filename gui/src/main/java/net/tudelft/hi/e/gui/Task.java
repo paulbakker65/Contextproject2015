@@ -70,21 +70,16 @@ class Task extends SwingWorker<Void, Void> {
     int currentprogress = 0;
     int onefileprogress = 30 / Input.getFiles().size();
 
-    for (DataFile f : Input.getFiles()) {
-      Table table = null;
-      try {
-        log("Parsing " + f.toString());
-        table = f.getParser().parse(f.getReader());
-        if(table == null) {
-          error("Error Parsing " + f.toString());
-        }  
-        tables.add(table);
-        log("Done parsing input files.\n", true);
-        currentprogress = currentprogress + onefileprogress;
-        setProgress(currentprogress);
-      } catch (ParseFailedException ex) {
-        LOG.log(Level.SEVERE, "Error parsing input files: " + ex.getMessage() + ".");
+    for (DataFile datafile : Input.getFiles()) {
+      log("Parsing " + datafile.toString());
+      Table table = datafile.getTable();
+      if(table == null) {
+        error("Error Parsing " + datafile.toString());
+        return false;
       }
+      tables.add(table);
+      currentprogress = currentprogress + onefileprogress;
+      setProgress(currentprogress);
     }
     return true;
   }

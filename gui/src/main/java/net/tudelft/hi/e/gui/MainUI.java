@@ -1,6 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -67,8 +66,10 @@ public class MainUI extends JFrame {
   // Filters for JFileChooser dialog
   private static final FileNameExtensionFilter xmlfilter =
           new FileNameExtensionFilter("XML files", "xml");
+  private static final FileNameExtensionFilter txtfilter =
+          new FileNameExtensionFilter("TXT files", "txt");
   private static final FileNameExtensionFilter csvfilter =
-          new FileNameExtensionFilter("CSV and TXT files", "csv", "txt");
+          new FileNameExtensionFilter("CSV files", "csv");
   private static final FileNameExtensionFilter xlsfilter =
           new FileNameExtensionFilter("Excel files", "xls", "xlsx");
   private static final FileNameExtensionFilter serfilter =
@@ -106,7 +107,7 @@ public class MainUI extends JFrame {
     new MainUiContextMenu(filesTable);
 
     if (Input.hasScript()) {
-      textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
+      updateScriptInfo();
     }
     if (Input.hasOutput()) {
       textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
@@ -140,7 +141,7 @@ public class MainUI extends JFrame {
     editScriptButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent event) {
-        onEditScript();
+        onNewScript();
       }
     });
 
@@ -201,6 +202,23 @@ public class MainUI extends JFrame {
     });
   }
 
+  private void updateScriptInfo() {
+    for (ActionListener al : editScriptButton.getActionListeners()) {
+      editScriptButton.removeActionListener(al);
+    }
+
+    editScriptButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent event) {
+        onEditScript();
+      }
+    });
+
+    textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
+    editScriptButton.setText("Edit Script");
+    editScriptButton.setMnemonic(KeyEvent.VK_E);
+  }
+
   /**
    * Opens a open file dialog for the user to select the script file.
    */
@@ -218,26 +236,49 @@ public class MainUI extends JFrame {
                 "File not found.", JOptionPane.ERROR_MESSAGE);
         return;
       }
-      textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
+      updateScriptInfo();
     }
   }
 
   /**
-   * Opens the default system editor for the script file. If no script file has been specified, it
-   * will prompt the user to do so.
+   * Shows a file dialog for the user to create a new file. The created file wil then be opened.
    */
-  private void onEditScript() {
-    if (!Input.hasScript()) {
-      int option = JOptionPane.showConfirmDialog(null,
-              "No scipt file selected.\nWould you like to select one now?", "No script file.",
-              JOptionPane.YES_NO_OPTION);
-      if (option == JOptionPane.YES_OPTION) {
-        onOpenScript();
-      } else {
-        return;
-      }
+  private void onNewScript() {
+    List<FileNameExtensionFilter> filters = new ArrayList<>();
+    filters.add(txtfilter);
+    File script = saveFile(filters, "a new script file");
+    if (script == null) {
+      return;
     }
 
+    if (script.exists()) {
+      int result = JOptionPane.showConfirmDialog(this,
+              "The file '" + script.getName() + "' already exists, would you like to ovveride this file?.",
+              "File already exists.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+      if (result != JOptionPane.YES_OPTION) {
+        return;
+      }
+      script.delete();
+    } else if (!script.getPath().toLowerCase().endsWith(".txt")) {
+      script = new File(script.getPath() + ".txt");
+    }
+
+    try {
+      script.createNewFile();
+    } catch (IOException e) {
+      LOG.log(Level.SEVERE, "Error creating file '" + script.getAbsolutePath() + "': " + e.getMessage());
+      return;
+    }
+
+    Input.setScriptFile(script);
+    onEditScript();
+    updateScriptInfo();
+  }
+
+  /**
+   * Opens the default system editor for the script file.
+   */
+  private void onEditScript() {
     if (!Input.hasScript()) {
       return;
     }
@@ -323,7 +364,7 @@ public class MainUI extends JFrame {
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
-    filesTable.repaint();
+    filesTable.revalidate();
   }
 
   /**
@@ -350,7 +391,7 @@ public class MainUI extends JFrame {
     for (int i = selectedRows.length - 1; i >= 0; i--) {
       Input.getFiles().remove(selectedRows[i]);
     }
-    filesTable.repaint();
+    filesTable.revalidate();
   }
 
 
@@ -387,10 +428,10 @@ public class MainUI extends JFrame {
     }
     ProgressGui.init();
   }
-  
+
   private void readPreviousDirectory() {
     File prevDirectoryFile = new File("prev_directory.txt");
-    
+
     if (!(prevDirectoryFile.exists() && prevDirectoryFile.isFile())) {
       return;
     }
@@ -398,27 +439,27 @@ public class MainUI extends JFrame {
       BufferedReader reader = new BufferedReader(new FileReader(prevDirectoryFile));
       String line = reader.readLine();
       File prevDirectory = new File(line);
-      
+
       if (prevDirectory.exists() && prevDirectory.isDirectory()) {
         previousDirectory = prevDirectory;
       }
       reader.close();
-    } catch (IOException e) {  
-    	LOG.log(Level.WARNING, e.getMessage());
+    } catch (IOException e) {
+      LOG.log(Level.WARNING, e.getMessage());
     }
   }
-  
+
   private void writePreviousDirectory() {
     if (previousDirectory == null) {
       return;
     }
-    
+
     try {
       FileWriter writer = new FileWriter("prev_directory.txt");
       writer.write(previousDirectory.getAbsolutePath());
       writer.close();
     } catch (IOException e) {
-    	LOG.log(Level.WARNING, e.getMessage());
+      LOG.log(Level.WARNING, e.getMessage());
     }
   }
 
@@ -430,13 +471,13 @@ public class MainUI extends JFrame {
     dispose();
   }
 
-
   /**
    * Shows a file dialog for the user to select the data file.
    */
   public static File openDataFile() {
     List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
     filters.add(xlsfilter);
+    filters.add(txtfilter);
     filters.add(csvfilter);
     filters.add(allsupportedfilter);
     return openFile(filters, "data file");
@@ -485,6 +526,30 @@ public class MainUI extends JFrame {
         return null;
       }
       System.out.println("Selected " + title + ": " + file);
+      return file;
+    }
+
+    return null;
+  }
+
+  /**
+   * Shows a file dialog for the user to save a file.
+   */
+  private static File saveFile(List<FileNameExtensionFilter> filters, String title) {
+    File file;
+    JFileChooser chooser = new JFileChooser(previousDirectory);
+    chooser.setDialogTitle("Save " + title + ".");
+
+    for (FileNameExtensionFilter filter : filters) {
+      chooser.setFileFilter(filter);
+    }
+
+    int state = chooser.showSaveDialog(null);
+
+    if (state == JFileChooser.APPROVE_OPTION) {
+
+      previousDirectory = chooser.getCurrentDirectory();
+      file = chooser.getSelectedFile();
       return file;
     }
 
@@ -655,8 +720,8 @@ public class MainUI extends JFrame {
     editScriptButton.setFocusPainted(false);
     editScriptButton.setHorizontalAlignment(2);
     editScriptButton.setIcon(new ImageIcon(getClass().getResource("/icons/edit.png")));
-    editScriptButton.setText("Edit Script");
-    editScriptButton.setMnemonic('E');
+    editScriptButton.setText("New Script");
+    editScriptButton.setMnemonic('N');
     editScriptButton.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
