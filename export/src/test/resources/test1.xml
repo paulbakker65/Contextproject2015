@@ -4,4 +4,5 @@
 	<column name="string1"/>  
 	<column name="null1"/>
 	<column name="number" type="number" />
+	<column name="time1" type="date" format="HH:mm" target="date1" />
 </settings>

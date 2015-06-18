@@ -78,8 +78,10 @@ public class SettingsWriter {
     element.setAttribute("type", type);
 
     if (type.equals("date")) {
-      element.setAttribute("format", ((DateColumn)column).getFormatStr());
-      element.setAttribute("target", ((DateColumn)column).getTargetDate());
+      element.setAttribute("format", ((DateColumn)column).getFormatStr()); 
+      if (((DateColumn)column).isTime()) {
+        element.setAttribute("target", ((DateColumn)column).getTargetDate());
+      }
     }
 
     return element;

@@ -1,10 +1,15 @@
 package net.tudelft.hi.e.gui;
 
 import java.io.File;
+
+import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.input.DataFile;
+
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
+
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,10 +31,8 @@ public class BoxPlotChartTest {
     DefaultBoxAndWhiskerCategoryDataset ds =
         (DefaultBoxAndWhiskerCategoryDataset) BoxPlotChart.createDataset(table, "Beoordeling");
 
-
-    System.out.println();
-    assertEquals(9.0, ds.getMaxOutlier("Beoordeling", FrequencyChart.DEFAULT_CHUNK_NAME));
-    assertEquals(1.0, ds.getMinOutlier("Beoordeling", FrequencyChart.DEFAULT_CHUNK_NAME));
+    assertEquals(9.0, ds.getMaxOutlier("Beoordeling", ChunksFinder.DEFAULT_CHUNK_NAME));
+    assertEquals(1.0, ds.getMinOutlier("Beoordeling", ChunksFinder.DEFAULT_CHUNK_NAME));
 
   }
 

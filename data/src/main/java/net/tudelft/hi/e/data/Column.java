@@ -3,6 +3,7 @@ package net.tudelft.hi.e.data;
 import java.util.Objects;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import org.w3c.dom.Element;
+
 /**
  * Abstract class for specifying a column type in a table. It specifies how all the values in a
  * column must look like.
@@ -17,7 +18,8 @@ public abstract class Column {
   /**
    * Constructs a new column with a name.
    *
-   * @param name the name of the column.
+   * @param name
+   *          the name of the column.
    */
   public Column(final String name) {
     this.setName(name);
@@ -26,7 +28,8 @@ public abstract class Column {
   /**
    * Create a Column object using an XML Element.
    *
-   * @param element Element to be read.
+   * @param element
+   *          Element to be read.
    * @return Subclass of Column object as specified in Element.
    * @throws WrongXmlException
    *           If the element either doesn't contain a name nor contains a correct type a
@@ -42,20 +45,20 @@ public abstract class Column {
     Column res = null;
     final String type = element.getAttribute("type");
     switch (type) {
-      case "number":
-        res = new NumberColumn(name);
-        break;
-      case "date":
-        res = new DateColumn(name);
-        break;
-      case "string":
-        res = new StringColumn(name);
-        break;
-      case "":
-        res = new StringColumn(name);
-        break;
-      default:
-        throw new WrongXmlException("Wrong type specified!");
+    case "number":
+      res = new NumberColumn(name);
+      break;
+    case "date":
+      res = new DateColumn(name);
+      break;
+    case "string":
+      res = new StringColumn(name);
+      break;
+    case "":
+      res = new StringColumn(name);
+      break;
+    default:
+      throw new WrongXmlException("Wrong type specified!");
     }
 
     res.read(element);
@@ -110,7 +113,8 @@ public abstract class Column {
   /**
    * Gives the column a new name.
    *
-   * @param name the new name of the column.
+   * @param name
+   *          the new name of the column.
    */
   public void setName(final String name) {
     this.name = name;

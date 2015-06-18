@@ -2,15 +2,11 @@ package net.tudelft.hi.e.gui;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
-import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
-import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.export.Exporter;
 import net.tudelft.hi.e.export.SettingsBuilder;
@@ -18,14 +14,7 @@ import net.tudelft.hi.e.export.SettingsWriter;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
 import net.tudelft.hi.e.input.Settings;
-import net.tudelft.hi.e.script.AnalysisLangLexer;
-import net.tudelft.hi.e.script.AnalysisLangParser;
-import net.tudelft.hi.e.script.OperationSpec;
-import net.tudelft.hi.e.script.ScriptListener;
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import net.tudelft.hi.e.script.ScriptExecutionManager;
 
 class Task extends SwingWorker<Void, Void> {
 
@@ -76,7 +65,7 @@ class Task extends SwingWorker<Void, Void> {
         currentprogress = currentprogress + onefileprogress;
         setProgress(currentprogress);
       } catch (ParseFailedException ex) {
-        LOG.log(Level.SEVERE, "Error prasing input files.");
+        LOG.log(Level.SEVERE, "Error parsing input files: " + ex.getMessage() + ".");
         return false;
       }
     }
@@ -93,37 +82,9 @@ class Task extends SwingWorker<Void, Void> {
   private boolean execScript() {
     log("Executing script.");
 
-    ANTLRInputStream input = null;
-    try {
-      input = new ANTLRFileStream(Input.getScriptFile().getAbsolutePath());
-    } catch (IOException e) {
-      log("Error reading script file.");
-      e.printStackTrace();
-      return false;
-    }
-    AnalysisLangLexer lexer = new AnalysisLangLexer(input);
-    CommonTokenStream tokens = new CommonTokenStream(lexer);
-    AnalysisLangParser parser = new AnalysisLangParser(tokens);
-    ScriptListener listener = new ScriptListener(tables);
-    ParseTreeWalker.DEFAULT.walk(listener, parser.parse());
-
-    List<OperationSpec> operationList = listener.getOpList();
-
-    for (OperationSpec o : operationList) {
-      Operation op;
-      try {
-        op = o.getOperationForThisSpec();
-        op.execute();
-
-        o.getTableForTableName((String) o.getOperandList().get(0)).clear();
-        o.getTableForTableName((String) o.getOperandList().get(0)).addAll(op.getResult());
-      } catch (TableNotFoundException e) {
-        error(e.getMessage());
-        e.printStackTrace();
-
-        return false;
-      }
-    }
+    ScriptExecutionManager exec = new ScriptExecutionManager(tables);
+    exec.addScriptFile(Input.getScriptFile().getAbsolutePath());
+    exec.executeAllScripts();
 
     log("Done executing script.\n");
     setProgress(80);
@@ -154,7 +115,7 @@ class Task extends SwingWorker<Void, Void> {
    */
   private void exportFile(Table table, String filepath) {
     log("Writing data file: " + filepath);
-    try {      
+    try {
       Exporter.export(table, filepath, ".csv");
     } catch (Exception e) {
       error("Error writing file: " + filepath);

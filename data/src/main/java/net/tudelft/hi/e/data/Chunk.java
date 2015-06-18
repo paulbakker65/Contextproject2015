@@ -24,13 +24,16 @@ public class Chunk extends Table implements Serializable {
   /**
    * Constructor sets the label and index of the chunk.
    *
-   * @param index Index of the chunk.
-   * @param label Label of the chunk.
+   * @param index
+   *          Index of the chunk.
+   * @param label
+   *          Label of the chunk.
    */
   public Chunk(final int index, final String label) {
     super();
     this.index = index;
     this.label = label;
+    this.setName(label);
   }
 
   /**
@@ -45,6 +48,7 @@ public class Chunk extends Table implements Serializable {
     super(newData);
     this.index = oldChunk.index;
     this.label = new String(oldChunk.label);
+    this.setName(oldChunk.getName());
   }
 
   /**
@@ -102,7 +106,8 @@ public class Chunk extends Table implements Serializable {
 
   /**
    *
-   * @param index of the chunk in the table which to set.
+   * @param index
+   *          of the chunk in the table which to set.
    */
   public void setIndex(final int index) {
     this.index = index;

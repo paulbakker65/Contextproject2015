@@ -37,7 +37,7 @@ public class PatternMatcher {
     RecordCondition resCondition = null;
 
     Matcher matcher = singleRegex.matcher(count);
-    if (matcher.find()) {
+    if (matcher.find() && matcher.group(1).equals(count)) {
       resCount = new SingleCount(Integer.parseInt(count));
     } else if ("*".equals(count)) {
       resCount = new MultipleCount();

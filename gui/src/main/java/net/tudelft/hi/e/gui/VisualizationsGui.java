@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,8 +24,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
@@ -42,8 +46,7 @@ import net.tudelft.hi.e.input.Input;
 public class VisualizationsGui extends JPanel implements ActionListener {
   private static final long serialVersionUID = 1L;
 
-  private static final Logger LOG
-      = Logger.getLogger(VisualizationsGui.class.getName());
+  private static final Logger LOG = Logger.getLogger(VisualizationsGui.class.getName());
 
   private JTextField datafile;
   private JTextField settings;
@@ -65,6 +68,9 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private JComboBox<String> comboHistogram;
   private JButton buttonHistogram;
   private JTextField textHistogram;
+  private SpinnerNumberModel frequencyDepthModel;
+
+  public static final String CODE = "* CODE *";
 
   private Table table;
 
@@ -102,8 +108,6 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       updateTabbedPane();
     }
   }
-
-
 
   private JPanel createFilePanel() {
     GridBagConstraints gbc;
@@ -183,9 +187,16 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private JPanel createFrequencyPanel() {
     JPanel panel = new JPanel();
+
+    panel.add(new JLabel("Chunk depth: "));
+    
+    frequencyDepthModel = new SpinnerNumberModel(0, 0, 9, 1);
+
+    panel.add(new JSpinner(frequencyDepthModel));
+    
     panel.add(new JLabel("Select a column: "));
 
-    comboFrequency = new JComboBox<String>(getColumns());
+    comboFrequency = new JComboBox<String>(getColumns(true));
     panel.add(comboFrequency);
 
     buttonFrequency = new JButton("Start");
@@ -212,7 +223,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
 
     allowed.add(NumberColumn.class);
-    comboBar = new JComboBox<String>(getColumns(allowed, false));
+    comboBar = new JComboBox<String>(getColumns(allowed, false, false));
     panel.add(comboBar);
 
     buttonBar = new JButton("Start");
@@ -229,7 +240,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(DateColumn.class);
 
-    comboStateT = new JComboBox<String>(getColumns(allowed, false));
+    comboStateT = new JComboBox<String>(getColumns(allowed, false, false));
     panel.add(comboStateT);
 
     buttonStateT = new JButton("Start");
@@ -245,7 +256,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(NumberColumn.class);
-    comboStemLeaf = new JComboBox<String>(getColumns(allowed, false));
+    comboStemLeaf = new JComboBox<String>(getColumns(allowed, false, false));
     panel.add(comboStemLeaf);
 
     panel.add(new JLabel("Power: "));
@@ -266,7 +277,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(NumberColumn.class);
-    comboHistogram = new JComboBox<String>(getColumns(allowed, false));
+    comboHistogram = new JComboBox<String>(getColumns(allowed, false, false));
     panel.add(comboHistogram);
 
     panel.add(new JLabel("Power: "));
@@ -375,7 +386,14 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private void onFrequency() {
     String column = (String) comboFrequency.getSelectedItem();
-    FrequencyChart fc = new FrequencyChart("Frequency", table, column);
+    int depth = frequencyDepthModel.getNumber().intValue();
+    FrequencyChart fc;
+    if (column.equals(CODE)) {
+      fc = new FrequencyChart("Frequency", table, depth);
+    } else {
+      fc = new FrequencyChart("Frequency", table, depth, column);
+    }
+    ;
     GUI.init(fc);
   }
 
@@ -435,9 +453,12 @@ public class VisualizationsGui extends JPanel implements ActionListener {
    *          a list containing column classes. If set null, all class types are allowed.
    * @param isblacklist
    *          if true, columntypes is used as a blacklist, else it is used as a whitelist.
+   * @param codes
+   *          wether the special CODE should be added
    * @return all the column names.
    */
-  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist) {
+  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist,
+      boolean codes) {
     List<Column> columnlist = table.getColumns();
     ArrayList<String> columns = new ArrayList<String>();
 
@@ -446,11 +467,16 @@ public class VisualizationsGui extends JPanel implements ActionListener {
         columns.add(column.getName());
       }
     }
+
+    if (codes) {
+      columns.add(CODE);
+    }
+
     return columns.toArray(new String[0]);
   }
 
-  private String[] getColumns() {
-    return getColumns(null, false);
+  private String[] getColumns(boolean codes) {
+    return getColumns(null, false, codes);
   }
 
   public static void main(String[] argv) {
