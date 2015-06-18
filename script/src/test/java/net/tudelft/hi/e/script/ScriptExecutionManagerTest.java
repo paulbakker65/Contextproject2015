@@ -100,7 +100,7 @@ public class ScriptExecutionManagerTest {
    * Test of addScriptFile method, of class ScriptExecutionManager.
    */
   @Test
-  public void testAddScriptFile() {
+  public void testAddScriptFile() throws  ParseFailedException {
     manager.addScriptFile("src/test/resources/script.txt");
     manager.executeAllScripts();
     List<Table> actual = manager.getResultDataTables();
@@ -110,6 +110,9 @@ public class ScriptExecutionManagerTest {
         "login", CompareOperator.EQ, new StringValue("admire13"));
     operation.execute();
 
+    assertEquals(operation.getResult().getName(), actual.get(0).getName());
+    assertEquals(operation.getResult().getChunks(), actual.get(0).getChunks());
+    assertEquals(operation.getResult().getCodes(), actual.get(0).getCodes());
     assertEquals(operation.getResult(), actual.get(0));
   }
 
@@ -117,7 +120,7 @@ public class ScriptExecutionManagerTest {
    * Test of addScriptString method, of class ScriptExecutionManager.
    */
   @Test
-  public void testAddScriptString() {
+  public void testAddScriptString() throws ParseFailedException{
     manager.addScriptString("CONSTRAINT [website].[login] == \"admire13\"");
     manager.executeAllScripts();
     List<Table> actual = manager.getResultDataTables();
@@ -134,7 +137,7 @@ public class ScriptExecutionManagerTest {
    * Test of executeAllScripts method, of class ScriptExecutionManager.
    */
   @Test
-  public void testExecuteAllScripts() {
+  public void testExecuteAllScripts() throws ParseFailedException {
     manager.addScriptString("CONSTRAINT [website].[login] == \"admire13\"");
     manager.addScriptString("CHUNK [website].[date] USING MONTH 1");
     manager.addScriptString(
