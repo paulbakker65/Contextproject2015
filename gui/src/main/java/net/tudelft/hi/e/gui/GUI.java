@@ -1,22 +1,29 @@
 package net.tudelft.hi.e.gui;
 
 
+import net.tudelft.hi.e.input.Input;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Contains methods for GUI's.
  */
 public class GUI {
+  private static final Logger LOG = Logger.getLogger(Task.class.getName());
   /**
    * Sets the gui to use visuals similar to the operating system, instead of the java gui visuals.
    */
@@ -96,5 +103,13 @@ public class GUI {
     frame.setSize(container.getPreferredSize());
     frame.setVisible(true);
     return frame;
+  }
+
+  public static void openSystemEditor(File file) {
+    try {
+      Desktop.getDesktop().open(file);
+    } catch (IOException e1) {
+      LOG.log(Level.SEVERE, "Error trying to open '" + file.getAbsolutePath() + "' in system editor.");
+    }
   }
 }
