@@ -52,31 +52,31 @@ public class ChunkingOperation extends Operation {
    */
   @Override
   public boolean execute() {
-    if (operationParametersSet) {
+    if (!operationParametersSet || inputData.isEmpty()) {
+      return false;
+    }
 
-      Collections.sort(inputData, rc);
-      int index = 0;
-      String label = "Chunk " + Integer.toString(index);
-      Chunk chunk = new Chunk(index, label);
-      Value check = inputData.get(0).get(columnName);
-      for (final Record r : inputData) {
-        if (cond.matches(r.get(columnName), check)) {
-          chunk.add(r);
-        } else {
-          resultData.addChunk(chunk);
-          label = "Chunk " + Integer.toString(++index);
-          chunk = new Chunk(index, label);
-          chunk.add(r);
-          check = r.get(columnName);
-
-        }
+    Collections.sort(inputData, rc);
+    int index = 0;
+    String label = "Chunk " + Integer.toString(index);
+    Chunk chunk = new Chunk(index, label);
+    Value check = inputData.get(0).get(columnName);
+    for (final Record r : inputData) {
+      if (cond.matches(r.get(columnName), check)) {
+        chunk.add(r);
+      } else {
+        resultData.addChunk(chunk);
+        label = "Chunk " + Integer.toString(++index);
+        chunk = new Chunk(index, label);
+        chunk.add(r);
+        check = r.get(columnName);
 
       }
-      resultData.addChunk(chunk);
 
-      return true;
     }
-    return false;
+    resultData.addChunk(chunk);
+
+    return true;
   }
 
   /**
@@ -86,11 +86,16 @@ public class ChunkingOperation extends Operation {
    */
   public ChunkCondition getCondition(final ChunkType cce) {
     switch (cce) {
-      case DAY: return new DayCondition();
-      case MONTH: return new MonthCondition();
-      case YEAR: return new YearCondition();
-      case PATIENT: return new PatientCondition();
-      default: return null;
+      case DAY:
+        return new DayCondition();
+      case MONTH:
+        return new MonthCondition();
+      case YEAR:
+        return new YearCondition();
+      case PATIENT:
+        return new PatientCondition();
+      default:
+        return null;
     }
   }
 
