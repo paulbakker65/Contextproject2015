@@ -42,11 +42,6 @@ public class FilesTableModelTest {
   }
 
   @Test
-  public void testAddTableModelListener() {
-    // Not yet implemented in filesTableModel
-  }
-
-  @Test
   public void testGetColumnClass() {
     assertEquals(String.class, ftm.getColumnClass(0));
     assertEquals(String.class, ftm.getColumnClass(1));
@@ -88,15 +83,4 @@ public class FilesTableModelTest {
   public void testIsCellEditable() {
     assertFalse(ftm.isCellEditable(5, 20034));
   }
-
-  @Test
-  public void testRemoveTableModelListener() {
-    // Not yet implemented in filesTableModel
-  }
-
-  @Test
-  public void testSetValueAt() {
-    // Not yet implemented in filesTableModel
-  }
-
 }

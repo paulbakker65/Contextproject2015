@@ -24,14 +24,10 @@ public class Main{
     }
 
     if(nogui) {
-      nooGui();
+      noGui();
     } else {
-      if (!openGui()) {
-        return;
-      }
+      openGui();
     }
-
-    return;
   }
 
   /**
@@ -41,31 +37,24 @@ public class Main{
   public static boolean parseCommandline(String[] argv) {
     int argc = argv.length;
     for (int i = 0; i < argc; i++) {
-      if (argv[i].equals("-f") && argc - i > 2) {
-        String filepath = argv[i + 1];
-        String settingsfilepath = argv[i + 2];
-
-        File file = new File(filepath);
-        File settings = new File(settingsfilepath);
-
-        try {
-          Input.addDataFile(file, settings);
-        } catch (Exception e) {
-          System.out.println(e.getMessage());
+      String arg = argv[i];
+      int left = argc - i;
+      if ("-f".equals(arg) && left > 2) {
+        if(!addDataFile(argv[i + 1], argv[i + 2])) {
           return false;
         }
-        i = i + 2;
-      } else if (argv[i].equals("-s") && argc - i > 1) {
+        i += 2;
+      } else if ("-s".equals(arg) && left > 1) {
         if (!Input.setScriptFile(new File(argv[i + 1]))) {
           return false;
         }
         i++;
-      } else if (argv[i].equals("-o") && argc - i > 1) {
+      } else if ("-o".equals(arg) && left > 1) {
         if (!Input.setOutputDir(new File(argv[i + 1]))) {
           return false;
         }
         i++;
-      } else if (argv[i].equals("-nogui")) {
+      } else if ("-nogui".equals(arg)) {
         nogui = true;
       } else {
         String usage = "Error in program arguments.\n"
@@ -81,20 +70,32 @@ public class Main{
     return true;
   }
 
+  private static boolean addDataFile(String filepath, String settingsfilepath) {
+    File file = new File(filepath);
+    File settings = new File(settingsfilepath);
+
+    try {
+      Input.addDataFile(file, settings);
+    } catch (Exception e) {
+      LOG.log(Level.SEVERE, e.getMessage());
+      return false;
+    }
+
+    return true;
+  }
+
   /**
    * openGUI will run the graphical user interface.
    */
-  public static boolean openGui() {
+  private static void openGui() {
     String windowTitle = "Contextproject 2015 Groep 5/E";
     MainUI frame = new MainUI();
     frame.setTitle(windowTitle);
 
     GUI.init(frame);
-
-    return true;
   }
 
-  public static void nooGui() {
+  private static void noGui() {
     if (!Input.hasScript() || !Input.hasOutput() || !Input.hasFiles()) {
       LOG.log(Level.SEVERE, "Wrong input!\n"
               + "Please make sure you have selected a script file,\n"

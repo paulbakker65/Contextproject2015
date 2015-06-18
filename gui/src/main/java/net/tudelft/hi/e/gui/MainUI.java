@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -23,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -34,6 +37,8 @@ import net.tudelft.hi.e.input.Input;
  * MainUI class implementing the main Graphical User Interface.
  */
 public class MainUI extends JFrame {
+
+  private static final Logger LOG = Logger.getLogger(Task.class.getName());
   private static final long serialVersionUID = 1L;
 
   // All GUI components:
@@ -52,17 +57,18 @@ public class MainUI extends JFrame {
   private JButton viewDirectoryButton;
   private JButton buttonVisualizations;
   private JButton settingsbuilderButton;
+  private JScrollPane filesTableScrollPane;
 
   // Filters for JFileChooser dialog
-  private static FileNameExtensionFilter xmlfilter =
+  private static final FileNameExtensionFilter xmlfilter =
           new FileNameExtensionFilter("XML files", "xml");
-  private static FileNameExtensionFilter csvfilter =
+  private static final FileNameExtensionFilter csvfilter =
           new FileNameExtensionFilter("CSV and TXT files", "csv", "txt");
-  private static FileNameExtensionFilter xlsfilter =
+  private static final FileNameExtensionFilter xlsfilter =
           new FileNameExtensionFilter("Excel files", "xls", "xlsx");
-  private static FileNameExtensionFilter serfilter =
+  private static final FileNameExtensionFilter serfilter =
           new FileNameExtensionFilter("SER files", "ser");
-  private static FileNameExtensionFilter allsupportedfilter =
+  private static final FileNameExtensionFilter allsupportedfilter =
           new FileNameExtensionFilter("All supported files", "csv", "txt", "xls", "xlsx");
 
   private static File previousDirectory;
@@ -77,22 +83,22 @@ public class MainUI extends JFrame {
     setCloseOperation();
 
     setButtonActionListeners();
-
-    new MainUiContextMenu(filesTable);
   }
 
   /**
    * Initializes the GUI. Sets the dialog look to match the system look,
    * loads the icon and sets the file path fields.
    */
-  public void init() {
+  private void init() {
     GUI.setSystemLook();
     setContentPane(contentPane);
 
     getRootPane().setDefaultButton(buttonRunScript);
 
+    filesTable.setTableHeader(null);
     filesTable.setModel(new FilesTableModel());
     filesTable.setColumnSelectionAllowed(false);
+    new MainUiContextMenu(filesTable);
 
     if (Input.hasScript()) {
       textFieldscriptfilepath.setText(Input.getScriptFile().getAbsolutePath());
@@ -162,12 +168,14 @@ public class MainUI extends JFrame {
     });
 
     buttonRunScript.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent event) {
         onRunScript();
       }
     });
 
     buttonCancel.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent event) {
         onCancel();
       }
@@ -354,7 +362,7 @@ public class MainUI extends JFrame {
 
 
   private void onSettingsBuilder() {
-
+    LOG.log(Level.INFO, "Not yet implemented.");
   }
 
   /**
@@ -491,6 +499,8 @@ public class MainUI extends JFrame {
     addFileSButton.setHorizontalAlignment(2);
     addFileSButton.setIcon(new ImageIcon(getClass().getResource("/icons/add.png")));
     addFileSButton.setText("Add File(s)");
+    addFileSButton.setMnemonic('A');
+    addFileSButton.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
     gbc.gridy = 2;
@@ -504,6 +514,8 @@ public class MainUI extends JFrame {
     removeSelectedButton.setHorizontalAlignment(2);
     removeSelectedButton.setIcon(new ImageIcon(getClass().getResource("/icons/remove.png")));
     removeSelectedButton.setText("Remove Selected");
+    removeSelectedButton.setMnemonic('R');
+    removeSelectedButton.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
     gbc.gridy = 3;
@@ -512,20 +524,6 @@ public class MainUI extends JFrame {
     gbc.anchor = GridBagConstraints.NORTH;
     gbc.fill = GridBagConstraints.HORIZONTAL;
     filesPanel.add(removeSelectedButton, gbc);
-    filesTable = new JTable();
-    filesTable.setCellSelectionEnabled(true);
-    filesTable.setColumnSelectionAllowed(true);
-    filesTable.setShowVerticalLines(true);
-    gbc = new GridBagConstraints();
-    gbc.gridx = 0;
-    gbc.gridy = 2;
-    gbc.gridwidth = 3;
-    gbc.gridheight = 6;
-    gbc.weightx = 100.0;
-    gbc.weighty = 1.0;
-    gbc.fill = GridBagConstraints.BOTH;
-    gbc.insets = new Insets(0, 0, 0, 5);
-    filesPanel.add(filesTable, gbc);
     buttonCancel = new JButton();
     buttonCancel.setFocusPainted(false);
     buttonCancel.setHideActionText(false);
@@ -533,6 +531,8 @@ public class MainUI extends JFrame {
     buttonCancel.setHorizontalTextPosition(11);
     buttonCancel.setIcon(new ImageIcon(getClass().getResource("/icons/exit.png")));
     buttonCancel.setText("Cancel");
+    buttonCancel.setMnemonic('C');
+    buttonCancel.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
     gbc.gridy = 7;
@@ -545,6 +545,8 @@ public class MainUI extends JFrame {
     buttonRunScript.setHorizontalAlignment(2);
     buttonRunScript.setIcon(new ImageIcon(getClass().getResource("/icons/run.png")));
     buttonRunScript.setText("Run Script");
+    buttonRunScript.setMnemonic('S');
+    buttonRunScript.setDisplayedMnemonicIndex(4);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
     gbc.gridy = 6;
@@ -577,6 +579,8 @@ public class MainUI extends JFrame {
     viewDirectoryButton.setHorizontalAlignment(2);
     viewDirectoryButton.setIcon(new ImageIcon(getClass().getResource("/icons/folder.png")));
     viewDirectoryButton.setText("View Directory");
+    viewDirectoryButton.setMnemonic('D');
+    viewDirectoryButton.setDisplayedMnemonicIndex(5);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
     gbc.gridy = 1;
@@ -590,6 +594,8 @@ public class MainUI extends JFrame {
     browseButton.setMinimumSize(new Dimension(116, 41));
     browseButton.setPreferredSize(new Dimension(120, 26));
     browseButton.setText("Browse");
+    browseButton.setMnemonic('B');
+    browseButton.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
     gbc.gridx = 2;
     gbc.gridy = 1;
@@ -622,6 +628,8 @@ public class MainUI extends JFrame {
     editScriptButton.setHorizontalAlignment(2);
     editScriptButton.setIcon(new ImageIcon(getClass().getResource("/icons/edit.png")));
     editScriptButton.setText("Edit Script");
+    editScriptButton.setMnemonic('E');
+    editScriptButton.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
     gbc.gridy = 0;
@@ -633,6 +641,8 @@ public class MainUI extends JFrame {
     buttonVisualizations.setHorizontalAlignment(10);
     buttonVisualizations.setIcon(new ImageIcon(getClass().getResource("/icons/icon.png")));
     buttonVisualizations.setText("Visualizations");
+    buttonVisualizations.setMnemonic('V');
+    buttonVisualizations.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
     gbc.gridy = 5;
@@ -645,6 +655,8 @@ public class MainUI extends JFrame {
     settingsbuilderButton.setIcon(new ImageIcon(getClass().getResource("/icons/settings.png")));
     settingsbuilderButton.setMargin(new Insets(2, 14, 2, 14));
     settingsbuilderButton.setText("Settings Builder");
+    settingsbuilderButton.setMnemonic('T');
+    settingsbuilderButton.setDisplayedMnemonicIndex(2);
     gbc = new GridBagConstraints();
     gbc.gridx = 3;
     gbc.gridy = 4;
@@ -656,6 +668,8 @@ public class MainUI extends JFrame {
     openFileButton.setIcon(new ImageIcon(getClass().getResource("/icons/search.png")));
     openFileButton.setPreferredSize(new Dimension(120, 26));
     openFileButton.setText("Open File");
+    openFileButton.setMnemonic('O');
+    openFileButton.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
     gbc.gridx = 2;
     gbc.gridy = 0;
@@ -663,6 +677,22 @@ public class MainUI extends JFrame {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(0, 0, 0, 5);
     filesPanel.add(openFileButton, gbc);
+    filesTableScrollPane = new JScrollPane();
+    gbc = new GridBagConstraints();
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    gbc.gridwidth = 3;
+    gbc.gridheight = 6;
+    gbc.weightx = 100.0;
+    gbc.weighty = 1.0;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.insets = new Insets(0, 0, 0, 5);
+    filesPanel.add(filesTableScrollPane, gbc);
+    filesTable = new JTable();
+    filesTable.setCellSelectionEnabled(true);
+    filesTable.setColumnSelectionAllowed(true);
+    filesTable.setShowVerticalLines(true);
+    filesTableScrollPane.setViewportView(filesTable);
   }
 
   /**

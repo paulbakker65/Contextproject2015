@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.gui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
@@ -13,30 +14,16 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.HistogramDataset;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class HistogramChart extends JFrame {
-
-  /**
-   * Default serial ID.
-   */
+class HistogramChart {
   private static final long serialVersionUID = 1L;
   private static HistogramDataset dataset;
 
   /**
-   * Creates histogram of a stem leaf plot.
-   *
-   * @param table
-   *          stem leaf plot to make a histogram of.
+   * Creates a JPanel containing a histogram of a stem leaf plot.
+   * @param table stem leaf plot to make a histogram of.
    */
-  public HistogramChart(String windowTitle, Table table, String columnName, int power) {
-    super(windowTitle);
-
-
-    setContentPane(createPanel(table, columnName, power));
-  }
-
   public static JPanel createPanel(Table table, String columnName, int power){
     HistogramChart.dataset = createDataset(table, columnName, power);
 
@@ -58,11 +45,11 @@ public class HistogramChart extends JFrame {
    *          which tenth power has the stem.
    * @return the dataset.
    */
-  protected static HistogramDataset createDataset(Table table, String columnName, int power) {
+   static HistogramDataset createDataset(Table table, String columnName, int power) {
     double bins = Math.pow(10, power);
 
     HistogramDataset dataset = new HistogramDataset();
-    ArrayList<Double> values = new ArrayList<Double>();
+    List<Double> values = new ArrayList<Double>();
     for (Record record : table) {
       if (record.get(columnName).isNumeric()) {
         NumberValue number = (NumberValue) record.get(columnName);
@@ -70,9 +57,9 @@ public class HistogramChart extends JFrame {
       }
     }
 
-    ArrayList<Double> inBoundValues = removeOutOfBoundValues(values, 0, (int) bins);
+    List<Double> inBoundValues = removeOutOfBoundValues((ArrayList<Double>)values, 0, (int) bins);
 
-    dataset.addSeries("Histogram", ArrayUtils.toPrimitive(inBoundValues.toArray(new Double[0])),
+    dataset.addSeries("Histogram", ArrayUtils.toPrimitive(inBoundValues.toArray(new Double[inBoundValues.size()])),
         10, 0, bins);
 
     return dataset;
@@ -89,9 +76,9 @@ public class HistogramChart extends JFrame {
    *          upper bound
    * @return list without the out of bounds values.
    */
-  private static ArrayList<Double> removeOutOfBoundValues(ArrayList<Double> values, int lowerBound,
+  private static List<Double> removeOutOfBoundValues(ArrayList<Double> values, int lowerBound,
       int upperBound) {
-    ArrayList<Double> returnValues = new ArrayList<Double>();
+    List<Double> returnValues = new ArrayList<Double>();
     for (Double value : values) {
       if (value >= lowerBound && value <= upperBound) {
         returnValues.add(value);
@@ -107,11 +94,8 @@ public class HistogramChart extends JFrame {
    *          dataset created above.
    * @return JFreeChart Histogram.
    */
-  protected static JFreeChart createChart(Dataset dataset) {
-    JFreeChart chart =
-        ChartFactory.createHistogram("Histogram", "Stem", "Frequency", (HistogramDataset) dataset,
-            PlotOrientation.VERTICAL, false, false, false);
-    return chart;
-
+  private static JFreeChart createChart(Dataset dataset) {
+    return ChartFactory.createHistogram("Histogram", "Stem", "Frequency", (HistogramDataset) dataset,
+        PlotOrientation.VERTICAL, false, false, false);
   }
 }

@@ -27,7 +27,7 @@
               <focusPainted value="false"/>
               <horizontalAlignment value="2"/>
               <icon value="icons/add.png"/>
-              <text value="Add File(s)"/>
+              <text value="&amp;Add File(s)"/>
             </properties>
           </component>
           <component id="d88c2" class="javax.swing.JButton" binding="removeSelectedButton" default-binding="true">
@@ -39,18 +39,7 @@
               <focusPainted value="false"/>
               <horizontalAlignment value="2"/>
               <icon value="icons/remove.png"/>
-              <text value="Remove Selected"/>
-            </properties>
-          </component>
-          <component id="c7d64" class="javax.swing.JTable" binding="filesTable">
-            <constraints>
-              <grid row="2" column="0" row-span="6" col-span="3" vsize-policy="6" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="0" bottom="0" right="5" weightx="100.0" weighty="1.0"/>
-            </constraints>
-            <properties>
-              <cellSelectionEnabled value="true"/>
-              <columnSelectionAllowed value="true"/>
-              <showVerticalLines value="true"/>
+              <text value="&amp;Remove Selected"/>
             </properties>
           </component>
           <component id="5723f" class="javax.swing.JButton" binding="buttonCancel">
@@ -64,7 +53,7 @@
               <horizontalAlignment value="2"/>
               <horizontalTextPosition value="11"/>
               <icon value="icons/exit.png"/>
-              <text value="Cancel"/>
+              <text value="&amp;Cancel"/>
             </properties>
           </component>
           <component id="e7465" class="javax.swing.JButton" binding="buttonRunScript">
@@ -76,7 +65,7 @@
               <focusPainted value="false"/>
               <horizontalAlignment value="2"/>
               <icon value="icons/run.png"/>
-              <text value="Run Script"/>
+              <text value="Run &amp;Script"/>
             </properties>
           </component>
           <component id="bddf9" class="javax.swing.JLabel">
@@ -109,7 +98,7 @@
               <focusPainted value="false"/>
               <horizontalAlignment value="2"/>
               <icon value="icons/folder.png"/>
-              <text value="View Directory"/>
+              <text value="View &amp;Directory"/>
             </properties>
           </component>
           <component id="c47bc" class="javax.swing.JButton" binding="browseButton" default-binding="true">
@@ -123,7 +112,7 @@
               <maximumSize width="116" height="41"/>
               <minimumSize width="116" height="41"/>
               <preferredSize width="120" height="26"/>
-              <text value="Browse"/>
+              <text value="&amp;Browse"/>
             </properties>
           </component>
           <component id="eee76" class="javax.swing.JLabel">
@@ -155,7 +144,7 @@
               <focusPainted value="false"/>
               <horizontalAlignment value="2"/>
               <icon value="icons/edit.png"/>
-              <text value="Edit Script"/>
+              <text value="&amp;Edit Script"/>
             </properties>
           </component>
           <component id="ef177" class="javax.swing.JButton" binding="buttonVisualizations">
@@ -167,7 +156,7 @@
               <focusPainted value="false"/>
               <horizontalAlignment value="10"/>
               <icon value="icons/icon.png"/>
-              <text value="Visualizations"/>
+              <text value="&amp;Visualizations"/>
             </properties>
           </component>
           <component id="8be7c" class="javax.swing.JButton" binding="settingsbuilderButton">
@@ -180,7 +169,7 @@
               <horizontalAlignment value="2"/>
               <icon value="icons/settings.png"/>
               <margin top="2" left="14" bottom="2" right="14"/>
-              <text value="Settings Builder"/>
+              <text value="Se&amp;ttings Builder"/>
             </properties>
           </component>
           <component id="ea440" class="javax.swing.JButton" binding="openFileButton" default-binding="true">
@@ -192,9 +181,27 @@
               <focusPainted value="false"/>
               <icon value="icons/search.png"/>
               <preferredSize width="120" height="26"/>
-              <text value="Open File"/>
+              <text value="&amp;Open File"/>
             </properties>
           </component>
+          <scrollpane id="93ec6" binding="filesTableScrollPane">
+            <constraints>
+              <grid row="2" column="0" row-span="6" col-span="3" vsize-policy="6" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="0" right="5" weightx="100.0" weighty="1.0"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="c7d64" class="javax.swing.JTable" binding="filesTable">
+                <constraints/>
+                <properties>
+                  <cellSelectionEnabled value="true"/>
+                  <columnSelectionAllowed value="true"/>
+                  <showVerticalLines value="true"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
         </children>
       </grid>
     </children>

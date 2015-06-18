@@ -16,32 +16,20 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class FrequencyChart extends JFrame {
+class FrequencyChart {
 
   public static final String DEFAULT_CHUNK_NAME = "Default Chunk";
 
   private static final long serialVersionUID = 1L;
 
   /**
-   * Makes a new Frequency Frame
-   * 
-   * @param windowTitle
-   *          title of the frame
-   * @param table
-   *          data to use
-   * @param column
-   *          column with values to check frequencies on.
+   * Makes a new Frequency Chart
+   * @param table data to use
+   * @param column column with values to check frequencies on.
    */
-  public FrequencyChart(String windowTitle, Table table, String column) {
-    super(windowTitle);
-
-    setContentPane(createFrequencyChartPanel(table, column));
-  }
-
-  public static JPanel createFrequencyChartPanel(Table table, String column) {
+  public static JPanel createPanel(Table table, String column) {
     Dataset dataset = createDataset(table, column);
 
     JFreeChart chart = createChart(dataset, column);
@@ -96,7 +84,7 @@ public class FrequencyChart extends JFrame {
    *          Name of column. Just used as label for the axis
    * @return frequency chart
    */
-  public static JFreeChart createChart(Dataset dataset, String column) {
+  private static JFreeChart createChart(Dataset dataset, String column) {
     return ChartFactory.createBarChart(column, // chart title
         "Chunk", // domain axis label
         "Frequency", // range axis label

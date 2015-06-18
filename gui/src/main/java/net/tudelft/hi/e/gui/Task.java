@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
-import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
@@ -31,7 +30,7 @@ class Task extends SwingWorker<Void, Void> {
 
   private static final Logger LOG = Logger.getLogger(Task.class.getName());
 
-  ArrayList<Table> tables = null;
+  private List<Table> tables = null;
 
   @Override
   public Void doInBackground() {
@@ -91,7 +90,7 @@ class Task extends SwingWorker<Void, Void> {
   private boolean execScript() {
     log("Executing script.", true);
 
-    ANTLRInputStream input = null;
+    ANTLRInputStream input;
     try {
       input = new ANTLRFileStream(Input.getScriptFile().getAbsolutePath());
     } catch (IOException e) {
@@ -185,8 +184,8 @@ class Task extends SwingWorker<Void, Void> {
   }
 
   private void log(String message, boolean... options) {
-    boolean bold = (options.length > 0 ? options[0] : false);
-    System.out.println("log: " + message);
+    boolean bold = (options.length > 0 && options[0]);
+    LOG.log(Level.INFO, message);
     this.firePropertyChange("log", bold, message + System.lineSeparator());
   }
 
@@ -198,7 +197,7 @@ class Task extends SwingWorker<Void, Void> {
     return tables.get(index);
   }
 
-  public ArrayList<Table> getTables() {
+  public List<Table> getTables() {
     return tables;
   }
 }

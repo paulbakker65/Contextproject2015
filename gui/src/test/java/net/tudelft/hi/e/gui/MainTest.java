@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 public class MainTest {
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-  String filepath = "src/test/resources/";
+  private final String filepath = "src/test/resources/";
 
   @Before
   public void setUp() throws Exception {

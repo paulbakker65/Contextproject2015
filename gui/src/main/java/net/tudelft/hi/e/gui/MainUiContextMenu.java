@@ -11,18 +11,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A PopupMenu for the filesTable in MainUI.
  */
-public class MainUiContextMenu extends MouseAdapter implements ActionListener{
-    private JPopupMenu popupMenu = new JPopupMenu();;
-    private JMenuItem menuRemove = new JMenuItem("Remove");
-    private JMenuItem menuPreview = new JMenuItem("Preview");
-    private JMenuItem menuVisualize = new JMenuItem("Visualize");
-    private JMenuItem menuViewDir = new JMenuItem("View dir");
+class MainUiContextMenu extends MouseAdapter implements ActionListener{
+    private static final Logger LOG = Logger.getLogger(Task.class.getName());
+    private final JPopupMenu popupMenu = new JPopupMenu();
+    private final JMenuItem menuRemove = new JMenuItem("Remove");
+    private final JMenuItem menuPreview = new JMenuItem("Preview");
+    private final JMenuItem menuVisualize = new JMenuItem("Visualize");
+    private final JMenuItem menuViewDir = new JMenuItem("View dir");
 
-    private JTable table;
+    private final JTable table;
 
     /**
      * Creates a popup menu and sets the action listener for the filesTable.
@@ -32,7 +35,6 @@ public class MainUiContextMenu extends MouseAdapter implements ActionListener{
         super();
         this.table = filesTable;
         filesTable.addMouseListener(this);
-        filesTable.getTableHeader().addMouseListener(this);
 
         menuRemove.addActionListener(this);
         menuRemove.setIcon(GUI.createImageIcon("exit.png"));
@@ -83,10 +85,7 @@ public class MainUiContextMenu extends MouseAdapter implements ActionListener{
      */
     private boolean isOutOfBounds(int row) {
         int rowcount = table.getRowCount();
-        if(row < 0 || row > rowcount){
-            return true;
-        }
-        return false;
+        return row < 0 || row > rowcount;
     }
 
 
@@ -134,8 +133,7 @@ public class MainUiContextMenu extends MouseAdapter implements ActionListener{
         try {
             Desktop.getDesktop().open(Input.getFiles().get(selectedRow).getRawDataFile().getParentFile());
         } catch (IOException e1) {
-            System.out.println("Error trying to view the directory.");
-            e1.printStackTrace();
+            LOG.log(Level.SEVERE, "Error trying to view the directory.");
         }
     }
 }

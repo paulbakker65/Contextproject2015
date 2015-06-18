@@ -5,14 +5,9 @@ import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.input.DataFile;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.Test;
 
 public class BoxPlotChartTest {
-
-  @Before
-  public void setUp() throws Exception {
-  }
 
   @Test
   public void testDataSet() throws Exception {

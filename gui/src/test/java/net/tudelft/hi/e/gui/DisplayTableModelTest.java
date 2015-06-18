@@ -17,15 +17,14 @@ import org.junit.Test;
  * Test for the DisplayTableModel.
  */
 public class DisplayTableModelTest {
-  DisplayTableModel model;
-  private Table table;
+  private DisplayTableModel model;
   private final String datafilename = "src/test/resources/test1.csv";
   private final String settingsfilename = "src/test/resources/test1.xml";
 
-  private File datafile = new File(datafilename);
-  private File settingsfile = new File(settingsfilename);
+  private final File datafile = new File(datafilename);
+  private final File settingsfile = new File(settingsfilename);
 
-  String[] columnNames = { "number1", "date1", "string1", "null1", "number" };
+  private final String[] columnNames = { "number1", "date1", "string1", "null1", "number" };
 
   /**
    * Creates a table object from the test1.csv file.
@@ -38,7 +37,7 @@ public class DisplayTableModelTest {
     Input.clean();
     Input.addDataFile(datafile, settingsfile);
     DataFile datafile = Input.getFiles().get(0);
-    table = datafile.getParser().parse(datafile.getReader());
+    Table table = datafile.getParser().parse(datafile.getReader());
     model = new DisplayTableModel(table);
   }
 
@@ -97,7 +96,7 @@ public class DisplayTableModelTest {
    *          the column name for wich the index should be found.
    * @return returns the index of the column, retuns -1 of it is not found.
    */
-  public int findColumnIndex(String name) {
+  private int findColumnIndex(String name) {
     for (int i = 0; i < model.getColumnCount(); i++) {
       if (name.equals(model.getColumnName(i))) {
         return i;

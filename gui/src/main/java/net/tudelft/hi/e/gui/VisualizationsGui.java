@@ -84,6 +84,27 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private Table table;
 
+  private static final String start = "Start";
+
+  /**
+   * Creates the GUI components, use init() instead.
+   */
+  private VisualizationsGui(Table table) {
+    super(new BorderLayout());
+
+    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+    createTabbedPane();
+    add(tabbedPane, BorderLayout.CENTER);
+
+    this.table = table;
+    if (table == null) {
+      add(createFilePanel(), BorderLayout.PAGE_START);
+    } else {
+      updateTabbedPane();
+    }
+  }
+
   /**
    * Creates the Visualizations GUI.
    */
@@ -100,24 +121,6 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     GUI.init(frame);
   }
 
-  /**
-   * Creates the GUI components, use init() instead.
-   */
-  public VisualizationsGui(Table table) {
-    super(new BorderLayout());
-
-    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-    createTabbedPane();
-    add(tabbedPane, BorderLayout.CENTER);
-
-    this.table = table;
-    if (table == null) {
-      add(createFilePanel(), BorderLayout.PAGE_START);
-    } else {
-      updateTabbedPane();
-    }
-  }
 
 
 
@@ -168,7 +171,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     return filepanel;
   }
 
-  private JTabbedPane createTabbedPane() {
+  private void createTabbedPane() {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
     panel.add(Box.createHorizontalGlue());
@@ -199,8 +202,6 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     tabbedPane.addTab("Histogram", icon, null, "Create a Histogram");
     tabbedPane.setMnemonicAt(5, KeyEvent.VK_7);
-
-    return tabbedPane;
   }
 
   private JPanel createFrequencyPanel() {
@@ -213,7 +214,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     comboFrequency = new JComboBox<String>(getColumns());
     top.add(comboFrequency);
 
-    buttonFrequency = new JButton("Start");
+    buttonFrequency = new JButton(start);
     buttonFrequency.addActionListener(this);
     top.add(buttonFrequency);
 
@@ -237,7 +238,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     comboBar = new JComboBox<String>(getColumns(allowed, false));
     top.add(comboBar);
 
-    buttonBar = new JButton("Start");
+    buttonBar = new JButton(start);
     buttonBar.addActionListener(this);
     top.add(buttonBar);
 
@@ -260,7 +261,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     comboStateT = new JComboBox<String>(getColumns(allowed, false));
     top.add(comboStateT);
 
-    buttonStateT = new JButton("Start");
+    buttonStateT = new JButton(start);
     buttonStateT.addActionListener(this);
     top.add(buttonStateT);
 
@@ -287,7 +288,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     textStemLeaf = new JTextField("2");
     top.add(textStemLeaf);
 
-    buttonStemLeaf = new JButton("Start");
+    buttonStemLeaf = new JButton(start);
     buttonStemLeaf.addActionListener(this);
     top.add(buttonStemLeaf);
 
@@ -314,7 +315,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     textHistogram = new JTextField("2");
     top.add(textHistogram);
 
-    buttonHistogram = new JButton("Start");
+    buttonHistogram = new JButton(start);
     buttonHistogram.addActionListener(this);
     top.add(buttonHistogram);
 
@@ -324,10 +325,8 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     return panel;
   }
 
-  private JDesktopPane createDesktopPane() {
+  private static JDesktopPane createDesktopPane() {
     return new JDesktopPane() {
-      private static final long serialVersionUID = 1L;
-
       @Override
       protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
@@ -395,6 +394,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     } catch (Exception e) {
       // addDataFile will throw an exception if an error occurs when
       // creating the Reader and parsing the settings.
+      LOG.log(Level.SEVERE, e.getMessage());
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
@@ -428,6 +428,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       table = TableFile.readTable(tableFile);
       updateTabbedPane();
     } catch (IOException | ClassNotFoundException e) {
+      LOG.log(Level.SEVERE, e.getMessage());
       JOptionPane.showMessageDialog(null, e.getMessage());
     }
   }
@@ -435,15 +436,15 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private void onFrequency() {
     String column = (String) comboFrequency.getSelectedItem();
       String title = "Frequency Chart {column:'" + column + "'}";
-    JInternalFrame frame = GUI.createInternalFrame(title, FrequencyChart.createFrequencyChartPanel(table, column));
+    JInternalFrame frame = GUI.createInternalFrame(title, FrequencyChart.createPanel(table, column));
     desktopFrequency.add(frame);
   }
 
   private void onBoxChart() {
     String column = (String) comboBar.getSelectedItem();
 
-      String title = "Bar Chart {column:'" + column + "'}";
-    JInternalFrame frame = GUI.createInternalFrame(title, BoxPlotChart.createBoxPlotPanel(table, column));
+    String title = "Bar Chart {column:'" + column + "'}";
+    JInternalFrame frame = GUI.createInternalFrame(title, BoxPlotChart.createPanel(table, column));
     desktopBar.add(frame);
   }
 
@@ -456,31 +457,30 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private void onStemLeaf() {
     String column = (String) comboStemLeaf.getSelectedItem();
-    int power = 2;
-    try {
-      power = Integer.parseInt(textStemLeaf.getText());
-    } catch (NumberFormatException exception) {
-      exception.printStackTrace();
-      return;
-    }
+    int power = getIntFromText(textStemLeaf);
+
     StemLeafPlot slp = new StemLeafPlot(table, column, power);
-      String title = "Stem and Leaf {column:'" + column + "', power:" + power + "}";
+    String title = "Stem and Leaf {column:'" + column + "', power:" + power + "}";
     desktopStemLeaf.add(GUI.createInternalFrame(title, new DisplayTableGui(slp)));
   }
 
   private void onHistogram() {
     String column = (String) comboHistogram.getSelectedItem();
-    int power = 2;
-    try {
-      power = Integer.parseInt(textHistogram.getText());
-    } catch (NumberFormatException exception) {
-      exception.printStackTrace();
-      return;
-    }
+    int power = getIntFromText(textHistogram);
 
-     String title = "Histogram {column:'" + column + "', power: " + power + "}";
-     JInternalFrame frame = GUI.createInternalFrame(title, HistogramChart.createPanel(table, column, power));
-     desktopHistogram.add(frame);
+    String title = "Histogram {column:'" + column + "', power: " + power + "}";
+    JInternalFrame frame = GUI.createInternalFrame(title, HistogramChart.createPanel(table, column, power));
+    desktopHistogram.add(frame);
+  }
+
+  private static int getIntFromText(JTextField field) {
+    int number = 2;
+    try {
+      number = Integer.parseInt(field.getText());
+    } catch (NumberFormatException exception) {
+      LOG.log(Level.SEVERE, exception.getMessage());
+    }
+    return number;
   }
 
 
@@ -498,14 +498,14 @@ public class VisualizationsGui extends JPanel implements ActionListener {
    */
   private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist) {
     List<Column> columnlist = table.getColumns();
-    ArrayList<String> columns = new ArrayList<String>();
+    List<String> columns = new ArrayList<String>();
 
     for (Column column : columnlist) {
       if (columntypes == null || columntypes.contains(column.getClass()) != isblacklist) {
         columns.add(column.getName());
       }
     }
-    return columns.toArray(new String[0]);
+    return columns.toArray(new String[columns.size()]);
   }
 
   private String[] getColumns() {
