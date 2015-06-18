@@ -1,12 +1,14 @@
 package net.tudelft.hi.e.computation;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import net.tudelft.hi.e.computation.DayCondition;
+
 import net.tudelft.hi.e.data.DateValue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 public class DayConditionTest {
