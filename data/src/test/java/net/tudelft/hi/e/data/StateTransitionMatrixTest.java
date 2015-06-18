@@ -1,11 +1,11 @@
 package net.tudelft.hi.e.data;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class StateTransitionMatrixTest {
    *           exception
    */
   @Before
-  public void setUp() throws ClassNotFoundException, IOException {
+  public void setUp() throws TableNotFoundException {
     table = TableFile.readTable("src/test/resources/output_website");
   }
 

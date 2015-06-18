@@ -22,7 +22,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import sun.font.Script;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +107,8 @@ public class ScriptVisitorTest {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     visitor.visit(parser.parse());
 
-    ChunkingOperation expected = new ChunkingOperation(tables.get(0), "field", ChunkType.MONTH);
+    ChunkingOperation expected = new ChunkingOperation(tables.get(0), "field",
+        ChunkType.MONTH, 1);
 
     List<Operation> parsedOperationList = visitor.getOperationList();
 

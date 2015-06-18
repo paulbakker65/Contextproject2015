@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.export;
 
 import com.opencsv.CSVWriter;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.Code;
 import net.tudelft.hi.e.data.NullValue;
@@ -42,7 +45,7 @@ public final class Exporter {
    * @throws IOException If the writing fails an IOException is thrown.
    */
   public static void export(Table table, String path, String extension) throws
-          IOException {
+          TableNotFoundException, IOException {
     FileWriter writer = new FileWriter(path + extension);
     export(table, writer);
     TableFile.writeTable(table, path);

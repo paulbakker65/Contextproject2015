@@ -21,8 +21,8 @@ public class ChunksFinder {
 	 * @return all lists which link to chunks.
 	 */
 	public static List<List<Chunk>> getChunkLists(Table table, int chunkDepth) {
-		chunkDepth = getCorrectDepth(table, chunkDepth);
-		return getChunksListAtDepth(table, chunkDepth - 1);
+		int correctDepth = getCorrectDepth(table, chunkDepth);
+		return getChunksListAtDepth(table, correctDepth - 1);
 	}
 
 	/**
@@ -35,8 +35,8 @@ public class ChunksFinder {
 	 * @return all chunks on a certain depth.
 	 */
 	public static List<Chunk> getChunks(Table table, int chunkDepth) {
-		chunkDepth = getCorrectDepth(table, chunkDepth);
-		return getChunksAtDepth(table, chunkDepth - 1);
+		int correctDepth = getCorrectDepth(table, chunkDepth);
+		return getChunksAtDepth(table, correctDepth - 1);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class ChunksFinder {
 		int maxDepth = maxDepth(table);
 
 		if (depth > maxDepth) {
-			depth = maxDepth;
+			return maxDepth;
 		}
 
 		return depth;

@@ -21,14 +21,22 @@ public class SingleGrouper extends Grouper {
   }
   
   @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 13 * hash + this.getClass().hashCode();
+    return hash;
+     
+  }
+  
+  @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
+    if (super.equals(obj)) {
       return true;
     }
     if (obj == null) {
       return false;
     }
-    return getClass() != obj.getClass();
+    return getClass() == obj.getClass();
   }
 
 }

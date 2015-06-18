@@ -154,7 +154,7 @@ public class ScriptExecutionManagerTest {
     opList.add(new ConstraintOperation(tablesExpected.get(0),
         "login", CompareOperator.EQ, new StringValue("admire13")));
     opList.add(new ChunkingOperation(tablesExpected.get(0),
-        "date", ChunkType.MONTH));
+        "date", ChunkType.MONTH, 1));
     ComputeOperation operation = new ComputeOperation(tablesExpected.get(0),
         ComputeOperator.COUNT, "login");
     opList.add(new ForEachChunkOperation(tablesExpected.get(0), 1, operation));

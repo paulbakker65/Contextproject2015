@@ -7,6 +7,7 @@ import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.computation.BetweenOperation;
 import net.tudelft.hi.e.computation.ChunkingOperation;
 import net.tudelft.hi.e.computation.CodingOperation;
+import net.tudelft.hi.e.computation.CombineOperation;
 import net.tudelft.hi.e.computation.ComputeOperation;
 import net.tudelft.hi.e.computation.Condition;
 import net.tudelft.hi.e.computation.ConnectionOperation;
@@ -108,8 +109,10 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
   public final ChunkingOperation visitChunk_param(AnalysisLangParser.Chunk_paramContext ctx) {
     if (ctx.type != null) {
       try {
-        return new ChunkingOperation(getTableForTableName(visitField(ctx.fieldparam)[0]),
-            visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type));
+        return new ChunkingOperation(getTableForTableName(visitField(
+            ctx.fieldparam)[0]),
+            visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type), 
+            (int) ((NumberValue) visitNumber(ctx.numberparam)).getValue());
       } catch (TableNotFoundException ex) {
         LOG.log(Level.SEVERE, ex.getMessage(), ex);
       }
@@ -181,9 +184,10 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
     return visitConnect_param(ctx.param);
   }
 
-  @Override public CombineOperation visitCombine_operation(AnalysisLangParser
+  @Override 
+  public CombineOperation visitCombine_operation(AnalysisLangParser
       .Combine_operationContext ctx) {
-    return visitCombine_operation(ctx.param);
+    return visitCombine_param(ctx.param);
   }
 
   @Override
