@@ -28,8 +28,6 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -91,9 +89,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
           visitField(ctx.datecol1)[1], visitField(ctx.datecol2)[1], visitValue(ctx.value1),
           visitValue(ctx.value2));
     } catch (TableNotFoundException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage());
-      return null;
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
+    return null;
   }
 
   @Override
@@ -113,26 +111,15 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
         return new ChunkingOperation(getTableForTableName(visitField(ctx.fieldparam)[0]),
             visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type));
       } catch (TableNotFoundException ex) {
-        LOG.log(Level.SEVERE, ex.getMessage());
-        return null;
+        LOG.log(Level.SEVERE, ex.getMessage(), ex);
       }
-    } else {
-      return null;
     }
+    return null;
   }
 
   @Override
   public final ChunkType visitChunk_type(AnalysisLangParser.Chunk_typeContext ctx) {
-    switch (ctx.i) {
-      case 0:
-        return ChunkType.valueOf("YEAR");
-      case 1:
-        return ChunkType.valueOf("MONTH");
-      case 2:
-        return ChunkType.valueOf("DAY");
-      default:
-        return null;
-    }
+    return ctx.op;
   }
 
   @Override
@@ -146,9 +133,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
       return new CodingOperation(getTableForTableName(visitTable(ctx.tableparam)),
           visitPattern(ctx.patternparam), visitText(ctx.codenameparam).toString());
     } catch (TableNotFoundException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage());
-      return null;
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
+    return null;
   }
 
   @Override
@@ -173,9 +160,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
       return new ComputeOperation(getTableForTableName(visitTable(ctx.tableparam)),
           visitCompute_operator(ctx.computeopparam), visitField(ctx.fieldparam)[1]);
     } catch (TableNotFoundException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage());
-      return null;
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
+    return null;
   }
 
   @Override
@@ -194,6 +181,11 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
     return visitConnect_param(ctx.param);
   }
 
+  @Override public CombineOperation visitCombine_operation(AnalysisLangParser
+      .Combine_operationContext ctx) {
+    return visitCombine_operation(ctx.param);
+  }
+
   @Override
   public final ConnectionOperation visitConnect_param(AnalysisLangParser.Connect_paramContext ctx) {
     try {
@@ -202,9 +194,22 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
       return new ConnectionOperation(getTableForTableName(firstField[0]),
           getTableForTableName(secondField[0]), firstField[1], secondField[1]);
     } catch (TableNotFoundException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage());
-      return null;
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
+    return null;
+  }
+
+  @Override public CombineOperation visitCombine_param(AnalysisLangParser.Combine_paramContext
+      ctx) {
+    try {
+      String[] firstField = visitField(ctx.fieldparam);
+      String[] secondField = visitField(ctx.anotherfieldparam);
+      return new CombineOperation(getTableForTableName(firstField[0]),
+          getTableForTableName(secondField[0]), firstField[1], secondField[1]);
+    } catch (TableNotFoundException ex) {
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
+    }
+    return null;
   }
 
   @Override
@@ -219,9 +224,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
       return new ConstraintOperation(getTableForTableName(visitField(ctx.fieldparam)[0]),
           visitField(ctx.fieldparam)[1], ctx.opparam.op, visitValue(ctx.valueparam));
     } catch (TableNotFoundException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage());
-      return null;
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
+    return null;
   }
 
   @Override
@@ -252,9 +257,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
       return new ForEachChunkOperation(getTableForTableName(visitTable(ctx.tableparam)),
           visitNumberGetInt(ctx.levelparam), visitOperationNoAdd(ctx.operationparam));
     } catch (TableNotFoundException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage());
-      return null;
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
+    return null;
   }
 
   @Override
@@ -270,9 +275,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
           visitNumberGetInt(ctx.from), visitNumberGetInt(ctx.to), visitValue(ctx.key),
           visitValue(ctx.target));
     } catch (TableNotFoundException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage());
-      return null;
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
+    return null;
   }
 
   @Override

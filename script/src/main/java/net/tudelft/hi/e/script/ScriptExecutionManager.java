@@ -18,10 +18,20 @@ import java.util.Map;
  */
 public class ScriptExecutionManager {
 
+  /**
+   * Map containing the tables, with the table name as key.
+   */
   private Map<String, Table> tableMap;
 
+  /**
+   * Operation List.
+   */
   private List<Operation> opList;
 
+  /**
+   * Default constructor creating a script execution manager.
+   * @param tables list of tables to use with the operations.
+   */
   public ScriptExecutionManager(List<Table> tables) {
     tableMap = new LinkedHashMap<String, Table>();
     for (Table t : tables) {
@@ -30,14 +40,28 @@ public class ScriptExecutionManager {
     opList = new ArrayList<Operation>();
   }
 
+  /**
+   * Add a script file to the manager.
+   * @param filePath path to the script file.
+   * @throws ParseFailedException if the script file cannot be parsed.
+   */
   public void addScriptFile(String filePath) throws ParseFailedException {
     opList.addAll(OperationFactory.createOperationsFromFile(getTableMapAsList(), filePath));
   }
 
+  /**
+   * Add a script string to the manager.
+   * @param scriptString string containing the script.
+   * @throws ParseFailedException if the script file cannot be parsed.
+   */
   public void addScriptString(String scriptString) throws ParseFailedException {
     opList.addAll(OperationFactory.createOperationsFromString(getTableMapAsList(), scriptString));
   }
 
+  /**
+   * Execute all scripts in the manager.
+   * @return the list of tables containing the output.
+   */
   public List<Table> executeAllScripts() {
     for (Operation o : opList) {
       createTableIfNotExists(o.getResultTableName());
@@ -49,6 +73,10 @@ public class ScriptExecutionManager {
     return getTableMapAsList();
   }
 
+  /**
+   * Create a table for the given table name if it doesn't exist in the table map.
+   * @param resultTableName the name for the table to create.
+   */
   private void createTableIfNotExists(String resultTableName) {
     if (!tableMap.containsKey(resultTableName)) {
       Table newTable = new Table();
@@ -57,10 +85,18 @@ public class ScriptExecutionManager {
     }
   }
 
+  /**
+   * Get the result tables of the script execution.
+   * @return list of result tables.
+   */
   public List<Table> getResultDataTables() {
     return getTableMapAsList();
   }
 
+  /**
+   * Get the table map as a list of tables.
+   * @return the table map as list.
+   */
   private List<Table> getTableMapAsList() {
     return new ArrayList<Table>(tableMap.values());
   }

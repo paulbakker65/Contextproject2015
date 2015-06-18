@@ -36,7 +36,7 @@ public class ExceptionHandler extends Handler {
     return;
   }
 
-  @Override public void close() throws SecurityException {
+  @Override public void close() {
     handler = null;
   }
 

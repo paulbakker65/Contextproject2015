@@ -4,6 +4,7 @@ grammar AnalysisLang;
 import net.tudelft.hi.e.common.enums.CalcOperator;
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.common.enums.ComputeOperator;
+import net.tudelft.hi.e.common.enums.ChunkType;
 import net.tudelft.hi.e.computation.*;
 import net.tudelft.hi.e.data.Value;
 import net.tudelft.hi.e.data.DateValue;
@@ -31,6 +32,7 @@ operation
 | foreach_chunk_operation
 | code_operation
 | connect_operation
+| combine_operation
 | constraint_operation
 | compute_operation
 | lsa_operation
@@ -65,6 +67,10 @@ connect_operation
 : 'CONNECT' param=connect_param
 ;
 
+combine_operation
+: 'COMBINE' param=combine_param
+;
+
 constraint_operation
 : 'CONSTRAINT' param=constraint_param
 ;
@@ -88,10 +94,11 @@ chunk_param
 : fieldparam=field 'USING' type=chunk_type numberparam=number
 ;
 
-chunk_type returns [int i]
-: 'YEAR'  { $i = 0; }
-| 'MONTH' { $i = 1; }
-| 'DAY'   { $i = 2; }
+chunk_type returns [ChunkType op]
+: 'YEAR'  { $op = ChunkType.YEAR; }
+| 'MONTH' { $op = ChunkType.MONTH; }
+| 'DAY'   { $op = ChunkType.DAY; }
+| 'PHASE' { $op = ChunkType.PHASE; }
 ;
 
 ///////////////////////////////////////
@@ -119,6 +126,13 @@ compute_param
 // Connect                           //
 ///////////////////////////////////////
 connect_param
+: fieldparam=field 'TO' anotherfieldparam=field
+;
+
+///////////////////////////////////////
+// Combine                           //
+///////////////////////////////////////
+combine_param
 : fieldparam=field 'TO' anotherfieldparam=field
 ;
 
