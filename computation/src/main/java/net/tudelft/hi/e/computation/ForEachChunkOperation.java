@@ -32,6 +32,7 @@ public class ForEachChunkOperation extends Operation {
   public void resetData(Table inputData) {
     this.inputData = inputData;
     this.resultData = new Table(inputData);
+    this.resultData.clear();
   }
 
   private boolean setOperationParameters(int chunkDepth, Operation operation) {
@@ -51,7 +52,7 @@ public class ForEachChunkOperation extends Operation {
       return false;
     }
 
-    for (List<Chunk> chunkList : ChunksFinder.getChunkLists(resultData, chunkDepth)) {
+    for (List<Chunk> chunkList : ChunksFinder.getChunkLists(inputData, chunkDepth)) {
       for (int i = 0; i < chunkList.size(); i++) {
         Chunk chunk = chunkList.get(i);
         operation.resetData(new Table(chunk));
@@ -61,8 +62,11 @@ public class ForEachChunkOperation extends Operation {
         }
         Chunk newChunk = new Chunk(chunk, operation.getResult());
         chunkList.set(i, newChunk);
+        this.resultData.addAll(newChunk);
       }
     }
+    
+    
 
     return true;
   }
