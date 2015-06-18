@@ -1,4 +1,4 @@
-package net.tudelft.hi.e.data;
+package net.tudelft.hi.e.common.exceptions;
 
 /**
  * Exception class for the case that a value does not match the column type.
@@ -24,5 +24,15 @@ public class ColumnTypeMismatchException extends Exception {
    */
   public ColumnTypeMismatchException(final String msg) {
     super(msg);
+  }
+
+  /**
+   * Constructs a new ColumnTypeMismatchException.
+   *
+   * @param exception
+   *          the inner exception to use.
+   */
+  public ColumnTypeMismatchException(final Exception ex) {
+    super(ex);
   }
 }

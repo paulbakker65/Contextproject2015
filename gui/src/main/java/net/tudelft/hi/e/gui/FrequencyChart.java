@@ -49,7 +49,6 @@ class FrequencyChart {
   /**
    * Makes a Frequency Frame with codes
    *
-   * @param windowTitle title of the frame
    * @param table data to use
    * @param chunkDepth depth of chunks
    */
@@ -60,11 +59,7 @@ class FrequencyChart {
     return chart.createChartPanel(chart.createChart(dataset, "Codes"))
   }
 
-  public FrequencyChart(Table table, String column) {
-    this(table, 1, column);
-  }
-
-  private FrequencyChart(Table table, int chunkDepth, boolean useLess) {
+  private FrequencyChart(Table table, int chunkDepth) {
     this.table = table;
     this.chunkDepth = chunkDepth;
   }
