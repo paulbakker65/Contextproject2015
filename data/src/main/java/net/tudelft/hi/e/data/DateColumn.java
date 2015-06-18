@@ -20,13 +20,14 @@ public class DateColumn extends Column {
   private String formatStr;
   private String targetDate;
 
-  static final String isoFormatStr = "yyyy-MM-dd'T'HH:mm";
-  static final DateFormat isoFormat = new SimpleDateFormat(isoFormatStr);
+  public static final String isoFormatStr = "yyyy-MM-dd'T'HH:mm";
+  public static final DateFormat isoFormat = new SimpleDateFormat(isoFormatStr);
 
   /**
    * Constructs a new DateColumn using a default format.
    *
-   * @param name the name of the column.
+   * @param name
+   *          the name of the column.
    */
   public DateColumn(final String name) {
     this(name, isoFormatStr);
@@ -35,8 +36,10 @@ public class DateColumn extends Column {
   /**
    * Constructs a new DateColumn.
    *
-   * @param name the name of the column.
-   * @param format the date format of the column.
+   * @param name
+   *          the name of the column.
+   * @param format
+   *          the date format of the column.
    */
   public DateColumn(final String name, final String format) {
     this(name, format, null);

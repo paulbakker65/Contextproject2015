@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.SwingWorker;
+
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
@@ -21,6 +24,7 @@ import net.tudelft.hi.e.script.AnalysisLangLexer;
 import net.tudelft.hi.e.script.AnalysisLangParser;
 import net.tudelft.hi.e.script.OperationSpec;
 import net.tudelft.hi.e.script.ScriptListener;
+
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -66,20 +70,22 @@ class Task extends SwingWorker<Void, Void> {
     int currentprogress = 0;
     int onefileprogress = 30 / Input.getFiles().size();
 
-    for (DataFile datafile : Input.getFiles()) {
-      log("Parsing " + datafile.toString());
-      Table table = datafile.getTable();
-      if(table == null) {
-        error("Error Parsing " + datafile.toString());
-        return false;
+    for (DataFile f : Input.getFiles()) {
+      Table table = null;
+      try {
+        log("Parsing " + f.toString());
+        table = f.getParser().parse(f.getReader());
+        if(table == null) {
+          error("Error Parsing " + f.toString());
+        }  
+        tables.add(table);
+        log("Done parsing input files.\n", true);
+        currentprogress = currentprogress + onefileprogress;
+        setProgress(currentprogress);
+      } catch (ParseFailedException ex) {
+        LOG.log(Level.SEVERE, "Error parsing input files: " + ex.getMessage() + ".");
       }
-      tables.add(table);
-      currentprogress = currentprogress + onefileprogress;
-      setProgress(currentprogress);
     }
-    log("Done parsing input files.\n", true);
-    setProgress(30);
-
     return true;
   }
 

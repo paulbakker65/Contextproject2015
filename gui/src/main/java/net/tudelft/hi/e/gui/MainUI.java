@@ -10,13 +10,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -30,6 +34,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
 
@@ -38,8 +43,8 @@ import net.tudelft.hi.e.input.Input;
  */
 public class MainUI extends JFrame {
 
-  private static final Logger LOG = Logger.getLogger(Task.class.getName());
   private static final long serialVersionUID = 1L;
+  private static final Logger LOG = Logger.getLogger(MainUI.class.getName());
 
   // All GUI components:
   private JPanel contentPane;
@@ -195,7 +200,6 @@ public class MainUI extends JFrame {
       }
     });
   }
-
 
   /**
    * Opens a open file dialog for the user to select the script file.
@@ -394,11 +398,46 @@ public class MainUI extends JFrame {
     }
     ProgressGui.init();
   }
+  
+  private void readPreviousDirectory() {
+    File prevDirectoryFile = new File("prev_directory.txt");
+    
+    if (!(prevDirectoryFile.exists() && prevDirectoryFile.isFile())) {
+      return;
+    }
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(prevDirectoryFile));
+      String line = reader.readLine();
+      File prevDirectory = new File(line);
+      
+      if (prevDirectory.exists() && prevDirectory.isDirectory()) {
+        previousDirectory = prevDirectory;
+      }
+      reader.close();
+    } catch (IOException e) {  
+    	LOG.log(Level.WARNING, e.getMessage());
+    }
+  }
+  
+  private void writePreviousDirectory() {
+    if (previousDirectory == null) {
+      return;
+    }
+    
+    try {
+      FileWriter writer = new FileWriter("prev_directory.txt");
+      writer.write(previousDirectory.getAbsolutePath());
+      writer.close();
+    } catch (IOException e) {
+    	LOG.log(Level.WARNING, e.getMessage());
+    }
+  }
 
   /**
    * Exits the program.
    */
   private void onCancel() {
+    writePreviousDirectory();
     dispose();
   }
 

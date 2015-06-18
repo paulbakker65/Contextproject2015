@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.tudelft.hi.e.data.Chunk;
+import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -20,7 +22,6 @@ import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import javax.swing.JPanel;
 
 class BoxPlotChart {
-  private static final long serialVersionUID = 1L;
 
   public static JPanel createPanel(Table table, String column) {
     Dataset dataset = createDataset(table, column);
@@ -42,7 +43,7 @@ class BoxPlotChart {
    */
   public static Dataset createDataset(Table table, String column) {
     DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
-    for (Chunk chunk : FrequencyChart.extractChunks(table)) {
+    for (Chunk chunk : ChunksFinder.extractChunks(table, 1)) {
       List<Double> items = new ArrayList<Double>();
       for (Record record : chunk) {
         Value value = record.get(column);

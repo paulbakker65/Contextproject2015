@@ -16,7 +16,8 @@ public class StringValue extends Value {
   /**
    * Constructs a new NumberValue.
    *
-   * @param value the stored string.
+   * @param value
+   *          the stored string.
    */
   public StringValue(final String value) {
     this.setValue(value);
@@ -80,7 +81,8 @@ public class StringValue extends Value {
   /**
    * Stores a new number string.
    *
-   * @param value the new number string.
+   * @param value
+   *          the new number string.
    */
   public void setValue(final String value) {
     this.value = value;

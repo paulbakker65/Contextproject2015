@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -28,10 +29,12 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JDesktopPane;
 import javax.swing.UIManager;
+import javax.swing.SpinnerNumberModel;
 
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Column;
@@ -50,8 +53,7 @@ import net.tudelft.hi.e.input.Input;
 public class VisualizationsGui extends JPanel implements ActionListener {
   private static final long serialVersionUID = 1L;
 
-  private static final Logger LOG
-      = Logger.getLogger(VisualizationsGui.class.getName());
+  private static final Logger LOG = Logger.getLogger(VisualizationsGui.class.getName());
 
   private JTextField datafile;
   private JTextField settings;
@@ -81,6 +83,9 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private JButton buttonHistogram;
   private JTextField textHistogram;
   private JDesktopPane desktopHistogram;
+  private SpinnerNumberModel frequencyDepthModel;
+
+  public static final String CODE = "* CODE *";
 
   private Table table;
 
@@ -120,9 +125,6 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     GUI.init(frame);
   }
-
-
-
 
   private JPanel createFilePanel() {
     GridBagConstraints gbc;
@@ -209,9 +211,16 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     JPanel top = new JPanel();
     panel.add(top,  BorderLayout.PAGE_START);
+
+    top.add(new JLabel("Chunk depth: "));
+    
+    frequencyDepthModel = new SpinnerNumberModel(0, 0, 9, 1);
+
+    top.add(new JSpinner(frequencyDepthModel));
+    
     top.add(new JLabel("Select a column: "));
 
-    comboFrequency = new JComboBox<String>(getColumns());
+    comboFrequency = new JComboBox<String>(getColumns(true));
     top.add(comboFrequency);
 
     buttonFrequency = new JButton(start);
@@ -235,8 +244,10 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
 
     allowed.add(NumberColumn.class);
-    comboBar = new JComboBox<String>(getColumns(allowed, false));
+
+    comboBar = new JComboBox<String>(getColumns(allowed, false, false));
     top.add(comboBar);
+
 
     buttonBar = new JButton(start);
     buttonBar.addActionListener(this);
@@ -258,7 +269,8 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(DateColumn.class);
-    comboStateT = new JComboBox<String>(getColumns(allowed, false));
+
+    comboStateT = new JComboBox<String>(getColumns(allowed, false, false));
     top.add(comboStateT);
 
     buttonStateT = new JButton(start);
@@ -281,7 +293,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(NumberColumn.class);
-    comboStemLeaf = new JComboBox<String>(getColumns(allowed, false));
+    comboStemLeaf = new JComboBox<String>(getColumns(allowed, false, false));
     top.add(comboStemLeaf);
 
     top.add(new JLabel("Power: "));
@@ -308,7 +320,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
     allowed.add(NumberColumn.class);
-    comboHistogram = new JComboBox<String>(getColumns(allowed, false));
+    comboHistogram = new JComboBox<String>(getColumns(allowed, false, false));
     top.add(comboHistogram);
 
     top.add(new JLabel("Power: "));
@@ -327,6 +339,11 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private static JDesktopPane createDesktopPane() {
     return new JDesktopPane() {
+      /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
+
       @Override
       protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
@@ -435,8 +452,15 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private void onFrequency() {
     String column = (String) comboFrequency.getSelectedItem();
+    int depth = frequencyDepthModel.getNumber().intValue();
+    JPanel panel;
+    if (column.equals(CODE)) {
+      panel = FrequencyChart.createPanel(table, depth);
+    } else {
+      panel = FrequencyChart.createPanel(table, depth, column);
+    }
       String title = "Frequency Chart {column:'" + column + "'}";
-    JInternalFrame frame = GUI.createInternalFrame(title, FrequencyChart.createPanel(table, column));
+    JInternalFrame frame = GUI.createInternalFrame(title, panel);
     desktopFrequency.add(frame);
   }
 
@@ -494,9 +518,12 @@ public class VisualizationsGui extends JPanel implements ActionListener {
    *          a list containing column classes. If set null, all class types are allowed.
    * @param isblacklist
    *          if true, columntypes is used as a blacklist, else it is used as a whitelist.
+   * @param codes
+   *          wether the special CODE should be added
    * @return all the column names.
    */
-  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist) {
+  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist,
+      boolean codes) {
     List<Column> columnlist = table.getColumns();
     List<String> columns = new ArrayList<String>();
 
@@ -505,11 +532,16 @@ public class VisualizationsGui extends JPanel implements ActionListener {
         columns.add(column.getName());
       }
     }
-    return columns.toArray(new String[columns.size()]);
+
+    if (codes) {
+      columns.add(CODE);
+    }
+
+    return columns.toArray(new String[0]);
   }
 
-  private String[] getColumns() {
-    return getColumns(null, false);
+  private String[] getColumns(boolean codes) {
+    return getColumns(null, false, codes);
   }
 
   public static void main(String[] argv) {
