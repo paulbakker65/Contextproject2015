@@ -22,7 +22,7 @@ public class StateTransitionMatrix extends Table {
    */
   public StateTransitionMatrix(Table table, String dateColumn) {
     this.setName("transition matrix for " + table.getName());
-    ArrayList<String> uniqueValues = determineUniqueCodes(table);
+    List<String> uniqueValues = determineUniqueCodes(table);
     createTable(uniqueValues);
     createCodeTable(table, dateColumn);
     countTransitions();
@@ -31,14 +31,14 @@ public class StateTransitionMatrix extends Table {
   /**
    * Look at the codes and add them to an arraylist.
    */
-  public ArrayList<String> determineUniqueCodes(Table table) {
+  public List<String> determineUniqueCodes(Table table) {
     return new ArrayList<String>(table.getCodes().keySet());
   }
 
   /**
    * Create the table with all the values set to zero.
    */
-  public void createTable(ArrayList<String> uniqueValues) {
+  public void createTable(List<String> uniqueValues) {
     List<Column> col = new ArrayList<Column>();
 
     col.add(new StringColumn("id"));

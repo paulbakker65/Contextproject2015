@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -15,6 +17,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  * Contains methods for GUI's.
  */
 public class GUI {
+  
+  private static final Logger LOG = Logger.getLogger(GUI.class.getName());
   /**
    * Sets the gui to use visuals similar to the operating system, instead of the java gui visuals.
    */
@@ -22,13 +26,13 @@ public class GUI {
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+      LOG.log(Level.SEVERE, e.getMessage(), e);
     } catch (InstantiationException e) {
-      e.printStackTrace();
+      LOG.log(Level.WARNING, e.getMessage(), e);
     } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      LOG.log(Level.SEVERE, e.getMessage(), e);
     } catch (UnsupportedLookAndFeelException e) {
-      e.printStackTrace();
+      LOG.log(Level.INFO, e.getMessage(), e);
     }
   }
   
@@ -51,7 +55,7 @@ public class GUI {
       Image icon = ImageIO.read(ClassLoader.getSystemResource("icon.png"));
       window.setIconImage(icon);
     } catch (IOException e1) {
-      System.err.println("Error opening icon from resource.");
+      LOG.log(Level.SEVERE, "Error opening icon from resource.", e1);
     }
   }
   
@@ -76,7 +80,7 @@ public class GUI {
     if (imgUrl != null) {
       return new ImageIcon(imgUrl);
     } else {
-      System.err.println("Couldn't find file: " + path);
+      LOG.log(Level.SEVERE, "Error opening icon from resource.", new IOException());
       return null;
     }
   }

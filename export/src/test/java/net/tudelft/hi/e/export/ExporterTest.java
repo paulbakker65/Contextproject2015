@@ -8,6 +8,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.Code;
 import net.tudelft.hi.e.data.Record;
@@ -17,6 +19,7 @@ import net.tudelft.hi.e.data.TableFile;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -124,7 +127,7 @@ public class ExporterTest {
   }
 
   @Test
-  public void testExportSer() throws IOException, ClassNotFoundException {
+  public void testExportSer() throws IOException, TableNotFoundException {
     Exporter.export(dummydb2, "src/test/resources/testExport", ".csv");
 
     File exportFile = new File("src/test/resources/testExport.csv");

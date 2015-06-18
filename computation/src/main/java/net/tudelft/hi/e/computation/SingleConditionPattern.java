@@ -57,12 +57,12 @@ public class SingleConditionPattern extends Pattern {
     if (!findPatternPreConditions(table, fromIndex, records)) {
       return false;
     }
-
-    final Record record = table.get(fromIndex++);
+    int count = fromIndex;
+    final Record record = table.get(count++);
     if (matches(record)) {
       records.add(record);
 
-      return findPatternFindNextPattern(table, fromIndex, records);
+      return findPatternFindNextPattern(table, count, records);
     } else {
       return false;
     }
