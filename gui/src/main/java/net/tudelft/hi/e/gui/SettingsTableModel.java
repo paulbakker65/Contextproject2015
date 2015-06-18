@@ -18,6 +18,10 @@ import net.tudelft.hi.e.input.Settings;
  */
 public class SettingsTableModel extends AbstractTableModel {
 
+  /**
+   * Default id.
+   */
+  private static final long serialVersionUID = 1L;
   private Settings settings;
   private String[] examples;
 
