@@ -1,5 +1,7 @@
 package net.tudelft.hi.e.computation;
 
+import java.util.Collections;
+
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.RecordComparator;
 import net.tudelft.hi.e.data.Table;
@@ -41,8 +43,8 @@ public class CombineOperation extends Operation {
     }
     
     // Sort on target column to speed up searching
-    this.inputData.sort(new RecordComparator(this.columnName));
-    this.otherTable.sort(new RecordComparator(this.otherColumnName));
+    Collections.sort(this.inputData, new RecordComparator(this.columnName));
+    Collections.sort(this.otherTable, new RecordComparator(this.otherColumnName));
 
     for (Record record : this.inputData) {
       Value value = record.get(columnName);
