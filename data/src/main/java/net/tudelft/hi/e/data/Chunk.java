@@ -33,6 +33,7 @@ public class Chunk extends Table implements Serializable {
     super();
     this.index = index;
     this.label = label;
+    this.setName(label);
   }
 
   /**
@@ -47,6 +48,7 @@ public class Chunk extends Table implements Serializable {
     super(newData);
     this.index = oldChunk.index;
     this.label = new String(oldChunk.label);
+    this.setName(oldChunk.getName());
   }
 
   /**
