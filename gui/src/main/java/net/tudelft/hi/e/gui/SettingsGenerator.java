@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.OutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,10 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.LayoutFocusTraversalPolicy;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import net.tudelft.hi.e.export.SettingsWriter;
@@ -67,9 +64,6 @@ public class SettingsGenerator extends JFrame {
 
   private JButton saveButton;
   
-  private static FileNameExtensionFilter xmlfilter =
-      new FileNameExtensionFilter("XML Setting Files", "xml");
-
   private static FileNameExtensionFilter allfilter =
       new FileNameExtensionFilter("All supported data files", "csv", "txt", "xlsx");
   
@@ -226,16 +220,15 @@ public class SettingsGenerator extends JFrame {
 
   private void onSave() {
     JFileChooser chooser = new JFileChooser();
-    chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-    chooser.setFileFilter(xmlfilter);
+    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    chooser.setDialogType(JFileChooser.OPEN_DIALOG);
     chooser.setDialogTitle("Save XML settings...");
     int state = chooser.showOpenDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {
-      OutputStream out;
       try {
         settings.setName(nameTextField.getText());
-        SettingsWriter.writeSettings(settings, chooser.getSelectedFile());
+        SettingsWriter.writeSettings(settings, new File(chooser.getSelectedFile() + "/" + nameTextField.getText() + ".xml"));
       } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Save XML settings failed",
             JOptionPane.ERROR_MESSAGE);
