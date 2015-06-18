@@ -13,7 +13,6 @@ import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
 
 /**
- *
  * @author mawdegroot
  */
 public class ScriptExecutionManager {
@@ -35,19 +34,22 @@ public class ScriptExecutionManager {
 
   public void addScriptFile(String filePath) {
     updateTableList();
-    opList.addAll(OperationFactory.createOperationsFromFile(tableList, filePath));
+    opList.
+        addAll(OperationFactory.createOperationsFromFile(tableList, filePath));
   }
 
   public void addScriptString(String scriptString) {
     updateTableList();
-    opList.addAll(OperationFactory.createOperationsFromString(tableList, scriptString));
+    opList.addAll(OperationFactory.createOperationsFromString(tableList,
+        scriptString));
   }
 
   public List<Table> executeAllScripts() {
     for (int i = 0; i < opList.size(); i++) {
       opList.get(i).execute();
       createTableIfNotExists(opList.get(i).getResultTableName());
-      Table operationResultTable = tableMap.get(opList.get(i).getResultTableName());
+      Table operationResultTable = tableMap.get(opList.get(i).
+          getResultTableName());
 
       operationResultTable.clear();
       operationResultTable.addAll(opList.get(i).getResult());

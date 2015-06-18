@@ -148,7 +148,7 @@ public class FrequencyChart extends JFrame {
 						Calendar.HOUR_OF_DAY)]++;
 			}
 			for (int i = 0; i < amount.length; i++) {
-				dataset.addValue(amount[i], new Integer(i), chunk.getLabel());
+				dataset.addValue(amount[i], "Time (h)", new Integer(i));
 			}
 		}
 		return dataset;

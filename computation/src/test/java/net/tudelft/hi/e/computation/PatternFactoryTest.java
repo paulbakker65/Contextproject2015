@@ -145,6 +145,32 @@ public class PatternFactoryTest {
 
     assertEquals(expected, PatternFactory.createPattern(list));
   }
+  
+  @Test 
+  public void testNotPattern() {
+	  Pattern first = PatternFactory.createPattern("1 StatSensor");
+	  Pattern toInvert = PatternFactory.createPattern("1 Hospital");	  
+	  Pattern last = PatternFactory.createPattern("1 Website");
+	  Pattern notPattern = new NotPattern(toInvert, last);
+	  first.setNextPattern(notPattern);
+	  
+	  assertEquals(first, PatternFactory.createPattern("1 StatSensor", "!(1 Hospital)", "1 Website"));
+  }
+  
+  @Test 
+  public void testNotPatternLast() {
+	  Pattern first = PatternFactory.createPattern("1 StatSensor");
+	  Pattern toInvert = PatternFactory.createPattern("1 Hospital");	
+	  Pattern notPattern = new NotPattern(toInvert);
+	  first.setNextPattern(notPattern);
+	  
+	  assertEquals(first, PatternFactory.createPattern("1 StatSensor", "!(1 Hospital)"));
+  }
+  
+  @Test 
+  public void testNotPatternWrong() {	  
+	  assertEquals(new NullPattern(), PatternFactory.createPattern("!(1 Hospital", "1 Website"));
+  }
 
   @Test
   public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,

@@ -22,8 +22,14 @@ class OperationFactory {
   /**
    * Class wide logger used for logging exceptions.
    */
-  static final Logger LOG = Logger.getLogger(OperationFactory.class.
+  private static final Logger LOG = Logger.getLogger(OperationFactory.class.
       getName());
+
+  /**
+   * Default hidden constructor because this class cannot be instantiated.
+   */
+  private OperationFactory() {
+  }
 
   /**
    * Create operations using a input script given as String.
@@ -32,8 +38,8 @@ class OperationFactory {
    * @param scriptInput script input.
    * @return list of operations.
    */
-  static List<Operation> createOperationsFromString(
-      final List<Table> tableList, final String scriptInput) {
+  static List<Operation> createOperationsFromString(final List<Table> tableList,
+      final String scriptInput) {
     return createOperationsUsingInputStream(tableList, new ANTLRInputStream(
         scriptInput));
   }
@@ -45,12 +51,13 @@ class OperationFactory {
    * @param filePath script file path.
    * @return list of operations.
    */
-  static List<Operation> createOperationsFromFile(
-      final List<Table> tableList, final String filePath) {
+  static List<Operation> createOperationsFromFile(final List<Table> tableList,
+      final String filePath) {
     List<Operation> listOfOperations = new ArrayList<Operation>();
     try {
-      listOfOperations.addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(
-          filePath)));
+      listOfOperations
+          .addAll(createOperationsUsingInputStream(tableList,
+                  new ANTLRFileStream(filePath)));
     } catch (IOException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -59,7 +66,7 @@ class OperationFactory {
 
   /**
    * The underlying createOperations method using an ANTLR Input Stream.
-   *
+   * <p>
    * The other methods use this function to do the actual creating.
    *
    * @param tableList list of tables on which operations will be executed.
@@ -67,7 +74,8 @@ class OperationFactory {
    * @return list of operations.
    */
   private static List<Operation> createOperationsUsingInputStream(
-      final List<Table> tableList, final ANTLRInputStream inputStream) {
+      final List<Table> tableList,
+      final ANTLRInputStream inputStream) {
     final AnalysisLangLexer lexer = new AnalysisLangLexer(inputStream);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);

@@ -1,0 +1,6 @@
+<settings startLine="1" delimiter=";" name="website">
+  <column name="login" />
+  <column name="date" type="date" format="dd/MM/yy"  />
+  <column name="string" />
+  <column name="number" type="number" />
+</settings>
