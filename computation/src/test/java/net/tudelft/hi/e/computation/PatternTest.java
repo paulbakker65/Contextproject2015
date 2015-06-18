@@ -76,4 +76,17 @@ public class PatternTest {
   private Pattern getSingleOccurrencePattern(String name) {
     return new SingleConditionPattern(new RecordOccurrenceCondition(name));
   }
+  
+  @Test
+  public void testGetLastNotNullPattern() {
+    Pattern pattern = new NullPattern();
+    assertEquals(pattern, pattern.getLastNotNullPattern());
+    
+    pattern = getSingleOccurrencePattern("Test");
+    assertEquals(pattern, pattern.getLastNotNullPattern());
+    
+    Pattern pattern2 = getSingleOccurrencePattern("Test2");
+    pattern.setNextPattern(pattern2);
+    assertEquals(pattern2, pattern.getLastNotNullPattern());
+  }
 }

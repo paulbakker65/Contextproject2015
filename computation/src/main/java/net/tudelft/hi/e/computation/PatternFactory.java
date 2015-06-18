@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.computation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class PatternFactory {
    * @return the created pattern.
    */
   public static Pattern createPattern(List<PatternDescription> patternDescriptions) {
-    if (patternDescriptions.isEmpty()) {
+    if (patternDescriptions.isEmpty() || patternDescriptions.get(0) == null) {
       return new NullPattern();
     }
 
@@ -32,7 +33,7 @@ public class PatternFactory {
 
     Pattern nextPattern = createPattern(patternDescriptions);
     Pattern currentPattern = count.createPattern(condition);
-    Pattern lastCurrentPattern = getLastNotNullPattern(currentPattern);
+    Pattern lastCurrentPattern = currentPattern.getLastNotNullPattern();
     lastCurrentPattern.setNextPattern(nextPattern);
 
     return currentPattern;
@@ -48,6 +49,22 @@ public class PatternFactory {
    *        the created Pattern.
    */
   public static Pattern createPattern(String... descriptions) {
+    for (int i = 0; i < descriptions.length; i++) {
+      if (descriptions[i].startsWith("!(") && descriptions[i].endsWith(")")) {
+    	Pattern firstPattern = 
+    			createPattern(Arrays.asList(descriptions).subList(0, i).toArray(new String[0]));
+    	Pattern lastPattern = new NullPattern();
+    	if (i < descriptions.length - 1) {
+    		lastPattern = 
+    			createPattern(Arrays.asList(descriptions).subList(i + 1, descriptions.length).toArray(new String[0]));
+    	}
+    	Pattern toInvert = createPattern(descriptions[i].substring(2, descriptions[i].length() - 1));
+    	Pattern notPattern = new NotPattern(toInvert, lastPattern);
+    	firstPattern.getLastNotNullPattern().setNextPattern(notPattern);
+    	return firstPattern;
+      }
+    }
+	  
     List<PatternDescription> list = new ArrayList<PatternDescription>();
 
     for (int i = 0; i < descriptions.length; i++) {
@@ -55,13 +72,5 @@ public class PatternFactory {
     }
 
     return createPattern(list);
-  }
-
-  private static Pattern getLastNotNullPattern(Pattern pattern) {
-    Pattern nextPattern = pattern;
-    while (!(nextPattern.getNextPattern() instanceof NullPattern)) {
-      nextPattern = nextPattern.getNextPattern();
-    }
-    return nextPattern;
-  }
+  } 
 }
