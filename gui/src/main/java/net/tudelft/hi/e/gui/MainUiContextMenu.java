@@ -21,7 +21,8 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
     private static final Logger LOG = Logger.getLogger(Task.class.getName());
     private final JPopupMenu popupMenu = new JPopupMenu();
     private final JMenuItem menuRemove = new JMenuItem("Remove");
-    private final JMenuItem menuPreview = new JMenuItem("Preview");
+    private final JMenuItem menuPreview = new JMenuItem("Preview Table");
+    private final JMenuItem menuSettings = new JMenuItem("Preview Settings");
     private final JMenuItem menuVisualize = new JMenuItem("Visualize");
     private final JMenuItem menuViewDir = new JMenuItem("View dir");
 
@@ -37,12 +38,16 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
         filesTable.addMouseListener(this);
 
         menuRemove.addActionListener(this);
-        menuRemove.setIcon(GUI.createImageIcon("exit.png"));
+        menuRemove.setIcon(GUI.createImageIcon("remove.png"));
         popupMenu.add(menuRemove);
 
         menuPreview.addActionListener(this);
         menuPreview.setIcon(GUI.createImageIcon("table.png"));
         popupMenu.add(menuPreview);
+
+        menuSettings.addActionListener(this);
+        menuSettings.setIcon(GUI.createImageIcon("settings.png"));
+        popupMenu.add(menuSettings);
 
         menuVisualize.addActionListener(this);
         menuVisualize.setIcon(GUI.createImageIcon("icon.png"));
@@ -94,6 +99,7 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
         Object source = event.getSource();
         if(source == menuRemove) { onMenuRemove(); }
         else if (source == menuPreview) { onMenuPreview(); }
+        else if (source == menuSettings) { onMenuSettings(); }
         else if (source == menuVisualize) { onMenuVisualize(); }
         else if (source == menuViewDir) { onMenuViewDir(); }
     }
@@ -116,6 +122,15 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
         DisplayTableGui.init(Input.getFiles().get(selectedRow).getTable());
     }
 
+    private void onMenuSettings() {
+        int selectedRow = table.getSelectedRow();
+        if(isOutOfBounds(selectedRow)) {
+            return;
+        }
+
+        GUI.openSystemEditor(Input.getFiles().get(selectedRow).getSettingsfile());
+    }
+
     private void onMenuVisualize() {
         int selectedRow = table.getSelectedRow();
         if(isOutOfBounds(selectedRow)) {
@@ -130,10 +145,6 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
         if(isOutOfBounds(selectedRow)){
             return;
         }
-        try {
-            Desktop.getDesktop().open(Input.getFiles().get(selectedRow).getRawDataFile().getParentFile());
-        } catch (IOException e1) {
-            LOG.log(Level.SEVERE, "Error trying to view the directory.");
-        }
+        GUI.openSystemEditor(Input.getFiles().get(selectedRow).getRawDataFile().getParentFile());
     }
 }

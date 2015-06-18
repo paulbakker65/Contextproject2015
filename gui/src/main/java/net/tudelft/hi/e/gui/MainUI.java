@@ -238,13 +238,7 @@ public class MainUI extends JFrame {
       return;
     }
 
-    try {
-      Desktop.getDesktop().open(Input.getScriptFile());
-    } catch (IOException e1) {
-      //also gets thrown if system has no defaut editor for the file type.
-      System.out.println("Error trying to open default editor.");
-      e1.printStackTrace();
-    }
+    GUI.openSystemEditor(Input.getScriptFile());
   }
 
   /**
@@ -296,12 +290,7 @@ public class MainUI extends JFrame {
       return;
     }
 
-    try {
-      Desktop.getDesktop().open(Input.getOutputDir());
-    } catch (IOException e1) {
-      System.out.println("Error trying to view the directory.");
-      e1.printStackTrace();
-    }
+    GUI.openSystemEditor(Input.getOutputDir());
   }
 
   /**
