@@ -1,10 +1,14 @@
 package net.tudelft.hi.e.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -71,6 +75,8 @@ public class SettingsGenerator extends JFrame {
 
   private static final int GAP = 8;
 
+  private static final Logger LOG = Logger.getLogger(SettingsGenerator.class.getName());
+
   /**
    * Constructs a new settings window.
    */
@@ -78,8 +84,6 @@ public class SettingsGenerator extends JFrame {
     super();
 
     setTitle("Settings Generator");
-
-    setLayout(new BorderLayout(GAP, GAP));
 
     setMainPanel();
     setFilePanel();
@@ -260,6 +264,24 @@ public class SettingsGenerator extends JFrame {
         settings.setName(nameTextField.getText());
         SettingsWriter.writeSettings(settings, new File(chooser.getSelectedFile() + "/"
             + nameTextField.getText() + ".xml"));
+        Object[] options = {"Yes", "No", "Close settings builder"};
+        int chosenOption =
+            JOptionPane.showOptionDialog(this, nameTextField.getText()
+                + ".xml was created in the directory " + chooser.getSelectedFile()
+                + "\n Would you like to see the output directory?", "A Silly Question",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                GUI.createImageIcon("icon.png"), options, options[2]);
+        if (chosenOption == JOptionPane.CANCEL_OPTION) {
+          this.dispose();
+        }
+        if (chosenOption == JOptionPane.YES_OPTION) {
+          try {
+            Desktop.getDesktop().open(chooser.getSelectedFile());
+          } catch (IOException e1) {
+            LOG.log(Level.SEVERE, "Output directory could not be opened");
+          }
+        }
+
       } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Save XML settings failed",
             JOptionPane.ERROR_MESSAGE);
@@ -270,6 +292,7 @@ public class SettingsGenerator extends JFrame {
 
   /**
    * Checks if a format is typed when date is selected.
+   * 
    * @return boolean if no format is specified.
    */
   private boolean noFormat() {
