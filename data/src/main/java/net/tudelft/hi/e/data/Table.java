@@ -131,7 +131,7 @@ public class Table extends ArrayList<Record> implements Serializable {
    * @param codes
    *          the new codes.
    */
-  public void setCodes(LinkedHashMap<String, Code> codes) {
+  public void setCodes(Map<String, Code> codes) {
     this.codes = codes;
   }
 

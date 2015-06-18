@@ -83,8 +83,6 @@ public class TableFile {
   }
 
   private static Table readTable(FileInputStream fis) throws TableNotFoundException {
-    
-    
     try {
       ObjectInputStream ois = new ObjectInputStream(fis);
       Table res = new Table();
@@ -96,6 +94,5 @@ public class TableFile {
     } catch (IOException e) {
       throw new TableNotFoundException("Table file not found, wrong path");
     }
-    
   }
 }
