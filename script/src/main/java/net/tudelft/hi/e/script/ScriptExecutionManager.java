@@ -42,7 +42,8 @@ public class ScriptExecutionManager {
       createTableIfNotExists(o.getResultTableName());
       o.resetData(tableMap.get(o.getInputTableName()));
       o.execute();
-      tableMap.replace(o.getResultTableName(), o.getResult());
+      tableMap.remove(o.getResultTableName());
+      tableMap.put(o.getResultTableName(), o.getResult());
     }
     return getTableMapAsList();
   }
