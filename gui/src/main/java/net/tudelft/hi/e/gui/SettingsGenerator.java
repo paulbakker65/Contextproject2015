@@ -20,6 +20,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.export.SettingsWriter;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Reader;
@@ -63,14 +65,14 @@ public class SettingsGenerator extends JFrame {
   private JTextField nameTextField;
 
   private JButton saveButton;
-  
-  private static FileNameExtensionFilter allfilter =
-      new FileNameExtensionFilter("All supported data files", "csv", "txt", "xlsx");
-  
+
+  private static FileNameExtensionFilter allfilter = new FileNameExtensionFilter(
+      "All supported data files", "csv", "txt", "xlsx");
+
   private static final int GAP = 8;
 
   /**
-   * Constructs a new settingswindow.
+   * Constructs a new settings window.
    */
   public SettingsGenerator() {
     super();
@@ -79,14 +81,28 @@ public class SettingsGenerator extends JFrame {
 
     setLayout(new BorderLayout(GAP, GAP));
 
+    setMainPanel();
+    setFilePanel();
+    setDelimiterField();
+    setPreviewButton();
+    setStartPanel();
+    setCenterPanel();
+    setBottomButtons();
+
+    setPreferredSize(new Dimension(700, 500));
+    pack();
+
+  }
+
+  private void setMainPanel() {
     // Main panel
     mainPanel = new JPanel(new BorderLayout(GAP, GAP));
     mainPanel.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
     mainPanel.setLayout(new BorderLayout(GAP, GAP));
     add(mainPanel, BorderLayout.CENTER);
+  }
 
-    // Filepanel
-
+  private void setFilePanel() {
     filePanel = new JPanel(new BorderLayout(GAP, GAP));
     mainPanel.add(filePanel, BorderLayout.PAGE_START);
 
@@ -102,9 +118,9 @@ public class SettingsGenerator extends JFrame {
         onOpenFile();
       }
     });
+  }
 
-    // Delimiter panel
-
+  private void setDelimiterField() {
     delimPanel = new JPanel(new BorderLayout(GAP, GAP));
     filePanel.add(delimPanel, BorderLayout.PAGE_END);
 
@@ -112,7 +128,9 @@ public class SettingsGenerator extends JFrame {
 
     delimiterTextField = new JTextField();
     delimPanel.add(delimiterTextField, BorderLayout.CENTER);
+  }
 
+  private void setPreviewButton() {
     previewButton = new JButton("Preview...");
     delimPanel.add(previewButton, BorderLayout.LINE_END);
 
@@ -123,8 +141,9 @@ public class SettingsGenerator extends JFrame {
       }
     });
 
-    // Line Start Panel
+  }
 
+  private void setStartPanel() {
     startPanel = new JPanel(new BorderLayout(GAP, GAP));
     delimPanel.add(startPanel, BorderLayout.PAGE_START);
 
@@ -137,14 +156,15 @@ public class SettingsGenerator extends JFrame {
     headersCheckBox.setSelected(true);
     startPanel.add(headersCheckBox, BorderLayout.LINE_START);
 
-    // Center
+  }
 
+  private void setCenterPanel() {
     csp = ColumnSettingsPane.createPanel();
     csp.setPreferredSize(new Dimension(580, 200));
     mainPanel.add(csp, BorderLayout.CENTER);
+  }
 
-    // Lower
-
+  private void setBottomButtons() {
     bottomPanel = new JPanel(new BorderLayout(GAP, GAP));
     mainPanel.add(bottomPanel, BorderLayout.PAGE_END);
 
@@ -162,9 +182,6 @@ public class SettingsGenerator extends JFrame {
         onSave();
       }
     });
-
-    setPreferredSize(new Dimension(700, 500));
-    pack();
   }
 
   private void onOpenFile() {
@@ -186,6 +203,16 @@ public class SettingsGenerator extends JFrame {
 
   private void onPreview() {
     settings = new Settings();
+    if (example == null) {
+      JOptionPane.showMessageDialog(this, "Need to select a file before you can preview it",
+          "File not specified", JOptionPane.WARNING_MESSAGE, GUI.createImageIcon("icon.png"));
+      return;
+    }
+    if (delimiterTextField.getText().isEmpty()) {
+      JOptionPane.showMessageDialog(this, "Need to specify the delimiter of the selected file",
+          "Delimiter not specified", JOptionPane.WARNING_MESSAGE, GUI.createImageIcon("icon.png"));
+      return;
+    }
     settings.setDelimiter(delimiterTextField.getText());
     Reader reader;
     try {
@@ -219,6 +246,9 @@ public class SettingsGenerator extends JFrame {
   }
 
   private void onSave() {
+    if (noFormat()) {
+      return;
+    }
     JFileChooser chooser = new JFileChooser();
     chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     chooser.setDialogType(JFileChooser.OPEN_DIALOG);
@@ -228,7 +258,8 @@ public class SettingsGenerator extends JFrame {
     if (state == JFileChooser.APPROVE_OPTION) {
       try {
         settings.setName(nameTextField.getText());
-        SettingsWriter.writeSettings(settings, new File(chooser.getSelectedFile() + "/" + nameTextField.getText() + ".xml"));
+        SettingsWriter.writeSettings(settings, new File(chooser.getSelectedFile() + "/"
+            + nameTextField.getText() + ".xml"));
       } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e.getMessage(), "Save XML settings failed",
             JOptionPane.ERROR_MESSAGE);
@@ -238,15 +269,21 @@ public class SettingsGenerator extends JFrame {
   }
 
   /**
-   * Main method for stand-alone run.
-   * 
-   * @param args
-   *          ignored
+   * Checks if a format is typed when date is selected.
+   * @return boolean if no format is specified.
    */
-  public static void main(String[] args) {
-    SettingsGenerator test = new SettingsGenerator();
-    test.setVisible(true);
-
+  private boolean noFormat() {
+    for (Column column : settings.getColumns()) {
+      if (column.getType().equals("date")) {
+        DateColumn dateColumn = (DateColumn) column;
+        if (dateColumn.getFormatStr().isEmpty()) {
+          JOptionPane.showMessageDialog(this, "Need to specify the format of the datacolumn: "
+              + column.getName(), "Format not specified", JOptionPane.WARNING_MESSAGE,
+              GUI.createImageIcon("icon.png"));
+          return true;
+        }
+      }
+    }
+    return false;
   }
-
 }
