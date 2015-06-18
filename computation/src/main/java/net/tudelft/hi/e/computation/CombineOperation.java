@@ -38,10 +38,10 @@ public class CombineOperation extends Operation {
 
   @Override
   public boolean execute() {
-    if(!operationParametersSet) {
+    if (!operationParametersSet) {
       return false;
     }
-    
+
     // Sort on target column to speed up searching
     Collections.sort(this.inputData, new RecordComparator(this.columnName));
     Collections.sort(this.otherTable, new RecordComparator(this.otherColumnName));
@@ -71,25 +71,28 @@ public class CombineOperation extends Operation {
           }
 
           this.resultData.add(combinedRecord);
-        }
-        // prevent searching beyond the value that we're looking for
-        else {
-          if (value.compareTo(otherValue) > 0) {
-            continue;
-          }
+        } else if (value.compareTo(otherValue) > 0) {
+          continue;
         }
       }
     }
     return true;
   }
 
+  /**
+   * Sets the variables of the operation.
+   * 
+   * @param otherTable the other table
+   * @param columnName column name of the first table
+   * @param otherColumnName column name of the other table
+   */
   public void setOperationParameters(Table otherTable, String columnName, String otherColumnName) {
     if (columnName != null && otherColumnName != null) {
       this.otherTable = otherTable;
       this.columnName = columnName;
       this.otherColumnName = otherColumnName;
       this.operationParametersSet = true;
-    } 
+    }
   }
 
   @Override
