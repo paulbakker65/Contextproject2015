@@ -1,16 +1,19 @@
 package net.tudelft.hi.e.data;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class for testing the Table class.
@@ -138,9 +141,10 @@ public class TableTest {
     table.add(record);
     table.add(record2);
 
-    List<Column> expected = new ArrayList<Column>(Arrays.asList(new StringColumn("string"),
-        new NumberColumn("number"), new DateColumn("date", "ddMMyy", null), new DateColumn("time",
-            "ddMMyy", "date"), new StringColumn("string2")));
+    List<Column> expected =
+        new ArrayList<Column>(Arrays.asList(new StringColumn("string"), new NumberColumn("number"),
+            new DateColumn("date", "ddMMyy", null), new DateColumn("time", "ddMMyy", "date"),
+            new StringColumn("string2")));
 
     assertEquals(expected, table.getColumns());
   }
@@ -193,5 +197,97 @@ public class TableTest {
     table.addAll(otherTable);
 
     assertEquals(table.size(), otherTable.size());
+  }
+
+  @Test
+  public void testToString() {
+    final Table table = new Table();
+    Record record = new Record();
+
+    record.put("string", new StringValue(""));
+    record.put("number", new NumberValue(0));
+    record.put("date", new DateValue((Date) GregorianCalendar.getInstance().getTime(),
+        new DateColumn("date", "ddMMyy", null)));
+    record.put("time", new DateValue((Date) GregorianCalendar.getInstance().getTime(),
+        new DateColumn("date", "ddMMyy", "date")));
+    record.put("string2", new StringValue(""));
+
+    Record record2 = new Record();
+
+    record2.put("string", new StringValue(""));
+    record2.put("number", new NumberValue(0));
+    record2.put("date", new DateValue((Date) GregorianCalendar.getInstance().getTime(),
+        new DateColumn("date", "ddMMyy", null)));
+    record2.put("time", new DateValue((Date) GregorianCalendar.getInstance().getTime(),
+        new DateColumn("date", "ddMMyy", "date")));
+    record2.put("string2", new StringValue(""));
+
+    table.add(record);
+    table.add(record2);
+
+    final StringBuilder sb = new StringBuilder();
+    for (final Record tableRecord : table) {
+      sb.append(tableRecord.toString());
+      sb.append(System.getProperty("line.separator"));
+    }
+    assertEquals(sb.toString(), table.toString());
+  }
+
+  @Test
+  public void testSetChunks() {
+    Table t = new Table();
+    assertEquals(new ArrayList<Table>(), t.getChunks());
+    ArrayList<Chunk> chunks = new ArrayList<Chunk>();
+    chunks.add(new Chunk(0, "chunk0"));
+    chunks.add(new Chunk(1, "chunk1"));
+    t.setChunks(chunks);
+    assertEquals(chunks, t.getChunks());
+
+    t.setChunks(null);
+    assertEquals(new ArrayList<Table>(), t.getChunks());
+  }
+
+  @Test
+  public void testSetCodes() {
+    Table t = new Table();
+    assertEquals(new HashMap<String, Code>(), t.getCodes());
+
+    HashMap<String, Code> map = new HashMap<String, Code>();
+    map.put("booh", new Code("booh"));
+    map.put("mooh", new Code("mooh"));
+
+    t.setCodes(map);
+
+    assertEquals(map, t.getCodes());
+  }
+
+  @Test
+  public void testConstructorCopyRecords() {
+    final Table table = new Table();
+    Record record = new Record();
+
+    record.put("string", new StringValue(""));
+    record.put("number", new NumberValue(0));
+    record.put("date", new DateValue((Date) GregorianCalendar.getInstance().getTime(),
+        new DateColumn("date", "ddMMyy", null)));
+    record.put("time", new DateValue((Date) GregorianCalendar.getInstance().getTime(),
+        new DateColumn("date", "ddMMyy", "date")));
+    record.put("string2", new StringValue(""));
+
+    Record record2 = new Record();
+
+    record2.put("string", new StringValue(""));
+    record2.put("number", new NumberValue(0));
+    record2.put("date", new DateValue((Date) GregorianCalendar.getInstance().getTime(),
+        new DateColumn("date", "ddMMyy", null)));
+    record2.put("time", new DateValue((Date) GregorianCalendar.getInstance().getTime(),
+        new DateColumn("date", "ddMMyy", "date")));
+    record2.put("string2", new StringValue(""));
+
+    table.add(record);
+    table.add(record2);
+
+    assertEquals(table, table);
+    assertEquals(table, new Table(table, true));
   }
 }
