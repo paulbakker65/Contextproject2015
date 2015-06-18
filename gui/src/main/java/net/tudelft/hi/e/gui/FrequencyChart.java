@@ -56,7 +56,7 @@ class FrequencyChart {
 	FrequencyChart chart = new FrequencyChart(table, chunkDepth);
 		
     Dataset dataset = chart.createCodesDataset();
-    return chart.createChartPanel(chart.createChart(dataset, "Codes"))
+    return chart.createChartPanel(chart.createChart(dataset, "Codes"));
   }
 
   private FrequencyChart(Table table, int chunkDepth) {
