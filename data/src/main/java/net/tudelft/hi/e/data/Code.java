@@ -3,6 +3,7 @@ package net.tudelft.hi.e.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Code which contains a list of tables. Each table represents an event.
@@ -67,4 +68,25 @@ public class Code implements Serializable {
     this.name = name;
   }
 
+  /**
+   * Equals method.
+   * @param o the other object
+   * @return true if the two objects are equal, false if they are not.
+   */
+  @Override public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    Code code = (Code) o;
+    return Objects.equals(events, code.events) && Objects.equals(name, code.name);
+  }
+
+  /**
+   * HashCode.
+   * @return hashcode of this object.
+   */
+  @Override public int hashCode() {
+    return Objects.hash(events, name);
+  }
 }

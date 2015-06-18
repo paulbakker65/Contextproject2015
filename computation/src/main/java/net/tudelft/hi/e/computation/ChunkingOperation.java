@@ -53,9 +53,9 @@ public class ChunkingOperation extends Operation {
    */
   @Override
   public boolean execute() {
-	  if (!operationParametersSet) {
-		  return false;
-	  }
+    if (!operationParametersSet || inputData.isEmpty()) {
+      return false;
+    }
 
 	  Collections.sort(resultData, rc);
 	  int index = 0;

@@ -1,9 +1,20 @@
 grammar AnalysisLang;
 
 @header {
-package net.tudelft.hi.e.script;
+import net.tudelft.hi.e.common.enums.CalcOperator;
+import net.tudelft.hi.e.common.enums.CompareOperator;
+import net.tudelft.hi.e.common.enums.ComputeOperator;
+import net.tudelft.hi.e.common.enums.ChunkType;
+import net.tudelft.hi.e.computation.*;
+import net.tudelft.hi.e.data.Value;
+import net.tudelft.hi.e.data.DateValue;
+import net.tudelft.hi.e.data.NumberValue;
+import net.tudelft.hi.e.data.StringValue;
 
-import java.util.*;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 }
 
 parse
@@ -21,8 +32,8 @@ operation
 | foreach_chunk_operation
 | code_operation
 | connect_operation
+| combine_operation
 | constraint_operation
-| convert_operation
 | compute_operation
 | lsa_operation
 ;
@@ -56,12 +67,12 @@ connect_operation
 : 'CONNECT' param=connect_param
 ;
 
-constraint_operation
-: 'CONSTRAINT' param=constraint_param
+combine_operation
+: 'COMBINE' param=combine_param
 ;
 
-convert_operation
-: 'CONVERT' param=convert_param
+constraint_operation
+: 'CONSTRAINT' param=constraint_param
 ;
 
 lsa_operation
@@ -80,14 +91,14 @@ between_param
 // Chunk                             //
 ///////////////////////////////////////
 chunk_param
-: fieldparam=field 'USING' rangeparam=range
-| fieldparam=field 'USING' type=chunk_type numberparam=number
+: fieldparam=field 'USING' type=chunk_type numberparam=number
 ;
 
-chunk_type returns [int i]
-: 'YEAR'  { $i = 0; }
-| 'MONTH' { $i = 1; }
-| 'DAY'   { $i = 2; }
+chunk_type returns [ChunkType op]
+: 'YEAR'  { $op = ChunkType.YEAR; }
+| 'MONTH' { $op = ChunkType.MONTH; }
+| 'DAY'   { $op = ChunkType.DAY; }
+| 'PHASE' { $op = ChunkType.PHASE; }
 ;
 
 ///////////////////////////////////////
@@ -119,18 +130,17 @@ connect_param
 ;
 
 ///////////////////////////////////////
-// Constraint                        //
+// Combine                           //
 ///////////////////////////////////////
-constraint_param
-: fieldparam=field opparam=compare_operator anotherfieldparam=field
-| fieldparam=field opparam=compare_operator valueparam=value
+combine_param
+: fieldparam=field 'TO' anotherfieldparam=field
 ;
 
 ///////////////////////////////////////
-// Convert                           //
+// Constraint                        //
 ///////////////////////////////////////
-convert_param
-: fieldparam=field 'TO' formulaparam=formula
+constraint_param
+: fieldparam=field opparam=compare_operator valueparam=value
 ;
 
 ///////////////////////////////////////
@@ -201,24 +211,11 @@ compute_operator returns [ComputeOperator op]
 | opparam=SUM                        { $op = ComputeOperator.SUM;    }
 ;
 
-formula returns [Formula form]
-: fieldparam=field opparam=calc_operator anotherfieldparam=field
-  { $form = new Formula($fieldparam.fieldname, $opparam.op, $anotherfieldparam.fieldname); }
-| fieldparam=field opparam=calc_operator valueparam=number
-  { $form = new Formula($fieldparam.fieldname, $opparam.op, $valueparam.val); }
-| fieldparam=field opparam=calc_operator formulaparam=formula
-  { $form = new Formula($fieldparam.fieldname, $opparam.op, $formulaparam.form); }
-;
-
 condition returns [Condition cond]
 : opparam=compare_operator valueparam=value
   { $cond = new Condition($opparam.op, $valueparam.val); }
 | opparam=compare_operator valueparam=value 'AND' anothercond=condition
   { $cond = new Condition($opparam.op, $valueparam.val); }
-;
-
-range
-: '>' g=value 'AND' '<' l=value
 ;
 
 value returns [Value val]
