@@ -10,7 +10,12 @@ import net.tudelft.hi.e.data.Value;
  *
  */
 public abstract class ChunkCondition {
+	protected int maxNumberOfDifferences;
+	
+	public ChunkCondition(int maxNumberOfDifferences) {
+		this.maxNumberOfDifferences = maxNumberOfDifferences;
+	}
 
-  public abstract boolean matches(Value recordValue, Value check);
+  public abstract boolean matches(Value recordValue);
 
 }

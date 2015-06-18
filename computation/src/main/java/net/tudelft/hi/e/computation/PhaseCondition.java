@@ -13,9 +13,13 @@ public class PhaseCondition extends ChunkCondition {
 	private static final int[] newPhaseWeeks = new int[] { 1, 5, 10, 16 };
 	private long beginTime = 0;
 	int chunkIndex = 0;
-
+	
+	public PhaseCondition() {
+		super(0);
+	}
+	
 	@Override
-	public boolean matches(Value recordValue, Value check) {
+	public boolean matches(Value recordValue) {
 		DateValue currentValue = (DateValue) recordValue;
 		if (noNewPhaseComing() || 
 				beginDateSet(currentValue)) {

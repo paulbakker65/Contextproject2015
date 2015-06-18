@@ -9,17 +9,27 @@ import net.tudelft.hi.e.data.Value;
  * Chunks on each year.
  */
 public class YearCondition extends ChunkCondition {
+	private int beginYear;
+	
+	public YearCondition(int maxNumberOfDifferences) {
+		super(maxNumberOfDifferences);
+	}
 
   @Override
-  public boolean matches(final Value recordValue, final Value check) {
-    final DateValue current = (DateValue) check;
-    final GregorianCalendar currentDate = current.getValue();
-    final DateValue record = (DateValue) recordValue;
-    final GregorianCalendar recordDate = record.getValue();
-    if (recordDate.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)) {
-      return true;
-    }
-    return false;
+  public boolean matches(final Value recordValue) {
+	  GregorianCalendar recordDate = ((DateValue) recordValue).getValue();
+	  int curYear = recordDate.get(Calendar.YEAR);
+	  
+	  if (beginYear == 0) {
+		  beginYear = curYear;
+		  return true;
+	  }
+	  
+	  if (curYear - beginYear > maxNumberOfDifferences) {
+		  beginYear = curYear;
+		  return false;
+	  }
+	  return true;
   }
 
 }
