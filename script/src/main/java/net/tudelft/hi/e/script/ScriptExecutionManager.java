@@ -11,13 +11,14 @@ import net.tudelft.hi.e.data.Table;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author mawdegroot
  */
 public class ScriptExecutionManager {
 
-  private LinkedHashMap<String, Table> tableMap;
+  private Map<String, Table> tableMap;
 
   private List<Operation> opList;
 

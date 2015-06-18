@@ -5,10 +5,13 @@
 package net.tudelft.hi.e.script;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import net.tudelft.hi.e.common.enums.ChunkType;
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.common.enums.ComputeOperator;
+import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
+import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.computation.*;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Table;
@@ -19,9 +22,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import sun.font.Script;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author mawdegroot
@@ -50,6 +55,7 @@ public class ScriptVisitorTest {
     Input.clean();
     visitor = null;
     tables.clear();
+    ExceptionHandler.clear();
   }
 
   /**
@@ -242,6 +248,110 @@ public class ScriptVisitorTest {
     expected.execute();
     parsedOperationList.get(0).execute();
     assertEquals(expected.getResult(), parsedOperationList.get(0).getResult());
+  }
+
+  @Test
+  public void testBetweenTableNotFound() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream("BETWEEN [table].[eventfield] [table0].[date1] [table0].[date2] 10 20");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+    ExceptionHandler handler = ExceptionHandler.getExceptionHandlerInstance();
+    assertEquals(1, handler.getLogRecords().size());
+    assertEquals("Table \"table\" not found", handler.getLogRecords().get(0).getMessage());
+  }
+
+  @Test
+  public void testConstraintTableNotFound() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream("CONSTRAINT [table].[field3] == 10");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+    ExceptionHandler handler = ExceptionHandler.getExceptionHandlerInstance();
+    assertEquals(1, handler.getLogRecords().size());
+    assertEquals("Table \"table\" not found", handler.getLogRecords().get(0).getMessage());
+  }
+
+  @Test
+  public void testChunkingTableNotFound() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream("CHUNK [table].[field] USING MONTH 1");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+    ExceptionHandler handler = ExceptionHandler.getExceptionHandlerInstance();
+    assertEquals(1, handler.getLogRecords().size());
+    assertEquals("Table \"table\" not found", handler.getLogRecords().get(0).getMessage());
+  }
+
+  @Test
+  public void testCodingTableNotFound() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream("CODE [table] ON { 1 [table0].[field] > 10 } AS \"tralala\"");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+    ExceptionHandler handler = ExceptionHandler.getExceptionHandlerInstance();
+    assertEquals(1, handler.getLogRecords().size());
+    assertEquals("Table \"table\" not found", handler.getLogRecords().get(0).getMessage());
+  }
+
+  @Test
+  public void testComputeTableNotFound() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream("COMPUTE [table] AVG() [table0].[field]");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+    ExceptionHandler handler = ExceptionHandler.getExceptionHandlerInstance();
+    assertEquals(1, handler.getLogRecords().size());
+    assertEquals("Table \"table\" not found", handler.getLogRecords().get(0).getMessage());
+  }
+
+  @Test
+  public void testConnectionTableNotFound() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream("CONNECT [table].[field] TO [table0].[field]");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+    ExceptionHandler handler = ExceptionHandler.getExceptionHandlerInstance();
+    assertEquals(1, handler.getLogRecords().size());
+    assertEquals("Table \"table\" not found", handler.getLogRecords().get(0).getMessage());
+  }
+
+  @Test
+  public void testForEachChunkTableNotFound() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream("FOR EACH CHUNK [table] 1 CONSTRAINT [table].[field3] == 10");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+    ExceptionHandler handler = ExceptionHandler.getExceptionHandlerInstance();
+    assertEquals(1, handler.getLogRecords().size());
+    assertEquals("Table \"table\" not found", handler.getLogRecords().get(0).getMessage());
+  }
+
+  @Test
+  public void testLsaTableNotFound() {
+    final ANTLRInputStream input =
+        new ANTLRInputStream("LSA [table].[field] 10 20 10 20");
+    final AnalysisLangLexer lexer = new AnalysisLangLexer(input);
+    final CommonTokenStream tokens = new CommonTokenStream(lexer);
+    final AnalysisLangParser parser = new AnalysisLangParser(tokens);
+    visitor.visit(parser.parse());
+    ExceptionHandler handler = ExceptionHandler.getExceptionHandlerInstance();
+    assertEquals(1, handler.getLogRecords().size());
+    assertEquals("Table \"table\" not found", handler.getLogRecords().get(0).getMessage());
   }
 
 }

@@ -1,5 +1,6 @@
 package net.tudelft.hi.e.script;
 
+import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.data.Table;
@@ -7,7 +8,6 @@ import net.tudelft.hi.e.data.Table;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RecognitionException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +28,8 @@ class OperationFactory {
   /**
    * Default hidden constructor because this class cannot be instantiated.
    */
-  private OperationFactory() {}
+  private OperationFactory() {
+  }
 
   /**
    * Create operations using a input script given as String.
@@ -39,6 +40,7 @@ class OperationFactory {
    */
   static List<Operation> createOperationsFromString(final List<Table> tableList,
       final String scriptInput) throws ParseFailedException {
+    ExceptionHandler.replaceHandler(LOG);
     return createOperationsUsingInputStream(tableList, new ANTLRInputStream(scriptInput));
   }
 
@@ -51,6 +53,7 @@ class OperationFactory {
    */
   static List<Operation> createOperationsFromFile(final List<Table> tableList, final String filePath)
       throws ParseFailedException {
+    ExceptionHandler.replaceHandler(LOG);
     List<Operation> listOfOperations = new ArrayList<Operation>();
     try {
       listOfOperations.addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(
@@ -82,10 +85,10 @@ class OperationFactory {
     visitor.visit(parser.parse());
 
     StringBuilder stringBuilder = new StringBuilder();
-    for(String exMsg : scriptErrorListener.getExceptionList()) {
+    for (String exMsg : scriptErrorListener.getExceptionList()) {
       stringBuilder.append(exMsg).append("\n");
     }
-    if (scriptErrorListener.getExceptionList().size() > 0) {
+    if (!scriptErrorListener.getExceptionList().isEmpty()) {
       throw new ParseFailedException(stringBuilder.toString());
     }
 

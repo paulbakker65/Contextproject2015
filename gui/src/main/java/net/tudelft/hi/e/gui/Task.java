@@ -4,8 +4,11 @@ package net.tudelft.hi.e.gui;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
+
+import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.export.Exporter;
@@ -83,11 +86,19 @@ class Task extends SwingWorker<Void, Void> {
     log("Executing script.");
 
     ScriptExecutionManager exec = new ScriptExecutionManager(tables);
+    ExceptionHandler.getExceptionHandlerInstance().getLogRecords();
     try {
       exec.addScriptFile(Input.getScriptFile().getAbsolutePath());
     } catch (ParseFailedException ex) {
       error("Error parsing the script file!");
       error(ex.getMessage());
+      return false;
+    }
+    if (!ExceptionHandler.getExceptionHandlerInstance().getLogRecords().isEmpty()) {
+      error("Error parsing the script file!");
+      for(LogRecord r : ExceptionHandler.getExceptionHandlerInstance().getLogRecords()) {
+        error(r.getMessage());
+      }
       return false;
     }
     exec.executeAllScripts();
