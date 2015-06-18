@@ -104,7 +104,7 @@ public class MainUI extends JFrame {
     filesTable.setTableHeader(null);
     filesTable.setModel(new FilesTableModel());
     filesTable.setColumnSelectionAllowed(false);
-    new MainUiContextMenu(filesTable);
+    new MainUiContextMenu(filesTable, this);
 
     if (Input.hasScript()) {
       updateScriptInfo();

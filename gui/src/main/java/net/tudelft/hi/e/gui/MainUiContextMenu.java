@@ -1,16 +1,19 @@
 package net.tudelft.hi.e.gui;
 
+import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.input.Input;
 
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
-import java.awt.Desktop;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,14 +30,15 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
     private final JMenuItem menuViewDir = new JMenuItem("View dir");
 
     private final JTable table;
-
+    private final JFrame frame;
     /**
      * Creates a popup menu and sets the action listener for the filesTable.
      * @param filesTable The table to add the popup menu to
      */
-    public MainUiContextMenu(JTable filesTable) {
+    public MainUiContextMenu(JTable filesTable, JFrame frame) {
         super();
         this.table = filesTable;
+        this.frame = frame;
         filesTable.addMouseListener(this);
 
         menuRemove.addActionListener(this);
@@ -109,17 +113,13 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
         if(isOutOfBounds(selectedRow)){
             return;
         }
+
         Input.getFiles().remove(selectedRow);
         table.revalidate();
     }
 
     private void onMenuPreview() {
-        int selectedRow = table.getSelectedRow();
-        if(isOutOfBounds(selectedRow)) {
-            return;
-        }
-
-        DisplayTableGui.init(Input.getFiles().get(selectedRow).getTable());
+        invokeInit(DisplayTableGui.class);
     }
 
     private void onMenuSettings() {
@@ -132,12 +132,27 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
     }
 
     private void onMenuVisualize() {
+        invokeInit(VisualizationsGui.class);
+    }
+
+    public void invokeInit(Class type) {
+        Cursor cursor = frame.getCursor();
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
         int selectedRow = table.getSelectedRow();
         if(isOutOfBounds(selectedRow)) {
             return;
         }
 
-        VisualizationsGui.init(Input.getFiles().get(selectedRow).getTable());
+        Method method = null;
+        try {
+            method = type.getMethod("init", Table.class);
+            method.invoke(null, Input.getFiles().get(selectedRow).getTable());
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+        }
+
+        frame.setCursor(cursor);
     }
 
     private void onMenuViewDir() {
