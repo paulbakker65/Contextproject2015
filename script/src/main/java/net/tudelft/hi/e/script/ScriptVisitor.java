@@ -87,8 +87,8 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
   public final BetweenOperation visitBetween_param(Between_paramContext ctx) {
     try {
       return new BetweenOperation(getTableForTableName(visitField(ctx.eventcol)[0]),
-          visitField(ctx.datecol1)[1], visitField(ctx.datecol2)[1], visitValue(ctx.value1),
-          visitValue(ctx.value2));
+          visitField(ctx.eventcol)[1], visitField(ctx.datecol1)[1], visitField(ctx.datecol2)[1],
+          visitValue(ctx.value1), visitValue(ctx.value2));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
