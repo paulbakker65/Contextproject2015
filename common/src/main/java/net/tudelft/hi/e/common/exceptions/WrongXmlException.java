@@ -7,17 +7,31 @@ import java.io.IOException;
  *
  */
 public class WrongXmlException extends IOException {
+  /**
+   * serialVersionUID.
+   */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Default constructor.
+   */
+  public WrongXmlException() {
+    super();
+  }
+
+  /**
+   * Default constructor with a message.
+   * @param msg the exception message.
+   */
   public WrongXmlException(final String msg) {
     super(msg);
   }
 
+  /**
+   * Default constructor with an internal exception.
+   * @param ex the exception.
+   */
   public WrongXmlException(final Exception ex) {
     super(ex);
-  }
-
-  public WrongXmlException() {
-    super();
   }
 }
