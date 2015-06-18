@@ -3,9 +3,11 @@ package net.tudelft.hi.e.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+
 import javax.swing.SwingWorker;
 
 import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
@@ -23,7 +25,7 @@ class Task extends SwingWorker<Void, Void> {
 
   private static final Logger LOG = Logger.getLogger(Task.class.getName());
 
-  ArrayList<Table> tables = null;
+  List<Table> tables = null;
 
   @Override
   public Void doInBackground() {
@@ -102,6 +104,7 @@ class Task extends SwingWorker<Void, Void> {
       return false;
     }
     exec.executeAllScripts();
+    tables = exec.getResultDataTables();
 
     log("Done executing script.\n");
     setProgress(80);
@@ -173,7 +176,7 @@ class Task extends SwingWorker<Void, Void> {
     return tables.get(index);
   }
 
-  public ArrayList<Table> getTables() {
+  public List<Table> getTables() {
     return tables;
   }
 }

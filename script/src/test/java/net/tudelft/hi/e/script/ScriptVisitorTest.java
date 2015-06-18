@@ -5,14 +5,28 @@
 package net.tudelft.hi.e.script;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import net.tudelft.hi.e.common.enums.ChunkType;
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.common.enums.ComputeOperator;
 import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
-import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
-import net.tudelft.hi.e.computation.*;
+import net.tudelft.hi.e.computation.BetweenOperation;
+import net.tudelft.hi.e.computation.ChunkingOperation;
+import net.tudelft.hi.e.computation.CodingOperation;
+import net.tudelft.hi.e.computation.ComputeOperation;
+import net.tudelft.hi.e.computation.Condition;
+import net.tudelft.hi.e.computation.ConnectionOperation;
+import net.tudelft.hi.e.computation.ConstraintOperation;
+import net.tudelft.hi.e.computation.CountPatternDescription;
+import net.tudelft.hi.e.computation.ForEachChunkOperation;
+import net.tudelft.hi.e.computation.Operation;
+import net.tudelft.hi.e.computation.PatternDescription;
+import net.tudelft.hi.e.computation.PatternFactory;
+import net.tudelft.hi.e.computation.RecordMatchesConditionCondition;
+import net.tudelft.hi.e.computation.SingleCount;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.input.Input;
@@ -22,10 +36,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * @author mawdegroot
@@ -132,7 +142,7 @@ public class ScriptVisitorTest {
     visitor.visit(parser.parse());
 
     ArrayList<PatternDescription> patternList = new ArrayList<PatternDescription>();
-    patternList.add(new PatternDescription(new SingleCount(1), new RecordMatchesConditionCondition(
+    patternList.add(new CountPatternDescription(new SingleCount(1), new RecordMatchesConditionCondition(
         "field", new Condition(CompareOperator.G, new NumberValue(10)))));
     CodingOperation expected =
         new CodingOperation(tables.get(0), PatternFactory.createPattern(patternList), "tralala");

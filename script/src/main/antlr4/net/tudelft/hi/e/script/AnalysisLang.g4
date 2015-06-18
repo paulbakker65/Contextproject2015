@@ -168,7 +168,16 @@ pattern returns [ArrayList<PatternDescription> patterndesc]
 @init {
   $patterndesc = new ArrayList<PatternDescription>();
 }
-: ( '{' countparam=count_pattern recordconditionparam=record_condition '}'  { $patterndesc.add(new PatternDescription($countparam.count, $recordconditionparam.recordcondition)); } )+
+: ( descriptionparam=pattern_description { $patterndesc.add($descriptionparam.description); } )+
+;
+
+pattern_description returns [PatternDescription description]
+: pattern_param=pattern_description_rec { $description = $pattern_param.description_rec; }
+;
+
+pattern_description_rec returns [PatternDescription description_rec]
+: '{' countparam=count_pattern recordconditionparam=record_condition '}'  	{ $description_rec = new CountPatternDescription($countparam.count, $recordconditionparam.recordcondition); }
+| '{!' otherparam=pattern_description '}' 									{ $description_rec = new NotPatternDescription($otherparam.description); }
 ;
 
 record_condition returns [RecordCondition recordcondition]

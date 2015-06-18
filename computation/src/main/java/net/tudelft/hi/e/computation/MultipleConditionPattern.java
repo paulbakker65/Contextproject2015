@@ -24,17 +24,6 @@ public class MultipleConditionPattern extends Pattern {
   /**
    * Constructor which creates the pattern without a next pattern.
    *
-   * @param tableName
-   *        the name of the original table.
-   */
-  public MultipleConditionPattern(final String tableName) {
-    super();
-    this.condition = new RecordOccurrenceCondition(tableName);
-  }
-
-  /**
-   * Constructor which creates the pattern without a next pattern.
-   *
    * @param condition
    *          the condition for the pattern.
    * @param pattern
@@ -43,19 +32,6 @@ public class MultipleConditionPattern extends Pattern {
   public MultipleConditionPattern(final RecordCondition condition, final Pattern pattern) {
     super(pattern);
     this.condition = condition;
-  }
-
-  /**
-   * Constructor which creates the pattern with a next pattern.
-   *
-   * @param tableName
-   *        the name of the original table.
-   * @param pattern
-   *        the pattern to use as next pattern.
-   */
-  public MultipleConditionPattern(final String tableName, final Pattern pattern) {
-    super(pattern);
-    this.condition = new RecordOccurrenceCondition(tableName);
   }
 
   /**
@@ -128,6 +104,11 @@ public class MultipleConditionPattern extends Pattern {
     }
     final MultipleConditionPattern other = (MultipleConditionPattern) obj;
     return Objects.equals(this.getCondition(), other.getCondition());
+  }
+
+  @Override
+  public boolean isNextLastPattern() {
+    return false;
   }
 
 }
