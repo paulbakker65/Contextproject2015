@@ -38,5 +38,4 @@ public class YearCondition extends ChunkCondition {
     }
     return true;
   }
-
 }

@@ -46,5 +46,4 @@ public class DayCondition extends ChunkCondition {
     }
     return true;
   }
-
 }

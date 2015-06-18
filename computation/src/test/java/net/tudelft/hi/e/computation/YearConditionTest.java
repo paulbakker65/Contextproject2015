@@ -42,5 +42,4 @@ public class YearConditionTest {
     assertTrue(cond.matches(new DateValue(date2)));
     assertFalse(cond.matches(new DateValue(date3)));
   }
-
 }
