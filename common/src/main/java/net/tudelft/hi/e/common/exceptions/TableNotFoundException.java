@@ -11,10 +11,25 @@ public class TableNotFoundException extends Exception {
 
   /**
    * Default constructor.
+   */
+  public TableNotFoundException() {
+    super();
+  }
+
+  /**
+   * Default constructor.
    * 
    * @param msg The error message.
    */
   public TableNotFoundException(final String msg) {
     super(msg);
+  }
+
+  /**
+   * Default constructor.
+   * @param ex The exception.
+   */
+  public TableNotFoundException(final Exception ex) {
+    super(ex);
   }
 }
