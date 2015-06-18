@@ -9,19 +9,34 @@ import net.tudelft.hi.e.data.Value;
  * Chunks on each month of the calendar.
  */
 public class MonthCondition extends ChunkCondition {
+  private int beginMonth;
+
+  /**
+   * Creates a MonthCondition.
+   * 
+   * @param maxNumberOfDifferences 
+   *        the maximum number of differences in month.
+   */
+  public MonthCondition(int maxNumberOfDifferences) {
+    super(maxNumberOfDifferences);
+  }
 
   @Override
-  public boolean matches(final Value recordValue, final Value check) {
-    final DateValue current = (DateValue) check;
-    final GregorianCalendar currentDate = current.getValue();
-    final DateValue record = (DateValue) recordValue;
-    final GregorianCalendar recordDate = record.getValue();
-    if (recordDate.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH)
-        && recordDate.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)) {
+  public boolean matches(final Value recordValue) {
+    GregorianCalendar recordDate = ((DateValue) recordValue).getValue();
+    int curYear = recordDate.get(Calendar.YEAR);
+    int curMonth = recordDate.get(Calendar.MONTH) + curYear * 12;
 
+    if (beginMonth == 0) {
+      beginMonth = curMonth;
       return true;
     }
-    return false;
+
+    if (curMonth - beginMonth > maxNumberOfDifferences) {
+      beginMonth = curMonth;
+      return false;
+    }
+    return true;
   }
 
 }

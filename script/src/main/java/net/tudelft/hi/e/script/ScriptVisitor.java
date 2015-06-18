@@ -114,7 +114,8 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements
       try {
         return new ChunkingOperation(getTableForTableName(visitField(
             ctx.fieldparam)[0]),
-            visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type));
+            visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type), 
+            (int) ((NumberValue) visitNumber(ctx.numberparam)).getValue());
       } catch (TableNotFoundException ex) {
         LOG.log(Level.SEVERE, ex.getMessage(), ex);
         return null;

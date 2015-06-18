@@ -108,7 +108,7 @@ public class ScriptVisitorTest {
     visitor.visit(parser.parse());
 
     ChunkingOperation expected = new ChunkingOperation(tables.get(0), "field",
-        ChunkType.MONTH);
+        ChunkType.MONTH, 1);
 
     List<Operation> parsedOperationList = visitor.getOperationList();
 
