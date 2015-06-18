@@ -75,8 +75,8 @@ public class FilesTableModelTest {
   @Test
   public void testGetValueAt() {
     Input.getFiles().add(df);
-    assertEquals(datafile.getPath(), ftm.getValueAt(0, 0));
-    assertEquals(settingsfile.getPath(), ftm.getValueAt(0, 1));
+    assertEquals(datafile.getName(), ftm.getValueAt(0, 0));
+    assertEquals(settingsfile.getName(), ftm.getValueAt(0, 1));
   }
 
   @Test
