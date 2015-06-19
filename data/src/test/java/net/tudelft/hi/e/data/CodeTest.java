@@ -3,9 +3,6 @@ package net.tudelft.hi.e.data;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import static org.junit.Assert.*;
 
 /**
@@ -36,5 +33,23 @@ public class CodeTest {
     assertEquals("someCode", someCode.getName());
     someCode.setName("someOtherCode");
     assertEquals("someOtherCode", someCode.getName());
+  }
+  
+  @Test
+  public void testEqualsHashCode() {
+    Code otherCode = new Code("someCode");
+    Code otherNameCode = new Code("otherCode");
+    Code nullCode = null;
+    Chunk otherClassObject = new Chunk(0, "Test");
+    
+    assertEquals(otherCode, someCode);
+    assertNotEquals(otherNameCode, someCode);
+    assertNotEquals(someCode, nullCode);
+    assertNotEquals(someCode, otherClassObject);
+    
+    assertEquals(otherCode.hashCode(), someCode.hashCode());
+    
+    otherCode.addEvent(new Table());
+    assertNotEquals(otherCode, someCode);
   }
 }
