@@ -21,8 +21,7 @@ public class Input {
   /**
    * Private constructor because this class cannot be instantiated.
    */
-  private Input() {
-  }
+  private Input() {}
 
   /**
    * Validates the input files before creating the DataFile.
@@ -31,8 +30,7 @@ public class Input {
    * @param settings The settings file.
    * @throws IOException If the data or settings file is not found or not valid.
    */
-  public static void addDataFile(final File file, final File settings) throws
-      IOException {
+  public static void addDataFile(final File file, final File settings) throws IOException {
     if (!exists(file)) {
       throw new FileNotFoundException("Data file is not found.");
     }
@@ -104,23 +102,21 @@ public class Input {
    *
    * @param outputDir The output directory.
    * @return true if and only if the output directory was successfully set. <br>
-   * false if and only if the output directory was not set.
+   *         false if and only if the output directory was not set.
    */
   public static boolean setOutputDir(final File outputDir) {
     if (outputDir == null) {
       return false;
     }
     if (!outputDir.isDirectory() && outputDir.exists()) {
-      LOG.log(Level.SEVERE, "\"{0}\" is not a valid directory!", outputDir.
-          getAbsolutePath());
+      LOG.log(Level.SEVERE, "\"{0}\" is not a valid directory!", outputDir.getAbsolutePath());
       return false;
     }
     if (!exists(outputDir)) {
       LOG.log(Level.INFO, "Trying to create directory.");
       final boolean ret = outputDir.mkdir();
       if (!ret) {
-        LOG.log(Level.SEVERE, "Error creating direcotry ''{0}''.", outputDir.
-            getAbsolutePath());
+        LOG.log(Level.SEVERE, "Error creating direcotry ''{0}''.", outputDir.getAbsolutePath());
         return false;
       }
     }
@@ -131,9 +127,9 @@ public class Input {
   /**
    * Set the script file.
    *
-   * @param scriptFile The script file.
+   * @param theScriptFile The script file.
    * @return true if and only if the script file was successfully set. <br>
-   * false if and only if the script file was not set.
+   *         false if and only if the script file was not set.
    */
   public static boolean setScriptFile(final File theScriptFile) {
     if (theScriptFile == null || !exists(theScriptFile)) {

@@ -1,18 +1,19 @@
 package net.tudelft.hi.e.input;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.text.SimpleDateFormat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.StringColumn;
-import net.tudelft.hi.e.input.Settings;
-import net.tudelft.hi.e.input.XmlReader;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.text.SimpleDateFormat;
 
 /**
  * XmlReader class testing the input.XmlReader class.

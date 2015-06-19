@@ -1,5 +1,15 @@
 package net.tudelft.hi.e.input;
 
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.DateColumn;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,15 +19,6 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.DateColumn;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 
 /**
  * Class for reading and parsing an xml file.
@@ -25,11 +26,9 @@ import org.xml.sax.SAXException;
  */
 public class XmlReader {
 
-  private XmlReader() {
-  }
+  private XmlReader() {}
 
-  private static void checkDuplicateColumns(final List<Column> columns)
-      throws WrongXmlException {
+  private static void checkDuplicateColumns(final List<Column> columns) throws WrongXmlException {
     final Set<String> columnsSet = new HashSet<String>();
 
     for (final Column column : columns) {
@@ -41,8 +40,8 @@ public class XmlReader {
     }
   }
 
-  private static void readColumns(final Settings settings,
-      final NodeList columns) throws WrongXmlException {
+  private static void readColumns(final Settings settings, final NodeList columns)
+      throws WrongXmlException {
     final List<String> checkContains = new ArrayList<String>();
 
     for (int i = 0; i < columns.getLength(); i++) {
@@ -77,8 +76,7 @@ public class XmlReader {
    *
    * @param xmlFile the filename.
    * @return a Settings object representing the file.
-   * @throws WrongXmlException
-   *           when the file is wrongly formatted.
+   * @throws WrongXmlException when the file is wrongly formatted.
    */
   public static Settings readXmlFile(final String xmlFile) throws WrongXmlException {
     final Settings res = new Settings();

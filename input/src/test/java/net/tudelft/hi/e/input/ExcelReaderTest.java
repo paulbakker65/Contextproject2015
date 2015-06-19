@@ -1,14 +1,16 @@
 package net.tudelft.hi.e.input;
 
+import static org.junit.Assert.assertEquals;
+
+import net.tudelft.hi.e.data.DateValue;
+import net.tudelft.hi.e.data.Table;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import java.io.File;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import net.tudelft.hi.e.data.DateValue;
-import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.input.DataFile;
-import static org.junit.Assert.assertEquals;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * A test that runs a real excel file and checks if the parsing succeeded.

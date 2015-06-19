@@ -1,16 +1,13 @@
 package net.tudelft.hi.e.input;
 
-import java.io.File;
-import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-import net.tudelft.hi.e.input.CsvReader;
-import net.tudelft.hi.e.input.DataFile;
-import net.tudelft.hi.e.input.Parser;
-import net.tudelft.hi.e.input.Reader;
-import net.tudelft.hi.e.input.Settings;
-import net.tudelft.hi.e.input.XmlReader;
 import static org.junit.Assert.assertEquals;
+
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
 
 /**
  * DataFileTest class testing main.DataFile class.

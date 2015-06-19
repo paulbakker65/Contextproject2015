@@ -1,15 +1,17 @@
 package net.tudelft.hi.e.input;
 
-import java.io.File;
-import java.io.IOException;
-import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-import net.tudelft.hi.e.input.Input;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Tests Input class functionality.

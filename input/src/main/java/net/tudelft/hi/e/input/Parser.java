@@ -1,17 +1,18 @@
 package net.tudelft.hi.e.input;
 
+import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.DateValue;
+import net.tudelft.hi.e.data.Record;
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.data.Value;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.tudelft.hi.e.common.exceptions.ParseFailedException;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
-import net.tudelft.hi.e.data.DateValue;
-import net.tudelft.hi.e.data.Record;
-import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.data.Value;
 
 /**
  * Class for parsing a file into a Table object.
@@ -106,15 +107,14 @@ public class Parser {
   }
 
   private Record parseConvertValuesAndCreateRow(final String[] row)
-          throws ColumnTypeMismatchException {
+      throws ColumnTypeMismatchException {
     final Value[] values = new Value[numColumns];
     final Map<String, String> timeDateLinks = new HashMap<String, String>();
     for (int i = 0; i < columns.size(); i++) {
       values[i] = columns.get(i).convertToValue(row[i]);
 
       if (values[i].isTime()) {
-        timeDateLinks.put(columns.get(i).getName(), ((DateValue) values[i]).
-            getTarget());
+        timeDateLinks.put(columns.get(i).getName(), ((DateValue) values[i]).getTarget());
       }
     }
     final Record tuple = new Record(columns, values, settings.getName());
