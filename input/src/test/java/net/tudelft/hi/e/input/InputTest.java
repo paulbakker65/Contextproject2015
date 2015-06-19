@@ -12,6 +12,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tests Input class functionality.
@@ -99,6 +101,16 @@ public class InputTest {
   public void testHasFiles() throws Exception {
     assertFalse(Input.hasFiles());
     Input.addDataFile(file, settings);
+    assertTrue(Input.hasFiles());
+  }
+
+  @Test
+  public void testHasFiles2() throws Exception {
+    assertFalse(Input.hasFiles());
+    List<DataFile> list = new ArrayList<>();
+    DataFile df = new DataFile(file, settings);
+    list.add(df);
+    Input.setFiles(list);
     assertTrue(Input.hasFiles());
   }
 
