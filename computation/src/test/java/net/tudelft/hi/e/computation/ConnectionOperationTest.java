@@ -1,9 +1,13 @@
 package net.tudelft.hi.e.computation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import net.tudelft.hi.e.computation.ConnectionOperation;
+
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.DateConversion;
@@ -17,8 +21,7 @@ import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,9 +83,9 @@ public class ConnectionOperationTest {
       cols.add(new StringColumn("stringField"));
       cols.add(new DateColumn("dateField"));
       final Record record =
-          new Record(cols, new Value[] {new NumberValue(i), new NumberValue(i * 10),
+          new Record(cols, new Value[] { new NumberValue(i), new NumberValue(i * 10),
               new StringValue("String:" + i),
-        new DateValue(DateConversion.fromExcelSerialToDate(40000 + i))});
+              new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)) });
       dataTable.add(record);
     }
 
@@ -93,8 +96,7 @@ public class ConnectionOperationTest {
       cols.add(new NumberColumn("someNumberBeingEqualToUserID"));
       final Record record =
           new Record(cols, new Value[] {
-        new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)),
-        new NumberValue(i)});
+              new DateValue(DateConversion.fromExcelSerialToDate(40000 + i)), new NumberValue(i) });
       otherDataTable.add(record);
     }
 
@@ -126,7 +128,7 @@ public class ConnectionOperationTest {
     final Table result = execAndCheck();
 
     final String[] columns =
-        {"number1", "number2", "date1", "string1", "string2", "null1", "number"};
+        { "number1", "number2", "date1", "string1", "string2", "null1", "number" };
     assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));
   }
 
@@ -139,7 +141,8 @@ public class ConnectionOperationTest {
 
     final Table result = execAndCheck();
 
-    final String[] columns = {"number1", "date1", "date2", "string1", "string2", "null1", "number"};
+    final String[] columns =
+        { "number1", "date1", "date2", "string1", "string2", "null1", "number" };
     assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));
   }
 
@@ -152,7 +155,8 @@ public class ConnectionOperationTest {
 
     final Table result = execAndCheck();
 
-    final String[] columns = {"number1", "number2", "date1", "date2", "string1", "null1", "number"};
+    final String[] columns =
+        { "number1", "number2", "date1", "date2", "string1", "null1", "number" };
     assertTrue(result.get(0).keySet().containsAll(Arrays.asList(columns)));
   }
 
@@ -194,5 +198,23 @@ public class ConnectionOperationTest {
   public void testTestFiles() {
     assertEquals(10, t1.size());
     assertEquals(10, t2.size());
+  }
+
+  @Test
+  public void testWrongColumnNames() {
+    co = new ConnectionOperation(dataTable, otherDataTable, "userid", "number2");
+    assertFalse(co.execute());
+    co = new ConnectionOperation(dataTable, otherDataTable, "number1", "otherDateField");
+    assertFalse(co.execute());
+  }
+  
+  @Test
+  public void testWrongParameters() {
+    co = new ConnectionOperation(dataTable, null, "userid", "number2");
+    assertFalse(co.operationParametersSet);
+    co = new ConnectionOperation(dataTable, otherDataTable, null, "number2");
+    assertFalse(co.operationParametersSet);
+    co = new ConnectionOperation(dataTable, otherDataTable, "userid", null);
+    assertFalse(co.operationParametersSet);
   }
 }

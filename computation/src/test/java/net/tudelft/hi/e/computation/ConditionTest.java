@@ -29,12 +29,17 @@ public class ConditionTest {
   }
 
   @Test
-  public void testEqualsObject() {
-    Condition anothercondition = null;
-    condition = new Condition(CompareOperator.L, new NumberValue(10));
-
-    assertEquals(condition, condition);
+  public void testEqualsObject() {    
+    condition = new Condition(null, new NumberValue(10));
+    Condition anothercondition = new Condition(null, new NumberValue(10));    
+    assertEquals(condition, anothercondition);
+    
+    anothercondition.setConditionOperator(CompareOperator.L);
     assertNotEquals(condition, anothercondition);
+
+    condition.setConditionOperator(CompareOperator.L);
+    assertEquals(condition, condition);
+    assertNotEquals(condition, null);
     assertNotEquals(condition, new Object());
 
     anothercondition = new Condition(CompareOperator.LEQ, new NumberValue(10));

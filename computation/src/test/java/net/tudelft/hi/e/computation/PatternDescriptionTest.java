@@ -1,12 +1,8 @@
 package net.tudelft.hi.e.computation;
 
-import net.tudelft.hi.e.computation.Count;
-import net.tudelft.hi.e.computation.CountPatternDescription;
-import net.tudelft.hi.e.computation.RecordCondition;
-import net.tudelft.hi.e.computation.RecordOccurrenceCondition;
-import net.tudelft.hi.e.computation.SingleCount;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Test;
 
 /**
@@ -45,5 +41,17 @@ public class PatternDescriptionTest {
     CountPatternDescription patDes = new CountPatternDescription(singleCount, condition);
 
     assertEquals((31 + condition.hashCode()) * 31 + singleCount.hashCode(), patDes.hashCode());
+  }
+
+  @Test
+  public void testToString() {
+    Count singleCount = new SingleCount(1);
+    RecordCondition condition = new RecordOccurrenceCondition("tableName");
+    CountPatternDescription patDes = new CountPatternDescription(singleCount, condition);
+    
+    String expected = "CountPatternDescription [count=" + singleCount + ", condition=" + condition
+        + "]";
+
+    assertEquals(expected, patDes.toString());
   }
 }

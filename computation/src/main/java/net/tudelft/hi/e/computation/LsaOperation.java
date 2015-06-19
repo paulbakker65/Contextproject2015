@@ -66,34 +66,23 @@ public class LsaOperation extends Operation {
 
     @Override
     public int hashCode() {
-      int hash = 7;
-      hash = 89 * hash + Objects.hashCode(this.getCols());
-      return hash;
+      return 89 + super.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }      
       if (obj == null) {
         return false;
       }
-      if (getClass() != obj.getClass()) {
-        return false;
-      }
-      final LagTable other = (LagTable) obj;
-      if (!Objects.equals(this.cols, other.cols)) {
-        return false;
-      }
-      return true;
+      return super.equals(obj);
     }
     
     public List<Column> getCols() {
       return cols;
     }
-
-    public void setCols(List<Column> cols) {
-      this.cols = cols;
-    }
-
   }
 
   /**

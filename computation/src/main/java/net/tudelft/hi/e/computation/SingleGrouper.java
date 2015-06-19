@@ -30,9 +30,6 @@ public class SingleGrouper extends Grouper {
   
   @Override
   public boolean equals(Object obj) {
-    if (super.equals(obj)) {
-      return true;
-    }
     if (obj == null) {
       return false;
     }

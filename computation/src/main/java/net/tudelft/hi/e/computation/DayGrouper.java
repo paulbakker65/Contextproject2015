@@ -77,7 +77,7 @@ public class DayGrouper extends Grouper {
 
   @Override
   public int hashCode() {
-    return Objects.hash(datecol);
+    return 31 + Objects.hash(datecol);
   }
 
   @Override

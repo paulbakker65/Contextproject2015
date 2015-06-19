@@ -47,8 +47,7 @@ public class ConnectionOperation extends Operation {
 
   @Override
   public boolean execute() {
-
-    if (!executePreConditions()) {
+    if (!this.operationParametersSet) {
       return false;
     }
     if (executeWithEmptyTable()) {
@@ -62,10 +61,10 @@ public class ConnectionOperation extends Operation {
     final List<String> t1columns = new ArrayList<String>(inputData.get(0).keySet());
     final List<String> t2columns = new ArrayList<String>(otherTable.get(0).keySet());
 
-    if (!t1temp.remove(columnName) || !t1columns.remove(columnName)
-        || !t2columns.remove(otherColumnName)) {
+    if (!t1columns.remove(columnName) || !t2columns.remove(otherColumnName)) {
       return false;
     }
+    t1temp.remove(columnName);
 
     t1columns.removeAll(t2columns);
     t2columns.removeAll(t1temp);
@@ -81,11 +80,7 @@ public class ConnectionOperation extends Operation {
     Collections.sort(resultData, new RecordComparator(this.columnName));
 
     return true;
-  }
-
-  private boolean executePreConditions() {
-    return !(!this.operationParametersSet || inputData == null || otherTable == null);
-  }
+  }  
 
   private boolean executeWithEmptyTable() {
     if (inputData.isEmpty() || otherTable.isEmpty()) {
@@ -134,9 +129,4 @@ public class ConnectionOperation extends Operation {
 
     return operationParametersSet;
   }
-
-  public boolean isOperationParametersSet() {
-    return operationParametersSet;
-  }
-
 }
