@@ -2,8 +2,6 @@ package net.tudelft.hi.e.computation;
 
 import net.tudelft.hi.e.data.Table;
 
-import java.util.Objects;
-
 /**
  * An abstract class for respresenting an operation on a table that returns a table.
  */
