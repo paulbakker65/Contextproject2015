@@ -86,6 +86,25 @@ public class DateValue extends Value {
     timeAdded = true;
   }
 
+  /**
+   * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
+   * the instance of the Value to pick a specific compareTo overload.
+   *
+   * @param other
+   *          Value object to compare to
+   * @return 0 if equal to o <br>
+   *         -1 if less than o <br>
+   *         1 if more than o, or if the values cannot be compared <br>
+   */
+  @Override
+  public int compareTo(Value other) {
+    if (other instanceof DateValue) {
+      return ((DateValue) this).compareToDate(((DateValue) other));
+    } else {
+      return Integer.MAX_VALUE;
+    }
+  }
+
   public int compareToDate(final DateValue other) {
     return checkDate(this).compareTo(checkDate(other));
   }
