@@ -1,17 +1,17 @@
 package net.tudelft.hi.e.computation;
 
+import net.tudelft.hi.e.data.DateValue;
+import net.tudelft.hi.e.data.Record;
+import net.tudelft.hi.e.data.RecordComparator;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
-
-import net.tudelft.hi.e.data.DateValue;
-import net.tudelft.hi.e.data.Record;
-import net.tudelft.hi.e.data.RecordComparator;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Groups days on basis of the day in a date column.
@@ -77,7 +77,7 @@ public class DayGrouper extends Grouper {
 
   @Override
   public int hashCode() {
-    return Objects.hash(datecol);
+    return 31 + Objects.hash(datecol);
   }
 
   @Override

@@ -54,8 +54,7 @@ public class ConstraintOperation extends Operation {
    */
   public boolean setOperationParameters(final String columnName,
       final CompareOperator constraintType, final Value constraintValue) {
-    if (columnName == null || constraintValue == null || constraintType == null
-        || constraintType == CompareOperator.ND) {
+    if (columnName == null || constraintValue == null || constraintType == null) {
       this.operationParametersSet = false;
     } else {
       Condition condition = new Condition(constraintType, constraintValue);

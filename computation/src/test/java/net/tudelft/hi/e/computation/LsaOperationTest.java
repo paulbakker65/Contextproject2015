@@ -2,14 +2,8 @@ package net.tudelft.hi.e.computation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
@@ -25,10 +19,30 @@ import net.tudelft.hi.e.input.Settings;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Test for LsaOperation LSA stands for Lag Sequential Analysis.
  */
-public class LsaOperationTest {
+public class LsaOperationTest extends LsaOperation {
+
+  /**
+   * Testconstructor, so that LagTable can be tested.
+   */
+  public LsaOperationTest() {
+    this(new Table(), null, 0, 0, null, null);
+  }
+  
+  private LsaOperationTest(Table inputDataset, String eventcol, int from, int to, Value key,
+      Value target) {
+    super(inputDataset, eventcol, from, to, key, target);
+  }
 
   public static List<Column> rescols = Arrays.asList(new Column[] { new NumberColumn("lag"),
       new NumberColumn("occur") });
@@ -171,8 +185,26 @@ public class LsaOperationTest {
     assertEquals(o1.hashCode(),o2.hashCode());
   }
   
+  @Test
+  public void testLagTableEquals() {
+    final LagTable table = new LagTable(0, 5);
+    final LagTable tableSame = new LagTable(0, 5);
+    final LagTable tableNotSame = new LagTable(1, 4);
+    final String otherClass = "";
+    
+    assertEquals(table, table);
+    assertEquals(table, tableSame);
+    assertNotEquals(table, tableNotSame);
+    assertNotEquals(table, null);
+    assertNotEquals(table, otherClass);
+  }
   
-  
-  
+  @Test
+  public void testLagTableHashCode() {
+    final LagTable table = new LagTable(0, 1);
+    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    map.put(0, 0);
+    assertEquals(89 + map.hashCode(), table.hashCode());
+  }
 
 }

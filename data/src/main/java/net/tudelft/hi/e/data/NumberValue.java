@@ -14,18 +14,35 @@ public class NumberValue extends Value {
   /**
    * Constructs a new NumberValue.
    *
-   * @param value
-   *          the stored number.
+   * @param value the stored number.
    */
   public NumberValue(final double value) {
     this.setValue(value);
   }
 
   /**
-   * Compare this Number to another Number
+   * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
+   * the instance of the Value to pick a specific compareTo overload.
    *
    * @param other
-   *          The other Number.
+   *          Value object to compare to
+   * @return 0 if equal to o <br>
+   *         -1 if less than o <br>
+   *         1 if more than o, or if the values cannot be compared <br>
+   */
+  @Override
+  public int compareTo(Value other) {
+    if (other instanceof NumberValue) {
+      return this.compareToNumber((NumberValue) other);
+    } else {
+      return Integer.MAX_VALUE;
+    }
+  }
+
+  /**
+   * Compare this Number to another Number
+   *
+   * @param other The other Number.
    * @return 1 if this > other, 0 if this == other, -1 if this < other.
    */
   public int compareToNumber(final NumberValue other) {
@@ -86,8 +103,7 @@ public class NumberValue extends Value {
   /**
    * Stores a new number value.
    *
-   * @param value
-   *          the new number value.
+   * @param value the new number value.
    */
   public void setValue(final double value) {
     this.value = value;

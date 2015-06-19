@@ -1,8 +1,9 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.ArrayList;
-import net.tudelft.hi.e.computation.Pattern;
-import net.tudelft.hi.e.computation.PatternFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.NumberColumn;
@@ -12,11 +13,11 @@ import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 /**
  * Class for testing SingleOccurrencePattern.

@@ -3,9 +3,6 @@ package net.tudelft.hi.e.computation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.DateValue;
@@ -18,6 +15,9 @@ import net.tudelft.hi.e.data.Value;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class CombineOperationTest {
 

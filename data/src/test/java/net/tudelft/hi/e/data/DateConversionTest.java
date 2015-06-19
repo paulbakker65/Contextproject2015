@@ -1,14 +1,16 @@
 package net.tudelft.hi.e.data;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 /**
  * DateConversionTest class testing the table.DateConversion class.

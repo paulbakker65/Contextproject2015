@@ -1,9 +1,8 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.ArrayList;
-import net.tudelft.hi.e.computation.CodingOperation;
-import net.tudelft.hi.e.computation.Pattern;
-import net.tudelft.hi.e.computation.PatternFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.NumberColumn;
@@ -13,10 +12,11 @@ import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 /**
  * Test for the coding operation.
@@ -167,5 +167,19 @@ public class CodingOperationTest {
     co.execute();
 
     assertEquals(co.getResult().getCode("1W?S1H").getFrequency(), 1);
+  }
+  
+  @Test
+  public void testMultipleSameCodingOperations() {
+    Pattern pattern = PatternFactory.createPattern("2 StatSensor");
+    Pattern otherPattern = PatternFactory.createPattern("3 StatSensor");
+
+    CodingOperation co = new CodingOperation(table, pattern, "CodeName");
+    co.execute();    
+    assertEquals(1, co.getResult().getCode("CodeName").getFrequency());
+    
+    co = new CodingOperation(co.getResult(), otherPattern, "CodeName");
+    co.execute();
+    assertEquals(2, co.getResult().getCode("CodeName").getFrequency());
   }
 }
