@@ -1,13 +1,15 @@
 package net.tudelft.hi.e.gui;
 
-
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.SwingWorker;
+
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.computation.Operation;
@@ -22,6 +24,7 @@ import net.tudelft.hi.e.script.AnalysisLangLexer;
 import net.tudelft.hi.e.script.AnalysisLangParser;
 import net.tudelft.hi.e.script.OperationSpec;
 import net.tudelft.hi.e.script.ScriptListener;
+
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -55,9 +58,9 @@ class Task extends SwingWorker<Void, Void> {
     this.firePropertyChange("done", null, null);
   }
 
-
   /**
    * Parses all the files in Input class, the tables will be stored in the tables list.
+   * 
    * @return returns true if succeeded, false if an error occurred during parsing.
    */
   private boolean parseFiles() {
@@ -88,6 +91,7 @@ class Task extends SwingWorker<Void, Void> {
 
   /**
    * Executes the script file.
+   * 
    * @return returns true if succeeded, false if an error occurred during parsing or execution.
    */
   private boolean execScript() {
@@ -138,7 +142,8 @@ class Task extends SwingWorker<Void, Void> {
 
     log("Writing output files.##############");
     for (Table table : tables) {
-      String filepath = outputDir.getAbsolutePath() + "/output_" + table.getName();
+      String filepath = Paths.get(outputDir.getAbsolutePath() , "output_" + table.getName())
+          .toString();
       exportFile(table, filepath);
       exportSettings(table, filepath + ".xml");
     }
@@ -149,12 +154,15 @@ class Task extends SwingWorker<Void, Void> {
 
   /**
    * Writes the table to a given file path.
-   * @param table The table to export.
-   * @param filepath The file path to save the table in.
+   * 
+   * @param table
+   *          The table to export.
+   * @param filepath
+   *          The file path to save the table in.
    */
   private void exportFile(Table table, String filepath) {
     log("Writing data file: " + filepath);
-    try {      
+    try {
       Exporter.export(table, filepath, ".csv");
     } catch (Exception e) {
       error("Error writing file: " + filepath);
@@ -164,8 +172,11 @@ class Task extends SwingWorker<Void, Void> {
 
   /**
    * Generates the settings and saves it to a given file path.
-   * @param table The table to export settings for.
-   * @param filepath The file path to save the settings in.
+   * 
+   * @param table
+   *          The table to export settings for.
+   * @param filepath
+   *          The file path to save the settings in.
    */
   private void exportSettings(Table table, String filepath) {
     Settings settings = SettingsBuilder.generateSettings(table, ",", 2);
