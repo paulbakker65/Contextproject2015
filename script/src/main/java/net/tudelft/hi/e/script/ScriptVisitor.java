@@ -64,6 +64,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
     this.tables = tableList;
     this.operationList = new ArrayList<>();
     ExceptionHandler.replaceHandler(LOG);
+    LOG.setUseParentHandlers(false);
   }
 
   /**
