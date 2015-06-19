@@ -71,9 +71,7 @@ public class CombineOperation extends Operation {
           }
 
           this.resultData.add(combinedRecord);
-        } else if (value.compareTo(otherValue) > 0) {
-          continue;
-        }
+        } 
       }
     }
     return true;
