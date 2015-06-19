@@ -62,19 +62,4 @@ public class TableFileTest {
     constructor.setAccessible(true);
     constructor.newInstance();
   }
-
-  @Test(expected = TableNotFoundException.class)
-  public void testWriteFailure() throws TableNotFoundException {
-    TableFile.writeTable(new Table(), "/thisisnotapath");
-  }
-
-  @Test(expected = TableNotFoundException.class)
-  public void testReadFailureString() throws TableNotFoundException {
-    TableFile.readTable("/thisisnotapath");
-  }
-
-  @Test(expected = TableNotFoundException.class)
-  public void testReadFailureFile() throws TableNotFoundException {
-    TableFile.readTable(new File("/thisisnotapath"));
-  }
 }

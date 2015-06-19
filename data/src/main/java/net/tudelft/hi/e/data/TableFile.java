@@ -17,18 +17,19 @@ import java.util.logging.Logger;
  */
 public class TableFile {
   private static final Logger LOG = Logger.getLogger(TableFile.class.getName());
-
+  
+  private TableFile() {
+  }
   /**
    * Writes a table to a file.
    *
    * @param table the table to write.
-   * @param givenPath the path to write to.
+   * @param path the path to write to.
    * @throws IOException when the Table cannot be written to a file.
    */
-  public static void writeTable(Table table, String givenPath) throws TableNotFoundException {
-    String path = null;
-    if (!givenPath.endsWith(".ser")) {
-      path = givenPath + ".ser";
+  public static void writeTable(Table table, String path) throws TableNotFoundException {
+    if (!path.endsWith(".ser")) {
+      path += ".ser";
     }
 
     FileOutputStream fos;
@@ -46,14 +47,13 @@ public class TableFile {
   /**
    * Reads a Table given a file path.
    *
-   * @param givenPath the path to read the table.
+   * @param path the path to read the table.
    * @return the read Table.
    * @throws IOException when no Table can be read.
    */
-  public static Table readTable(String givenPath) throws TableNotFoundException {
-    String path = null;
-    if (!givenPath.endsWith(".ser")) {
-      path = givenPath + ".ser";
+  public static Table readTable(String path) throws TableNotFoundException {
+    if (!path.endsWith(".ser")) {
+      path += ".ser";
     }
 
     try {
@@ -92,7 +92,7 @@ public class TableFile {
       LOG.log(Level.SEVERE, e.getMessage(), e);
       return null;
     } catch (IOException e) {
-      LOG.log(Level.SEVERE, "Table file not found", e);
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       return null;
     }
   }
