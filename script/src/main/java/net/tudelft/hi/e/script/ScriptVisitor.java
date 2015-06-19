@@ -33,6 +33,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -63,6 +64,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
     super();
     this.tables = tableList;
     this.operationList = new ArrayList<>();
+    String temp = LOG.getName();
     ExceptionHandler.replaceHandler(LOG);
   }
 

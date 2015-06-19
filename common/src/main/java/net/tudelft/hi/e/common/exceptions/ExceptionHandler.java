@@ -1,13 +1,18 @@
 package net.tudelft.hi.e.common.exceptions;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 /**
- * Created by mawdegroot on 18/06/15.
+ * ExceptionHandler to handle and record exceptions to display in the GUI.
  */
 public class ExceptionHandler extends Handler {
 
@@ -15,9 +20,12 @@ public class ExceptionHandler extends Handler {
 
   private static ExceptionHandler handler;
 
+  private OutputStream out;
+
   private ExceptionHandler() {
     super();
     this.logRecordList = new ArrayList<>();
+    out = new BufferedOutputStream(System.err);
   }
 
   public static ExceptionHandler getExceptionHandlerInstance() {
@@ -30,6 +38,19 @@ public class ExceptionHandler extends Handler {
   @Override
   public void publish(LogRecord record) {
     logRecordList.add(record);
+    this.setFormatter(new Formatter() {
+      @Override
+      public String format(LogRecord record) {
+        return record.getMessage();
+      }
+    });
+    try {
+      this.out.write(this.getFormatter().format(record).getBytes());
+      this.out.write('\n');
+      this.out.flush();
+    } catch (IOException ex) {
+      throw new SecurityException();
+    }
   }
 
   @Override public void flush() {
@@ -53,5 +74,6 @@ public class ExceptionHandler extends Handler {
       logger.removeHandler(h);
     }
     logger.addHandler(ExceptionHandler.getExceptionHandlerInstance());
+    logger.setUseParentHandlers(false);
   }
 }
