@@ -297,7 +297,10 @@ WS
   | '\r'
   | '\n'
   ) -> channel(HIDDEN)
-//  ) {$channel=HIDDEN;}
+;
+
+LINE_COMMENT
+:   '#' ~[\r\n]* -> skip
 ;
 
 STRING
