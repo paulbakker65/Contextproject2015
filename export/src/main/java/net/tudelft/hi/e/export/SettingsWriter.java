@@ -1,5 +1,6 @@
 package net.tudelft.hi.e.export;
 
+import net.tudelft.hi.e.common.exceptions.ExportException;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.input.Settings;
@@ -31,15 +32,26 @@ public final class SettingsWriter {
    *         The settings file to convert to a xml document.
    * @param file
    *         The file path to write the xml document to.
+   *
+   * @throws ExportException
+   *         if there is an error exporting the data.
    */
-  public static void writeSettings(final Settings settings, final File file) throws Exception {
-    final Document document = newDocument();
-
-    final Element settingsNode = addSettings(document, settings);
-
-    addColumns(document, settings, settingsNode);
-
-    writeXmlFile(document, file);
+  public static void writeSettings(final Settings settings, final File file) throws
+          ExportException {
+    Document document = null;
+    Element settingsNode = null;
+    try {
+      document = newDocument();
+      settingsNode = addSettings(document, settings);
+      addColumns(document, settings, settingsNode);
+    } catch (ParserConfigurationException ex) {
+      throw new ExportException(ex);
+    }
+    try {
+      writeXmlFile(document, file);
+    } catch (TransformerException ex) {
+      throw new ExportException(ex);
+    }
   }
 
   /**
