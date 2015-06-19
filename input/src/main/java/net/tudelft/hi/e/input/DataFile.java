@@ -180,7 +180,7 @@ public class DataFile {
     try {
       tableReturn = getParser().parse(getReader());
     } catch (ParseFailedException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage());
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
       return null;
     }
     return tableReturn;
