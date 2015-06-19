@@ -1,4 +1,4 @@
-<settings startLine="2" delimiter="," name="name">
+<settings startLine="2" delimiter="," name="test1">
 	<column name="number1" type="number" />
 	<column name="date1" type="date" format="dd/MM/yyyy"  />
 	<column name="string1"/>  

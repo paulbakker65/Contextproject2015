@@ -1,16 +1,14 @@
 package net.tudelft.hi.e.gui;
 
-import java.io.File;
+import static org.junit.Assert.assertEquals;
 
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.input.DataFile;
-
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
-
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import java.io.File;
 
 public class BoxPlotChartTest {
 

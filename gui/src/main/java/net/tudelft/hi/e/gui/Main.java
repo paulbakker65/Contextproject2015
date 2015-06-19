@@ -71,6 +71,7 @@ public class Main{
         LOG.log(Level.INFO, usage);
         return false;
       }
+      i++;
     }
     return true;
   }

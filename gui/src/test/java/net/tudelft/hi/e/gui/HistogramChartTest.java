@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.NumberColumn;
@@ -8,10 +9,13 @@ import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
+
 import org.jfree.data.statistics.HistogramDataset;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 
 public class HistogramChartTest {
 

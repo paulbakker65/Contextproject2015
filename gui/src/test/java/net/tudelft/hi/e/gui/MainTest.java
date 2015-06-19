@@ -1,9 +1,10 @@
 package net.tudelft.hi.e.gui;
 
-import net.tudelft.hi.e.input.Input;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import net.tudelft.hi.e.input.Input;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,8 +29,7 @@ public class MainTest {
     boolean actual = Main.parseCommandline(argv);
     assertEquals(true, actual);
     assertEquals(1, Input.getFiles().size());
-    assertEquals("csvexample.csv", Input.getFiles().get(0).getRawDataFile().
-        getName());
+    assertEquals("csvexample.csv", Input.getFiles().get(0).getRawDataFile().getName());
     assertEquals("settings.xml", Input.getFiles().get(0).getSettingsfile().getName());
 
     Input.clean();

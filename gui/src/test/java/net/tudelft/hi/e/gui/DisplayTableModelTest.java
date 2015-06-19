@@ -1,17 +1,20 @@
 package net.tudelft.hi.e.gui;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.gui.DisplayTableModel;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Test for the DisplayTableModel.
