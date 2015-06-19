@@ -44,22 +44,31 @@ public abstract class Column {
 
     Column res = null;
     final String type = element.getAttribute("type");
-    switch (type) {
-      case "number":
-        res = new NumberColumn(name);
-        break;
-      case "date":
-        res = new DateColumn(name);
-        break;
-      case "string":
-        res = new StringColumn(name);
-        break;
-      case "":
-        res = new StringColumn(name);
-        break;
-      default:
-        throw new WrongXmlException("Wrong type specified!");
+    if (type.equals("number")) {
+      res = new NumberColumn(name);
+    } else if (type.equals("date")) {
+      res = new DateColumn(name);
+    } else if (type.equals("string") || type.equals("")) {
+      res = new StringColumn(name);
+    } else {
+      throw new WrongXmlException("Wrong type specified!");
     }
+//    switch (type) {
+//      case "number":
+//        res = new NumberColumn(name);
+//        break;
+//      case "date":
+//        res = new DateColumn(name);
+//        break;
+//      case "string":
+//        res = new StringColumn(name);
+//        break;
+//      case "":
+//        res = new StringColumn(name);
+//        break;
+//      default:
+//        throw new WrongXmlException("Wrong type specified!");
+//    }
 
     res.read(element);
     return res;
