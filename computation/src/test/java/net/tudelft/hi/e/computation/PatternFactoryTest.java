@@ -1,26 +1,17 @@
 package net.tudelft.hi.e.computation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.tudelft.hi.e.common.enums.CompareOperator;
-import net.tudelft.hi.e.computation.Condition;
-import net.tudelft.hi.e.computation.Count;
-import net.tudelft.hi.e.computation.MultipleConditionPattern;
-import net.tudelft.hi.e.computation.MultipleCount;
-import net.tudelft.hi.e.computation.Pattern;
-import net.tudelft.hi.e.computation.PatternDescription;
-import net.tudelft.hi.e.computation.PatternFactory;
-import net.tudelft.hi.e.computation.RecordCondition;
-import net.tudelft.hi.e.computation.RecordMatchesConditionCondition;
-import net.tudelft.hi.e.computation.RecordOccurrenceCondition;
-import net.tudelft.hi.e.computation.SingleConditionPattern;
-import net.tudelft.hi.e.computation.SingleCount;
 import net.tudelft.hi.e.data.StringValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,12 +43,12 @@ public class PatternFactoryTest {
     occurCondition = new RecordOccurrenceCondition("tableName");
     condCondition = new RecordMatchesConditionCondition("columnName", condition);
 
-    oneOccur = new PatternDescription(oneCount, occurCondition);
-    twoOccur = new PatternDescription(twoCount, occurCondition);
-    multiOccur = new PatternDescription(multiCount, occurCondition);
-    oneCond = new PatternDescription(oneCount, condCondition);
-    twoCond = new PatternDescription(twoCount, condCondition);
-    multiCond = new PatternDescription(multiCount, condCondition);
+    oneOccur = new CountPatternDescription(oneCount, occurCondition);
+    twoOccur = new CountPatternDescription(twoCount, occurCondition);
+    multiOccur = new CountPatternDescription(multiCount, occurCondition);
+    oneCond = new CountPatternDescription(oneCount, condCondition);
+    twoCond = new CountPatternDescription(twoCount, condCondition);
+    multiCond = new CountPatternDescription(multiCount, condCondition);
   }
 
   @Test
@@ -145,31 +136,31 @@ public class PatternFactoryTest {
 
     assertEquals(expected, PatternFactory.createPattern(list));
   }
-  
-  @Test 
+
+  @Test
   public void testNotPattern() {
-	  Pattern first = PatternFactory.createPattern("1 StatSensor");
-	  Pattern toInvert = PatternFactory.createPattern("1 Hospital");	  
-	  Pattern last = PatternFactory.createPattern("1 Website");
-	  Pattern notPattern = new NotPattern(toInvert, last);
-	  first.setNextPattern(notPattern);
-	  
-	  assertEquals(first, PatternFactory.createPattern("1 StatSensor", "!(1 Hospital)", "1 Website"));
+    Pattern first = PatternFactory.createPattern("1 StatSensor");
+    Pattern toInvert = PatternFactory.createPattern("1 Hospital");
+    Pattern last = PatternFactory.createPattern("1 Website");
+    Pattern notPattern = new NotPattern(toInvert, last);
+    first.setNextPattern(notPattern);
+
+    assertEquals(first, PatternFactory.createPattern("1 StatSensor", "!(1 Hospital)", "1 Website"));
   }
-  
-  @Test 
+
+  @Test
   public void testNotPatternLast() {
-	  Pattern first = PatternFactory.createPattern("1 StatSensor");
-	  Pattern toInvert = PatternFactory.createPattern("1 Hospital");	
-	  Pattern notPattern = new NotPattern(toInvert);
-	  first.setNextPattern(notPattern);
-	  
-	  assertEquals(first, PatternFactory.createPattern("1 StatSensor", "!(1 Hospital)"));
+    Pattern first = PatternFactory.createPattern("1 StatSensor");
+    Pattern toInvert = PatternFactory.createPattern("1 Hospital");
+    Pattern notPattern = new NotPattern(toInvert);
+    first.setNextPattern(notPattern);
+
+    assertEquals(first, PatternFactory.createPattern("1 StatSensor", "!(1 Hospital)"));
   }
-  
-  @Test 
-  public void testNotPatternWrong() {	  
-	  assertEquals(new NullPattern(), PatternFactory.createPattern("!(1 Hospital", "1 Website"));
+
+  @Test
+  public void testNotPatternWrong() {
+    assertEquals(new NullPattern(), PatternFactory.createPattern("!(1 Hospital", "1 Website"));
   }
 
   @Test

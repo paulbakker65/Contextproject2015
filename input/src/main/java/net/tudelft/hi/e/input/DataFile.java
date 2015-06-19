@@ -54,11 +54,13 @@ public class DataFile {
    * @return Returns the correct reader for the file.
    * @throws Exception If the data file cannot be found an Exception is thrown.
    */
-  private Reader createReader(final File file, final Settings settings) throws
+  public static Reader createReader(final File file, final Settings settings) throws
       IOException {
 
     final String fileextension = findExtension(file).toLowerCase();
 
+    Reader reader;
+    
     if ("xls".equals(fileextension)) {
       throw new UnsupportedEncodingException(
           "Old .xls not supported. Please manually convert to the new Excel 2007 format: .xlsx");
@@ -76,7 +78,7 @@ public class DataFile {
    * @param file The file to find the extension for.
    * @return Returns a String containing the file extension.
    */
-  private String findExtension(final File file) {
+  private static String findExtension(final File file) {
     final String filename = file.getName();
     final int dot = filename.lastIndexOf(".");
     return filename.substring(dot + 1);

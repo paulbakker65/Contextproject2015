@@ -160,12 +160,10 @@ public class ScriptExecutionManagerTest {
     opList.add(new ForEachChunkOperation(tablesExpected.get(0), 1, operation));
 
     for (int i = 0; i < opList.size(); i++) {
-      opList.get(i).execute();
-      Table operationResultTable = tableMap.get(opList.get(i).
-          getResultTableName());
-
-      operationResultTable.clear();
-      operationResultTable.addAll(opList.get(i).getResult());
+    	opList.get(i).resetData(tableMap.get(opList.get(i).getInputTableName()));
+    	opList.get(i).execute();
+        tableMap.remove(opList.get(i).getResultTableName());
+        tableMap.put(opList.get(i).getResultTableName(), opList.get(i).getResult());
     }
 
     assertEquals(tableMap.get("website"), actual.get(0));

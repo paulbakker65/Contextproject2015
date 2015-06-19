@@ -4,8 +4,6 @@ import net.tudelft.hi.e.data.Table;
 
 /**
  * End of Pattern.
- *
- * @author paulbakker, robin
  */
 public class NullPattern extends Pattern {
 
@@ -21,6 +19,14 @@ public class NullPattern extends Pattern {
    */
   @Override
   public boolean findPattern(final Table table, final int fromIndex, final Table records) {
+    return true;
+  }
+
+  /**
+   * Is this pattern is a next pattern, then it is the last.
+   */
+  @Override
+  public boolean isNextLastPattern() {
     return true;
   }
 

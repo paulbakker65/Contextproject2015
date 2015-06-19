@@ -393,10 +393,8 @@ public class MainUI extends JFrame {
     }
     filesTable.revalidate();
   }
-
-
   private void onSettingsBuilder() {
-    LOG.log(Level.INFO, "Not yet implemented.");
+	new SettingsGenerator().setVisible(true);
   }
 
   /**
