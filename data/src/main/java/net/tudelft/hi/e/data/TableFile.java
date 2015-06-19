@@ -22,12 +22,13 @@ public class TableFile {
    * Writes a table to a file.
    *
    * @param table the table to write.
-   * @param path the path to write to.
+   * @param givenPath the path to write to.
    * @throws IOException when the Table cannot be written to a file.
    */
-  public static void writeTable(Table table, String path) throws TableNotFoundException {
-    if (!path.endsWith(".ser")) {
-      path += ".ser";
+  public static void writeTable(Table table, String givenPath) throws TableNotFoundException {
+    String path = null;
+    if (!givenPath.endsWith(".ser")) {
+      path = givenPath + ".ser";
     }
 
     FileOutputStream fos;
@@ -45,13 +46,14 @@ public class TableFile {
   /**
    * Reads a Table given a file path.
    *
-   * @param path the path to read the table.
+   * @param givenPath the path to read the table.
    * @return the read Table.
    * @throws IOException when no Table can be read.
    */
-  public static Table readTable(String path) throws TableNotFoundException {
-    if (!path.endsWith(".ser")) {
-      path += ".ser";
+  public static Table readTable(String givenPath) throws TableNotFoundException {
+    String path = null;
+    if (!givenPath.endsWith(".ser")) {
+      path = givenPath + ".ser";
     }
 
     try {
