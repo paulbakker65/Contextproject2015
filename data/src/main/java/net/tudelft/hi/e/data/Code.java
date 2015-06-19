@@ -70,23 +70,29 @@ public class Code implements Serializable {
 
   /**
    * Equals method.
+   * 
    * @param o the other object
    * @return true if the two objects are equal, false if they are not.
    */
-  @Override public boolean equals(Object o) {
-    if (this == o)
+  @Override
+  public boolean equals(Object object) {
+    if (this == object) {
       return true;
-    if (o == null || getClass() != o.getClass())
+    }
+    if (object == null || getClass() != object.getClass()) {
       return false;
-    Code code = (Code) o;
+    }
+    Code code = (Code) object;
     return Objects.equals(events, code.events) && Objects.equals(name, code.name);
   }
 
   /**
    * HashCode.
+   * 
    * @return hashcode of this object.
    */
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return Objects.hash(events, name);
   }
 }

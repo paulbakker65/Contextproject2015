@@ -3,10 +3,10 @@ package net.tudelft.hi.e.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Special ArrayList that contains the records.
@@ -14,7 +14,7 @@ import java.util.Map;
 public class Table extends ArrayList<Record> implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name;
-  private Map<String, Code> codes;
+  private HashMap<String, Code> codes;
   private List<Chunk> chunks;
 
   /**
@@ -121,7 +121,7 @@ public class Table extends ArrayList<Record> implements Serializable {
   /**
    * Getter for the map of codes.
    */
-  public Map<String, Code> getCodes() {
+  public HashMap<String, Code> getCodes() {
     return this.codes;
   }
 
@@ -131,7 +131,7 @@ public class Table extends ArrayList<Record> implements Serializable {
    * @param codes
    *          the new codes.
    */
-  public void setCodes(Map<String, Code> codes) {
+  public void setCodes(HashMap<String, Code> codes) {
     this.codes = codes;
   }
 

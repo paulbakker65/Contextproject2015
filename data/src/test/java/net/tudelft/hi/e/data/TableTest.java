@@ -235,30 +235,30 @@ public class TableTest {
 
   @Test
   public void testSetChunks() {
-    Table t = new Table();
-    assertEquals(new ArrayList<Table>(), t.getChunks());
+    Table table = new Table();
+    assertEquals(new ArrayList<Table>(), table.getChunks());
     ArrayList<Chunk> chunks = new ArrayList<Chunk>();
     chunks.add(new Chunk(0, "chunk0"));
     chunks.add(new Chunk(1, "chunk1"));
-    t.setChunks(chunks);
-    assertEquals(chunks, t.getChunks());
+    table.setChunks(chunks);
+    assertEquals(chunks, table.getChunks());
 
-    t.setChunks(null);
-    assertEquals(new ArrayList<Table>(), t.getChunks());
+    table.setChunks(null);
+    assertEquals(new ArrayList<Table>(), table.getChunks());
   }
 
   @Test
   public void testSetCodes() {
-    Table t = new Table();
-    assertEquals(new HashMap<String, Code>(), t.getCodes());
+    Table table = new Table();
+    assertEquals(new HashMap<String, Code>(), table.getCodes());
 
     HashMap<String, Code> map = new HashMap<String, Code>();
     map.put("booh", new Code("booh"));
     map.put("mooh", new Code("mooh"));
 
-    t.setCodes(map);
+    table.setCodes(map);
 
-    assertEquals(map, t.getCodes());
+    assertEquals(map, table.getCodes());
   }
 
   @Test

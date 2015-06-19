@@ -16,45 +16,6 @@ public abstract class Value implements Comparable<Value>, Serializable {
   private static final long serialVersionUID = 1L;
 
   /**
-   * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
-   * the instance of the Value to pick a specific compareTo overload.
-   *
-   * @param other
-   *          Value object to compare to
-   * @return 0 if equal to o <br>
-   *         -1 if less than o <br>
-   *         1 if more than o, or if the values cannot be compared <br>
-   */
-  @Override
-  public int compareTo(final Value other) {
-    if (this instanceof StringValue) {
-      if (other instanceof StringValue) {
-        return ((StringValue) this).compareToString(((StringValue) other));
-      } else {
-        return Integer.MAX_VALUE;
-      }
-    } else if (this instanceof NumberValue) {
-      if (other instanceof NumberValue) {
-        return ((NumberValue) this).compareToNumber(((NumberValue) other));
-      } else {
-        return Integer.MAX_VALUE;
-      }
-    } else if (this instanceof DateValue) {
-      if (other instanceof DateValue) {
-        return ((DateValue) this).compareToDate(((DateValue) other));
-      } else {
-        return Integer.MAX_VALUE;
-      }
-    } else {
-      if (other instanceof NullValue) {
-        return 0;
-      } else {
-        return Integer.MAX_VALUE;
-      }
-    }
-  }
-
-  /**
    * Returns whether a Value is a date.
    *
    * @return whether a Value is a date.
