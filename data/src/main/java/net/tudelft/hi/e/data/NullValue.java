@@ -13,7 +13,8 @@ public class NullValue extends Value {
   /**
    * Constructs a new NullValue.
    */
-  public NullValue() {}
+  public NullValue() {
+  }
 
   /**
    * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks

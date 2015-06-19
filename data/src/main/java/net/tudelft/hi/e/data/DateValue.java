@@ -99,7 +99,7 @@ public class DateValue extends Value {
   @Override
   public int compareTo(Value other) {
     if (other instanceof DateValue) {
-      return ((DateValue) this).compareToDate(((DateValue) other));
+      return this.compareToDate(((DateValue) other));
     } else {
       return Integer.MAX_VALUE;
     }

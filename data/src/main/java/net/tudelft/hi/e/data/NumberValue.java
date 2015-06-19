@@ -33,7 +33,7 @@ public class NumberValue extends Value {
   @Override
   public int compareTo(Value other) {
     if (other instanceof NumberValue) {
-      return ((NumberValue) this).compareToNumber(((NumberValue) other));
+      return this.compareToNumber(((NumberValue) other));
     } else {
       return Integer.MAX_VALUE;
     }
