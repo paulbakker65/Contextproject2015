@@ -3,8 +3,6 @@ package net.tudelft.hi.e.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.NumberValue;
@@ -21,22 +19,11 @@ import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 
+import javax.swing.JPanel;
 
-public class BoxPlotChart extends JFrame {
+class BoxPlotChart {
 
-  private static final long serialVersionUID = 1L;
-
-
-
-  /**
-   * Makes a new Box and Whisker plot, (boxplot).
-   * @param windowTitle title of the frame
-   * @param table data to use
-   * @param column number column to calculate mean, min, max etc
-   */
-  public BoxPlotChart(String windowTitle, Table table, String column) {
-    super(windowTitle);
-
+  public static JPanel createPanel(Table table, String column) {
     Dataset dataset = createDataset(table, column);
 
     JFreeChart chart = createChart(dataset, column);
@@ -45,7 +32,7 @@ public class BoxPlotChart extends JFrame {
 
     chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 
-    setContentPane(chartPanel);
+    return chartPanel;
   }
 
   /**
@@ -76,7 +63,7 @@ public class BoxPlotChart extends JFrame {
    * @param column column to do calculations on
    * @return boxplot
    */
-  public static JFreeChart createChart(Dataset dataset, String column) {
+  private static JFreeChart createChart(Dataset dataset, String column) {
     JFreeChart chart = ChartFactory.createBoxAndWhiskerChart("Code frequency", // chart title
         "", // domain axis label
         column, // range axis label

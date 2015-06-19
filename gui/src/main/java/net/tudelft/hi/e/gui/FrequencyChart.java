@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
-import javax.swing.JFrame;
-
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.Code;
@@ -27,59 +25,53 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
+import javax.swing.JPanel;
 
-public class FrequencyChart extends JFrame {
+class FrequencyChart {
   private static final long serialVersionUID = 1L;
   private Table table;
   private int chunkDepth;
 
   /**
    * Makes a new Frequency Frame
-   * 
-   * @param windowTitle title of the frame
+   *
    * @param table data to use
    * @param column column with values to check frequencies on.
    * @param chunkDepth depth of chunks
    */
-  public FrequencyChart(String windowTitle, Table table, int chunkDepth, String column) {
-    this(windowTitle, table, chunkDepth, true);
-
+  public static JPanel createPanel(Table table, int chunkDepth, String column) {
+    FrequencyChart chart = new FrequencyChart(table, chunkDepth);
+		
     Dataset dataset = createDataset(table, column, chunkDepth);
-    createChartPanel(createChart(dataset, column));
+    return chart.createChartPanel(chart.createChart(dataset, column));
   }
 
   /**
    * Makes a Frequency Frame with codes
-   * 
-   * @param windowTitle title of the frame
+   *
    * @param table data to use
    * @param chunkDepth depth of chunks
    */
-  public FrequencyChart(String windowTitle, Table table, int chunkDepth) {
-    this(windowTitle, table, chunkDepth, true);
-
-    Dataset dataset = createCodesDataset();
-    createChartPanel(createChart(dataset, "Codes"));
+  public static JPanel createPanel(Table table, int chunkDepth) {
+	FrequencyChart chart = new FrequencyChart(table, chunkDepth);
+		
+    Dataset dataset = chart.createCodesDataset();
+    return chart.createChartPanel(chart.createChart(dataset, "Codes"));
   }
 
-  public FrequencyChart(String windowTitle, Table table, String column) {
-    this(windowTitle, table, 1, column);
-  }
-
-  private FrequencyChart(String windowTitle, Table table, int chunkDepth, boolean useLess) {
-    super(windowTitle);
+  private FrequencyChart(Table table, int chunkDepth) {
     this.table = table;
     this.chunkDepth = chunkDepth;
   }
 
-  private void createChartPanel(JFreeChart chart) {
+  private ChartPanel createChartPanel(JFreeChart chart) {
     ChartPanel chartPanel = new ChartPanel(chart);
     CategoryPlot plot = (CategoryPlot) chart.getPlot();
     BarRenderer renderer = (BarRenderer) plot.getRenderer();
     renderer.setShadowVisible(false);
     renderer.setBarPainter(new StandardBarPainter());
     chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-    setContentPane(chartPanel);
+    return chartPanel;
   }
 
   private Dataset createCodesDataset() {

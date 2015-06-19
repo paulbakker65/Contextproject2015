@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,7 +21,7 @@ import net.tudelft.hi.e.data.Table;
 public class DisplayTableGui extends JPanel {
   private static final long serialVersionUID = 1L;
 
-  private JTable jtable;
+  private final JTable jtable;
 
   /**
    * Creates a gui with a table in the center.
@@ -33,9 +32,16 @@ public class DisplayTableGui extends JPanel {
     super(new BorderLayout());
 
     jtable = new JTable(new DisplayTableModel(table));
+    jtable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-    add(new JScrollPane(jtable), BorderLayout.CENTER);
-    setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    setVerticalHeader();
+
+    jtable.selectAll();
+    packColumns(jtable);
+    jtable.clearSelection();
+
+    add(new JScrollPane(jtable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
   }
 
   /**
@@ -53,10 +59,7 @@ public class DisplayTableGui extends JPanel {
 
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-    frame.pack();
-    GUI.setIconImage(frame);
-    GUI.centreWindow(frame);
-    frame.setVisible(true);
+    GUI.init(frame);
   }
 
   /**
@@ -89,7 +92,7 @@ public class DisplayTableGui extends JPanel {
    * Packs all columns of the table to their content size.
    * @param table The table who's columns will be packed.
    */
-  public static void packColumns(JTable table) {
+  private static void packColumns(JTable table) {
     for (int column = 0; column < table.getColumnCount(); column++) {
       packColumn(table, column);
     }
@@ -100,7 +103,7 @@ public class DisplayTableGui extends JPanel {
    * @param table A JTable containing the column.
    * @param column The column index.
    */
-  public static void packColumn(JTable table, int column) {
+  private static void packColumn(JTable table, int column) {
     final TableColumnModel columnModel = table.getColumnModel();
     final TableColumn tablecolumn = columnModel.getColumn(column);
 

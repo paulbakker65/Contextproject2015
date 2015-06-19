@@ -24,6 +24,7 @@ import net.tudelft.hi.e.data.Value;
  * Exporter class that outputs internal datastructures into output files.
  */
 public final class Exporter {
+  public static char delimiter = ';';
   private static boolean ADD_CODE_FREQUENCY = true;
 
   /**
@@ -151,7 +152,7 @@ public final class Exporter {
   }
 
   private static void writeToFile(Table table, Writer writer) throws IOException {
-    CSVWriter csvWriter = new CSVWriter(writer, ';');
+    CSVWriter csvWriter = new CSVWriter(writer, delimiter);
     List<String> keys = table.get(table.size() - 1).getKeysInOrder();
 
     // Write column names.

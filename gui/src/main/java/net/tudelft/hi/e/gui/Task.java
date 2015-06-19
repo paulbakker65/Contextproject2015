@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import javax.swing.SwingWorker;
 
+
 import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Table;
@@ -25,7 +26,7 @@ class Task extends SwingWorker<Void, Void> {
 
   private static final Logger LOG = Logger.getLogger(Task.class.getName());
 
-  List<Table> tables = null;
+  private List<Table> tables = null;
 
   @Override
   public Void doInBackground() {
@@ -55,26 +56,24 @@ class Task extends SwingWorker<Void, Void> {
    * @return returns true if succeeded, false if an error occurred during parsing.
    */
   private boolean parseFiles() {
-    log("Parsing input files.");
+    log("Parsing input files.", true);
     tables = new ArrayList<Table>();
 
     int currentprogress = 0;
     int onefileprogress = 30 / Input.getFiles().size();
 
-    for (DataFile f : Input.getFiles()) {
-      Table table = null;
-      try {
-        log("Parsing " + f.toString());
-        table = f.getParser().parse(f.getReader());
-        tables.add(table);
-        currentprogress = currentprogress + onefileprogress;
-        setProgress(currentprogress);
-      } catch (ParseFailedException ex) {
-        LOG.log(Level.SEVERE, "Error parsing input files: " + ex.getMessage() + ".");
+    for (DataFile datafile : Input.getFiles()) {
+      log("Parsing " + datafile.toString());
+      Table table = datafile.getTable();
+      if(table == null) {
+        error("Error Parsing " + datafile.toString());
         return false;
       }
+      tables.add(table);
+      currentprogress = currentprogress + onefileprogress;
+      setProgress(currentprogress);
     }
-    log("Done parsing input files.\n");
+    log("Done parsing input files.\n", true);
     setProgress(30);
 
     return true;
@@ -85,7 +84,7 @@ class Task extends SwingWorker<Void, Void> {
    * @return returns true if succeeded, false if an error occurred during parsing or execution.
    */
   private boolean execScript() {
-    log("Executing script.");
+    log("Executing script.", true);
 
     ScriptExecutionManager exec = new ScriptExecutionManager(tables);
     ExceptionHandler.getExceptionHandlerInstance().getLogRecords();
@@ -106,7 +105,7 @@ class Task extends SwingWorker<Void, Void> {
     exec.executeAllScripts();
     tables = exec.getResultDataTables();
 
-    log("Done executing script.\n");
+    log("Done executing script.\n", true);
     setProgress(80);
     return true;
   }
@@ -117,13 +116,17 @@ class Task extends SwingWorker<Void, Void> {
   private void exportFiles() {
     File outputDir = Input.getOutputDir();
 
-    log("Writing output files.##############");
+    int progress = getProgress();
+    int percent = (100 - progress) / tables.size();
+    log("Writing output files.", true);
     for (Table table : tables) {
       String filepath = outputDir.getAbsolutePath() + "/output_" + table.getName();
       exportFile(table, filepath);
       exportSettings(table, filepath + ".xml");
+      progress += percent;
+      setProgress(progress);
     }
-    log("Done writing output files.##############\n");
+    log("Done writing output files.\n", true);
 
     setProgress(100);
   }
@@ -133,7 +136,7 @@ class Task extends SwingWorker<Void, Void> {
    * @param table The table to export.
    * @param filepath The file path to save the table in.
    */
-  private void exportFile(Table table, String filepath) {
+  public void exportFile(Table table, String filepath) {
     log("Writing data file: " + filepath);
     try {
       Exporter.export(table, filepath, ".csv");
@@ -148,7 +151,7 @@ class Task extends SwingWorker<Void, Void> {
    * @param table The table to export settings for.
    * @param filepath The file path to save the settings in.
    */
-  private void exportSettings(Table table, String filepath) {
+  public void exportSettings(Table table, String filepath) {
     Settings settings = SettingsBuilder.generateSettings(table, ",", 2);
     if (settings == null) {
       error("Error generating settings for: " + table.getName());
@@ -163,9 +166,10 @@ class Task extends SwingWorker<Void, Void> {
     }
   }
 
-  private void log(String message) {
-    System.out.println("log: " + message);
-    this.firePropertyChange("log", null, message + System.lineSeparator());
+  private void log(String message, boolean... options) {
+    boolean bold = (options.length > 0 && options[0]);
+    LOG.log(Level.INFO, message);
+    this.firePropertyChange("log", bold, message + System.lineSeparator());
   }
 
   private void error(String error) {

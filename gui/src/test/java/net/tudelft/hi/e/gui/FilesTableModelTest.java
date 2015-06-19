@@ -1,13 +1,14 @@
-package net.tudelft.hi.e.input;
+package net.tudelft.hi.e.gui;
 
 import java.io.File;
 import java.util.ArrayList;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-import net.tudelft.hi.e.input.DataFile;
-import net.tudelft.hi.e.input.FilesTableModel;
-import net.tudelft.hi.e.input.Input;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Input;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,11 +39,6 @@ public class FilesTableModelTest {
     } catch (final Exception e) {
       e.printStackTrace();
     }
-  }
-
-  @Test
-  public void testAddTableModelListener() {
-    // Not yet implemented in filesTableModel
   }
 
   @Test
@@ -79,23 +75,12 @@ public class FilesTableModelTest {
   @Test
   public void testGetValueAt() {
     Input.getFiles().add(df);
-    assertEquals(datafile.getPath(), ftm.getValueAt(0, 0));
-    assertEquals(settingsfile.getPath(), ftm.getValueAt(0, 1));
+    assertEquals(datafile.getName(), ftm.getValueAt(0, 0));
+    assertEquals(settingsfile.getName(), ftm.getValueAt(0, 1));
   }
 
   @Test
   public void testIsCellEditable() {
     assertFalse(ftm.isCellEditable(5, 20034));
   }
-
-  @Test
-  public void testRemoveTableModelListener() {
-    // Not yet implemented in filesTableModel
-  }
-
-  @Test
-  public void testSetValueAt() {
-    // Not yet implemented in filesTableModel
-  }
-
 }

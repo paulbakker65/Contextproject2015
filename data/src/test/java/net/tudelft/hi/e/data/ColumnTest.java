@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;

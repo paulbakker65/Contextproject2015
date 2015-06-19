@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+import net.tudelft.hi.e.data.Table;
 
 /**
  * Stores information about the data file and it's corresponding settings file.
@@ -21,6 +24,8 @@ public class DataFile {
   private Settings settings;
   private Reader reader;
   private final Parser parser;
+
+  private Table table;
 
   /**
    * Creates a new DataFile object.
@@ -145,6 +150,29 @@ public class DataFile {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
   }
+
+  public Table getTable() {
+    if (table == null) {
+      table = parse();
+    }
+    return table;
+  }
+
+  public void setTable(Table table) {
+    this.table = table;
+  }
+
+  public Table parse() {
+    Table table;
+    try {
+      table = getParser().parse(getReader());
+    } catch (ParseFailedException ex) {
+      LOG.log(Level.SEVERE, "Error prasing input files.");
+      return null;
+    }
+    return table;
+  }
+
 
   @Override
   public String toString() {

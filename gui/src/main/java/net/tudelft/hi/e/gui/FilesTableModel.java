@@ -1,19 +1,16 @@
-package net.tudelft.hi.e.input;
+package net.tudelft.hi.e.gui;
 
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Input;
+
+import javax.swing.table.AbstractTableModel;
 
 /**
  * A TableModel used by FilesTable to store the table data.
  */
-public class FilesTableModel implements TableModel {
+class FilesTableModel extends AbstractTableModel {
   private static final String[] columnNames = {"Data filepath",
     "Settings filepath"};
-
-  @Override
-  public void addTableModelListener(final TableModelListener arg0) {
-//    throw new UnsupportedOperationException();
-  }
 
   @Override
   public Class<?> getColumnClass(final int columnIndex) {
@@ -39,24 +36,14 @@ public class FilesTableModel implements TableModel {
   public String getValueAt(final int rowIndex, final int columnIndex) {
     final DataFile file = Input.getFiles().get(rowIndex);
     if (columnIndex == 0) {
-      return file.getFilepath();
+      return file.getRawDataFile().getName();
     } else {
-      return file.getSettingsfilepath();
+      return file.getSettingsfile().getName();
     }
   }
 
   @Override
   public boolean isCellEditable(final int rowIndex, final int columnIndex) {
     return false;
-  }
-
-  @Override
-  public void removeTableModelListener(final TableModelListener arg0) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public void setValueAt(final Object theValue, final int rowIndex, final int columnIndex) {
-    throw new UnsupportedOperationException();
   }
 }

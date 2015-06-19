@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class HistogramChartTest {
 
-  Table table;
+  private Table table;
 
   /**
    * Creating a table for testing.

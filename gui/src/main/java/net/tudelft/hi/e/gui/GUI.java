@@ -1,17 +1,20 @@
 package net.tudelft.hi.e.gui;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Contains methods for GUI's.
@@ -52,7 +55,7 @@ public class GUI {
    */
   public static void setIconImage(Window window){
     try {
-      Image icon = ImageIO.read(ClassLoader.getSystemResource("icon.png"));
+      Image icon = ImageIO.read(ClassLoader.getSystemResource("icons/icon.png"));
       window.setIconImage(icon);
     } catch (IOException e1) {
       LOG.log(Level.SEVERE, "Error opening icon from resource.", e1);
@@ -76,12 +79,35 @@ public class GUI {
    * @return Returns an image icon if succeeded, null if an error occurred.
    */
   public static ImageIcon createImageIcon(String path) {
-    java.net.URL imgUrl = ClassLoader.getSystemResource(path);
+    java.net.URL imgUrl = ClassLoader.getSystemResource("icons/" + path);
     if (imgUrl != null) {
       return new ImageIcon(imgUrl);
     } else {
       LOG.log(Level.SEVERE, "Error opening icon from resource.", new IOException());
       return null;
+    }
+  }
+
+  /**
+   * Creates a JInternalFrame with the container as it's content pane.
+   * @param windowTitle The title for the frame.
+   * @param container The container to set as the content pane.
+   * @return returns a JInternalFrame.
+   */
+  public static JInternalFrame createInternalFrame(String windowTitle, Container container) {
+    JInternalFrame frame = new JInternalFrame(windowTitle, true, true, true, true);
+    frame.setContentPane(container);
+    frame.setFrameIcon(GUI.createImageIcon("icon.png"));
+    frame.setSize(container.getPreferredSize());
+    frame.setVisible(true);
+    return frame;
+  }
+
+  public static void openSystemEditor(File file) {
+    try {
+      Desktop.getDesktop().open(file);
+    } catch (IOException e1) {
+      LOG.log(Level.SEVERE, "Error trying to open '" + file.getAbsolutePath() + "' in system editor.");
     }
   }
 }

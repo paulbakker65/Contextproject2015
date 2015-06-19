@@ -2,17 +2,16 @@ package net.tudelft.hi.e.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
+import javax.swing.table.AbstractTableModel;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 
 /**
  * TableModel to display a Table in a JTable.
  */
-public class DisplayTableModel implements TableModel{
-  private Table table;
-  private List<String> columns;
+class DisplayTableModel extends AbstractTableModel {
+  private final Table table;
+  private final List<String> columns;
 
   /**
    * Used as a TableModel for the JTable in DisplayTablGui.
@@ -60,20 +59,5 @@ public class DisplayTableModel implements TableModel{
     }
     Record record = table.get(rowIndex);
     return record.get(getColumnName(columnIndex));
-  }
-
-  @Override
-  public void setValueAt(Object value, int rowIndex, int columnIndex) {
-
-  }
-
-  @Override
-  public void addTableModelListener(TableModelListener listener) {
-
-  }
-
-  @Override
-  public void removeTableModelListener(TableModelListener listener) {
-
   }
 }
