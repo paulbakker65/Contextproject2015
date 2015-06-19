@@ -22,6 +22,9 @@ import javax.xml.transform.stream.StreamResult;
 
 public final class SettingsWriter {
 
+  /**
+   * Default hidden constructor because this class cannot be instantiated.
+   */
   private SettingsWriter() {
   }
 
@@ -56,6 +59,11 @@ public final class SettingsWriter {
 
   /**
    * Creates a new xml document.
+   *
+   * @return the document that is created.
+   *
+   * @throws ParserConfigurationException
+   *         if the parsing failed.
    */
   private static Document newDocument() throws ParserConfigurationException {
     final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -66,6 +74,13 @@ public final class SettingsWriter {
 
   /**
    * Creates the settings node and sets the required attributes.
+   *
+   * @param document
+   *         the document to add settings to.
+   * @param settings
+   *         the settings file to add to the document.
+   *
+   * @return the node that is created.
    */
   private static Element addSettings(final Document document, final Settings settings) {
     final Element element = document.createElement("settings");
@@ -79,6 +94,13 @@ public final class SettingsWriter {
 
   /**
    * For each column in the table it adds a column node to the xml.
+   *
+   * @param document
+   *         add column nodes to this document.
+   * @param settings
+   *         the settings to add the columns from.
+   * @param settingsNode
+   *         the node to add the column to.
    */
   private static void addColumns(final Document document, final Settings settings,
           final Element settingsNode) {
@@ -92,8 +114,12 @@ public final class SettingsWriter {
    * Creates a column node for the given column. Use addColumns to create and add all the columns to
    * the xml from the settings.
    *
+   * @param document
+   *         the document to create the element with.
    * @param column
-   *         The column to write create the node for.
+   *         the column to create a node for.
+   *
+   * @return the node that was created.
    */
   private static Element createColumn(final Document document, final Column column) {
     final String type = column.getType();
@@ -118,6 +144,9 @@ public final class SettingsWriter {
    *         The xml document.
    * @param file
    *         The file path to write the document to.
+   *
+   * @throws TransformerException
+   *         when the xml cannot be converted to a file.
    */
   private static void writeXmlFile(final Document document, final File file) throws
           TransformerException {

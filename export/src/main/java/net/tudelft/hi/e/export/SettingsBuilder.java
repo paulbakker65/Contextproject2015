@@ -18,6 +18,8 @@ public final class SettingsBuilder {
    *         The table to generate the settings for.
    * @param delimiter
    *         The delimiter to use when exporting to csv file.
+   * @param startline
+   *         The line on which to start exporting.
    *
    * @return Returns a settings object for the table, if null then something went wrong.
    */

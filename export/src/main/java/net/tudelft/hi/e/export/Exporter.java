@@ -145,7 +145,9 @@ public final class Exporter {
 
   /**
    * Check for a chunk whether a column should be added.
-   * @param table table to check.
+   *
+   * @param table
+   *         table to check.
    */
   private static void checkForChunksColumn(final Table table) {
     checkForChunksColumn(table.getChunks(), 0);
@@ -154,8 +156,10 @@ public final class Exporter {
   /**
    * Check for each chunk whether a column should be added.
    *
-   * @param chunks to check.
-   * @param depth the depth of chunks to process.
+   * @param chunks
+   *         to check.
+   * @param depth
+   *         the depth of chunks to process.
    */
   private static void checkForChunksColumn(final List<Chunk> chunks, final int depth) {
     if (!chunks.isEmpty()) {
@@ -170,7 +174,9 @@ public final class Exporter {
 
   /**
    * Check if codes must be added to the columns.
-   * @param table the table to check.
+   *
+   * @param table
+   *         the table to check.
    */
   private static void checkForCodesColumn(final Table table) {
     if (!table.getCodes().isEmpty()) {
@@ -186,7 +192,9 @@ public final class Exporter {
 
   /**
    * Add Code column to each record that the code belongs to.
-   * @param code code to add columns to.
+   *
+   * @param code
+   *         code to add columns to.
    */
   private static void addCodeColumnsToRecord(final Code code) {
     for (final Table events : code.getEvents()) {
@@ -198,8 +206,11 @@ public final class Exporter {
 
   /**
    * Checks whether a code row must be added with the frequency of each code.
-   * @param table table to add the row to.
-   * @param code code to add teh row for.
+   *
+   * @param table
+   *         table to add the row to.
+   * @param code
+   *         code to add teh row for.
    */
   private static void checkForCodeRecord(final Table table, final Code code) {
     if (addCodeFrequency) {
@@ -210,9 +221,9 @@ public final class Exporter {
   }
 
   /**
-   * Check if the Table has empty keys and replace missing values with NullValues.
-   * This operation iterates through the keys of each record to find the union of their key set.
-   * Every record gets the union of key sets and there are NullValues placed at empty spots.
+   * Check if the Table has empty keys and replace missing values with NullValues. This operation
+   * iterates through the keys of each record to find the union of their key set. Every record gets
+   * the union of key sets and there are NullValues placed at empty spots.
    *
    * @param table
    *         the table to check for empty keys.
