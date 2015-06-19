@@ -134,7 +134,7 @@ class FrequencyChart {
         amount[((DateValue) record.get(column)).getValue().get(Calendar.HOUR_OF_DAY)]++;
       }
       for (int i = 0; i < amount.length; i++) {
-        dataset.addValue(amount[i], i, chunk.getLabel());
+        dataset.addValue(amount[i], new Integer(i), chunk.getLabel());
       }
     }
     return dataset;

@@ -46,22 +46,7 @@ public class MainTest {
     assertFalse(Input.hasOutput());
     assertFalse(Input.hasScript());
   }
-
-  /**
-   * Test error in command line.
-   */
-  @Test
-  public void testParseCommandlineErrorCmd() {
-    final PrintStream bak = System.out;
-    System.setOut(new PrintStream(outContent));
-    final String commandline = "-o " + filepath + "output" + " -f " + filepath + "csvexample.csv";
-    final String[] argv = commandline.split(" ");
-    final boolean actual = Main.parseCommandline(argv);
-    assertEquals(false, actual);
-    assertTrue(outContent.toString().contains("Error in program arguments."));
-    System.setOut(bak);
-  }
-
+  
   /**
    * Test -o output directory.
    */
