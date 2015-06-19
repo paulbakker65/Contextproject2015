@@ -48,33 +48,34 @@ public class CombineOperation extends Operation {
 
     for (Record record : this.inputData) {
       Value value = record.get(columnName);
-      /*
-       * If value == null it makes no sense comparing anything because it will always be false.
-       */
       if (value.isNull()) {
         continue;
       }
-      for (Record otherRecord : this.otherTable) {
-        Value otherValue = otherRecord.get(otherColumnName);
-        /*
-         * If otherValue == null it will never be equal to value, continue to save resources
-         */
-        if (otherValue.isNull()) {
-          continue;
-        }
-
-        if (value.equals(otherValue)) {
-          Record combinedRecord = new Record();
-          combinedRecord = (Record) record.clone();
-          for (String key : otherRecord.getKeysInOrder()) {
-            combinedRecord.put(key + "_1", otherRecord.get(key));
-          }
-
-          this.resultData.add(combinedRecord);
-        } 
-      }
+      searchOtherRecord(record, value);
     }
     return true;
+  }
+  
+  private void searchOtherRecord(Record thisRecord, Value thisValue) {
+    for (Record otherRecord : this.otherTable) {
+      Value otherValue = otherRecord.get(otherColumnName);
+      if (otherValue.isNull()) {
+        continue;
+      }
+      if (thisValue.equals(otherValue)) {
+        combineRecords(thisRecord, otherRecord);
+      } 
+    }
+  }
+  
+  private void combineRecords(Record thisRecord, Record otherRecord) {
+    Record combinedRecord = new Record(thisRecord);
+    
+    for (String key : otherRecord.getKeysInOrder()) {
+      combinedRecord.put(key + "_1", otherRecord.get(key));
+    }
+
+    this.resultData.add(combinedRecord);
   }
 
   /**
