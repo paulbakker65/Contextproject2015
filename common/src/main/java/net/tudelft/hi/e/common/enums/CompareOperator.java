@@ -7,36 +7,64 @@ public enum CompareOperator {
   /**
    * equal.
    */
-  EQ("=="),      /**
+  EQ("==") {
+    @Override
+    public boolean matchesCompareResult(int result) {
+      return result == 0;
+    }
+  },      /**
    * not equal.
    */
-  NEQ("!="),
+  NEQ("!=") {
+    @Override
+    public boolean matchesCompareResult(int result) {
+      return result != 0;
+    }
+  },
   /**
    * greater than.
    */
-  G(">"),
+  G(">") {
+    @Override
+    public boolean matchesCompareResult(int result) {
+      return result > 0;
+    }
+  },
   /**
    * greater than or equal.
    */
-  GEQ(">="),
+  GEQ(">=") {
+    @Override
+    public boolean matchesCompareResult(int result) {
+      return result >= 0;
+    }
+  },
   /**
    * less than.
    */
-  L("<"),
+  L("<") {
+    @Override
+    public boolean matchesCompareResult(int result) {
+      return result < 0;
+    }
+  },
   /**
    * less than or equal.
    */
-  LEQ("<="),
-  /**
-   * not defined.
-   */
-  ND("?");
+  LEQ("<=") {
+    @Override
+    public boolean matchesCompareResult(int result) {
+      return result <= 0;
+    }
+  };
 
   private String typeString;
 
   CompareOperator(String type) {
     typeString = type;
   }
+  
+  public abstract boolean matchesCompareResult(int result);
 
   @Override
   public String toString() {
