@@ -54,7 +54,7 @@ class OperationFactory {
   static List<Operation> createOperationsFromFile(final List<Table> tableList, final String filePath)
       throws ParseFailedException {
     ExceptionHandler.replaceHandler(LOG);
-    List<Operation> listOfOperations = new ArrayList<Operation>();
+    final List<Operation> listOfOperations = new ArrayList<>();
     try {
       listOfOperations.addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(
           filePath)));
@@ -80,18 +80,18 @@ class OperationFactory {
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
     final ScriptVisitor visitor = new ScriptVisitor(tableList);
 
-    ScriptErrorListener scriptErrorListener = new ScriptErrorListener();
+    final ScriptErrorListener scriptErrorListener = new ScriptErrorListener();
     parser.addErrorListener(scriptErrorListener);
     visitor.visit(parser.parse());
 
-    StringBuilder stringBuilder = new StringBuilder();
+    final StringBuilder stringBuilder = new StringBuilder();
     for (String exMsg : scriptErrorListener.getExceptionList()) {
-      stringBuilder.append(exMsg).append("\n");
+      stringBuilder.append(exMsg).append('\n');
     }
-    if (!scriptErrorListener.getExceptionList().isEmpty()) {
+    List<String> exceptionStringList = scriptErrorListener.getExceptionList();
+    if (!exceptionStringList.isEmpty()) {
       throw new ParseFailedException(stringBuilder.toString());
     }
-
     return visitor.getOperationList();
   }
 }

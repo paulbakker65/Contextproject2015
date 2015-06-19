@@ -21,72 +21,86 @@ public class ScriptExecutionManager {
   /**
    * Map containing the tables, with the table name as key.
    */
-  private Map<String, Table> tableMap;
+  final private Map<String, Table> tableMap;
 
   /**
    * Operation List.
    */
-  private List<Operation> opList;
+  final private List<Operation> opList;
 
   /**
    * Default constructor creating a script execution manager.
-   * @param tables list of tables to use with the operations.
+   *
+   * @param tables
+   *         list of tables to use with the operations.
    */
-  public ScriptExecutionManager(List<Table> tables) {
-    tableMap = new LinkedHashMap<String, Table>();
+  public ScriptExecutionManager(final List<Table> tables) {
+    this.tableMap = new LinkedHashMap<String, Table>();
     for (Table t : tables) {
-      tableMap.put(t.getName(), t);
+      this.tableMap.put(t.getName(), t);
     }
-    opList = new ArrayList<Operation>();
+    this.opList = new ArrayList<Operation>();
   }
 
   /**
    * Add a script file to the manager.
-   * @param filePath path to the script file.
-   * @throws ParseFailedException if the script file cannot be parsed.
+   *
+   * @param filePath
+   *         path to the script file.
+   *
+   * @throws ParseFailedException
+   *         if the script file cannot be parsed.
    */
-  public void addScriptFile(String filePath) throws ParseFailedException {
-    opList.addAll(OperationFactory.createOperationsFromFile(getTableMapAsList(), filePath));
+  public void addScriptFile(final String filePath) throws ParseFailedException {
+    this.opList.addAll(OperationFactory.createOperationsFromFile(getTableMapAsList(), filePath));
   }
 
   /**
    * Add a script string to the manager.
-   * @param scriptString string containing the script.
-   * @throws ParseFailedException if the script file cannot be parsed.
+   *
+   * @param scriptString
+   *         string containing the script.
+   *
+   * @throws ParseFailedException
+   *         if the script file cannot be parsed.
    */
-  public void addScriptString(String scriptString) throws ParseFailedException {
-    opList.addAll(OperationFactory.createOperationsFromString(getTableMapAsList(), scriptString));
+  public void addScriptString(final String scriptString) throws ParseFailedException {
+    this.opList.addAll(OperationFactory.createOperationsFromString(getTableMapAsList(), scriptString));
   }
 
   /**
    * Execute all scripts in the manager.
+   *
    * @return the list of tables containing the output.
    */
   public List<Table> executeAllScripts() {
-    for (Operation o : opList) {
+    for (Operation o : this.opList) {
       createTableIfNotExists(o.getResultTableName());
-      o.resetData(tableMap.get(o.getInputTableName()));
+      o.resetData(this.tableMap.get(o.getInputTableName()));
       o.execute();
-      tableMap.remove(o.getResultTableName());
-      tableMap.put(o.getResultTableName(), o.getResult());
+      this.tableMap.remove(o.getResultTableName());
+      this.tableMap.put(o.getResultTableName(), o.getResult());
     }
     return getTableMapAsList();
   }
 
   /**
    * Create a table for the given table name if it doesn't exist in the table map.
-   * @param resultTableName the name for the table to create.
+   *
+   * @param resultTableName
+   *         the name for the table to create.
    */
-  private void createTableIfNotExists(String resultTableName) {
-    if (!tableMap.containsKey(resultTableName)) {
-      Table newTable = new Table();
+  private void createTableIfNotExists(final String resultTableName) {
+    if (!this.tableMap.containsKey(resultTableName)) {
+      final Table newTable = new Table();
       newTable.setName(resultTableName);
-      tableMap.put(resultTableName, newTable);
+      this.tableMap.put(resultTableName, newTable);
     }
   }
 
   /**
    * Get the result tables of the script execution.
+   *
    * @return list of result tables.
    */
   public List<Table> getResultDataTables() {
@@ -95,10 +109,11 @@ public class ScriptExecutionManager {
 
   /**
    * Get the table map as a list of tables.
+   *
    * @return the table map as list.
    */
   private List<Table> getTableMapAsList() {
-    return new ArrayList<Table>(tableMap.values());
+    return new ArrayList<Table>(this.tableMap.values());
   }
 
 }
