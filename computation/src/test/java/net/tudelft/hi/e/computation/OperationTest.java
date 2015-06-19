@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.computation;
 
 import static org.junit.Assert.assertEquals;
+
 import net.tudelft.hi.e.common.enums.ComputeOperator;
 import net.tudelft.hi.e.data.Table;
 

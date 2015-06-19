@@ -5,12 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.GregorianCalendar;
-
 import net.tudelft.hi.e.data.DateValue;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.GregorianCalendar;
 
 /**
  * Class for testing PhaseCondition.

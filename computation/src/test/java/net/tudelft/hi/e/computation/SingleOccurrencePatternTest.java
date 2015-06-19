@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.NumberColumn;
@@ -18,6 +16,8 @@ import net.tudelft.hi.e.data.Value;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 /**
  * Class for testing SingleOccurrencePattern.

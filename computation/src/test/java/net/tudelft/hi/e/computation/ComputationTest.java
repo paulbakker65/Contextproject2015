@@ -2,15 +2,15 @@ package net.tudelft.hi.e.computation;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Value;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for testing all Computations.

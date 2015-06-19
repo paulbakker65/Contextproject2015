@@ -5,8 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
@@ -22,6 +20,8 @@ import net.tudelft.hi.e.data.Value;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 /**
  * ConstraintOperationTest class testing the operations.ConstraintOperation.

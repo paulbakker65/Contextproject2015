@@ -2,13 +2,13 @@ package net.tudelft.hi.e.computation;
 
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-
 import net.tudelft.hi.e.common.enums.ComputeOperator;
 
 import org.junit.Test;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 
 /**
  * Class for testing ComputationFactory.

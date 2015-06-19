@@ -2,6 +2,7 @@ package net.tudelft.hi.e.computation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 import net.tudelft.hi.e.common.enums.CalcOperator;
 import net.tudelft.hi.e.data.NumberValue;
 

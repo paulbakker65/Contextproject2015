@@ -5,14 +5,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import net.tudelft.hi.e.data.DateValue;
+
+import org.junit.Test;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import net.tudelft.hi.e.data.DateValue;
-
-import org.junit.Test;
 
 public class DayConditionTest {
 
