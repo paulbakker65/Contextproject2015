@@ -1,10 +1,11 @@
 package net.tudelft.hi.e.data;
 
-import java.util.Objects;
-
 import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+
 import org.w3c.dom.Element;
+
+import java.util.Objects;
 
 /**
  * Abstract class for specifying a column type in a table. It specifies how all the values in a
@@ -20,8 +21,7 @@ public abstract class Column {
   /**
    * Constructs a new column with a name.
    *
-   * @param name
-   *          the name of the column.
+   * @param name the name of the column.
    */
   public Column(final String name) {
     this.setName(name);
@@ -30,12 +30,10 @@ public abstract class Column {
   /**
    * Create a Column object using an XML Element.
    *
-   * @param element
-   *          Element to be read.
+   * @param element Element to be read.
    * @return Subclass of Column object as specified in Element.
-   * @throws WrongXmlException
-   *           If the element either doesn't contain a name nor contains a correct type a
-   *           WrongXmlException is thrown.
+   * @throws WrongXmlException If the element either doesn't contain a name nor contains a correct
+   *         type a WrongXmlException is thrown.
    */
   public static Column readColumn(final Element element) throws WrongXmlException {
     final String name = element.getAttribute("name");
@@ -47,20 +45,20 @@ public abstract class Column {
     Column res = null;
     final String type = element.getAttribute("type");
     switch (type) {
-    case "number":
-      res = new NumberColumn(name);
-      break;
-    case "date":
-      res = new DateColumn(name);
-      break;
-    case "string":
-      res = new StringColumn(name);
-      break;
-    case "":
-      res = new StringColumn(name);
-      break;
-    default:
-      throw new WrongXmlException("Wrong type specified!");
+      case "number":
+        res = new NumberColumn(name);
+        break;
+      case "date":
+        res = new DateColumn(name);
+        break;
+      case "string":
+        res = new StringColumn(name);
+        break;
+      case "":
+        res = new StringColumn(name);
+        break;
+      default:
+        throw new WrongXmlException("Wrong type specified!");
     }
 
     res.read(element);
@@ -70,11 +68,9 @@ public abstract class Column {
   /**
    * Convert a string into a value if it satisfies the column's type.
    *
-   * @param text
-   *          the string to convert
+   * @param text the string to convert
    * @return a Value that has the correct type.
-   * @throws ColumnTypeMismatchException
-   *           if the string cannot be converted.
+   * @throws ColumnTypeMismatchException if the string cannot be converted.
    */
   public abstract Value convertToValue(String text) throws ColumnTypeMismatchException;
 
@@ -115,8 +111,7 @@ public abstract class Column {
   /**
    * Gives the column a new name.
    *
-   * @param name
-   *          the new name of the column.
+   * @param name the new name of the column.
    */
   public void setName(final String name) {
     this.name = name;

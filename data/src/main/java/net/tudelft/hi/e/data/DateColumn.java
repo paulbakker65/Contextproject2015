@@ -1,14 +1,14 @@
 package net.tudelft.hi.e.data;
 
+import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+import org.w3c.dom.Element;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-
-import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
-import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-import org.w3c.dom.Element;
 
 /**
  * Case class for specifying a column with dates.
@@ -159,7 +159,7 @@ public class DateColumn extends Column {
   /**
    * Gives the column a new date format.
    *
-   * @param format
+   * @param dateFormat
    *          the new date format.
    */
   public void setFormat(final String dateFormat) {
@@ -177,7 +177,7 @@ public class DateColumn extends Column {
     int hash = 5;
     hash = 67 * hash + Objects.hashCode(this.format);
     hash = 67 * hash + Objects.hashCode(this.formatStr);
-    hash = 67 * hash + Objects.hashCode(this.isoFormat);
+    hash = 67 * hash + Objects.hashCode(DateColumn.isoFormat);
     return hash;
   }
 

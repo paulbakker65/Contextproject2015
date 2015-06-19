@@ -1,8 +1,9 @@
 package net.tudelft.hi.e.data;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Created by mawdegroot on 18/06/15.

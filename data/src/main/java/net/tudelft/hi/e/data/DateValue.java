@@ -26,8 +26,7 @@ public class DateValue extends Value {
   /**
    * Constructs a new DateValue.
    *
-   * @param value
-   *          the stored date.
+   * @param value the stored date.
    */
   public DateValue(final Date value) {
     this(value, null);
@@ -36,8 +35,7 @@ public class DateValue extends Value {
   /**
    * Constructs a new DateValue.
    *
-   * @param value
-   *          the stored date.
+   * @param value the stored date.
    */
   public DateValue(final GregorianCalendar value) {
     this.value = value;
@@ -47,10 +45,8 @@ public class DateValue extends Value {
   /**
    * Constructs a new DateValue.
    *
-   * @param value
-   *          the stored date.
-   * @param columnType
-   *          the column to get the target and format from.
+   * @param value the stored date.
+   * @param columnType the column to get the target and format from.
    */
   public DateValue(final Date value, DateColumn columnType) {
     this(new GregorianCalendar(), columnType);
@@ -64,10 +60,8 @@ public class DateValue extends Value {
   /**
    * Constructs a new DateValue.
    *
-   * @param value
-   *          the stored date.
-   * @param columnType
-   *          the column to get the target and format from.
+   * @param value the stored date.
+   * @param columnType the column to get the target and format from.
    */
   public DateValue(final GregorianCalendar value, DateColumn columnType) {
     this.value = value;
@@ -82,8 +76,7 @@ public class DateValue extends Value {
   /**
    * Adds the time (hours, minutes and milliseconds) to the date value.
    *
-   * @param time
-   *          a calendar representing the time.
+   * @param time a calendar representing the time.
    */
   public void addTime(final GregorianCalendar time) {
     value.add(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
@@ -96,15 +89,15 @@ public class DateValue extends Value {
   public int compareToDate(final DateValue other) {
     return checkDate(this).compareTo(checkDate(other));
   }
-  
+
   private GregorianCalendar checkDate(DateValue check) {
-	  if (check.value.get(Calendar.HOUR_OF_DAY) == 0 && check.value.get(Calendar.MINUTE) == 0) {
-		  GregorianCalendar checkCalendar = (GregorianCalendar) check.value.clone();
-		  checkCalendar.add(Calendar.HOUR_OF_DAY, 23);
-		  checkCalendar.add(Calendar.MINUTE, 59);
-		  return checkCalendar;
-	  }
-	  return check.value;
+    if (check.value.get(Calendar.HOUR_OF_DAY) == 0 && check.value.get(Calendar.MINUTE) == 0) {
+      GregorianCalendar checkCalendar = (GregorianCalendar) check.value.clone();
+      checkCalendar.add(Calendar.HOUR_OF_DAY, 23);
+      checkCalendar.add(Calendar.MINUTE, 59);
+      return checkCalendar;
+    }
+    return check.value;
   }
 
   /**
@@ -165,8 +158,7 @@ public class DateValue extends Value {
   /**
    * Stores a new date.
    *
-   * @param value
-   *          the new date.
+   * @param value the new date.
    */
   public void setDate(final Date value) {
     this.value.setTime(value);
@@ -175,17 +167,18 @@ public class DateValue extends Value {
   /**
    * Stores a new date.
    *
-   * @param value
-   *          the new date.
+   * @param value the new date.
    */
   public void setValue(final GregorianCalendar value) {
     this.value = value;
   }
 
   @Override
-  public String toString() {	  
+  public String toString() {
     DateFormat dateFormat =
-        isTime() ? defaultTimeFormat : (timeAdded || DateColumn.isoFormatStr.equals(format) ? DateColumn.isoFormat : defaultDateFormat);
+        isTime() ? defaultTimeFormat
+            : (timeAdded || DateColumn.isoFormatStr.equals(format) ? DateColumn.isoFormat
+                : defaultDateFormat);
 
     return dateFormat.format(getValue().getTime());
   }

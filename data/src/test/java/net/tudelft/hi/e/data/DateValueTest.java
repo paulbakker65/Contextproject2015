@@ -1,16 +1,16 @@
 package net.tudelft.hi.e.data;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import net.tudelft.hi.e.data.DateValue;
-import net.tudelft.hi.e.data.StringValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
 import org.junit.Test;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Class for testing DateValue.
@@ -123,11 +123,11 @@ public class DateValueTest {
     dateValue.addTime(timeValue.getValue());
 
     assertEquals("2014-12-31T13:14", dateValue.toString());
-    
+
     date = DateColumn.isoFormat.parse("2014-12-31T13:14");
     dateValue = new DateValue(date);
     dateValue.setFormat(DateColumn.isoFormatStr);
-    
+
     assertEquals("2014-12-31T13:14", dateValue.toString());
   }
 
@@ -161,17 +161,17 @@ public class DateValueTest {
 
     assertEquals("yyMMdd", value.getFormat());
   }
-  
+
   @Test
   public void testCompareTo() {
-	  GregorianCalendar first = new GregorianCalendar(2015, 6, 10, 10, 20);
-	  GregorianCalendar second = new GregorianCalendar(2015, 6, 11, 0, 20);
-	  GregorianCalendar third = new GregorianCalendar(2015, 6, 11);
-	  
-	  assertEquals(-1, new DateValue(first).compareTo(new DateValue(second)));
-	  assertEquals(-1, new DateValue(first).compareTo(new DateValue(third)));
-	  assertEquals(1, new DateValue(third).compareTo(new DateValue(second)));
-	  assertEquals(0, new DateValue(third).compareTo(new DateValue(third)));
+    GregorianCalendar first = new GregorianCalendar(2015, 6, 10, 10, 20);
+    GregorianCalendar second = new GregorianCalendar(2015, 6, 11, 0, 20);
+    GregorianCalendar third = new GregorianCalendar(2015, 6, 11);
+
+    assertEquals(-1, new DateValue(first).compareTo(new DateValue(second)));
+    assertEquals(-1, new DateValue(first).compareTo(new DateValue(third)));
+    assertEquals(1, new DateValue(third).compareTo(new DateValue(second)));
+    assertEquals(0, new DateValue(third).compareTo(new DateValue(third)));
   }
 
 }
