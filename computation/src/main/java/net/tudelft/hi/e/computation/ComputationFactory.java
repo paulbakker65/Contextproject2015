@@ -7,6 +7,9 @@ import net.tudelft.hi.e.common.enums.ComputeOperator;
  */
 public class ComputationFactory {
   
+  private ComputationFactory() {    
+  }
+  
   /**
    * Creates the correct Computation instance given an operator.
    * 
@@ -23,8 +26,5 @@ public class ComputationFactory {
       case STDEV: return new StdevComputation(); 
       default:    return new SumComputation();
     }
-  }
-  
-  private ComputationFactory() {    
-  }
+  }  
 }
