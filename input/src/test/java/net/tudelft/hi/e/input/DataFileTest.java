@@ -1,16 +1,16 @@
 package net.tudelft.hi.e.input;
 
-import java.io.File;
-import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-import net.tudelft.hi.e.input.CsvReader;
-import net.tudelft.hi.e.input.DataFile;
-import net.tudelft.hi.e.input.Parser;
-import net.tudelft.hi.e.input.Reader;
-import net.tudelft.hi.e.input.Settings;
-import net.tudelft.hi.e.input.XmlReader;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+import net.tudelft.hi.e.data.Table;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * DataFileTest class testing main.DataFile class.
@@ -18,9 +18,11 @@ import org.junit.Test;
  */
 public class DataFileTest {
   private final String datafilename = "src/test/resources/csvexample.csv";
+  private final String datafilenameXls = "src/test/resources/website_test3.xls";
   private final String settingsfilename = "src/test/resources/settings.xml";
 
   private final File datafile = new File(datafilename);
+  private final File datafileXls = new File(datafilenameXls);
   private final File settingsfile = new File(settingsfilename);
 
   private DataFile df;
@@ -61,6 +63,7 @@ public class DataFileTest {
   public void testGetParser() {
     final Parser parser = df.getParser();
     assert (parser instanceof Parser);
+    assertFalse(df.parse().isEmpty());
   }
 
   @Test
@@ -120,5 +123,19 @@ public class DataFileTest {
             + settingsfile.toString() + "\'}";
     final String actual = df.toString();
     assertEquals(expected, actual);
+  }
+  
+  @Test
+  public void testGetterSetterTable() {
+    df.setTable(new Table());
+    assertEquals(new Table(), df.getTable());
+    
+    df.setTable(null);
+    assertFalse(df.getTable().isEmpty());
+  }
+  
+  @Test (expected = IOException.class)
+  public void testXls() throws IOException {
+    df = new DataFile(datafileXls, settingsfile);
   }
 }

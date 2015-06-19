@@ -1,18 +1,18 @@
 package net.tudelft.hi.e.input;
 
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+import net.tudelft.hi.e.data.Table;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.tudelft.hi.e.common.exceptions.ParseFailedException;
-import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-import net.tudelft.hi.e.data.Table;
-
 /**
- * Stores information about the data file and it's corresponding settings file.
- * Creates the Reader, Parser and Settings for the data file.
+ * Stores information about the data file and it's corresponding settings file. Creates the Reader,
+ * Parser and Settings for the data file.
  */
 public class DataFile {
 
@@ -34,8 +34,7 @@ public class DataFile {
    * @param settingsfile The corresponding settings file for the data file.
    * @throws Exception If the settings cannot be read an Exception is thrown.
    */
-  public DataFile(final File datafile, final File settingsfile) throws
-      IOException {
+  public DataFile(final File datafile, final File settingsfile) throws IOException {
     this.rawDataFile = datafile;
     this.settingsfile = settingsfile;
 
@@ -54,13 +53,12 @@ public class DataFile {
    * @return Returns the correct reader for the file.
    * @throws Exception If the data file cannot be found an Exception is thrown.
    */
-  public static Reader createReader(final File file, final Settings settings) throws
-      IOException {
+  public static Reader createReader(final File file, final Settings settings) throws IOException {
 
     final String fileextension = findExtension(file).toLowerCase();
 
     Reader reader;
-    
+
     if ("xls".equals(fileextension)) {
       throw new UnsupportedEncodingException(
           "Old .xls not supported. Please manually convert to the new Excel 2007 format: .xlsx");
@@ -151,6 +149,11 @@ public class DataFile {
     }
   }
 
+  /**
+   * Getter of the table.
+   * 
+   * @return this table
+   */
   public Table getTable() {
     if (table == null) {
       table = parse();
@@ -158,26 +161,35 @@ public class DataFile {
     return table;
   }
 
+  /**
+   * Setter of the table.
+   * 
+   * @param table to be set
+   */
   public void setTable(Table table) {
     this.table = table;
   }
 
+  /**
+   * Parses the table.
+   * 
+   * @return Table of the reader
+   */
   public Table parse() {
-    Table table;
+    Table tableReturn;
     try {
-      table = getParser().parse(getReader());
+      tableReturn = getParser().parse(getReader());
     } catch (ParseFailedException ex) {
-      LOG.log(Level.SEVERE, "Error prasing input files.");
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
       return null;
     }
-    return table;
+    return tableReturn;
   }
 
 
   @Override
   public String toString() {
-    return "DataFile{" + "datafile='" + rawDataFile.toString() + '\''
-        + ", settingsfile='"
+    return "DataFile{" + "datafile='" + rawDataFile.toString() + '\'' + ", settingsfile='"
         + settingsfile.toString() + '\'' + '}';
   }
 }

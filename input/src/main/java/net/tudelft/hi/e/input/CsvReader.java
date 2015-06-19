@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.input;
 
 import com.opencsv.CSVReader;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,17 +14,6 @@ public class CsvReader extends Reader {
   private char delimiter = ';';
 
   private final CSVReader reader;
-
-  /**
-   * CsvReader constructor creates an CsvReader object that reads CSV files.
-   *
-   * @param filepath The CSV file path to be read.
-   * @throws FileNotFoundException If there is no file found at the designated file path an
-   *         FileNotFoundException is thrown.
-   */
-  public CsvReader(final String filepath) throws FileNotFoundException {
-    this(filepath, ";");
-  }
 
   /**
    * CsvReader constructor creates an CsvReader object that reads CSV files.
