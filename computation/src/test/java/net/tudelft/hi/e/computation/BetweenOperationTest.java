@@ -5,12 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.DateValue;
@@ -24,6 +18,12 @@ import net.tudelft.hi.e.input.Settings;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
 
 /**
  * Test for BetweenOperation.
@@ -50,24 +50,24 @@ public class BetweenOperationTest {
 
     dataTable = new Table();
 
-    dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("120599")) }));
-    dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("130599")) }));
-    dataTable.add(new Record(cols, new Value[] { new StringValue("C"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("140599")) }));
-    dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("150599")) }));
-    dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("160599")) }));
-    dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("170599")) }));
-    dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("180599")) }));
-    dataTable.add(new Record(cols, new Value[] { new StringValue("B"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("190599")) }));
-    dataTable.add(new Record(cols, new Value[] { new StringValue("A"),
-        new DateValue(new SimpleDateFormat("ddMMyy").parse("200599")) }));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("A"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("120599"))}));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("A"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("130599"))}));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("C"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("140599"))}));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("B"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("150599"))}));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("B"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("160599"))}));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("B"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("170599"))}));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("A"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("180599"))}));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("B"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("190599"))}));
+    dataTable.add(new Record(cols, new Value[] {new StringValue("A"),
+        new DateValue(new SimpleDateFormat("ddMMyy").parse("200599"))}));
 
     settings = new Settings();
     settings.getColumns().addAll(cols);
@@ -87,7 +87,7 @@ public class BetweenOperationTest {
     assertEquals(new NumberValue(86400 * 2 / (60 * 60)), res.get(1).get("time_between"));
     assertEquals(new NumberValue(86400 * 1 / (60 * 60)), res.get(6).get("time_between"));
 
-    for (int index : Arrays.asList(new Integer[] { 0, 2, 3, 4, 5, 7, 8 })) {
+    for (int index : Arrays.asList(new Integer[] {0, 2, 3, 4, 5, 7, 8})) {
       assertNull(res.get(index).get("time_between"));
     }
 
@@ -144,10 +144,10 @@ public class BetweenOperationTest {
 
   @Test(expected = InputMismatchException.class)
   public void testWrongColumnException() {
-    System.out.println(new BetweenOperation(dataTable, "eventtype", "eventtype", new StringValue(
-        "A"), new StringValue("C")).execute());
+    new BetweenOperation(dataTable, "eventtype", "eventtype", new StringValue("A"),
+        new StringValue("C")).execute();
   }
-  
+
   @Test
   public void testToStringSingleCount() {
     BetweenOperation t1 =

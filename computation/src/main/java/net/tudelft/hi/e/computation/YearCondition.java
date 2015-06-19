@@ -1,10 +1,10 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.Value;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Chunks on each year.

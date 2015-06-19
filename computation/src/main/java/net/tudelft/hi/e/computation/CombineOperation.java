@@ -1,11 +1,11 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.Collections;
-
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.RecordComparator;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
+
+import java.util.Collections;
 
 /**
  * Combine class providing an Operation to merge tables using a user-defined connection argument.

@@ -1,8 +1,5 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import net.tudelft.hi.e.common.enums.ComputeOperator;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.Record;
@@ -10,6 +7,10 @@ import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Operation for doing computations on a table column.

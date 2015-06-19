@@ -1,16 +1,16 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.InputMismatchException;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import java.util.InputMismatchException;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Generates a table with the lag between two events. The first event record contains the column

@@ -1,10 +1,10 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.List;
-
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.Table;
+
+import java.util.List;
 
 /**
  * Operation which executes another operation for each chunk on a certain depth.

@@ -1,8 +1,9 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.List;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Value;
+
+import java.util.List;
 
 /**
  * Case class of {@link Computation} for computing minimum.

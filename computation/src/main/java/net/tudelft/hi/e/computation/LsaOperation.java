@@ -1,13 +1,5 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Objects;
-
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.NumberValue;
@@ -16,6 +8,14 @@ import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Objects;
 
 /**
  * Implements Lag Sequential Analysis according to the slides.

@@ -1,11 +1,12 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Value;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class for recognizing {@link CountPatternDescription}s using strings.

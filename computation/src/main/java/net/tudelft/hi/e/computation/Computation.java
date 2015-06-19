@@ -1,7 +1,8 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.List;
 import net.tudelft.hi.e.data.Value;
+
+import java.util.List;
 
 /**
  * Interface for representing computations that can be executed for a list of Values.

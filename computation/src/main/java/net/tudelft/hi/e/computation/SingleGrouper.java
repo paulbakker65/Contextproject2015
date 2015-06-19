@@ -1,10 +1,10 @@
 package net.tudelft.hi.e.computation;
 
+import net.tudelft.hi.e.data.Record;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import net.tudelft.hi.e.data.Record;
 
 /**
  * Gives each record it's own group.

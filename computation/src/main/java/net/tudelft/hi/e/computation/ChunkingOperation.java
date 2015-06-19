@@ -1,12 +1,12 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.Collections;
-
 import net.tudelft.hi.e.common.enums.ChunkType;
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.RecordComparator;
 import net.tudelft.hi.e.data.Table;
+
+import java.util.Collections;
 
 /**
  * An operation that outputs a Table of ChunkValues. Chunks on the basis of a ChunkCondition
