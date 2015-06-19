@@ -20,7 +20,8 @@ public class PatternMatcher {
   /**
    * Default hidden constructor because this class cannot be instantiated.
    */
-  private PatternMatcher() {}
+  private PatternMatcher() {    
+  }
 
   /**
    * Creates a {@link PatternDescription} using a string.
