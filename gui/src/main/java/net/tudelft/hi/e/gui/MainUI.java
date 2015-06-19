@@ -409,7 +409,7 @@ public class MainUI extends JFrame {
   }
 
   private void onSettingsBuilder() {
-
+	  new SettingsGenerator().setVisible(true);
   }
 
   /**
