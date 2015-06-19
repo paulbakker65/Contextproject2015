@@ -12,6 +12,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
@@ -116,6 +117,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.setVisible(true);
     
     visualizationsButton = new JButton("Visualizations");
+    visualizationsButton.setMnemonic(KeyEvent.VK_V);
     visualizationsButton.setIcon(Gui.createImageIcon("icon.png"));
     visualizationsButton.setEnabled(false);
     visualizationsButton.addActionListener(new ActionListener() {
@@ -127,6 +129,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(visualizationsButton);
 
     previewButton = new JButton("Preview Table");
+    previewButton.setMnemonic(KeyEvent.VK_P);
     previewButton.setIcon(Gui.createImageIcon("table.png"));
     previewButton.setEnabled(false);
     previewButton.addActionListener(new ActionListener() {
@@ -138,6 +141,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(previewButton);
     
     exportButton = new JButton("Export with custom delimiter");
+    exportButton.setMnemonic(KeyEvent.VK_E);
     exportButton.setIcon(Gui.createImageIcon("save.png"));
     exportButton.setEnabled(false);
     exportButton.addActionListener(new ActionListener() {
@@ -163,6 +167,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   private JPanel createRightButtonPanel() {
     JPanel panel = new JPanel();
     JButton viewoutputdirButton = new JButton("View output directory");
+    viewoutputdirButton.setMnemonic(KeyEvent.VK_O);
     viewoutputdirButton.setIcon(Gui.createImageIcon("folder.png"));
     viewoutputdirButton.addActionListener(new ActionListener() {
       @Override
@@ -173,6 +178,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(viewoutputdirButton);
 
     JButton exitButton = new JButton("Exit");
+    exitButton.setMnemonic(KeyEvent.VK_X);
     exitButton.setIcon(Gui.createImageIcon("exit.png"));
     exitButton.addActionListener(new ActionListener() {
       @Override

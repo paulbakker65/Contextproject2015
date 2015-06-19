@@ -22,6 +22,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +161,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     filepanel.add(settings, gbc);
 
     openfile = new JButton("Open file");
+    openfile.setMnemonic(KeyEvent.VK_O);
     openfile.addActionListener(this);
     gbc.gridx = 3;
     gbc.weightx = 0.1;
@@ -167,6 +169,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     filepanel.add(openfile, gbc);
 
     opentable = new JButton("Open table");
+    opentable.setMnemonic(KeyEvent.VK_T);
     opentable.addActionListener(this);
     gbc.gridx = 4;
     gbc.weightx = 0.1;
@@ -200,13 +203,13 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
     tabbedPane.addTab("Transition Matrix", icon, null, "Create a Transition Matrix");
-    tabbedPane.setMnemonicAt(3, KeyEvent.VK_5);
+    tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
 
     tabbedPane.addTab("Stem and Leaf", icon, null, "Create a Stem and Leaf plot");
-    tabbedPane.setMnemonicAt(4, KeyEvent.VK_6);
+    tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
 
     tabbedPane.addTab("Histogram", icon, null, "Create a Histogram");
-    tabbedPane.setMnemonicAt(5, KeyEvent.VK_7);
+    tabbedPane.setMnemonicAt(5, KeyEvent.VK_6);
   }
 
   private JPanel createFrequencyPanel() {
@@ -216,11 +219,11 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     panel.add(top,  BorderLayout.PAGE_START);
 
     top.add(new JLabel("Chunk depth: "));
-    
+
     frequencyDepthModel = new SpinnerNumberModel(0, 0, 9, 1);
 
     top.add(new JSpinner(frequencyDepthModel));
-    
+
     top.add(new JLabel(SELECT));
 
     comboFrequency = new JComboBox<>(getColumns(true));
@@ -460,23 +463,20 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       panel = FrequencyChart.createPanel(table, depth, column);
     }
     String title = "Frequency Chart {column:'" + column + "'}";
-    JInternalFrame frame = Gui.createInternalFrame(title, panel);
-    desktopFrequency.add(frame);
+    addFrame(desktopFrequency, Gui.createInternalFrame(title, panel));
   }
 
   private void onBoxChart() {
     String column = (String) comboBar.getSelectedItem();
-
     String title = "Bar Chart {column:'" + column + "'}";
-    JInternalFrame frame = Gui.createInternalFrame(title, BoxPlotChart.createPanel(table, column));
-    desktopBar.add(frame);
+    addFrame(desktopBar, Gui.createInternalFrame(title, BoxPlotChart.createPanel(table, column)));
   }
 
   private void onStateT() {
     String column = (String) comboStateT.getSelectedItem();
     StateTransitionMatrix stm = new StateTransitionMatrix(table, column);
     String title = "State Transition Matrix {column:'" + column + "'}";
-    desktopStateT.add(Gui.createInternalFrame(title, new DisplayTableGui(stm)));
+    addFrame(desktopStateT, Gui.createInternalFrame(title, new DisplayTableGui(stm)));
   }
 
   private void onStemLeaf() {
@@ -485,7 +485,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     StemLeafPlot slp = new StemLeafPlot(table, column, power);
     String title = "Stem and Leaf {column:'" + column + "', power:" + power + "}";
-    desktopStemLeaf.add(Gui.createInternalFrame(title, new DisplayTableGui(slp)));
+    addFrame(desktopStemLeaf, Gui.createInternalFrame(title, new DisplayTableGui(slp)));
   }
 
   private void onHistogram() {
@@ -493,9 +493,8 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     int power = getIntFromText(textHistogram);
 
     String title = "Histogram {column:'" + column + "', power: " + power + "}";
-    JInternalFrame frame = 
-        Gui.createInternalFrame(title, HistogramChart.createPanel(table, column, power));
-    desktopHistogram.add(frame);
+    addFrame(desktopHistogram, 
+        Gui.createInternalFrame(title, HistogramChart.createPanel(table, column, power)));
   }
 
   private static int getIntFromText(JTextField field) {
@@ -508,6 +507,24 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     return number;
   }
 
+  /**
+   * Adds the frame to the desktop pane, 
+   * sets the location and selects the frame so that it shows on top.
+   * @param pane The JDesktopPane to add the frame to.
+   * @param frame The JInternalFrame to add, set the location and set selected.
+   */
+  private void addFrame(JDesktopPane pane, JInternalFrame frame) {
+    int count = pane.getAllFrames().length;
+    frame.setLocation(count * 25, count * 25);
+
+    pane.add(frame);
+
+    try {
+      frame.setSelected(true);
+    } catch (PropertyVetoException e) {
+      LOG.log(Level.WARNING, "Error while selecting the new internalframe.", e);
+    }
+  }
 
 
 
