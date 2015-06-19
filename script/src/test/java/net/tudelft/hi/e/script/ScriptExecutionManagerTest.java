@@ -136,40 +136,38 @@ public class ScriptExecutionManagerTest {
   /**
    * Test of executeAllScripts method, of class ScriptExecutionManager.
    */
-//  @Test
-//  public void testExecuteAllScripts() throws ParseFailedException {
-//    manager.addScriptString("CONSTRAINT [website].[login] == \"admire13\"");
-//    manager.addScriptString("CHUNK [website].[date] USING MONTH 1");
-//    manager.addScriptString(
-//        "FOR EACH CHUNK [website] 1 COMPUTE [website] COUNT() [website].[login]");
-//
-//    manager.executeAllScripts();
-//    List<Table> actual = manager.getResultDataTables();
-//
-//    List<Operation> opList = new ArrayList<Operation>();
-//    Map<String, Table> tableMap = new LinkedHashMap<String, Table>();
-//    for (Table t : tablesExpected) {
-//      tableMap.put(t.getName(), t);
-//    }
-//    opList.add(new ConstraintOperation(tablesExpected.get(0),
-//        "login", CompareOperator.EQ, new StringValue("admire13")));
-//    opList.add(new ChunkingOperation(tablesExpected.get(0),
-//        "date", ChunkType.MONTH, 1));
-//    ComputeOperation operation = new ComputeOperation(tablesExpected.get(0),
-//        ComputeOperator.COUNT, "login");
-//    opList.add(new ForEachChunkOperation(tablesExpected.get(0), 1, operation));
-//
-//    for (int i = 0; i < opList.size(); i++) {
-//      opList.get(i).execute();
-//      Table operationResultTable = tableMap.get(opList.get(i).
-//          getResultTableName());
-//
-//      operationResultTable.clear();
-//      operationResultTable.addAll(opList.get(i).getResult());
-//    }
-//
-//    assertEquals(tableMap.get("website"), actual.get(0));
-//  }
+  @Test
+  public void testExecuteAllScripts() throws ParseFailedException {
+    manager.addScriptString("CONSTRAINT [website].[login] == \"admire13\"");
+    manager.addScriptString("CHUNK [website].[date] USING MONTH 1");
+    manager.addScriptString(
+        "FOR EACH CHUNK [website] 1 COMPUTE [website] COUNT() [website].[login]");
+
+    manager.executeAllScripts();
+    List<Table> actual = manager.getResultDataTables();
+
+    List<Operation> opList = new ArrayList<Operation>();
+    Map<String, Table> tableMap = new LinkedHashMap<String, Table>();
+    for (Table t : tablesExpected) {
+      tableMap.put(t.getName(), t);
+    }
+    opList.add(new ConstraintOperation(tablesExpected.get(0),
+        "login", CompareOperator.EQ, new StringValue("admire13")));
+    opList.add(new ChunkingOperation(tablesExpected.get(0),
+        "date", ChunkType.MONTH, 1));
+    ComputeOperation operation = new ComputeOperation(tablesExpected.get(0),
+        ComputeOperator.COUNT, "login");
+    opList.add(new ForEachChunkOperation(tablesExpected.get(0), 1, operation));
+
+    for (int i = 0; i < opList.size(); i++) {
+    	opList.get(i).resetData(tableMap.get(opList.get(i).getInputTableName()));
+    	opList.get(i).execute();
+        tableMap.remove(opList.get(i).getResultTableName());
+        tableMap.put(opList.get(i).getResultTableName(), opList.get(i).getResult());
+    }
+
+    assertEquals(tableMap.get("website"), actual.get(0));
+  }
 
   /**
    * Test of getResultDataTables method, of class ScriptExecutionManager.
