@@ -26,7 +26,7 @@ public class ChunkingOperation extends Operation {
    */
   RecordComparator rc;
   /**
-   * 
+   * Number of times the current type may occur.
    */
   int numberOfTypes;
 
@@ -36,7 +36,8 @@ public class ChunkingOperation extends Operation {
    *
    * @param input Table containing the input data.
    */
-  public ChunkingOperation(final Table input, final String columnName, final ChunkType cce, int numberOfTypes) {
+  public ChunkingOperation(final Table input, final String columnName, final ChunkType cce,
+      int numberOfTypes) {
     super(input);
     setOperationParameters(columnName, cce, numberOfTypes);
   }
@@ -57,22 +58,22 @@ public class ChunkingOperation extends Operation {
       return false;
     }
 
-	  Collections.sort(resultData, rc);
-	  int index = 0;
-	  Chunk chunk = new Chunk(index, "Chunk " + index);  
-	  
-	  for (final Record record : resultData) {
-		  if (cond.matches(record.get(columnName))) {
-			  chunk.add(record);
-		  } else {
-			  resultData.addChunk(chunk);
-			  chunk = new Chunk(++index, "Chunk " + index);
-			  chunk.add(record);	
-		  }	
-	  }
-	  resultData.addChunk(chunk);
-	
-	  return true;
+    Collections.sort(resultData, rc);
+    int index = 0;
+    Chunk chunk = new Chunk(index, "Chunk " + index);
+
+    for (final Record record : resultData) {
+      if (cond.matches(record.get(columnName))) {
+        chunk.add(record);
+      } else {
+        resultData.addChunk(chunk);
+        chunk = new Chunk(++index, "Chunk " + index);
+        chunk.add(record);
+      }
+    }
+    resultData.addChunk(chunk);
+
+    return true;
   }
 
   /**
@@ -82,11 +83,16 @@ public class ChunkingOperation extends Operation {
    */
   public ChunkCondition getCondition(final ChunkType cce, int numberOfTypes) {
     switch (cce) {
-      case DAY: return new DayCondition(numberOfTypes - 1);
-      case MONTH: return new MonthCondition(numberOfTypes - 1);
-      case YEAR: return new YearCondition(numberOfTypes - 1);
-      case PHASE: return new PhaseCondition();
-      default: return null;
+      case DAY:
+        return new DayCondition(numberOfTypes - 1);
+      case MONTH:
+        return new MonthCondition(numberOfTypes - 1);
+      case YEAR:
+        return new YearCondition(numberOfTypes - 1);
+      case PHASE:
+        return new PhaseCondition();
+      default:
+        return null;
     }
   }
 
@@ -101,13 +107,14 @@ public class ChunkingOperation extends Operation {
   /**
    * Setting the parameters for the operation.
    */
-  public boolean setOperationParameters(final String columnName, final ChunkType cce, int numberOfTypes) {
+  public boolean setOperationParameters(final String columnName, final ChunkType cce,
+      int numberOfTypes) {
     if (columnName != null && cce != null && numberOfTypes > 0) {
       this.columnName = columnName;
       this.cond = getCondition(cce, numberOfTypes);
       this.rc = new RecordComparator(columnName);
       this.numberOfTypes = numberOfTypes;
-      
+
       this.operationParametersSet = true;
     }
     return this.operationParametersSet;
