@@ -389,12 +389,12 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
 
   @Override
   public final PatternDescription visitPattern_description(Pattern_descriptionContext ctx) {
-	return ctx.description;
+    return ctx.description;
   }
 
   @Override
   public final PatternDescription visitPattern_description_rec(Pattern_description_recContext ctx) {
-	return ctx.description_rec;
+    return ctx.description_rec;
   }
 
 }
