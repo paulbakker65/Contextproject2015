@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,40 +40,20 @@ public class SettingsGenerator extends JFrame {
 
   private static final long serialVersionUID = 1L;
 
-  private File example;
-
   private JPanel mainPanel;
-
   private JLabel filePathLabel;
-
   private JPanel filePanel;
-
   private JPanel delimPanel;
-
-  private JPanel startPanel;
-
   private JCheckBox headersCheckBox;
+  private JTextField delimiterTextField;
+  private JTextField nameTextField;
 
   private SpinnerNumberModel startSpinner;
 
-  private JPanel bottomPanel;
-
-  private JButton openFileButton;
-
-  private JButton previewButton;
-
-  private JTextField delimiterTextField;
-
   private ColumnSettingsPane csp;
 
+  private File example;
   private Settings settings;
-
-  private JTextField nameTextField;
-
-  private JButton saveButton;
-
-  private static FileNameExtensionFilter allfilter = new FileNameExtensionFilter(
-      "All supported data files", "csv", "txt", "xlsx");
 
   private static final int GAP = 8;
 
@@ -81,9 +63,7 @@ public class SettingsGenerator extends JFrame {
    * Constructs a new settings window.
    */
   public SettingsGenerator() {
-    super();
-
-    setTitle("Settings Generator");
+    super("Settings Generator");
 
     setMainPanel();
     setFilePanel();
@@ -95,11 +75,9 @@ public class SettingsGenerator extends JFrame {
 
     setPreferredSize(new Dimension(700, 500));
     pack();
-
   }
 
   private void setMainPanel() {
-    // Main panel
     mainPanel = new JPanel(new BorderLayout(GAP, GAP));
     mainPanel.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
     mainPanel.setLayout(new BorderLayout(GAP, GAP));
@@ -113,7 +91,7 @@ public class SettingsGenerator extends JFrame {
     filePathLabel = new JLabel("No file selected!");
     filePanel.add(filePathLabel, BorderLayout.LINE_START);
 
-    openFileButton = new JButton("Choose Example...");
+    JButton openFileButton = new JButton("Choose Example...");
     filePanel.add(openFileButton, BorderLayout.LINE_END);
 
     openFileButton.addActionListener(new ActionListener() {
@@ -135,7 +113,7 @@ public class SettingsGenerator extends JFrame {
   }
 
   private void setPreviewButton() {
-    previewButton = new JButton("Preview...");
+    JButton previewButton = new JButton("Preview...");
     delimPanel.add(previewButton, BorderLayout.LINE_END);
 
     previewButton.addActionListener(new ActionListener() {
@@ -148,7 +126,7 @@ public class SettingsGenerator extends JFrame {
   }
 
   private void setStartPanel() {
-    startPanel = new JPanel(new BorderLayout(GAP, GAP));
+    JPanel startPanel = new JPanel(new BorderLayout(GAP, GAP));
     delimPanel.add(startPanel, BorderLayout.PAGE_START);
 
     startPanel.add(new JLabel("Starting line of data"), BorderLayout.CENTER);
@@ -169,7 +147,7 @@ public class SettingsGenerator extends JFrame {
   }
 
   private void setBottomButtons() {
-    bottomPanel = new JPanel(new BorderLayout(GAP, GAP));
+    JPanel bottomPanel = new JPanel(new BorderLayout(GAP, GAP));
     mainPanel.add(bottomPanel, BorderLayout.PAGE_END);
 
     bottomPanel.add(new JLabel("Internal name:"), BorderLayout.LINE_START);
@@ -177,7 +155,7 @@ public class SettingsGenerator extends JFrame {
     nameTextField = new JTextField("table_name");
     bottomPanel.add(nameTextField, BorderLayout.CENTER);
 
-    saveButton = new JButton("Save settings...");
+    JButton saveButton = new JButton("Save settings...");
     bottomPanel.add(saveButton, BorderLayout.LINE_END);
 
     saveButton.addActionListener(new ActionListener() {
@@ -189,20 +167,17 @@ public class SettingsGenerator extends JFrame {
   }
 
   private void onOpenFile() {
-    JFileChooser chooser = new JFileChooser();
-    chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-    chooser.setFileFilter(allfilter);
-    chooser.setDialogTitle("Select an example file to create settings for");
+    List<FileNameExtensionFilter> filter = new ArrayList<>();
+    filter.add(MainUi.allsupportedfilter);
+    example = MainUi.openFile(filter, "an example file to create settings for");
 
-    int state = chooser.showOpenDialog(null);
-
-    if (state == JFileChooser.APPROVE_OPTION) {
-      example = chooser.getSelectedFile();
-      filePathLabel.setText(example.getAbsolutePath());
-      nameTextField.setText(example.getName());
-      csp.showPreviewHint();
+    if (example == null) {
+      return;
     }
+
+    filePathLabel.setText(example.getAbsolutePath());
+    nameTextField.setText(example.getName());
+    csp.showPreviewHint();
   }
 
   private void onPreview() {
@@ -253,40 +228,50 @@ public class SettingsGenerator extends JFrame {
     if (noFormat()) {
       return;
     }
-    JFileChooser chooser = new JFileChooser();
-    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-    chooser.setDialogTitle("Save XML settings...");
-    int state = chooser.showOpenDialog(null);
 
-    if (state == JFileChooser.APPROVE_OPTION) {
-      try {
-        settings.setName(nameTextField.getText());
-        SettingsWriter.writeSettings(settings, new File(chooser.getSelectedFile() + "/"
-            + nameTextField.getText() + ".xml"));
-        Object[] options = {"Yes", "No", "Close settings builder"};
-        int chosenOption =
-            JOptionPane.showOptionDialog(this, nameTextField.getText()
-                + ".xml was created in the directory " + chooser.getSelectedFile()
-                + "\n Would you like to see the output directory?", "A Silly Question",
-                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-                Gui.createImageIcon("icon.png"), options, options[2]);
-        if (chosenOption == JOptionPane.CANCEL_OPTION) {
-          this.dispose();
-        }
-        if (chosenOption == JOptionPane.YES_OPTION) {
-          try {
-            Desktop.getDesktop().open(chooser.getSelectedFile());
-          } catch (IOException e1) {
-            LOG.log(Level.SEVERE, "Output directory could not be opened");
-          }
-        }
+    List<FileNameExtensionFilter> filter = new ArrayList<>();
+    filter.add(MainUi.xmlfilter);
+    File file = MainUi.saveFile(filter, "XML settings.");
+    if (file == null){
+      return;
+    }
 
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, e.getMessage(), "Save XML settings failed",
-            JOptionPane.ERROR_MESSAGE);
+    if (file.exists()) {
+      if (!MainUi.override(this, file)) {
+        return;
       }
+      file.delete();
+    } else {
+      file = MainUi.setExtension(file, ".xml");
+    }
 
+    settings.setName(nameTextField.getText());
+
+    writeSettings(file);
+    promptUser(file);
+  }
+
+  private void writeSettings(File file) {
+    try {
+      SettingsWriter.writeSettings(settings, file);
+    } catch (Exception e) {
+      JOptionPane.showMessageDialog(this, e.getMessage(),
+              "Save XML settings failed", JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  private void promptUser(File file) {
+    Object[] options = {"Yes", "No", "Close settings builder"};
+    int chosenOption =
+            JOptionPane.showOptionDialog(this, nameTextField.getText()
+                            + ".xml was created in the directory " + file.getParent()
+                            + "\n Would you like to see the output directory?", "Info",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    Gui.createImageIcon("icon.png"), options, options[2]);
+    if (chosenOption == JOptionPane.CANCEL_OPTION) {
+      this.dispose();
+    } else if (chosenOption == JOptionPane.YES_OPTION) {
+      Gui.openSystemEditor(file.getParentFile());
     }
   }
 

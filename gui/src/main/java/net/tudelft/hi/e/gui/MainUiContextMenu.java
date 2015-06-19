@@ -32,8 +32,7 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
 
   private final JTable table;
   private final JFrame frame;
-  private Cursor cursor;
-  
+
   /**
    * Creates a popup menu and sets the action listener for the filesTable.
    * @param filesTable The table to add the popup menu to
@@ -145,7 +144,7 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
   }
 
   private void invokeInit(Class<?> type) {
-    cursor = frame.getCursor();
+    Cursor cursor = frame.getCursor();
     frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     
     int selectedRow = table.getSelectedRow();

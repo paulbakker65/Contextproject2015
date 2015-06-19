@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -56,26 +57,24 @@ public class MainUi extends JFrame {
   private JTable filesTable;
   private JButton addFileSButton;
   private JButton removeSelectedButton;
-  private JPanel filesPanel;
   private JTextField textFieldOutputDir;
   private JButton browseButton;
   private JButton viewDirectoryButton;
   private JButton buttonVisualizations;
   private JButton settingsbuilderButton;
-  private JScrollPane filesTableScrollPane;
 
   // Filters for JFileChooser dialog
-  private static final FileNameExtensionFilter xmlfilter =
+  public static final FileNameExtensionFilter xmlfilter =
           new FileNameExtensionFilter("XML files", "xml");
-  private static final FileNameExtensionFilter txtfilter =
+  public static final FileNameExtensionFilter txtfilter =
           new FileNameExtensionFilter("TXT files", "txt");
-  private static final FileNameExtensionFilter csvfilter =
+  public static final FileNameExtensionFilter csvfilter =
           new FileNameExtensionFilter("CSV files", "csv");
-  private static final FileNameExtensionFilter xlsfilter =
+  public static final FileNameExtensionFilter xlsfilter =
           new FileNameExtensionFilter("Excel files", "xls", "xlsx");
-  private static final FileNameExtensionFilter serfilter =
+  public static final FileNameExtensionFilter serfilter =
           new FileNameExtensionFilter("SER files", "ser");
-  private static final FileNameExtensionFilter allsupportedfilter =
+  public static final FileNameExtensionFilter allsupportedfilter =
           new FileNameExtensionFilter("All supported files", "csv", "txt", "xls", "xlsx");
 
   private static File previousDirectory;
@@ -256,16 +255,12 @@ public class MainUi extends JFrame {
     }
 
     if (script.exists()) {
-      int result = JOptionPane.showConfirmDialog(this,
-          "The file '" + script.getName() 
-          + "' already exists, would you like to ovveride this file?.",
-          "File already exists.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-      if (result != JOptionPane.YES_OPTION) {
+      if (!override(this, script)) {
         return;
       }
       script.delete();
-    } else if (!script.getPath().toLowerCase().endsWith(".txt")) {
-      script = new File(script.getPath() + ".txt");
+    } else {
+      script = setExtension(script, ".txt");
     }
 
     try {
@@ -281,6 +276,32 @@ public class MainUi extends JFrame {
     updateScriptInfo();
   }
 
+  /**
+   * Checks if the file has the given extension, if not it adds the extension.
+   * @param file The file to add the extension for.
+   * @param extension A string containing the extension (e.g. '.txt')
+   * @return returns the file containing the extension.
+   */
+  public static File setExtension(File file, String extension) {
+    if (!file.getPath().toLowerCase().endsWith(extension)) {
+      return new File(file.getPath() + extension);
+    }
+    return file;
+  }
+
+  /**
+   * Prompts the user if they want to override this file.
+   * @param window The parent window.
+   * @param file The file to override.
+   * @return Returns true if the user want's to override the file.
+   */
+  public static boolean override(Window window, File file) {
+    int result = JOptionPane.showConfirmDialog(window,
+            "The file '" + file.getName()
+                    + "' already exists, would you like to overide this file?.",
+            "File already exists.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+    return result != JOptionPane.YES_OPTION;
+  }
   /**
    * Opens the default system editor for the script file.
    */
@@ -512,7 +533,7 @@ public class MainUi extends JFrame {
   /**
    * Shows a file dialog for the user to select a file.
    */
-  private static File openFile(List<FileNameExtensionFilter> filters, String title) {
+  public static File openFile(List<FileNameExtensionFilter> filters, String title) {
     File file;
     JFileChooser chooser = new JFileChooser(previousDirectory);
     chooser.setDialogTitle("Open " + title + ".");
@@ -543,7 +564,7 @@ public class MainUi extends JFrame {
   /**
    * Shows a file dialog for the user to save a file.
    */
-  private static File saveFile(List<FileNameExtensionFilter> filters, String title) {
+  public static File saveFile(List<FileNameExtensionFilter> filters, String title) {
     File file;
     JFileChooser chooser = new JFileChooser(previousDirectory);
     chooser.setDialogTitle("Save " + title + ".");
@@ -585,7 +606,7 @@ public class MainUi extends JFrame {
     contentPane.setLayout(new GridBagLayout());
     contentPane.setOpaque(true);
     contentPane.setPreferredSize(new Dimension(1024, 720));
-    filesPanel = new JPanel();
+    JPanel filesPanel = new JPanel();
     filesPanel.setLayout(new GridBagLayout());
     GridBagConstraints gbc;
     gbc = new GridBagConstraints();
@@ -802,7 +823,7 @@ public class MainUi extends JFrame {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(2, 2, 2, 2);
     filesPanel.add(openFileButton, gbc);
-    filesTableScrollPane = new JScrollPane();
+    JScrollPane filesTableScrollPane = new JScrollPane();
     gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 2;
