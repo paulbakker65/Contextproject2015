@@ -45,7 +45,8 @@ public final class ScriptErrorListener extends BaseErrorListener {
   public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol,
           final int line, final int charPositionInLine, final String msg,
           final RecognitionException ex) {
-    this.exceptionList.add(msg);
+    String newMsg = "Error at line " + line + ", character " + charPositionInLine + ": " + msg;
+    this.exceptionList.add(newMsg);
   }
 
   /**
