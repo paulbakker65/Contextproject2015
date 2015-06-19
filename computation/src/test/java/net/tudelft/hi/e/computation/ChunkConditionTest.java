@@ -23,6 +23,6 @@ public class ChunkConditionTest {
   @Test
   public void testHashCode() {
     final ChunkCondition condition = new DayCondition(1);
-    assertEquals(31 + 1, condition.hashCode());
+    assertEquals((31 + 1) * 31, condition.hashCode());
   }
 }

@@ -43,14 +43,26 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
 
   private static final Logger LOG = Logger.getLogger(ScriptVisitor.class.getName());
 
-  List<Table> tables;
+  /**
+   * List of tables containing all the tables available for input data.
+   */
+  private final List<Table> tables;
 
-  List<Operation> operationList;
+  /**
+   * List of Operations where all the parsed operations will be stored.
+   */
+  private final List<Operation> operationList;
 
-  public ScriptVisitor(final List<Table> tables) {
+  /**
+   * Default constructor for creating a script visitor.
+   *
+   * @param tableList
+   *         the list of tables that it can use as input for operations.
+   */
+  public ScriptVisitor(final List<Table> tableList) {
     super();
-    this.tables = tables;
-    this.operationList = new ArrayList<Operation>();
+    this.tables = tableList;
+    this.operationList = new ArrayList<>();
     ExceptionHandler.replaceHandler(LOG);
   }
 
@@ -67,13 +79,17 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
    * The getTableForTableName method retrieves the Table with the specified table name from the list
    * of Tables in the tables field.
    *
-   * @param tableName The table name that is searched for.
+   * @param tableName
+   *         The table name that is searched for.
+   *
    * @return The Table object retrieved from tables.
-   * @throws TableNotFoundException If the the table cannot be found in the tables field a
-   *         TableNotFoundException is thrown.
+   *
+   * @throws TableNotFoundException
+   *         If the the table cannot be found in the tables field a TableNotFoundException is
+   *         thrown.
    */
   private Table getTableForTableName(final String tableName) throws TableNotFoundException {
-    for (Table table : tables) {
+    for (final Table table : this.tables) {
       if (table.getName().equals(tableName)) {
         return table;
       }
@@ -82,270 +98,303 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
   }
 
   @Override
-  public final BetweenOperation visitBetween_operation(Between_operationContext ctx) {
+  public final BetweenOperation visitBetween_operation(final Between_operationContext ctx) {
     return visitBetween_param(ctx.param);
   }
 
   @Override
-  public final BetweenOperation visitBetween_param(Between_paramContext ctx) {
+  public final BetweenOperation visitBetween_param(final Between_paramContext ctx) {
+    BetweenOperation betweenOperation = null;
     try {
-      return new BetweenOperation(getTableForTableName(visitField(ctx.eventcol)[0]),
-          visitField(ctx.eventcol)[1], visitField(ctx.datecol1)[1], visitField(ctx.datecol2)[1],
-          visitValue(ctx.value1), visitValue(ctx.value2));
+      betweenOperation =
+              new BetweenOperation(this.getTableForTableName(visitField(ctx.eventcol)[0]),
+                      visitField(ctx.eventcol)[1], visitField(ctx.datecol1)[1],
+                      visitField(ctx.datecol2)[1], visitValue(ctx.value1), visitValue(ctx.value2));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
+    return betweenOperation;
   }
 
   @Override
-  public final Object visitCalc_operator(AnalysisLangParser.Calc_operatorContext ctx) {
+  public final Object visitCalc_operator(final AnalysisLangParser.Calc_operatorContext ctx) {
     return ctx.op;
   }
 
   @Override
-  public final ChunkingOperation visitChunk_operation(Chunk_operationContext ctx) {
+  public final ChunkingOperation visitChunk_operation(final Chunk_operationContext ctx) {
     return visitChunk_param(ctx.param);
   }
 
   @Override
-  public final ChunkingOperation visitChunk_param(AnalysisLangParser.Chunk_paramContext ctx) {
-    if (ctx.type != null) {
-      try {
-        return new ChunkingOperation(getTableForTableName(visitField(
-            ctx.fieldparam)[0]),
-            visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type), 
-            (int) ((NumberValue) visitNumber(ctx.numberparam)).getValue());
-      } catch (TableNotFoundException ex) {
-        LOG.log(Level.SEVERE, ex.getMessage(), ex);
-      }
+  public final ChunkingOperation visitChunk_param(final AnalysisLangParser.Chunk_paramContext ctx) {
+    ChunkingOperation chunkingOperation = null;
+    try {
+      chunkingOperation =
+              new ChunkingOperation(this.getTableForTableName(visitField(ctx.fieldparam)[0]),
+                      visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type),
+                      (int) ((NumberValue) visitNumber(ctx.numberparam)).getValue());
+    } catch (TableNotFoundException ex) {
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
+    return chunkingOperation;
   }
 
   @Override
-  public final ChunkType visitChunk_type(AnalysisLangParser.Chunk_typeContext ctx) {
+  public final ChunkType visitChunk_type(final AnalysisLangParser.Chunk_typeContext ctx) {
     return ctx.op;
   }
 
   @Override
-  public final Object visitCode_operation(AnalysisLangParser.Code_operationContext ctx) {
+  public final Object visitCode_operation(final AnalysisLangParser.Code_operationContext ctx) {
     return visitCode_param(ctx.param);
   }
 
   @Override
-  public final CodingOperation visitCode_param(AnalysisLangParser.Code_paramContext ctx) {
+  public final CodingOperation visitCode_param(final AnalysisLangParser.Code_paramContext ctx) {
+    CodingOperation codingOperation = null;
     try {
-      return new CodingOperation(getTableForTableName(visitTable(ctx.tableparam)),
-          visitPattern(ctx.patternparam), visitText(ctx.codenameparam).toString());
+      codingOperation = new CodingOperation(this.getTableForTableName(visitTable(ctx.tableparam)),
+              visitPattern(ctx.patternparam), visitText(ctx.codenameparam).toString());
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
+    return codingOperation;
   }
 
   @Override
-  public final Object visitCompare_operator(AnalysisLangParser.Compare_operatorContext ctx) {
+  public final Object visitCompare_operator(final AnalysisLangParser.Compare_operatorContext ctx) {
     return ctx.op;
   }
 
   @Override
   public final ComputeOperation visitCompute_operation(
-      AnalysisLangParser.Compute_operationContext ctx) {
+          final AnalysisLangParser.Compute_operationContext ctx) {
     return visitCompute_param(ctx.param);
   }
 
   @Override
-  public final ComputeOperator visitCompute_operator(AnalysisLangParser.Compute_operatorContext ctx) {
+  public final ComputeOperator visitCompute_operator(
+          final AnalysisLangParser.Compute_operatorContext ctx) {
     return ctx.op;
   }
 
   @Override
-  public final ComputeOperation visitCompute_param(AnalysisLangParser.Compute_paramContext ctx) {
+  public final ComputeOperation visitCompute_param(
+          final AnalysisLangParser.Compute_paramContext ctx) {
+    ComputeOperation computeOperation = null;
     try {
-      return new ComputeOperation(getTableForTableName(visitTable(ctx.tableparam)),
-          visitCompute_operator(ctx.computeopparam), visitField(ctx.fieldparam)[1]);
+      computeOperation = new ComputeOperation(this.getTableForTableName(visitTable(ctx.tableparam)),
+              this.visitCompute_operator(ctx.computeopparam), visitField(ctx.fieldparam)[1]);
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
+    return computeOperation;
   }
 
   @Override
-  public final List<Condition> visitCondition(AnalysisLangParser.ConditionContext ctx) {
-    List<Condition> resultConditionList = new ArrayList<Condition>();
+  public final List<Condition> visitCondition(final AnalysisLangParser.ConditionContext ctx) {
+    final List<Condition> resultConditionList = new ArrayList<>();
     resultConditionList.add(ctx.cond);
     if (ctx.anothercond != null) {
-      resultConditionList.addAll(visitCondition(ctx.anothercond));
+      resultConditionList.addAll(this.visitCondition(ctx.anothercond));
     }
     return resultConditionList;
   }
 
   @Override
   public final ConnectionOperation visitConnect_operation(
-      AnalysisLangParser.Connect_operationContext ctx) {
+          final AnalysisLangParser.Connect_operationContext ctx) {
     return visitConnect_param(ctx.param);
   }
 
-  @Override 
-  public CombineOperation visitCombine_operation(AnalysisLangParser
-      .Combine_operationContext ctx) {
+  @Override
+  public CombineOperation visitCombine_operation(
+          final AnalysisLangParser.Combine_operationContext ctx) {
     return visitCombine_param(ctx.param);
   }
 
   @Override
-  public final ConnectionOperation visitConnect_param(AnalysisLangParser.Connect_paramContext ctx) {
+  public final ConnectionOperation visitConnect_param(
+          final AnalysisLangParser.Connect_paramContext ctx) {
+    ConnectionOperation connectionOperation = null;
     try {
-      String[] firstField = visitField(ctx.fieldparam);
-      String[] secondField = visitField(ctx.anotherfieldparam);
-      return new ConnectionOperation(getTableForTableName(firstField[0]),
-          getTableForTableName(secondField[0]), firstField[1], secondField[1]);
+      final String[] firstField = visitField(ctx.fieldparam);
+      final String[] secondField = visitField(ctx.anotherfieldparam);
+      connectionOperation = new ConnectionOperation(this.getTableForTableName(firstField[0]),
+              this.getTableForTableName(secondField[0]), firstField[1], secondField[1]);
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
-  }
-
-  @Override public CombineOperation visitCombine_param(AnalysisLangParser.Combine_paramContext
-      ctx) {
-    try {
-      String[] firstField = visitField(ctx.fieldparam);
-      String[] secondField = visitField(ctx.anotherfieldparam);
-      return new CombineOperation(getTableForTableName(firstField[0]),
-          getTableForTableName(secondField[0]), firstField[1], secondField[1]);
-    } catch (TableNotFoundException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage(), ex);
-    }
-    return null;
+    return connectionOperation;
   }
 
   @Override
-  public final ConstraintOperation visitConstraint_operation(Constraint_operationContext ctx) {
+  public CombineOperation visitCombine_param(final AnalysisLangParser.Combine_paramContext ctx) {
+    CombineOperation combineOperation = null;
+    try {
+      final String[] firstField = visitField(ctx.fieldparam);
+      final String[] secondField = visitField(ctx.anotherfieldparam);
+      combineOperation = new CombineOperation(this.getTableForTableName(firstField[0]),
+              this.getTableForTableName(secondField[0]), firstField[1], secondField[1]);
+    } catch (TableNotFoundException ex) {
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
+    }
+    return combineOperation;
+  }
+
+  @Override
+  public final ConstraintOperation visitConstraint_operation(
+          final Constraint_operationContext ctx) {
     return visitConstraint_param(ctx.param);
   }
 
   @Override
   public final ConstraintOperation visitConstraint_param(
-      AnalysisLangParser.Constraint_paramContext ctx) {
+          final AnalysisLangParser.Constraint_paramContext ctx) {
+    ConstraintOperation constraintOperation = null;
     try {
-      return new ConstraintOperation(getTableForTableName(visitField(ctx.fieldparam)[0]),
-          visitField(ctx.fieldparam)[1], ctx.opparam.op, visitValue(ctx.valueparam));
+      constraintOperation =
+              new ConstraintOperation(this.getTableForTableName(visitField(ctx.fieldparam)[0]),
+                      visitField(ctx.fieldparam)[1], ctx.opparam.op, visitValue(ctx.valueparam));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
+    return constraintOperation;
   }
 
   @Override
-  public final Object visitCount_pattern(AnalysisLangParser.Count_patternContext ctx) {
+  public final Object visitCount_pattern(final AnalysisLangParser.Count_patternContext ctx) {
     return ctx.count;
   }
 
   @Override
-  public final Value visitDate(AnalysisLangParser.DateContext ctx) {
+  public final Value visitDate(final AnalysisLangParser.DateContext ctx) {
     return ctx.val;
   }
 
   @Override
-  public final String[] visitField(AnalysisLangParser.FieldContext ctx) {
-    return new String[] {ctx.tablename, ctx.fieldname};
+  public final String[] visitField(final AnalysisLangParser.FieldContext ctx) {
+    return new String[]{ctx.tablename, ctx.fieldname};
   }
 
   @Override
   public final Object visitForeach_chunk_operation(
-      AnalysisLangParser.Foreach_chunk_operationContext ctx) {
+          final AnalysisLangParser.Foreach_chunk_operationContext ctx) {
     return visitForeach_chunk_param(ctx.param);
   }
 
   @Override
   public final ForEachChunkOperation visitForeach_chunk_param(
-      AnalysisLangParser.Foreach_chunk_paramContext ctx) {
+          final AnalysisLangParser.Foreach_chunk_paramContext ctx) {
+    ForEachChunkOperation forEachChunkOperation = null;
     try {
-      return new ForEachChunkOperation(getTableForTableName(visitTable(ctx.tableparam)),
-          visitNumberGetInt(ctx.levelparam), visitOperationNoAdd(ctx.operationparam));
+      forEachChunkOperation =
+              new ForEachChunkOperation(this.getTableForTableName(visitTable(ctx.tableparam)),
+                      visitNumberGetInt(ctx.levelparam), visitOperationNoAdd(ctx.operationparam));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
+    return forEachChunkOperation;
   }
 
   @Override
-  public final LsaOperation visitLsa_operation(AnalysisLangParser.Lsa_operationContext ctx) {
+  public final LsaOperation visitLsa_operation(final AnalysisLangParser.Lsa_operationContext ctx) {
     return visitLsa_param(ctx.param);
   }
 
   @Override
-  public final LsaOperation visitLsa_param(AnalysisLangParser.Lsa_paramContext ctx) {
+  public final LsaOperation visitLsa_param(final AnalysisLangParser.Lsa_paramContext ctx) {
+    LsaOperation lsaOperation = null;
     try {
-      String[] fieldReference = visitField(ctx.fieldparam);
-      return new LsaOperation(getTableForTableName(fieldReference[0]), fieldReference[1],
-          visitNumberGetInt(ctx.from), visitNumberGetInt(ctx.to), visitValue(ctx.key),
-          visitValue(ctx.target));
+      final String[] fieldReference = this.visitField(ctx.fieldparam);
+      lsaOperation =
+              new LsaOperation(this.getTableForTableName(fieldReference[0]), fieldReference[1],
+                      visitNumberGetInt(ctx.from), visitNumberGetInt(ctx.to), visitValue(ctx.key),
+                      visitValue(ctx.target));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
+    return lsaOperation;
   }
 
   @Override
-  public final Value visitNumber(AnalysisLangParser.NumberContext ctx) {
+  public final Value visitNumber(final AnalysisLangParser.NumberContext ctx) {
     return ctx.val;
   }
 
-  private final int visitNumberGetInt(AnalysisLangParser.NumberContext ctx) {
-    NumberValue val = (NumberValue) ctx.val;
+  /**
+   * Visit a Number Node in the parse tree and turn it into a number instead of a NumberValue.
+   *
+   * @param ctx
+   *         The NumberContext Node.
+   *
+   * @return an integer representation of the number context.
+   */
+  private int visitNumberGetInt(final AnalysisLangParser.NumberContext ctx) {
+    final NumberValue val = (NumberValue) ctx.val;
     return (int) val.getValue();
   }
 
   @Override
-  public final Operation visitOperation(AnalysisLangParser.OperationContext ctx) {
-    operationList.add((Operation) visitChildren(ctx));
-    return operationList.get(operationList.size() - 1);
+  public final Operation visitOperation(final AnalysisLangParser.OperationContext ctx) {
+    this.operationList.add((Operation) visitChildren(ctx));
+    return this.operationList.get(this.operationList.size() - 1);
   }
 
-  private Operation visitOperationNoAdd(AnalysisLangParser.OperationContext ctx) {
+  /**
+   * Visit an Operation Node without adding the resulting operation to the operationList. This
+   * method is used to visit operations that are children of a {@see ForEachChunkOperation} to
+   * prevent those operations from also being added to the list of generic operations.
+   *
+   * @param ctx
+   *         The OperationContext to visit.
+   *
+   * @return An Operation that was defined by the subtree.
+   */
+  private Operation visitOperationNoAdd(final AnalysisLangParser.OperationContext ctx) {
     return (Operation) visitChildren(ctx);
   }
 
   @Override
-  public final Object visitParse(AnalysisLangParser.ParseContext ctx) {
+  public final Object visitParse(final AnalysisLangParser.ParseContext ctx) {
     visitChildren(ctx);
-    return operationList;
+    return this.operationList;
   }
 
   @Override
-  public final Pattern visitPattern(AnalysisLangParser.PatternContext ctx) {
+  public final Pattern visitPattern(final AnalysisLangParser.PatternContext ctx) {
     return PatternFactory.createPattern(ctx.patterndesc);
   }
 
   @Override
-  public final Object visitRecord_condition(AnalysisLangParser.Record_conditionContext ctx) {
+  public final Object visitRecord_condition(final AnalysisLangParser.Record_conditionContext ctx) {
     return ctx.recordcondition;
   }
 
   @Override
-  public final String visitTable(AnalysisLangParser.TableContext ctx) {
+  public final String visitTable(final AnalysisLangParser.TableContext ctx) {
     return ctx.tablename;
   }
 
   @Override
-  public final Value visitText(AnalysisLangParser.TextContext ctx) {
+  public final Value visitText(final AnalysisLangParser.TextContext ctx) {
     return ctx.val;
   }
 
   @Override
-  public final Value visitValue(AnalysisLangParser.ValueContext ctx) {
+  public final Value visitValue(final AnalysisLangParser.ValueContext ctx) {
     return ctx.val;
   }
 
   @Override
   public final PatternDescription visitPattern_description(Pattern_descriptionContext ctx) {
-	return ctx.description;
+    return ctx.description;
   }
 
   @Override
   public final PatternDescription visitPattern_description_rec(Pattern_description_recContext ctx) {
-	return ctx.description_rec;
+    return ctx.description_rec;
   }
 
 }

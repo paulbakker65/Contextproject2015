@@ -1,14 +1,16 @@
 package net.tudelft.hi.e.data;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class StateTransitionMatrixTest {
 

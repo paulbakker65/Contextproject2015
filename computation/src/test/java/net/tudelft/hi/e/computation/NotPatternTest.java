@@ -6,8 +6,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NullValue;
 import net.tudelft.hi.e.data.NumberColumn;
@@ -20,6 +18,8 @@ import net.tudelft.hi.e.data.Value;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class NotPatternTest {
   private Table table;

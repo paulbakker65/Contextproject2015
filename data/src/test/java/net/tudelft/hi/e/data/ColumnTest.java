@@ -1,21 +1,19 @@
 package net.tudelft.hi.e.data;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.mockito.Mockito.when;
-
 import org.w3c.dom.Element;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * ColumnTest class testing the table.Column class.
@@ -63,8 +61,8 @@ public class ColumnTest {
     final DateColumn column = new DateColumn("testName");
     assertNotNull(column);
     assertEquals("testName", column.getName());
-    assertEquals(DateColumn.isoFormatStr, column.getFormatStr());
-    assertEquals(DateColumn.isoFormat, column.getFormat());
+    assertEquals(DateColumn.ISO_FORMAT_STR, column.getFormatStr());
+    assertEquals(DateColumn.ISO_FORMAT, column.getFormat());
   }
 
   @Test

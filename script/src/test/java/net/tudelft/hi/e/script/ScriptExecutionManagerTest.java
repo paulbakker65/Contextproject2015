@@ -146,8 +146,8 @@ public class ScriptExecutionManagerTest {
     manager.executeAllScripts();
     List<Table> actual = manager.getResultDataTables();
 
-    List<Operation> opList = new ArrayList<Operation>();
-    Map<String, Table> tableMap = new LinkedHashMap<String, Table>();
+    List<Operation> opList = new ArrayList<>();
+    Map<String, Table> tableMap = new LinkedHashMap<>();
     for (Table t : tablesExpected) {
       tableMap.put(t.getName(), t);
     }
@@ -167,6 +167,23 @@ public class ScriptExecutionManagerTest {
     }
 
     assertEquals(tableMap.get("website"), actual.get(0));
+  }
+
+  @Test
+  public void testOperationFileWithComments() throws ParseFailedException {
+    manager.addScriptFile("src/test/resources/script_commented.txt");
+    manager.executeAllScripts();
+    List<Table> actual = manager.getResultDataTables();
+
+    ConstraintOperation operation = new ConstraintOperation(tablesExpected.
+            get(0),
+            "login", CompareOperator.EQ, new StringValue("admire13"));
+    operation.execute();
+
+    assertEquals(operation.getResult().getName(), actual.get(0).getName());
+    assertEquals(operation.getResult().getChunks(), actual.get(0).getChunks());
+    assertEquals(operation.getResult().getCodes(), actual.get(0).getCodes());
+    assertEquals(operation.getResult(), actual.get(0));
   }
 
   /**

@@ -49,7 +49,7 @@ public abstract class ChunkCondition {
       return false;
     }
     ChunkCondition other = (ChunkCondition) obj;
-    return (maxNumberOfDifferences == other.maxNumberOfDifferences);
+    return maxNumberOfDifferences == other.maxNumberOfDifferences;
   }
 
 }

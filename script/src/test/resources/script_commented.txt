@@ -1,0 +1,6 @@
+# this operation is used to place
+# a constraint
+# on the website table
+CONSTRAINT [website].[login] == "admire13"
+# on the login field
+# using admire13

@@ -1,5 +1,11 @@
 package net.tudelft.hi.e.input;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,12 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 
 /**
  * Reads the first sheet of an XLSX 2007 File.
@@ -39,12 +39,11 @@ public class ExcelReader extends Reader {
   public ExcelReader(final String path, final int sheetindex) {
     super(path);
     this.sheetindex = sheetindex;
-    System.setProperty("org.apache.poi.util.POILogger",
-        "org.apache.commons.logging.impl.NoOpLog");
+    System.setProperty("org.apache.poi.util.POILogger", "org.apache.commons.logging.impl.NoOpLog");
   }
 
   private static String cellToString(final Cell cell) {
-    if (cell == null) {
+    if (cell.toString().isEmpty()) {
       return "";
     } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC && DateUtil.isCellDateFormatted(cell)) {
       final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -86,8 +85,8 @@ public class ExcelReader extends Reader {
         final XSSFSheet sheet = workbook.getSheetAt(sheetindex);
         rowIterator = sheet.rowIterator();
       } catch (final Exception ex) {
-        Logger.getLogger(ExcelReader.class.getName()).
-            log(Level.SEVERE, "Loading of xlsx failed: " + ex.getMessage(), ex);
+        Logger.getLogger(ExcelReader.class.getName()).log(Level.SEVERE,
+            "Loading of xlsx failed: " + ex.getMessage(), ex);
       }
     }
   }

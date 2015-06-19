@@ -1,13 +1,15 @@
 package net.tudelft.hi.e.input;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.StringColumn;
-import net.tudelft.hi.e.input.Settings;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.StringColumn;
+
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class for testing the Settings class.

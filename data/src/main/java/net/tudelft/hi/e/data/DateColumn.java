@@ -1,14 +1,14 @@
 package net.tudelft.hi.e.data;
 
+import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
+import org.w3c.dom.Element;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-
-import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
-import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-import org.w3c.dom.Element;
 
 /**
  * Case class for specifying a column with dates.
@@ -22,8 +22,10 @@ public class DateColumn extends Column {
   private String formatStr;
   private String targetDate;
 
-  public static final String isoFormatStr = "yyyy-MM-dd'T'HH:mm";
-  public static final DateFormat isoFormat = new SimpleDateFormat(isoFormatStr);
+  public static final String ISO_FORMAT_STR = "yyyy-MM-dd'T'HH:mm";
+  public static final DateFormat ISO_FORMAT = new SimpleDateFormat(ISO_FORMAT_STR);
+  
+  private static final String EXCEL = "excel";
 
   /**
    * Constructs a new DateColumn using a default format.
@@ -32,7 +34,7 @@ public class DateColumn extends Column {
    *          the name of the column.
    */
   public DateColumn(final String name) {
-    this(name, isoFormatStr);
+    this(name, ISO_FORMAT_STR);
   }
 
   /**
@@ -68,7 +70,7 @@ public class DateColumn extends Column {
     if ("null".equalsIgnoreCase(text) || text.isEmpty()) {
       return new NullValue();
     }
-    if ("excel".equalsIgnoreCase(formatStr)) {
+    if (EXCEL.equalsIgnoreCase(formatStr)) {
       return new DateValue(convertExcelDate(text), this);
     }
 
@@ -81,7 +83,7 @@ public class DateColumn extends Column {
 
   private Value convertIsoFormat(String text) throws ColumnTypeMismatchException {
     try {
-      return new DateValue(isoFormat.parse(text), this);
+      return new DateValue(ISO_FORMAT.parse(text), this);
     } catch (final ParseException ex) {
       throw getException(text);
     }
@@ -108,7 +110,7 @@ public class DateColumn extends Column {
   }
 
   private void checkFormatExcelIsNotTime() throws WrongXmlException {
-    if ("excel".equals(formatStr) && isTime()) {
+    if (EXCEL.equals(formatStr) && isTime()) {
       throw new WrongXmlException("Excel format cannot also be a time!");
     }
   }
@@ -159,13 +161,13 @@ public class DateColumn extends Column {
   /**
    * Gives the column a new date format.
    *
-   * @param format
+   * @param dateFormat
    *          the new date format.
    */
   public void setFormat(final String dateFormat) {
     formatStr = dateFormat;
 
-    if ("excel".equalsIgnoreCase(formatStr)) {
+    if (EXCEL.equalsIgnoreCase(formatStr)) {
       this.format = null;
     } else {
       this.format = new SimpleDateFormat(dateFormat);
@@ -177,7 +179,7 @@ public class DateColumn extends Column {
     int hash = 5;
     hash = 67 * hash + Objects.hashCode(this.format);
     hash = 67 * hash + Objects.hashCode(this.formatStr);
-    hash = 67 * hash + Objects.hashCode(this.isoFormat);
+    hash = 67 * hash + Objects.hashCode(DateColumn.ISO_FORMAT);
     return hash;
   }
 

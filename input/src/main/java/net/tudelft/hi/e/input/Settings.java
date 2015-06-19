@@ -1,10 +1,12 @@
 package net.tudelft.hi.e.input;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import net.tudelft.hi.e.data.Column;
+
 import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Settings class containing all program-wide settings.

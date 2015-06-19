@@ -16,6 +16,25 @@ public class NullValue extends Value {
   public NullValue() {
   }
 
+  /**
+   * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
+   * the instance of the Value to pick a specific compareTo overload.
+   *
+   * @param other
+   *          Value object to compare to
+   * @return 0 if equal to o <br>
+   *         -1 if less than o <br>
+   *         1 if more than o, or if the values cannot be compared <br>
+   */
+  @Override
+  public int compareTo(Value other) {
+    if (other instanceof NullValue) {
+      return 0;
+    } else {
+      return Integer.MAX_VALUE;
+    }
+  }
+
   @Override
   public boolean equals(final Object other) {
     return other instanceof NullValue;

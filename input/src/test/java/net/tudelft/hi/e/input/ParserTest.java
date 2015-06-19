@@ -1,12 +1,11 @@
 package net.tudelft.hi.e.input;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
@@ -17,16 +16,20 @@ import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * ParserTest class testing the table.Parser class.
@@ -85,10 +88,10 @@ public class ParserTest {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
-    expected.add(new Record(columns, new Value[] { new StringValue("bloemkool"),
-        new StringValue("mayonaise") }));
-    expected.add(new Record(columns, new Value[] { new StringValue("spruitjes"),
-        new StringValue("ketchup") }));
+    expected.add(new Record(columns, new Value[] {new StringValue("bloemkool"),
+        new StringValue("mayonaise")}));
+    expected.add(new Record(columns, new Value[] {new StringValue("spruitjes"),
+        new StringValue("ketchup")}));
 
     final Settings settings = new Settings();
     settings.setName("");
@@ -108,15 +111,14 @@ public class ParserTest {
   }
 
   @Test
-  public void testParseCorrectLastLineTooShort() throws IOException,
-      ParseFailedException {
+  public void testParseCorrectLastLineTooShort() throws IOException, ParseFailedException {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
-    expected.add(new Record(columns, new Value[] { new StringValue("bloemkool"),
-        new StringValue("mayonaise") }));
-    expected.add(new Record(columns, new Value[] { new StringValue("spruitjes"),
-        new StringValue("ketchup") }));
+    expected.add(new Record(columns, new Value[] {new StringValue("bloemkool"),
+        new StringValue("mayonaise")}));
+    expected.add(new Record(columns, new Value[] {new StringValue("spruitjes"),
+        new StringValue("ketchup")}));
 
     final Settings settings = new Settings();
     settings.setDelimiter(",");
@@ -138,15 +140,14 @@ public class ParserTest {
   }
 
   @Test
-  public void testParseCorrectSkipFirstLine() throws IOException,
-      ParseFailedException {
+  public void testParseCorrectSkipFirstLine() throws IOException, ParseFailedException {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new StringColumn("groente"), new StringColumn("saus")));
     final Table expected = new Table();
-    expected.add(new Record(columns, new Value[] { new StringValue("bloemkool"),
-        new StringValue("mayonaise") }));
-    expected.add(new Record(columns, new Value[] { new StringValue("spruitjes"),
-        new StringValue("ketchup") }));
+    expected.add(new Record(columns, new Value[] {new StringValue("bloemkool"),
+        new StringValue("mayonaise")}));
+    expected.add(new Record(columns, new Value[] {new StringValue("spruitjes"),
+        new StringValue("ketchup")}));
 
     final Settings settings = new Settings();
     settings.setDelimiter(",");
@@ -167,8 +168,8 @@ public class ParserTest {
   }
 
   @Test
-  public void testParseCorrectTimeDateLinks() throws IOException,
-      ParseException, ParseFailedException {
+  public void testParseCorrectTimeDateLinks() throws IOException, ParseException,
+      ParseFailedException {
     final ArrayList<Column> columns =
         new ArrayList<Column>(Arrays.asList(new DateColumn("time", "HH:mm", "date"),
             new DateColumn("date", "ddMMyy")));
@@ -185,7 +186,7 @@ public class ParserTest {
     dateValue.addTime(timeValue.getValue());
     timeValue.setValue(dateValue.getValue());
 
-    expected.add(new Record(columns, new Value[] { timeValue, dateValue }, "tableName"));
+    expected.add(new Record(columns, new Value[] {timeValue, dateValue}, "tableName"));
 
     final Settings settings = new Settings();
     settings.setDelimiter(",");

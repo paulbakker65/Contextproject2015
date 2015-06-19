@@ -42,7 +42,6 @@ public class RecordTest {
 
   @Test
   public void testConstructor2() {
-    final Map<String, Value> expected = new HashMap<String, Value>();
     Record someRecord =
         new Record(cols, new Value[] {new StringValue("banana"), new StringValue("milk")});
     Record anotherRecord = new Record(someRecord);

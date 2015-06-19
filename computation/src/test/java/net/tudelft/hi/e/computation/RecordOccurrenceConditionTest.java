@@ -1,8 +1,8 @@
 package net.tudelft.hi.e.computation;
 
-import net.tudelft.hi.e.computation.RecordOccurrenceCondition;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Test;
 
 /**
@@ -30,6 +30,12 @@ public class RecordOccurrenceConditionTest {
     final RecordOccurrenceCondition condition = new RecordOccurrenceCondition(tableName);
 
     assertEquals(31 + tableName.hashCode(), condition.hashCode());
+  }
+  
+  @Test
+  public void testToString() {
+    final RecordOccurrenceCondition condition = new RecordOccurrenceCondition("TableName");
+    assertEquals("RecordOccurrenceCondition [tableName=TableName]", condition.toString());
   }
 
 }

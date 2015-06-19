@@ -1,9 +1,11 @@
 package net.tudelft.hi.e.data;
 
-import net.tudelft.hi.e.data.NullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+
+import net.tudelft.hi.e.data.NullValue;
+
 import org.junit.Test;
 
 /**
