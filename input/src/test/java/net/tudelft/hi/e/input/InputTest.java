@@ -121,6 +121,7 @@ public class InputTest {
     }
     assertNull(Input.getOutputDir());
     assertTrue(Input.setOutputDir(output));
+    assertTrue(Input.setOutputDir(notafile));
     output.delete();
   }
 
@@ -138,6 +139,7 @@ public class InputTest {
     assertFalse(Input.setScriptFile(notexisting));
     assertNull(Input.getScriptFile());
     assertTrue(Input.setScriptFile(script));
+    assertFalse(Input.setScriptFile(null));
     assertEquals(script, Input.getScriptFile());
   }
 
