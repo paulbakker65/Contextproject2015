@@ -17,7 +17,7 @@ public class ColumnSettingsPane extends JScrollPane {
 
   private static final long serialVersionUID = 1L;
 
-  private JTable theTable;
+  private final JTable theTable;
 
   private ColumnSettingsPane(JTable empty) {
     super(empty);
@@ -42,7 +42,7 @@ public class ColumnSettingsPane extends JScrollPane {
   public void setModel(TableModel cstm) {
     theTable.setModel(cstm);
 
-    JComboBox<String> comboBox = new JComboBox<String>();
+    JComboBox<String> comboBox = new JComboBox<>();
     comboBox.addItem("string");
     comboBox.addItem("number");
     comboBox.addItem("date");

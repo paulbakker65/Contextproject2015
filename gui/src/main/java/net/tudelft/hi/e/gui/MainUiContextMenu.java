@@ -37,7 +37,7 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
    * Creates a popup menu and sets the action listener for the filesTable.
    * @param filesTable The table to add the popup menu to
    */
-  public MainUiContextMenu(JTable filesTable, JFrame frame) {
+  private MainUiContextMenu(JTable filesTable, JFrame frame) {
     super();
     this.table = filesTable;
     this.frame = frame;
@@ -62,6 +62,10 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
     menuViewDir.addActionListener(this);
     menuViewDir.setIcon(Gui.createImageIcon("folder.png"));
     popupMenu.add(menuViewDir);
+  }
+
+  public static void init(JTable table, JFrame frame) {
+    new MainUiContextMenu(table, frame);
   }
 
   @Override
@@ -158,12 +162,12 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
   }
   
   private void invokeInitOnRow(Class<?> type, int selectedRow) {
-    Method method = null;
+    Method method;
     try {
       method = type.getMethod("init", Table.class);
       method.invoke(null, Input.getFiles().get(selectedRow).getTable());
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      LOG.log(Level.SEVERE, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
     }
   }
 

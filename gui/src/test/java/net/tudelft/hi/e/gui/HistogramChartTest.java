@@ -23,7 +23,7 @@ public class HistogramChartTest {
   @Before
   public void setUp() {
     table = new Table();
-    ArrayList<Column> col = new ArrayList<Column>();
+    ArrayList<Column> col = new ArrayList<>();
     col.add(new NumberColumn("numbers"));
 
     table.add(new Record(col, new Value[] { new NumberValue(11) }));

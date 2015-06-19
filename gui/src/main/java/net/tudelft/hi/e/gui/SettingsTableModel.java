@@ -22,8 +22,8 @@ public class SettingsTableModel extends AbstractTableModel {
    * Default id.
    */
   private static final long serialVersionUID = 1L;
-  private Settings settings;
-  private String[] examples;
+  private final Settings settings;
+  private final String[] examples;
 
   private static final String[] colnames = { "name", "type", "format", "target", "example" };
 
@@ -54,10 +54,8 @@ public class SettingsTableModel extends AbstractTableModel {
 
   @Override
   public boolean isCellEditable(int rowIndex, int columnIndex) {
-    if (columnIndex == 4) {
-      return false;
-    }
-    return "date".equals(settings.getColumns().get(rowIndex).getType()) || columnIndex < 2;
+    return columnIndex != 4 
+        && ("date".equals(settings.getColumns().get(rowIndex).getType()) || columnIndex < 2);
   }
 
   @Override
@@ -130,7 +128,7 @@ public class SettingsTableModel extends AbstractTableModel {
    * @return Columns to use in settings
    */
   public static List<Column> generateColsByHeaders(String[] headers) {
-    ArrayList<Column> cols = new ArrayList<Column>();
+    List<Column> cols = new ArrayList<>();
     for (String header : headers) {
       cols.add(new StringColumn(header));
     }
@@ -145,7 +143,7 @@ public class SettingsTableModel extends AbstractTableModel {
    * @return Columns to use in settings
    */
   public static List<Column> generateEmptyCols(int amount) {
-    ArrayList<Column> cols = new ArrayList<Column>();
+    List<Column> cols = new ArrayList<>();
     for (int i = 0; i < amount; i++) {
       cols.add(new StringColumn("Col " + (i + 1)));
     }

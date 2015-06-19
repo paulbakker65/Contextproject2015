@@ -57,7 +57,7 @@ public class DisplayTableModelTest {
 
   @Test
   public void testGetColumnName() {
-    ArrayList<String> columns = new ArrayList<String>(Arrays.asList(columnNames));
+    ArrayList<String> columns = new ArrayList<>(Arrays.asList(columnNames));
     columns.add(0, "");
     for (int i = 0; i < columnNames.length; i++) {
       String actual = model.getColumnName(i);

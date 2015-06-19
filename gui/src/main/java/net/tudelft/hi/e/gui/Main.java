@@ -14,6 +14,10 @@ import java.util.logging.Logger;
 public class Main{
   private static final Logger LOG = Logger.getLogger(Task.class.getName());
   private static boolean nogui = false;
+
+  private Main() {
+  }
+
   /**
    * Main
    * @param args A array of arguments.
@@ -63,7 +67,7 @@ public class Main{
             + "    -s <script file>\n"
             + "    -o <output directory>\n"
             + "    -nogui\n";
-        System.out.println(usage);
+        LOG.log(Level.INFO, usage);
         return false;
       }
     }
@@ -77,7 +81,7 @@ public class Main{
     try {
       Input.addDataFile(file, settings);
     } catch (Exception e) {
-      LOG.log(Level.SEVERE, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       return false;
     }
 

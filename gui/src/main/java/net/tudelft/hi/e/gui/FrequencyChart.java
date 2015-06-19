@@ -21,16 +21,21 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
 class FrequencyChart {
-  private Table table;
-  private int chunkDepth;
+  private final Table table;
+  private final int chunkDepth;
+
+  private FrequencyChart(Table table, int chunkDepth) {
+    this.table = table;
+    this.chunkDepth = chunkDepth;
+  }
 
   /**
    * Makes a new Frequency Frame
@@ -57,11 +62,6 @@ class FrequencyChart {
 
     Dataset dataset = chart.createCodesDataset();
     return chart.createChartPanel(chart.createChart(dataset, "Codes"));
-  }
-
-  private FrequencyChart(Table table, int chunkDepth) {
-    this.table = table;
-    this.chunkDepth = chunkDepth;
   }
 
   private ChartPanel createChartPanel(JFreeChart chart) {
@@ -101,7 +101,7 @@ class FrequencyChart {
     DefaultCategoryDataset ds = new DefaultCategoryDataset();
 
     for (Chunk chunk : ChunksFinder.extractChunks(table, chunkDepth)) {
-      HashMap<String, Integer> amount = new LinkedHashMap<String, Integer>();
+      Map<String, Integer> amount = new LinkedHashMap<>();
       for (Record record : chunk) {
         if (record.get(column).isNull()) {
           continue;
@@ -134,7 +134,7 @@ class FrequencyChart {
         amount[((DateValue) record.get(column)).getValue().get(Calendar.HOUR_OF_DAY)]++;
       }
       for (int i = 0; i < amount.length; i++) {
-        dataset.addValue(amount[i], new Integer(i), chunk.getLabel());
+        dataset.addValue(amount[i], i, chunk.getLabel());
       }
     }
     return dataset;
@@ -163,7 +163,7 @@ class FrequencyChart {
    * @param title Title of the chart. Just used as label for the axis
    * @return frequency chart
    */
-  public JFreeChart createChart(Dataset dataset, String title) {
+  private JFreeChart createChart(Dataset dataset, String title) {
     return ChartFactory.createBarChart(title, // chart title
         "Chunk", // domain axis label
         "Frequency", // range axis label

@@ -49,6 +49,8 @@ public class MainUi extends JFrame {
 
   // All GUI components:
   private JPanel contentPane;
+  private JPanel filesPanel;
+  private JScrollPane filesTableScrollPane;
   private JButton buttonRunScript;
   private JButton buttonCancel;
   private JTextField textFieldscriptfilepath;
@@ -66,12 +68,16 @@ public class MainUi extends JFrame {
   // Filters for JFileChooser dialog
   public static final FileNameExtensionFilter xmlfilter =
           new FileNameExtensionFilter("XML files", "xml");
+  @SuppressWarnings("WeakerAccess")
   public static final FileNameExtensionFilter txtfilter =
           new FileNameExtensionFilter("TXT files", "txt");
+  @SuppressWarnings("WeakerAccess")
   public static final FileNameExtensionFilter csvfilter =
           new FileNameExtensionFilter("CSV files", "csv");
+  @SuppressWarnings("WeakerAccess")
   public static final FileNameExtensionFilter xlsfilter =
           new FileNameExtensionFilter("Excel files", "xls", "xlsx");
+  @SuppressWarnings("WeakerAccess")
   public static final FileNameExtensionFilter serfilter =
           new FileNameExtensionFilter("SER files", "ser");
   public static final FileNameExtensionFilter allsupportedfilter =
@@ -104,7 +110,7 @@ public class MainUi extends JFrame {
     filesTable.setTableHeader(null);
     filesTable.setModel(new FilesTableModel());
     filesTable.setColumnSelectionAllowed(false);
-    new MainUiContextMenu(filesTable, this);
+    MainUiContextMenu.init(filesTable, this);
 
     if (Input.hasScript()) {
       updateScriptInfo();
@@ -118,6 +124,7 @@ public class MainUi extends JFrame {
 
   private void setCloseOperation() {
     contentPane.registerKeyboardAction(new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent event) {
           onCancel();
         }
@@ -127,6 +134,7 @@ public class MainUi extends JFrame {
 
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     addWindowListener(new WindowAdapter() {
+      @Override
       public void windowClosing(WindowEvent event) {
         onCancel();
       }
@@ -255,19 +263,19 @@ public class MainUi extends JFrame {
     }
 
     if (script.exists()) {
-      if (!override(this, script)) {
+      if (!overrideFile(this, script) || script.delete()) {
         return;
       }
-      script.delete();
     } else {
       script = setExtension(script, ".txt");
     }
 
     try {
-      script.createNewFile();
+      if (!script.createNewFile()) {
+        throw new IOException("The file already exists!");
+      }
     } catch (IOException e) {
-      LOG.log(Level.SEVERE, 
-          "Error creating file '" + script.getAbsolutePath() + "': " + e.getMessage());
+      LOG.log(Level.SEVERE, "Error creating file '" + script.getAbsolutePath() + "': " + e.getMessage(), e);
       return;
     }
 
@@ -295,12 +303,11 @@ public class MainUi extends JFrame {
    * @param file The file to override.
    * @return Returns true if the user want's to override the file.
    */
-  public static boolean override(Window window, File file) {
-    int result = JOptionPane.showConfirmDialog(window,
-            "The file '" + file.getName()
-                    + "' already exists, would you like to overide this file?.",
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  public static boolean overrideFile(Window window, File file) {
+    return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(window,
+            "The file '" + file.getName() + "' already exists, would you like to overide this file?.",
             "File already exists.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-    return result != JOptionPane.YES_OPTION;
   }
   /**
    * Opens the default system editor for the script file.
@@ -389,6 +396,7 @@ public class MainUi extends JFrame {
       //addDataFile will throw an exception if an error occurs when
       //creating the Reader and parsing the settings.
       JOptionPane.showMessageDialog(null, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       return;
     }
     filesTable.revalidate();
@@ -448,12 +456,12 @@ public class MainUi extends JFrame {
       return;
     }
 
-    System.out.println("Run script with input:\n"
+    LOG.log(Level.INFO, "Run script with input:\n"
             + "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n"
             + "outputDir = " + Input.getOutputDir().getAbsolutePath() + "\n"
             + "files = ");
     for (DataFile file : Input.getFiles()) {
-      System.out.println(file.toString());
+      LOG.log(Level.INFO, file.toString());
     }
     ProgressGui.init();
   }
@@ -474,7 +482,7 @@ public class MainUi extends JFrame {
       }
       reader.close();
     } catch (IOException e) {
-      LOG.log(Level.WARNING, e.getMessage());
+      LOG.log(Level.WARNING, e.getMessage(), e);
     }
   }
 
@@ -488,7 +496,7 @@ public class MainUi extends JFrame {
       writer.write(previousDirectory.getAbsolutePath());
       writer.close();
     } catch (IOException e) {
-      LOG.log(Level.WARNING, e.getMessage());
+      LOG.log(Level.WARNING, e.getMessage(), e);
     }
   }
 
@@ -504,7 +512,7 @@ public class MainUi extends JFrame {
    * Shows a file dialog for the user to select the data file.
    */
   public static File openDataFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    List<FileNameExtensionFilter> filters = new ArrayList<>();
     filters.add(xlsfilter);
     filters.add(txtfilter);
     filters.add(csvfilter);
@@ -516,7 +524,7 @@ public class MainUi extends JFrame {
    * Shows a file dialog for the user to select a ser file.
    */
   public static File openTableFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    List<FileNameExtensionFilter> filters = new ArrayList<>();
     filters.add(serfilter);
     return openFile(filters, "table file");
   }
@@ -525,7 +533,7 @@ public class MainUi extends JFrame {
    * Shows a file dialog for the user to select the settings file.
    */
   public static File openSettingsFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    List<FileNameExtensionFilter> filters = new ArrayList<>();
     filters.add(xmlfilter);
     return openFile(filters, "settings file");
   }
@@ -554,7 +562,7 @@ public class MainUi extends JFrame {
                 "File not found.", JOptionPane.ERROR_MESSAGE);
         return null;
       }
-      System.out.println("Selected " + title + ": " + file);
+
       return file;
     }
 
@@ -576,7 +584,6 @@ public class MainUi extends JFrame {
     int state = chooser.showSaveDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {
-
       previousDirectory = chooser.getCurrentDirectory();
       file = chooser.getSelectedFile();
       return file;

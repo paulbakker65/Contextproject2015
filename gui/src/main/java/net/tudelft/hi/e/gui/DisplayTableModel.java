@@ -25,7 +25,7 @@ class DisplayTableModel extends AbstractTableModel {
     if (!table.isEmpty()) {
       columns = table.get(table.size() - 1).getKeysInOrder();
     } else {
-      columns = new ArrayList<String>();
+      columns = new ArrayList<>();
     }
     columns.add(0, "");
   }

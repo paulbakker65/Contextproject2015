@@ -23,6 +23,9 @@ import javax.swing.JPanel;
 class HistogramChart {
   private static HistogramDataset dataset;
 
+  private HistogramChart() {
+  }
+
   /**
    * Creates a JPanel containing a histogram of a stem leaf plot.
    * @param table stem leaf plot to make a histogram of.
@@ -49,7 +52,7 @@ class HistogramChart {
     double bins = Math.pow(10, power);
 
     HistogramDataset dataset = new HistogramDataset();
-    List<Double> values = new ArrayList<Double>();
+    List<Double> values = new ArrayList<>();
     for (Record record : table) {
       if (record.get(columnName).isNumeric()) {
         NumberValue number = (NumberValue) record.get(columnName);
@@ -57,7 +60,7 @@ class HistogramChart {
       }
     }
 
-    List<Double> inBoundValues = removeOutOfBoundValues((ArrayList<Double>)values, 0, (int) bins);
+    List<Double> inBoundValues = removeOutOfBoundValues(values, (int) bins);
 
     dataset.addSeries("Histogram", 
         ArrayUtils.toPrimitive(inBoundValues.toArray(new Double[inBoundValues.size()])),
@@ -68,20 +71,14 @@ class HistogramChart {
 
   /**
    * Removes values whom are out of bounds.
-   *
-   * @param values
-   *          to check
-   * @param lowerBound
-   *          lower bound
-   * @param upperBound
-   *          upper bound
+   * @param values to check
+   * @param upperBound upper bound
    * @return list without the out of bounds values.
    */
-  private static List<Double> removeOutOfBoundValues(ArrayList<Double> values, int lowerBound,
-      int upperBound) {
-    List<Double> returnValues = new ArrayList<Double>();
+  private static List<Double> removeOutOfBoundValues(List<Double> values, int upperBound) {
+    List<Double> returnValues = new ArrayList<>();
     for (Double value : values) {
-      if (value >= lowerBound && value <= upperBound) {
+      if (value >= 0 && value <= upperBound) {
         returnValues.add(value);
       }
     }
@@ -90,12 +87,10 @@ class HistogramChart {
 
   /**
    * Returns the chart using JFreeCharts.
-   *
-   * @param dataset
-   *          dataset created above.
+   * @param dataset dataset created above.
    * @return JFreeChart Histogram.
    */
-  protected static JFreeChart createChart(Dataset dataset) {
+  private static JFreeChart createChart(Dataset dataset) {
     JFreeChart chart =
         ChartFactory.createHistogram("Histogram", "Stem", "Frequency", (HistogramDataset) dataset,
             PlotOrientation.VERTICAL, false, false, false);

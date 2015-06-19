@@ -7,7 +7,6 @@ import net.tudelft.hi.e.input.Input;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -15,8 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -40,7 +40,9 @@ import javax.swing.text.StyleContext;
  * Also creates a Task, it's code is run in a different thread and can be used to update the gui.
  */
 public class ProgressGui extends JPanel implements PropertyChangeListener {
+  private static final Logger LOG = Logger.getLogger(ProgressGui.class.getName());
   private static final long serialVersionUID = 1L;
+
   private JProgressBar progressBar;
   private JTextPane log;
   private JButton visualizationsButton;
@@ -150,7 +152,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     comboLabel = new JLabel("Table selected:");
     comboLabel.setEnabled(false);
     comboPanel.add(comboLabel, BorderLayout.NORTH);
-    comboPreviews = new JComboBox<String>();
+    comboPreviews = new JComboBox<>();
     comboPreviews.setEnabled(false);
     comboPanel.add(comboPreviews, BorderLayout.SOUTH);
     panel.add(comboPanel);
@@ -187,6 +189,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   /**
    * Invoked when task's progress property changes.
    */
+  @Override
   public void propertyChange(PropertyChangeEvent evt) {
     String prop = evt.getPropertyName();
     if (Objects.equals("progress", prop)) {
@@ -249,12 +252,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   }
 
   private void onViewOutputDir() {
-    try {
-      Desktop.getDesktop().open(Input.getOutputDir());
-    } catch (IOException e1) {
-      System.out.println("Error trying to view the directory.");
-      e1.printStackTrace();
-    }
+    Gui.openSystemEditor(Input.getOutputDir());
   }
 
   private void onExit() {
@@ -272,6 +270,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   }
 
   private void appendToLog(String message, Color color, boolean bold) {
+    LOG.log(color == Color.RED ? Level.SEVERE : Level.INFO, message);
     log.setEditable(true);
     StyleContext sc = StyleContext.getDefaultStyleContext();
     AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);

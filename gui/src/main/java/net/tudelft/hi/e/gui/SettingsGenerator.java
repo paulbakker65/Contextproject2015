@@ -8,21 +8,16 @@ import net.tudelft.hi.e.input.Reader;
 import net.tudelft.hi.e.input.Settings;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,7 +32,6 @@ import javax.swing.table.TableModel;
  * A window that lets the user create XML settings based on an example file.
  */
 public class SettingsGenerator extends JFrame {
-
   private static final long serialVersionUID = 1L;
 
   private JPanel mainPanel;
@@ -56,8 +50,6 @@ public class SettingsGenerator extends JFrame {
   private Settings settings;
 
   private static final int GAP = 8;
-
-  private static final Logger LOG = Logger.getLogger(SettingsGenerator.class.getName());
 
   /**
    * Constructs a new settings window.
@@ -184,12 +176,12 @@ public class SettingsGenerator extends JFrame {
     settings = new Settings();
     if (example == null) {
       JOptionPane.showMessageDialog(this, "Need to select a file before you can preview it",
-          "File not specified", JOptionPane.WARNING_MESSAGE, Gui.createImageIcon("icon.png"));
+          "File not specified", JOptionPane.WARNING_MESSAGE);
       return;
     }
     if (delimiterTextField.getText().isEmpty()) {
       JOptionPane.showMessageDialog(this, "Need to specify the delimiter of the selected file",
-          "Delimiter not specified", JOptionPane.WARNING_MESSAGE, Gui.createImageIcon("icon.png"));
+          "Delimiter not specified", JOptionPane.WARNING_MESSAGE);
       return;
     }
     settings.setDelimiter(delimiterTextField.getText());
@@ -232,15 +224,14 @@ public class SettingsGenerator extends JFrame {
     List<FileNameExtensionFilter> filter = new ArrayList<>();
     filter.add(MainUi.xmlfilter);
     File file = MainUi.saveFile(filter, "XML settings.");
-    if (file == null){
+    if (file == null) {
       return;
     }
 
     if (file.exists()) {
-      if (!MainUi.override(this, file)) {
+      if (!MainUi.overrideFile(this, file) || file.delete()) {
         return;
       }
-      file.delete();
     } else {
       file = MainUi.setExtension(file, ".xml");
     }
@@ -286,8 +277,7 @@ public class SettingsGenerator extends JFrame {
         DateColumn dateColumn = (DateColumn) column;
         if (dateColumn.getFormatStr().isEmpty()) {
           JOptionPane.showMessageDialog(this, "Need to specify the format of the datacolumn: "
-              + column.getName(), "Format not specified", JOptionPane.WARNING_MESSAGE,
-              Gui.createImageIcon("icon.png"));
+              + column.getName(), "Format not specified", JOptionPane.WARNING_MESSAGE);
           return true;
         }
       }

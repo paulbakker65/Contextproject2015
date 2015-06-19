@@ -23,6 +23,10 @@ import javax.swing.JPanel;
 
 class BoxPlotChart {
 
+  private BoxPlotChart() {
+
+  }
+
   public static JPanel createPanel(Table table, String column) {
     Dataset dataset = createDataset(table, column);
 
@@ -44,7 +48,7 @@ class BoxPlotChart {
   public static Dataset createDataset(Table table, String column) {
     DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
     for (Chunk chunk : ChunksFinder.extractChunks(table, 1)) {
-      List<Double> items = new ArrayList<Double>();
+      List<Double> items = new ArrayList<>();
       for (Record record : chunk) {
         Value value = record.get(column);
         if (value.isNumeric()) {

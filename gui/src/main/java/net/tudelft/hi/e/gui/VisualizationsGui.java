@@ -87,11 +87,12 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private JDesktopPane desktopHistogram;
   private SpinnerNumberModel frequencyDepthModel;
 
-  public static final String CODE = "* CODE *";
+  private static final String CODE = "* CODE *";
 
   private Table table;
 
-  private static final String start = "Start";
+  private static final String START = "Start";
+  private static final String SELECT = "Select a column: ";
 
   /**
    * Creates the GUI components, use init() instead.
@@ -116,7 +117,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
    * Creates the Visualizations GUI.
    */
   public static void init(Table table) {
-    String name = (table == null ? "" : " - " + table.getName());
+    String name = table == null ? "" : " - " + table.getName();
     JFrame frame = new JFrame("Visualizations" + name);
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -220,12 +221,12 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     top.add(new JSpinner(frequencyDepthModel));
     
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    comboFrequency = new JComboBox<String>(getColumns(true));
+    comboFrequency = new JComboBox<>(getColumns(true));
     top.add(comboFrequency);
 
-    buttonFrequency = new JButton(start);
+    buttonFrequency = new JButton(START);
     buttonFrequency.addActionListener(this);
     top.add(buttonFrequency);
 
@@ -241,17 +242,17 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     JPanel top = new JPanel();
     panel.add(top, BorderLayout.PAGE_START);
 
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    List<Class<? extends Column>> allowed = new ArrayList<>();
 
     allowed.add(NumberColumn.class);
 
-    comboBar = new JComboBox<String>(getColumns(allowed, false, false));
+    comboBar = new JComboBox<>(getColumns(allowed, false, false));
     top.add(comboBar);
 
 
-    buttonBar = new JButton(start);
+    buttonBar = new JButton(START);
     buttonBar.addActionListener(this);
     top.add(buttonBar);
 
@@ -267,15 +268,15 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     JPanel top = new JPanel();
     panel.add(top, BorderLayout.PAGE_START);
 
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    List<Class<? extends Column>> allowed = new ArrayList<>();
     allowed.add(DateColumn.class);
 
-    comboStateT = new JComboBox<String>(getColumns(allowed, false, false));
+    comboStateT = new JComboBox<>(getColumns(allowed, false, false));
     top.add(comboStateT);
 
-    buttonStateT = new JButton(start);
+    buttonStateT = new JButton(START);
     buttonStateT.addActionListener(this);
     top.add(buttonStateT);
 
@@ -291,18 +292,18 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     JPanel top = new JPanel();
     panel.add(top, BorderLayout.PAGE_START);
 
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    List<Class<? extends Column>> allowed = new ArrayList<>();
     allowed.add(NumberColumn.class);
-    comboStemLeaf = new JComboBox<String>(getColumns(allowed, false, false));
+    comboStemLeaf = new JComboBox<>(getColumns(allowed, false, false));
     top.add(comboStemLeaf);
 
     top.add(new JLabel("Power: "));
     textStemLeaf = new JTextField("2");
     top.add(textStemLeaf);
 
-    buttonStemLeaf = new JButton(start);
+    buttonStemLeaf = new JButton(START);
     buttonStemLeaf.addActionListener(this);
     top.add(buttonStemLeaf);
 
@@ -318,18 +319,18 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     JPanel top = new JPanel();
     panel.add(top, BorderLayout.PAGE_START);
 
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    List<Class<? extends Column>> allowed = new ArrayList<>();
     allowed.add(NumberColumn.class);
-    comboHistogram = new JComboBox<String>(getColumns(allowed, false, false));
+    comboHistogram = new JComboBox<>(getColumns(allowed, false, false));
     top.add(comboHistogram);
 
     top.add(new JLabel("Power: "));
     textHistogram = new JTextField("2");
     top.add(textHistogram);
 
-    buttonHistogram = new JButton(start);
+    buttonHistogram = new JButton(START);
     buttonHistogram.addActionListener(this);
     top.add(buttonHistogram);
 
@@ -513,19 +514,15 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   /**
    * Gives a list of all columns the table contains.
-   *
-   * @param columntypes
-   *          a list containing column classes. If set null, all class types are allowed.
-   * @param isblacklist
-   *          if true, columntypes is used as a blacklist, else it is used as a whitelist.
-   * @param codes
-   *          wether the special CODE should be added
+   * @param columntypes a list containing column classes. If set null, all class types are allowed.
+   * @param isblacklist if true, columntypes is used as a blacklist, else it is used as a whitelist.
+   * @param codes wether the special CODE should be added
    * @return all the column names.
    */
-  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist,
-      boolean codes) {
+  private String[] getColumns(List<Class<? extends Column>> columntypes, 
+      @SuppressWarnings("SameParameterValue") boolean isblacklist, boolean codes) {
     List<Column> columnlist = table.getColumns();
-    List<String> columns = new ArrayList<String>();
+    List<String> columns = new ArrayList<>();
 
     for (Column column : columnlist) {
       if (columntypes == null || columntypes.contains(column.getClass()) != isblacklist) {
@@ -537,10 +534,10 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       columns.add(CODE);
     }
 
-    return columns.toArray(new String[0]);
+    return columns.toArray(new String[columns.size()]);
   }
 
-  private String[] getColumns(boolean codes) {
+  private String[] getColumns(@SuppressWarnings("SameParameterValue") boolean codes) {
     return getColumns(null, false, codes);
   }
 
