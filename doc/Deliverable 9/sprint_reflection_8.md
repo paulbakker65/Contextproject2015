@@ -21,6 +21,7 @@ Group: Health Informatics 5
 |	| An interview for testing the code should be made for the final report | Robin | 8 hours | High | Robin | 8 hours | Yes 
 |	| Draft of the final report must be made | Julian & Jan  | 5 hours each | High | Julian & Jan | 10 hours total | Yes 
 |  | Sprint plan and reflection | Paul (scrum master) | 2 hours | Medium | Paul & Jan | 2 hours total | Yes 
+| Unplanned work | Code cleanup/bugfixes | - | - | - | Everyone | 15 hours each | Yes| 
 
 ## User Stories
 
@@ -54,7 +55,7 @@ As a researcher I want to have a manual of the program so that I can determine w
 The high priority tasks of the user stories are all part of must haves given by the customer. So we must implement those to make our product satisfactory for our customer. The medium tasks are should haves, tasks part of requirements we really want to implement to make our product stand out. There are no low priority tasks this week as this is the final sprint for the code base so we want all these tasked finished.
 
 ##Brief reflection
-This week we highly focused on the code, because it had to be delivered friday. We only worked on the required documents to be delivered thursday and friday, and decided to move all other documentation and presentation to the last week. We will to have more time in the last week because we cannot edit the code then. All tasks where done, except the second task of story 20,  we dropped this because of time and also showing a lot of boxplots for each chunk would not give a nice view. On friday we stopped implementing features and improvements, and focussed on better codestyle using SonarQube. We expected this would take a lot of time, and we were right.
+This week we highly focused on the code, because it had to be delivered friday. We only worked on the required documents to be delivered thursday and friday, and decided to move all other documentation and the presentation to the last week. We will to have more time in the last week because we will not be editing the code that week. All tasks were done, except the second task of story 20,  we dropped this as a boxplot of different chunks depths doesn't give any usefull information. On friday we stopped implementing features but focussed on better codestyle and bugfixes using SonarQube. We expected this would take a lot of time, and we were right.
 
 
 
