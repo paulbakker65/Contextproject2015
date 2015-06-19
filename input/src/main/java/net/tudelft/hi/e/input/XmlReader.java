@@ -26,7 +26,8 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class XmlReader {
 
-  private XmlReader() {}
+  private XmlReader() {
+  }
 
   private static void checkDuplicateColumns(final List<Column> columns) throws WrongXmlException {
     final Set<String> columnsSet = new HashSet<String>();

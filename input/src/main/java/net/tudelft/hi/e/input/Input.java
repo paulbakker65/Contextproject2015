@@ -21,7 +21,8 @@ public class Input {
   /**
    * Private constructor because this class cannot be instantiated.
    */
-  private Input() {}
+  private Input() {
+  }
 
   /**
    * Validates the input files before creating the DataFile.
