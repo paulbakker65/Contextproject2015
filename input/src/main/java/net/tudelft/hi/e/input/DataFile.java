@@ -176,14 +176,14 @@ public class DataFile {
    * @return Table of the reader
    */
   public Table parse() {
-    Table table;
+    Table tableReturn;
     try {
-      table = getParser().parse(getReader());
+      tableReturn = getParser().parse(getReader());
     } catch (ParseFailedException ex) {
-      LOG.log(Level.SEVERE, "Error prasing input files.");
+      LOG.log(Level.SEVERE, ex.getMessage());
       return null;
     }
-    return table;
+    return tableReturn;
   }
 
 
