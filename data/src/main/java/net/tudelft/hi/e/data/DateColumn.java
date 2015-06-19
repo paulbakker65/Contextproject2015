@@ -22,8 +22,10 @@ public class DateColumn extends Column {
   private String formatStr;
   private String targetDate;
 
-  public static final String isoFormatStr = "yyyy-MM-dd'T'HH:mm";
-  public static final DateFormat isoFormat = new SimpleDateFormat(isoFormatStr);
+  public static final String ISO_FORMAT_STR = "yyyy-MM-dd'T'HH:mm";
+  public static final DateFormat isoFormat = new SimpleDateFormat(ISO_FORMAT_STR);
+  
+  private static final String EXCEL = "excel";
 
   /**
    * Constructs a new DateColumn using a default format.
@@ -32,7 +34,7 @@ public class DateColumn extends Column {
    *          the name of the column.
    */
   public DateColumn(final String name) {
-    this(name, isoFormatStr);
+    this(name, ISO_FORMAT_STR);
   }
 
   /**
@@ -68,7 +70,7 @@ public class DateColumn extends Column {
     if ("null".equalsIgnoreCase(text) || text.isEmpty()) {
       return new NullValue();
     }
-    if ("excel".equalsIgnoreCase(formatStr)) {
+    if (EXCEL.equalsIgnoreCase(formatStr)) {
       return new DateValue(convertExcelDate(text), this);
     }
 
@@ -108,7 +110,7 @@ public class DateColumn extends Column {
   }
 
   private void checkFormatExcelIsNotTime() throws WrongXmlException {
-    if ("excel".equals(formatStr) && isTime()) {
+    if (EXCEL.equals(formatStr) && isTime()) {
       throw new WrongXmlException("Excel format cannot also be a time!");
     }
   }
@@ -165,7 +167,7 @@ public class DateColumn extends Column {
   public void setFormat(final String dateFormat) {
     formatStr = dateFormat;
 
-    if ("excel".equalsIgnoreCase(formatStr)) {
+    if (EXCEL.equalsIgnoreCase(formatStr)) {
       this.format = null;
     } else {
       this.format = new SimpleDateFormat(dateFormat);

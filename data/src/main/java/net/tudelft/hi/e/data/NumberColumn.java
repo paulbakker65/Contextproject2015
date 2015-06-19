@@ -33,6 +33,7 @@ public class NumberColumn extends Column {
     }
   }
 
+  // //There isn't any attribute necessary beside the name and type.
   @Override
   public void read(final Element element) throws WrongXmlException {
   }

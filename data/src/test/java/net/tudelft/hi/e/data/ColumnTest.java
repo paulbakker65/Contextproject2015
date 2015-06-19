@@ -61,7 +61,7 @@ public class ColumnTest {
     final DateColumn column = new DateColumn("testName");
     assertNotNull(column);
     assertEquals("testName", column.getName());
-    assertEquals(DateColumn.isoFormatStr, column.getFormatStr());
+    assertEquals(DateColumn.ISO_FORMAT_STR, column.getFormatStr());
     assertEquals(DateColumn.isoFormat, column.getFormat());
   }
 
