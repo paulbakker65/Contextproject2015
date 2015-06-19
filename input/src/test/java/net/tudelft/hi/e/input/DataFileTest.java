@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.input;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 
@@ -58,6 +59,7 @@ public class DataFileTest {
   public void testGetParser() {
     final Parser parser = df.getParser();
     assert (parser instanceof Parser);
+    assertFalse(df.parse().isEmpty());
   }
 
   @Test

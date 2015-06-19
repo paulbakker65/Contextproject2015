@@ -43,7 +43,7 @@ public class ExcelReader extends Reader {
   }
 
   private static String cellToString(final Cell cell) {
-    if (cell == null) {
+    if (cell.toString().isEmpty()) {
       return "";
     } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC && DateUtil.isCellDateFormatted(cell)) {
       final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");

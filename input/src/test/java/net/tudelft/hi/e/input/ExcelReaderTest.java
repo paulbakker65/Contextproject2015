@@ -38,6 +38,5 @@ public class ExcelReaderTest {
     assertEquals(2011, date.get(Calendar.YEAR));
     assertEquals(5, date.get(Calendar.DAY_OF_MONTH));
     assertEquals(5, date.get(Calendar.MONTH));
-
   }
 }
