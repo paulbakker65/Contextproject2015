@@ -1,6 +1,7 @@
 package net.tudelft.hi.e.data;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -141,6 +142,8 @@ public class StemLeafPlotTest {
         ((((((23 * 5 + table.hashCode()) * 23) + column.hashCode()) * 23) + "numbers".hashCode()) * 23) + 3,
         plot2.hashCode());
 
+    assertNotEquals(test2, null);
+    assertNotEquals(test2, new NumberValue(10));
   }
 
 }

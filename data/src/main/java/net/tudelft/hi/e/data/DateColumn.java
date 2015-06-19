@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+
+import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
 import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import org.w3c.dom.Element;
 

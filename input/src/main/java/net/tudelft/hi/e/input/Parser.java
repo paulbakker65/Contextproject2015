@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.ColumnTypeMismatchException;
+import net.tudelft.hi.e.common.exceptions.ColumnTypeMismatchException;
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;

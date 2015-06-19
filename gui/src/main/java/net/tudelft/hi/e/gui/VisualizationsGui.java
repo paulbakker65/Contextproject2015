@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,6 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
+import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.NumberColumn;
@@ -379,7 +379,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     try {
       table = TableFile.readTable(tableFile);
       updateTabbedPane();
-    } catch (IOException | ClassNotFoundException e) {
+    } catch (TableNotFoundException e) {
       JOptionPane.showMessageDialog(null, e.getMessage());
     }
   }

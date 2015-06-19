@@ -16,3 +16,4 @@
 *.classpath
 *.project
 gui/prev_directory.txt
+*.iml

@@ -7,7 +7,7 @@ import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.computation.Condition;
 import net.tudelft.hi.e.computation.Count;
 import net.tudelft.hi.e.computation.MultipleCount;
-import net.tudelft.hi.e.computation.PatternDescription;
+import net.tudelft.hi.e.computation.CountPatternDescription;
 import net.tudelft.hi.e.computation.PatternMatcher;
 import net.tudelft.hi.e.computation.RecordCondition;
 import net.tudelft.hi.e.computation.RecordMatchesConditionCondition;
@@ -27,7 +27,7 @@ public class PatternMatcherTest {
     Count singleCount = new SingleCount(1);
     RecordCondition occurCondition = new RecordOccurrenceCondition("tableName");
 
-    PatternDescription expected = new PatternDescription(singleCount, occurCondition);
+    CountPatternDescription expected = new CountPatternDescription(singleCount, occurCondition);
     assertEquals(expected, PatternMatcher.getDescription("1 tableName"));
   }
 
@@ -37,7 +37,7 @@ public class PatternMatcherTest {
     Condition condition = new Condition(CompareOperator.EQ, new StringValue("Crea"));
     RecordCondition matchesCondition = new RecordMatchesConditionCondition("colName", condition);
 
-    PatternDescription expected = new PatternDescription(singleCount, matchesCondition);
+    CountPatternDescription expected = new CountPatternDescription(singleCount, matchesCondition);
     assertEquals(expected, PatternMatcher.getDescription("1 colName == 'Crea'"));
   }
 
@@ -47,7 +47,7 @@ public class PatternMatcherTest {
     Condition condition = new Condition(CompareOperator.EQ, new NumberValue(140));
     RecordCondition matchesCondition = new RecordMatchesConditionCondition("colName", condition);
 
-    PatternDescription expected = new PatternDescription(singleCount, matchesCondition);
+    CountPatternDescription expected = new CountPatternDescription(singleCount, matchesCondition);
     assertEquals(expected, PatternMatcher.getDescription("1 colName == 140"));
   }
 
@@ -56,7 +56,7 @@ public class PatternMatcherTest {
     Count multiCount = new MultipleCount();
     RecordCondition occurCondition = new RecordOccurrenceCondition("tableName");
 
-    PatternDescription expected = new PatternDescription(multiCount, occurCondition);
+    CountPatternDescription expected = new CountPatternDescription(multiCount, occurCondition);
     assertEquals(expected, PatternMatcher.getDescription("* tableName"));
   }
 

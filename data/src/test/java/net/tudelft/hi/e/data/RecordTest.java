@@ -1,19 +1,16 @@
 package net.tudelft.hi.e.data;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.NullValue;
-import net.tudelft.hi.e.data.Record;
-import net.tudelft.hi.e.data.StringColumn;
-import net.tudelft.hi.e.data.StringValue;
-import net.tudelft.hi.e.data.Value;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * RecordTest class testing the table.Record class.
@@ -39,15 +36,24 @@ public class RecordTest {
     expected.put("fruit", new StringValue("banana"));
     expected.put("drink", new StringValue("milk"));
 
-    assertEquals(expected, new Record(cols, new Value[] { new StringValue("banana"),
-        new StringValue("milk") }));
+    assertEquals(expected, new Record(cols, new Value[] {new StringValue("banana"),
+        new StringValue("milk")}));
+  }
 
+  @Test
+  public void testConstructor2() {
+    final Map<String, Value> expected = new HashMap<String, Value>();
+    Record someRecord =
+        new Record(cols, new Value[] {new StringValue("banana"), new StringValue("milk")});
+    Record anotherRecord = new Record(someRecord);
+
+    assertEquals(someRecord, anotherRecord);
   }
 
   @Test
   public void testToString() {
-    final Record record = new Record(cols, new StringValue[] { new StringValue("banana"),
-        new StringValue("milk") });
+    final Record record =
+        new Record(cols, new StringValue[] {new StringValue("banana"), new StringValue("milk")});
     final String result = record.toString();
     if (result.indexOf("banana") == -1 || result.indexOf("milk") == -1) {
       fail(result);
@@ -129,6 +135,28 @@ public class RecordTest {
     record.remove("groente");
 
     assertEquals(columns, record.getKeysInOrder());
+  }
+
+  @Test
+  public void testEquals() {
+    Record someRecord =
+        new Record(cols, new Value[] {new StringValue("banana"), new StringValue("milk")});
+
+    assertNotEquals(someRecord, null);
+    assertEquals(someRecord, someRecord);
+    assertEquals(someRecord, new Record(cols, new Value[] {new StringValue("banana"),
+        new StringValue("milk")}));
+    assertNotEquals(someRecord, new Table());
+  }
+
+  @Test
+  public void testGetSetTableName() {
+    Record someRecord =
+        new Record(cols, new Value[] {new StringValue("banana"), new StringValue("milk")});
+    assertEquals("", someRecord.getTableName());
+    Record someOtherRecord =
+        new Record(cols, new Value[] {new StringValue("banana"), new StringValue("milk")}, "table");
+    assertEquals("table", someOtherRecord.getTableName());
   }
 
 }

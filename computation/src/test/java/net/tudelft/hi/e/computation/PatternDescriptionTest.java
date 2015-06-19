@@ -1,7 +1,7 @@
 package net.tudelft.hi.e.computation;
 
 import net.tudelft.hi.e.computation.Count;
-import net.tudelft.hi.e.computation.PatternDescription;
+import net.tudelft.hi.e.computation.CountPatternDescription;
 import net.tudelft.hi.e.computation.RecordCondition;
 import net.tudelft.hi.e.computation.RecordOccurrenceCondition;
 import net.tudelft.hi.e.computation.SingleCount;
@@ -21,12 +21,12 @@ public class PatternDescriptionTest {
     RecordCondition condition = new RecordOccurrenceCondition("tableName");
     RecordCondition otherCondition = new RecordOccurrenceCondition("tableName2");
 
-    final PatternDescription patDes = new PatternDescription(singleCount, condition);
-    final PatternDescription patDesSame = new PatternDescription(singleCount, condition);
-    final PatternDescription patDesNotSameCount =
-        new PatternDescription(otherCount, condition);
-    final PatternDescription patDesNotSameCond =
-        new PatternDescription(singleCount, otherCondition);
+    final CountPatternDescription patDes = new CountPatternDescription(singleCount, condition);
+    final CountPatternDescription patDesSame = new CountPatternDescription(singleCount, condition);
+    final CountPatternDescription patDesNotSameCount =
+        new CountPatternDescription(otherCount, condition);
+    final CountPatternDescription patDesNotSameCond =
+        new CountPatternDescription(singleCount, otherCondition);
     final String otherClass = "";
 
     assertEquals(patDes, patDes);
@@ -42,7 +42,7 @@ public class PatternDescriptionTest {
     Count singleCount = new SingleCount(1);
     RecordCondition condition = new RecordOccurrenceCondition("tableName");
 
-    PatternDescription patDes = new PatternDescription(singleCount, condition);
+    CountPatternDescription patDes = new CountPatternDescription(singleCount, condition);
 
     assertEquals((31 + condition.hashCode()) * 31 + singleCount.hashCode(), patDes.hashCode());
   }

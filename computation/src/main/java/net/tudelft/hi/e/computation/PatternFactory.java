@@ -1,7 +1,6 @@
 package net.tudelft.hi.e.computation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,11 +27,9 @@ public class PatternFactory {
     }
 
     PatternDescription patternDescription = patternDescriptions.remove(0);
-    Count count = patternDescription.getCount();
-    RecordCondition condition = patternDescription.getCondition();
 
     Pattern nextPattern = createPattern(patternDescriptions);
-    Pattern currentPattern = count.createPattern(condition);
+    Pattern currentPattern = patternDescription.createPattern();
     Pattern lastCurrentPattern = currentPattern.getLastNotNullPattern();
     lastCurrentPattern.setNextPattern(nextPattern);
 
@@ -49,22 +46,6 @@ public class PatternFactory {
    *        the created Pattern.
    */
   public static Pattern createPattern(String... descriptions) {
-    for (int i = 0; i < descriptions.length; i++) {
-      if (descriptions[i].startsWith("!(") && descriptions[i].endsWith(")")) {
-    	Pattern firstPattern = 
-    			createPattern(Arrays.asList(descriptions).subList(0, i).toArray(new String[0]));
-    	Pattern lastPattern = new NullPattern();
-    	if (i < descriptions.length - 1) {
-    		lastPattern = 
-    			createPattern(Arrays.asList(descriptions).subList(i + 1, descriptions.length).toArray(new String[0]));
-    	}
-    	Pattern toInvert = createPattern(descriptions[i].substring(2, descriptions[i].length() - 1));
-    	Pattern notPattern = new NotPattern(toInvert, lastPattern);
-    	firstPattern.getLastNotNullPattern().setNextPattern(notPattern);
-    	return firstPattern;
-      }
-    }
-	  
     List<PatternDescription> list = new ArrayList<PatternDescription>();
 
     for (int i = 0; i < descriptions.length; i++) {

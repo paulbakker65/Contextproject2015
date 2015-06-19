@@ -50,7 +50,7 @@ public class SingleCount implements Count {
     if (counter == 0) {
       return new NullPattern();
     }
-    return new SingleConditionPattern(condition, createPattern(condition, --counter));
+    return new SingleConditionPattern(condition, createPattern(condition, counter - 1));
   }
 
   /* (non-Javadoc)

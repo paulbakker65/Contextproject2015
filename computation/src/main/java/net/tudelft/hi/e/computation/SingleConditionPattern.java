@@ -57,12 +57,12 @@ public class SingleConditionPattern extends Pattern {
     if (!findPatternPreConditions(table, fromIndex, records)) {
       return false;
     }
-
-    final Record record = table.get(fromIndex++);
+    int count = fromIndex;
+    final Record record = table.get(count++);
     if (matches(record)) {
       records.add(record);
 
-      return findPatternFindNextPattern(table, fromIndex, records);
+      return findPatternFindNextPattern(table, count, records);
     } else {
       return false;
     }
@@ -70,7 +70,7 @@ public class SingleConditionPattern extends Pattern {
 
   private boolean findPatternFindNextPattern(final Table table,
           final int fromIndex, final Table records) {
-    if (nextPattern instanceof NullPattern && fromIndex < table.size()
+    if (nextPattern.isNextLastPattern() && fromIndex < table.size()
             && matches(table.get(fromIndex))) {
       return false;
     }
@@ -107,6 +107,11 @@ public class SingleConditionPattern extends Pattern {
 
   private boolean matches(final Record record) {
     return condition.matches(record);
+  }
+
+  @Override
+  public boolean isNextLastPattern() {
+    return false;
   }
 
 }
