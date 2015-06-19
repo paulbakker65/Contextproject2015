@@ -16,6 +16,7 @@ import net.tudelft.hi.e.computation.ForEachChunkOperation;
 import net.tudelft.hi.e.computation.LsaOperation;
 import net.tudelft.hi.e.computation.Operation;
 import net.tudelft.hi.e.computation.Pattern;
+import net.tudelft.hi.e.computation.PatternDescription;
 import net.tudelft.hi.e.computation.PatternFactory;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Table;
@@ -24,6 +25,8 @@ import net.tudelft.hi.e.script.AnalysisLangParser.Between_operationContext;
 import net.tudelft.hi.e.script.AnalysisLangParser.Between_paramContext;
 import net.tudelft.hi.e.script.AnalysisLangParser.Chunk_operationContext;
 import net.tudelft.hi.e.script.AnalysisLangParser.Constraint_operationContext;
+import net.tudelft.hi.e.script.AnalysisLangParser.Pattern_descriptionContext;
+import net.tudelft.hi.e.script.AnalysisLangParser.Pattern_description_recContext;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -333,6 +336,16 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
   @Override
   public final Value visitValue(AnalysisLangParser.ValueContext ctx) {
     return ctx.val;
+  }
+
+  @Override
+  public final PatternDescription visitPattern_description(Pattern_descriptionContext ctx) {
+	return ctx.description;
+  }
+
+  @Override
+  public final PatternDescription visitPattern_description_rec(Pattern_description_recContext ctx) {
+	return ctx.description_rec;
   }
 
 }

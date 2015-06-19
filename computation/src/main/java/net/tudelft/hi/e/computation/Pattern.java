@@ -67,6 +67,13 @@ public abstract class Pattern {
   public abstract boolean findPattern(Table table, int fromIndex, Table records);
 
   /**
+   * Returns whether this pattern is the last pattern.
+   * 
+   * @return whether this pattern is the last pattern.
+   */
+  public abstract boolean isNextLastPattern();
+
+  /**
    * Returns the next pattern.
    *
    * @return the next pattern.
@@ -91,20 +98,20 @@ public abstract class Pattern {
   public void setNextPattern(final Pattern nextPattern) {
     this.nextPattern = nextPattern;
   }
-  
+
   /**
    * Returns the last Pattern this Pattern links to.
    * 
    * @return the last Pattern this Pattern links to.
    */
   public Pattern getLastNotNullPattern() {
-	  if (nextPattern == null) {
-		  return new NullPattern();
-	  }
-	  if (nextPattern instanceof NullPattern) {
-		  return this;
-	  }
-	  return nextPattern.getLastNotNullPattern();
+    if (nextPattern == null) {
+      return new NullPattern();
+    }
+    if (nextPattern instanceof NullPattern) {
+      return this;
+    }
+    return nextPattern.getLastNotNullPattern();
   }
 
 }
