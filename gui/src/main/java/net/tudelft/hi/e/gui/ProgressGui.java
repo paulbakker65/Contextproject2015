@@ -177,7 +177,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     });
     panel.add(viewoutputdirButton);
 
-    JButton exitButton = new JButton("Exit");
+    JButton exitButton = new JButton("Close");
     exitButton.setMnemonic(KeyEvent.VK_X);
     exitButton.setIcon(Gui.createImageIcon("exit.png"));
     exitButton.addActionListener(new ActionListener() {

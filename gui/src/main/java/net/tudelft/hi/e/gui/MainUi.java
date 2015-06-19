@@ -668,7 +668,7 @@ public class MainUi extends JFrame {
     buttonCancel.setMaximumSize(new Dimension(170, 48));
     buttonCancel.setMinimumSize(new Dimension(170, 48));
     buttonCancel.setPreferredSize(new Dimension(170, 48));
-    buttonCancel.setText("Cancel");
+    buttonCancel.setText("Close");
     buttonCancel.setMnemonic('C');
     buttonCancel.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
