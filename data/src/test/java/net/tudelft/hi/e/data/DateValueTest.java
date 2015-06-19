@@ -124,7 +124,7 @@ public class DateValueTest {
 
     assertEquals("2014-12-31T13:14", dateValue.toString());
 
-    date = DateColumn.isoFormat.parse("2014-12-31T13:14");
+    date = DateColumn.ISO_FORMAT.parse("2014-12-31T13:14");
     dateValue = new DateValue(date);
     dateValue.setFormat(DateColumn.ISO_FORMAT_STR);
 

@@ -27,7 +27,7 @@ public class DateColumnTest {
     int hash = 5;
     hash = 67 * hash + Objects.hashCode(someColumn.getFormat());
     hash = 67 * hash + Objects.hashCode(someColumn.getFormatStr());
-    hash = 67 * hash + Objects.hashCode(DateColumn.isoFormat);
+    hash = 67 * hash + Objects.hashCode(DateColumn.ISO_FORMAT);
     assertEquals(hash, someColumn.hashCode());
   }
 

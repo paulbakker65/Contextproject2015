@@ -153,7 +153,7 @@ class FrequencyChart {
     }
     Value value = curRecord.get(column);
     return value.isTime()
-        || (value.isDate() && DateColumn.isoFormatStr.equals(((DateValue) value).getFormat()));
+        || (value.isDate() && DateColumn.ISO_FORMAT_STR.equals(((DateValue) value).getFormat()));
   }
 
   /**

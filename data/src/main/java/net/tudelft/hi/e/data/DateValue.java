@@ -196,7 +196,7 @@ public class DateValue extends Value {
   public String toString() {
     DateFormat dateFormat =
         isTime() ? defaultTimeFormat
-            : (timeAdded || DateColumn.ISO_FORMAT_STR.equals(format) ? DateColumn.isoFormat
+            : (timeAdded || DateColumn.ISO_FORMAT_STR.equals(format) ? DateColumn.ISO_FORMAT
                 : defaultDateFormat);
 
     return dateFormat.format(getValue().getTime());

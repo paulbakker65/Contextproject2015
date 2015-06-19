@@ -62,7 +62,7 @@ public class ColumnTest {
     assertNotNull(column);
     assertEquals("testName", column.getName());
     assertEquals(DateColumn.ISO_FORMAT_STR, column.getFormatStr());
-    assertEquals(DateColumn.isoFormat, column.getFormat());
+    assertEquals(DateColumn.ISO_FORMAT, column.getFormat());
   }
 
   @Test

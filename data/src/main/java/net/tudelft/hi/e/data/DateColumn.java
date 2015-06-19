@@ -23,7 +23,7 @@ public class DateColumn extends Column {
   private String targetDate;
 
   public static final String ISO_FORMAT_STR = "yyyy-MM-dd'T'HH:mm";
-  public static final DateFormat isoFormat = new SimpleDateFormat(ISO_FORMAT_STR);
+  public static final DateFormat ISO_FORMAT = new SimpleDateFormat(ISO_FORMAT_STR);
   
   private static final String EXCEL = "excel";
 
@@ -83,7 +83,7 @@ public class DateColumn extends Column {
 
   private Value convertIsoFormat(String text) throws ColumnTypeMismatchException {
     try {
-      return new DateValue(isoFormat.parse(text), this);
+      return new DateValue(ISO_FORMAT.parse(text), this);
     } catch (final ParseException ex) {
       throw getException(text);
     }
@@ -179,7 +179,7 @@ public class DateColumn extends Column {
     int hash = 5;
     hash = 67 * hash + Objects.hashCode(this.format);
     hash = 67 * hash + Objects.hashCode(this.formatStr);
-    hash = 67 * hash + Objects.hashCode(DateColumn.isoFormat);
+    hash = 67 * hash + Objects.hashCode(DateColumn.ISO_FORMAT);
     return hash;
   }
 
