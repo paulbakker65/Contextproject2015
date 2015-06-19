@@ -84,11 +84,11 @@ public class MainUI extends JFrame {
    * Creates a gui for select input files.
    */
   public MainUI() {
+    setButtonActionListeners();
+    
     init();
 
     setCloseOperation();
-
-    setButtonActionListeners();
   }
 
   /**
