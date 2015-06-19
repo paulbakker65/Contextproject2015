@@ -15,7 +15,7 @@ import net.tudelft.hi.e.data.Value;
  * Operation for doing computations on a table column.
  */
 public class ComputeOperation extends Operation {
-  private static final String resultTableName = "Computation";
+  private static final String RESULT_TABLE_NAME = "Computation";
   
   Computation computation;
   ComputeOperator operator;
@@ -58,11 +58,11 @@ public class ComputeOperation extends Operation {
 
     Value result = computation.compute(getValues());
 
-    Column computationColumn = new StringColumn(resultTableName);
+    Column computationColumn = new StringColumn(RESULT_TABLE_NAME);
     Column resultColumn = result.getType("Result");
     List<Column> columns = new ArrayList<Column>(Arrays.asList(computationColumn, resultColumn));
     Value[] recordValues = new Value[] { getDescription(), result };
-    resultData.add(new Record(columns, recordValues, resultTableName));
+    resultData.add(new Record(columns, recordValues, RESULT_TABLE_NAME));
 
     return true;
   }
@@ -92,7 +92,7 @@ public class ComputeOperation extends Operation {
   public void resetData(Table inputData) {
     this.inputData = inputData;
     this.resultData = new Table();
-    this.resultData.setName(resultTableName);
+    this.resultData.setName(RESULT_TABLE_NAME);
   }
 
 }
