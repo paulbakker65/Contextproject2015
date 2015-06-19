@@ -122,6 +122,7 @@ class FrequencyChart {
     return ds;
   }
 
+  @SuppressWarnings("UnnecessaryBoxing")
   private static Dataset createDatesDataset(Table table, String column, int chunkDepth) {
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
@@ -134,6 +135,7 @@ class FrequencyChart {
         amount[((DateValue) record.get(column)).getValue().get(Calendar.HOUR_OF_DAY)]++;
       }
       for (int i = 0; i < amount.length; i++) {
+        //noinspection UnnecessaryBoxing
         dataset.addValue(amount[i], new Integer(i), chunk.getLabel());
       }
     }

@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -32,6 +34,7 @@ import javax.swing.table.TableModel;
  * A window that lets the user create XML settings based on an example file.
  */
 public class SettingsGenerator extends JFrame {
+  private static final Logger LOG = Logger.getLogger(ProgressGui.class.getName());
   private static final long serialVersionUID = 1L;
 
   private JPanel mainPanel;
@@ -212,6 +215,7 @@ public class SettingsGenerator extends JFrame {
       csp.setModel(tm);
 
     } catch (Exception e) {
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
   }
@@ -246,6 +250,7 @@ public class SettingsGenerator extends JFrame {
     try {
       SettingsWriter.writeSettings(settings, file);
     } catch (Exception e) {
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       JOptionPane.showMessageDialog(this, e.getMessage(),
               "Save XML settings failed", JOptionPane.ERROR_MESSAGE);
     }
@@ -273,7 +278,7 @@ public class SettingsGenerator extends JFrame {
    */
   private boolean noFormat() {
     for (Column column : settings.getColumns()) {
-      if (column.getType().equals("date")) {
+      if ("date".equals(column.getType())) {
         DateColumn dateColumn = (DateColumn) column;
         if (dateColumn.getFormatStr().isEmpty()) {
           JOptionPane.showMessageDialog(this, "Need to specify the format of the datacolumn: "

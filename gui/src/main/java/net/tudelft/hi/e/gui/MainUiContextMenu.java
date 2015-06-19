@@ -41,7 +41,6 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
     super();
     this.table = filesTable;
     this.frame = frame;
-    filesTable.addMouseListener(this);
 
     menuRemove.addActionListener(this);
     menuRemove.setIcon(Gui.createImageIcon("remove.png"));
@@ -65,7 +64,8 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
   }
 
   public static void init(JTable table, JFrame frame) {
-    new MainUiContextMenu(table, frame);
+    MouseAdapter ma = new MainUiContextMenu(table, frame);
+    table.addMouseListener(ma);
   }
 
   @Override

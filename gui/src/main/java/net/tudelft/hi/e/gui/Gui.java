@@ -24,7 +24,6 @@ class Gui {
   private static final Logger LOG = Logger.getLogger(Gui.class.getName());
 
   private Gui() {
-
   }
 
   /**

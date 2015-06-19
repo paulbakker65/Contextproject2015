@@ -88,6 +88,21 @@ public class DisplayTableModelTest {
     assertEquals("2014-02-13", model.getValueAt(7, findColumnIndex(columnNames[1])).toString());
     assertEquals("7", model.getValueAt(9, findColumnIndex(columnNames[0])).toString());
   }
+  
+  @Test
+  public void testRowNumbers() {
+    for (int i = 0; i < model.getColumnCount(); i++) {
+      assertEquals(i + 1, model.getValueAt(i, 0));
+    }
+  }
+  
+  @Test
+  public void testEmptyTable() {
+    Table table = new Table();
+    model = new DisplayTableModel(table);
+    assertEquals(1, model.getColumnCount());
+    assertEquals(0, model.getRowCount());
+  }
 
   /**
    * Finds the column index for the specified name.

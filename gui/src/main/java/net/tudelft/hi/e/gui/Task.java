@@ -178,7 +178,7 @@ class Task extends SwingWorker<Void, Void> {
   }
 
   private void log(String message, boolean... options) {
-    boolean bold = (options.length > 0 && options[0]);
+    boolean bold = options.length > 0 && options[0];
     LOG.log(Level.INFO, message);
     this.firePropertyChange("log", bold, message + System.lineSeparator());
   }

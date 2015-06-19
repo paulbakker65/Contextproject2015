@@ -68,21 +68,15 @@ public class SettingsTableModel extends AbstractTableModel {
 
     if (columnIndex == 0) {
       return col.getName();
-    }
-    if (columnIndex == 1) {
+    } else if (columnIndex == 1) {
       return col.getType();
-    }
-    if (!"date".equals(col.getType())) {
+    } else if (!"date".equals(col.getType())) {
       return "";
+    }  else if (columnIndex == 2) {
+      return ((DateColumn)col).getFormatStr();
     }
 
-    DateColumn dc = (DateColumn) col;
-
-    if (columnIndex == 2) {
-      return dc.getFormatStr();
-    }
-
-    return dc.getTargetDate();
+    return ((DateColumn)col).getTargetDate();
   }
 
   @Override

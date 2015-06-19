@@ -40,7 +40,8 @@ public class Main{
    */
   public static boolean parseCommandline(String[] argv) {
     int argc = argv.length;
-    for (int i = 0; i < argc; i++) {
+    int i = 0;
+    while (i < argc) {
       String arg = argv[i];
       int left = argc - i;
       if ("-f".equals(arg) && left > 2) {

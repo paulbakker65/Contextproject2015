@@ -411,7 +411,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     } catch (Exception e) {
       // addDataFile will throw an exception if an error occurs when
       // creating the Reader and parsing the settings.
-      LOG.log(Level.SEVERE, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
@@ -445,7 +445,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       table = TableFile.readTable(tableFile);
       updateTabbedPane();
     } catch (TableNotFoundException e) {
-      LOG.log(Level.SEVERE, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       JOptionPane.showMessageDialog(null, e.getMessage());
     }
   }

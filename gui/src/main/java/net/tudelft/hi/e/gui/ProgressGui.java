@@ -264,7 +264,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
 
 
   private void appendToLog(String message, boolean... options) {
-    boolean bold = (options.length > 0 && options[0]);
+    boolean bold = options.length > 0 && options[0];
 
     appendToLog(message, Color.BLACK, bold);
   }

@@ -1,8 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import net.tudelft.hi.e.gui.Main;
 import net.tudelft.hi.e.input.Input;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -14,7 +11,6 @@ import org.junit.Test;
  * Tests for Main class.
  */
 public class MainTest {
-  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final String filepath = "src/test/resources/";
 
   @Before
@@ -46,7 +42,7 @@ public class MainTest {
     assertFalse(Input.hasOutput());
     assertFalse(Input.hasScript());
   }
-  
+
   /**
    * Test -o output directory.
    */
