@@ -55,6 +55,11 @@ public class CsvReaderTest {
     newdelimiter = ";";
     reader.setDelimiter(newdelimiter);
     assertEquals(reader.getDelimiter(), newdelimiter);
+    
+    String incorrectDelimiter = "incorrect";
+    reader.setDelimiter(incorrectDelimiter);
+    assertEquals(newdelimiter, reader.getDelimiter());
+    
     reader.close();
   }
 
