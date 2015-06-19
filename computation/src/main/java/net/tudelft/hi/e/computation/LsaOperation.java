@@ -61,6 +61,7 @@ public class LsaOperation extends Operation {
             new NumberValue(lag.getValue()) }));
       }
       Collections.sort(table, new RecordLagComparator());
+      table.setName(inputData.getName());
       return table;
     }
 
