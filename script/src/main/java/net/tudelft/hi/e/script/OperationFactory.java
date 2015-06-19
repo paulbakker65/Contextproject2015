@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 /**
  * Operation Factory to create Operations according to the specifications in a script file.
  */
-class OperationFactory {
+final class OperationFactory {
 
   /**
    * Class wide logger used for logging exceptions.
@@ -34,47 +34,36 @@ class OperationFactory {
   /**
    * Create operations using a input script given as String.
    *
-   * @param tableList list of tables on which operations will be executed.
-   * @param scriptInput script input.
+   * @param tableList
+   *         list of tables on which operations will be executed.
+   * @param scriptInput
+   *         script input.
+   *
    * @return list of operations.
+   *
+   * @throws ParseFailedException when the script cannot be parsed.
    */
   static List<Operation> createOperationsFromString(final List<Table> tableList,
-      final String scriptInput) throws ParseFailedException {
+          final String scriptInput) throws ParseFailedException {
     ExceptionHandler.replaceHandler(LOG);
     return createOperationsUsingInputStream(tableList, new ANTLRInputStream(scriptInput));
   }
 
   /**
-   * Create operations using a input script parsed from a file.
+   * The underlying createOperations method using an ANTLR Input Stream. <p> The other methods use
+   * this function to do the actual creating.
    *
-   * @param tableList list of tables on which operations will be executed.
-   * @param filePath script file path.
-   * @return list of operations.
-   */
-  static List<Operation> createOperationsFromFile(final List<Table> tableList, final String filePath)
-      throws ParseFailedException {
-    ExceptionHandler.replaceHandler(LOG);
-    final List<Operation> listOfOperations = new ArrayList<>();
-    try {
-      listOfOperations.addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(
-          filePath)));
-    } catch (IOException ex) {
-      LOG.log(Level.SEVERE, ex.getMessage(), ex);
-    }
-    return listOfOperations;
-  }
-
-  /**
-   * The underlying createOperations method using an ANTLR Input Stream.
-   * <p>
-   * The other methods use this function to do the actual creating.
+   * @param tableList
+   *         list of tables on which operations will be executed.
+   * @param inputStream
+   *         input stream that provides script input.
    *
-   * @param tableList list of tables on which operations will be executed.
-   * @param inputStream input stream that provides script input.
    * @return list of operations.
+   *
+   * @throws ParseFailedException when the script cannot be parsed.
    */
   private static List<Operation> createOperationsUsingInputStream(final List<Table> tableList,
-      final ANTLRInputStream inputStream) throws ParseFailedException {
+          final ANTLRInputStream inputStream) throws ParseFailedException {
     final AnalysisLangLexer lexer = new AnalysisLangLexer(inputStream);
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
     final AnalysisLangParser parser = new AnalysisLangParser(tokens);
@@ -85,13 +74,38 @@ class OperationFactory {
     visitor.visit(parser.parse());
 
     final StringBuilder stringBuilder = new StringBuilder();
-    for (String exMsg : scriptErrorListener.getExceptionList()) {
+    for (final String exMsg : scriptErrorListener.getExceptionList()) {
       stringBuilder.append(exMsg).append('\n');
     }
-    List<String> exceptionStringList = scriptErrorListener.getExceptionList();
+    final List<String> exceptionStringList = scriptErrorListener.getExceptionList();
     if (!exceptionStringList.isEmpty()) {
       throw new ParseFailedException(stringBuilder.toString());
     }
     return visitor.getOperationList();
+  }
+
+  /**
+   * Create operations using a input script parsed from a file.
+   *
+   * @param tableList
+   *         list of tables on which operations will be executed.
+   * @param filePath
+   *         script file path.
+   *
+   * @return list of operations.
+   *
+   * @throws ParseFailedException when the script cannot be parsed.
+   */
+  static List<Operation> createOperationsFromFile(final List<Table> tableList,
+          final String filePath) throws ParseFailedException {
+    ExceptionHandler.replaceHandler(LOG);
+    final List<Operation> listOfOperations = new ArrayList<>();
+    try {
+      listOfOperations
+              .addAll(createOperationsUsingInputStream(tableList, new ANTLRFileStream(filePath)));
+    } catch (IOException ex) {
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
+    }
+    return listOfOperations;
   }
 }

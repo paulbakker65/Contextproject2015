@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * ScriptErrorListener is an ErrorListener to catch Parser errors.
  */
-final public class ScriptErrorListener extends BaseErrorListener {
+public final class ScriptErrorListener extends BaseErrorListener {
 
   /**
    * Exception List containing the exception string messages.
    */
-  private List<String> exceptionList;
+  private final List<String> exceptionList;
 
   /**
    * Standard script error listener constructor.
@@ -38,13 +38,13 @@ final public class ScriptErrorListener extends BaseErrorListener {
    *         the position in the line where it errored.
    * @param msg
    *         the exception message it throwed.
-   * @param e
+   * @param ex
    *         the exception that was thrown.
    */
   @Override
   public void syntaxError(final Recognizer<?, ?> recognizer, final Object offendingSymbol,
           final int line, final int charPositionInLine, final String msg,
-          final RecognitionException e) {
+          final RecognitionException ex) {
     this.exceptionList.add(msg);
   }
 
@@ -53,7 +53,7 @@ final public class ScriptErrorListener extends BaseErrorListener {
    *
    * @return the list of exceptions in string format.
    */
-  final public List<String> getExceptionList() {
+  public List<String> getExceptionList() {
     return this.exceptionList;
   }
 }

@@ -40,10 +40,22 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
 
   private static final Logger LOG = Logger.getLogger(ScriptVisitor.class.getName());
 
+  /**
+   * List of tables containing all the tables available for input data.
+   */
   private final List<Table> tables;
 
+  /**
+   * List of Operations where all the parsed operations will be stored.
+   */
   private final List<Operation> operationList;
 
+  /**
+   * Default constructor for creating a script visitor.
+   *
+   * @param tableList
+   *         the list of tables that it can use as input for operations.
+   */
   public ScriptVisitor(final List<Table> tableList) {
     super();
     this.tables = tableList;
@@ -74,7 +86,7 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
    *         thrown.
    */
   private Table getTableForTableName(final String tableName) throws TableNotFoundException {
-    for (Table table : this.tables) {
+    for (final Table table : this.tables) {
       if (table.getName().equals(tableName)) {
         return table;
       }
@@ -91,9 +103,10 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
   public final BetweenOperation visitBetween_param(final Between_paramContext ctx) {
     BetweenOperation betweenOperation = null;
     try {
-      betweenOperation = new BetweenOperation(this.getTableForTableName(visitField(ctx.eventcol)[0]),
-              visitField(ctx.eventcol)[1], visitField(ctx.datecol1)[1], visitField(ctx.datecol2)[1],
-              visitValue(ctx.value1), visitValue(ctx.value2));
+      betweenOperation =
+              new BetweenOperation(this.getTableForTableName(visitField(ctx.eventcol)[0]),
+                      visitField(ctx.eventcol)[1], visitField(ctx.datecol1)[1],
+                      visitField(ctx.datecol2)[1], visitValue(ctx.value1), visitValue(ctx.value2));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -112,16 +125,16 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
 
   @Override
   public final ChunkingOperation visitChunk_param(final AnalysisLangParser.Chunk_paramContext ctx) {
-    if (ctx.type != null) {
-      try {
-        return new ChunkingOperation(this.getTableForTableName(visitField(ctx.fieldparam)[0]),
-                visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type),
-                (int) ((NumberValue) visitNumber(ctx.numberparam)).getValue());
-      } catch (TableNotFoundException ex) {
-        LOG.log(Level.SEVERE, ex.getMessage(), ex);
-      }
+    ChunkingOperation chunkingOperation = null;
+    try {
+      chunkingOperation =
+              new ChunkingOperation(this.getTableForTableName(visitField(ctx.fieldparam)[0]),
+                      visitField(ctx.fieldparam)[1], visitChunk_type(ctx.type),
+                      (int) ((NumberValue) visitNumber(ctx.numberparam)).getValue());
+    } catch (TableNotFoundException ex) {
+      LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
-    return null;
+    return chunkingOperation;
   }
 
   @Override
@@ -164,7 +177,8 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
   }
 
   @Override
-  public final ComputeOperation visitCompute_param(final AnalysisLangParser.Compute_paramContext ctx) {
+  public final ComputeOperation visitCompute_param(
+          final AnalysisLangParser.Compute_paramContext ctx) {
     ComputeOperation computeOperation = null;
     try {
       computeOperation = new ComputeOperation(this.getTableForTableName(visitTable(ctx.tableparam)),
@@ -187,17 +201,19 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
 
   @Override
   public final ConnectionOperation visitConnect_operation(
-          AnalysisLangParser.Connect_operationContext ctx) {
+          final AnalysisLangParser.Connect_operationContext ctx) {
     return visitConnect_param(ctx.param);
   }
 
   @Override
-  public CombineOperation visitCombine_operation(final AnalysisLangParser.Combine_operationContext ctx) {
+  public CombineOperation visitCombine_operation(
+          final AnalysisLangParser.Combine_operationContext ctx) {
     return visitCombine_param(ctx.param);
   }
 
   @Override
-  public final ConnectionOperation visitConnect_param(final AnalysisLangParser.Connect_paramContext ctx) {
+  public final ConnectionOperation visitConnect_param(
+          final AnalysisLangParser.Connect_paramContext ctx) {
     ConnectionOperation connectionOperation = null;
     try {
       final String[] firstField = visitField(ctx.fieldparam);
@@ -225,7 +241,8 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
   }
 
   @Override
-  public final ConstraintOperation visitConstraint_operation(final Constraint_operationContext ctx) {
+  public final ConstraintOperation visitConstraint_operation(
+          final Constraint_operationContext ctx) {
     return visitConstraint_param(ctx.param);
   }
 
@@ -234,8 +251,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
           final AnalysisLangParser.Constraint_paramContext ctx) {
     ConstraintOperation constraintOperation = null;
     try {
-      constraintOperation = new ConstraintOperation(this.getTableForTableName(visitField(ctx.fieldparam)[0]),
-              visitField(ctx.fieldparam)[1], ctx.opparam.op, visitValue(ctx.valueparam));
+      constraintOperation =
+              new ConstraintOperation(this.getTableForTableName(visitField(ctx.fieldparam)[0]),
+                      visitField(ctx.fieldparam)[1], ctx.opparam.op, visitValue(ctx.valueparam));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -268,8 +286,9 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
           final AnalysisLangParser.Foreach_chunk_paramContext ctx) {
     ForEachChunkOperation forEachChunkOperation = null;
     try {
-      forEachChunkOperation = new ForEachChunkOperation(this.getTableForTableName(visitTable(ctx.tableparam)),
-              visitNumberGetInt(ctx.levelparam), visitOperationNoAdd(ctx.operationparam));
+      forEachChunkOperation =
+              new ForEachChunkOperation(this.getTableForTableName(visitTable(ctx.tableparam)),
+                      visitNumberGetInt(ctx.levelparam), visitOperationNoAdd(ctx.operationparam));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -286,9 +305,10 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
     LsaOperation lsaOperation = null;
     try {
       final String[] fieldReference = this.visitField(ctx.fieldparam);
-      lsaOperation = new LsaOperation(this.getTableForTableName(fieldReference[0]), fieldReference[1],
-              visitNumberGetInt(ctx.from), visitNumberGetInt(ctx.to), visitValue(ctx.key),
-              visitValue(ctx.target));
+      lsaOperation =
+              new LsaOperation(this.getTableForTableName(fieldReference[0]), fieldReference[1],
+                      visitNumberGetInt(ctx.from), visitNumberGetInt(ctx.to), visitValue(ctx.key),
+                      visitValue(ctx.target));
     } catch (TableNotFoundException ex) {
       LOG.log(Level.SEVERE, ex.getMessage(), ex);
     }
@@ -300,6 +320,14 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
     return ctx.val;
   }
 
+  /**
+   * Visit a Number Node in the parse tree and turn it into a number instead of a NumberValue.
+   *
+   * @param ctx
+   *         The NumberContext Node.
+   *
+   * @return an integer representation of the number context.
+   */
   private int visitNumberGetInt(final AnalysisLangParser.NumberContext ctx) {
     final NumberValue val = (NumberValue) ctx.val;
     return (int) val.getValue();
@@ -311,6 +339,16 @@ class ScriptVisitor extends AbstractParseTreeVisitor implements AnalysisLangVisi
     return this.operationList.get(this.operationList.size() - 1);
   }
 
+  /**
+   * Visit an Operation Node without adding the resulting operation to the operationList. This
+   * method is used to visit operations that are children of a {@see ForEachChunkOperation} to
+   * prevent those operations from also being added to the list of generic operations.
+   *
+   * @param ctx
+   *         The OperationContext to visit.
+   *
+   * @return An Operation that was defined by the subtree.
+   */
   private Operation visitOperationNoAdd(final AnalysisLangParser.OperationContext ctx) {
     return (Operation) visitChildren(ctx);
   }

@@ -21,12 +21,12 @@ public class ScriptExecutionManager {
   /**
    * Map containing the tables, with the table name as key.
    */
-  final private Map<String, Table> tableMap;
+  private final Map<String, Table> tableMap;
 
   /**
    * Operation List.
    */
-  final private List<Operation> opList;
+  private final List<Operation> opList;
 
   /**
    * Default constructor creating a script execution manager.
@@ -36,10 +36,10 @@ public class ScriptExecutionManager {
    */
   public ScriptExecutionManager(final List<Table> tables) {
     this.tableMap = new LinkedHashMap<String, Table>();
-    for (Table t : tables) {
-      this.tableMap.put(t.getName(), t);
+    for (final Table table : tables) {
+      this.tableMap.put(table.getName(), table);
     }
-    this.opList = new ArrayList<Operation>();
+    this.opList = new ArrayList<>();
   }
 
   /**
@@ -65,7 +65,8 @@ public class ScriptExecutionManager {
    *         if the script file cannot be parsed.
    */
   public void addScriptString(final String scriptString) throws ParseFailedException {
-    this.opList.addAll(OperationFactory.createOperationsFromString(getTableMapAsList(), scriptString));
+    this.opList
+            .addAll(OperationFactory.createOperationsFromString(getTableMapAsList(), scriptString));
   }
 
   /**
@@ -74,12 +75,12 @@ public class ScriptExecutionManager {
    * @return the list of tables containing the output.
    */
   public List<Table> executeAllScripts() {
-    for (Operation o : this.opList) {
-      createTableIfNotExists(o.getResultTableName());
-      o.resetData(this.tableMap.get(o.getInputTableName()));
-      o.execute();
-      this.tableMap.remove(o.getResultTableName());
-      this.tableMap.put(o.getResultTableName(), o.getResult());
+    for (final Operation operation : this.opList) {
+      createTableIfNotExists(operation.getResultTableName());
+      operation.resetData(this.tableMap.get(operation.getInputTableName()));
+      operation.execute();
+      this.tableMap.remove(operation.getResultTableName());
+      this.tableMap.put(operation.getResultTableName(), operation.getResult());
     }
     return getTableMapAsList();
   }
