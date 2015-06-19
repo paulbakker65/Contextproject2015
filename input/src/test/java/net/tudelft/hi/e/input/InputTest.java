@@ -57,7 +57,7 @@ public class InputTest {
     Input.addDataFile(file, notexisting);
     assertTrue(Input.getFiles().isEmpty());
   }
-  
+
   /**
    * Test if a file is really a file.
    */
@@ -80,6 +80,11 @@ public class InputTest {
       assertEquals(WrongXmlException.class, e.getClass());
     }
     assertTrue(Input.getFiles().isEmpty());
+  }
+
+  @Test(expected = IOException.class)
+  public void testAddDataFile6() throws IOException {
+    Input.addDataFile(notafile, settings);
   }
 
   @Test
@@ -121,7 +126,7 @@ public class InputTest {
     }
     assertNull(Input.getOutputDir());
     assertTrue(Input.setOutputDir(output));
-    assertTrue(Input.setOutputDir(notafile));
+    assertFalse(Input.setOutputDir(null));
     output.delete();
   }
 
