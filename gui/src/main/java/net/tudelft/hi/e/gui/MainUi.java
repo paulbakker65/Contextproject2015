@@ -49,8 +49,6 @@ public class MainUi extends JFrame {
 
   // All GUI components:
   private JPanel contentPane;
-  private JPanel filesPanel;
-  private JScrollPane filesTableScrollPane;
   private JButton buttonRunScript;
   private JButton buttonCancel;
   private JTextField textFieldscriptfilepath;
@@ -275,7 +273,8 @@ public class MainUi extends JFrame {
         throw new IOException("The file already exists!");
       }
     } catch (IOException e) {
-      LOG.log(Level.SEVERE, "Error creating file '" + script.getAbsolutePath() + "': " + e.getMessage(), e);
+      LOG.log(Level.SEVERE, "Error creating file '" + script.getAbsolutePath() + "': " 
+          + e.getMessage(), e);
       return;
     }
 
@@ -306,8 +305,8 @@ public class MainUi extends JFrame {
   @SuppressWarnings("BooleanMethodIsAlwaysInverted")
   public static boolean overrideFile(Window window, File file) {
     return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(window,
-            "The file '" + file.getName() + "' already exists, would you like to overide this file?.",
-            "File already exists.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+          "The file '" + file.getName() + "' already exists, would you like to overide this file?.",
+          "File already exists.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
   }
   /**
    * Opens the default system editor for the script file.

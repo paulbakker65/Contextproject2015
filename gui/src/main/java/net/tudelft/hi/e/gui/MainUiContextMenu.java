@@ -148,7 +148,7 @@ class MainUiContextMenu extends MouseAdapter implements ActionListener{
   }
 
   private void invokeInit(Class<?> type) {
-    Cursor cursor = frame.getCursor();
+    final Cursor cursor = frame.getCursor();
     frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     
     int selectedRow = table.getSelectedRow();

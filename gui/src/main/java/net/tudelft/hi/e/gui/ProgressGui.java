@@ -165,7 +165,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   }
 
   private JPanel createRightButtonPanel() {
-    JPanel panel = new JPanel();
+    final JPanel panel = new JPanel();
     JButton viewoutputdirButton = new JButton("View output directory");
     viewoutputdirButton.setMnemonic(KeyEvent.VK_O);
     viewoutputdirButton.setIcon(Gui.createImageIcon("folder.png"));
