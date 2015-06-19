@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import static org.junit.Assert.*;
 
 /**
- * Created by mawdegroot on 18/06/15.
+ * ExceptionHandlerTest testing ExceptionHandler.class.
  */
 public class ExceptionHandlerTest {
 
@@ -42,9 +42,8 @@ public class ExceptionHandlerTest {
   @Test public void testClose() throws Exception {
     ExceptionHandler.getExceptionHandlerInstance().publish(new LogRecord(Level.SEVERE, "TRALALA"));
     assertEquals(1, ExceptionHandler.getExceptionHandlerInstance().getLogRecords().size());
-    ExceptionHandler exceptionHandler = ExceptionHandler.getExceptionHandlerInstance();
     ExceptionHandler.getExceptionHandlerInstance().close();
-    assertNotEquals(exceptionHandler, ExceptionHandler.getExceptionHandlerInstance());
+    assertEquals(0, ExceptionHandler.getExceptionHandlerInstance().getLogRecords().size());
   }
 
   @Test public void testClear() throws Exception {

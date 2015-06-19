@@ -1,11 +1,9 @@
 package net.tudelft.hi.e.common.exceptions;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 import java.util.logging.Handler;
@@ -24,9 +22,13 @@ public class ExceptionHandler extends StreamHandler {
   private static ExceptionHandler handlerInstance = new ExceptionHandler();
 
   private ExceptionHandler() {
+    this(System.err);
+  }
+
+  private ExceptionHandler(OutputStream outputStream) {
     super();
     this.logRecordList = new ArrayList<>();
-    this.out = new BufferedOutputStream(System.err);
+    this.out = outputStream;
     this.setFormatter(new Formatter() {
       @Override
       public String format(LogRecord record) {
@@ -38,7 +40,6 @@ public class ExceptionHandler extends StreamHandler {
         return b.toString();
       }
     });
-    this.setOutputStream(this.out);
   }
 
   public static ExceptionHandler getExceptionHandlerInstance() {
@@ -48,11 +49,13 @@ public class ExceptionHandler extends StreamHandler {
   @Override
   public void publish(LogRecord record) {
     logRecordList.add(record);
-    try {
-      out.write(this.getFormatter().format(record).getBytes());
-      out.flush();
-    } catch (IOException ex) {
-      System.exit(1000);
+    if (this.out != null) {
+      try {
+        out.write(this.getFormatter().format(record).getBytes());
+        out.flush();
+      } catch (IOException ex) {
+        throw new SecurityException(ex);
+      }
     }
   }
 
@@ -62,8 +65,8 @@ public class ExceptionHandler extends StreamHandler {
   }
 
   @Override
-  public void close() throws SecurityException {
-    return;
+  public void close() {
+    getExceptionHandlerInstance().clear();
   }
 
   public List<LogRecord> getLogRecords() {

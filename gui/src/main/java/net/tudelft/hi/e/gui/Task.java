@@ -88,7 +88,6 @@ class Task extends SwingWorker<Void, Void> {
     log("Executing script.", true);
 
     ScriptExecutionManager exec = new ScriptExecutionManager(tables);
-    ExceptionHandler.getExceptionHandlerInstance().getLogRecords();
     try {
       exec.addScriptFile(Input.getScriptFile().getAbsolutePath());
     } catch (ParseFailedException ex) {
