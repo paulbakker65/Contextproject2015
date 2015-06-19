@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import net.tudelft.hi.e.common.exceptions.ExportException;
 import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.Code;
@@ -42,13 +43,21 @@ public final class Exporter {
    * @param table The Table to be written.
    * @param path The path where the Table has to been written to.
    * @param extension The extension the output file will have.
-   * @throws IOException If the writing fails an IOException is thrown.
+   * @throws ExportException if a output filepath or table object is not found.
    */
   public static void export(Table table, String path, String extension) throws
-          TableNotFoundException, IOException {
-    FileWriter writer = new FileWriter(path + extension);
-    export(table, writer);
-    TableFile.writeTable(table, path);
+           ExportException {
+    try {
+      FileWriter writer = new FileWriter(path + extension);
+      export(table, writer);
+      TableFile.writeTable(table, path);
+    } catch (IOException e) {
+      throw new ExportException("Output filepath not found");
+    } catch (TableNotFoundException e) {
+      throw new ExportException("Table object not found");
+    }
+    
+   
   }
 
   /**
