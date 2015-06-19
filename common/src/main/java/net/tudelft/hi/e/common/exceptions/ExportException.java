@@ -8,20 +8,30 @@ package net.tudelft.hi.e.common.exceptions;
 import java.io.IOException;
 
 /**
- *
- * @author mawdegroot
+ * ExportException is an indication that an error occurred when exporting.
  */
 public class ExportException extends IOException {
 
+  /**
+   * Default ExportException.
+   */
+  public ExportException() {
+    super();
+  }
+
+  /**
+   * ExportException with a message.
+   * @param msg message of the exception.
+   */
   public ExportException(String msg) {
     super(msg);
   }
 
+  /**
+   * ExportException with an exception.
+   * @param ex
+   */
   public ExportException(Exception ex) {
     super(ex);
-  }
-
-  public ExportException() {
-    super();
   }
 }
