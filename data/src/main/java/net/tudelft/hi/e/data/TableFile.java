@@ -9,12 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class for reading and writing table files.
  */
 public class TableFile {
-  private TableFile() {}
+  private static final Logger LOG = Logger.getLogger(TableFile.class.getName());
 
   /**
    * Writes a table to a file.
@@ -35,7 +37,7 @@ public class TableFile {
       oos.writeObject(table);
       oos.close();
     } catch (IOException e) {
-      throw new TableNotFoundException("File not found");
+      LOG.log(Level.SEVERE, e.getMessage(), e);
     }
 
   }
@@ -55,7 +57,8 @@ public class TableFile {
     try {
       return readTable(new FileInputStream(path));
     } catch (FileNotFoundException e) {
-      throw new TableNotFoundException("File not found");
+      LOG.log(Level.SEVERE, "Table file not found", e);
+      return null;
     }
   }
 
@@ -64,13 +67,15 @@ public class TableFile {
    *
    * @param file the file object to read the table.
    * @return the read Table.
+   * @throws TableNotFoundException table not found.
    * @throws IOException when no Table can be read.
    */
   public static Table readTable(File file) throws TableNotFoundException {
     try {
       return readTable(new FileInputStream(file));
     } catch (FileNotFoundException e) {
-      throw new TableNotFoundException("File not found");
+      LOG.log(Level.SEVERE, "Table file not found", e);
+      return null;
     }
   }
 
@@ -82,9 +87,11 @@ public class TableFile {
       ois.close();
       return res;
     } catch (ClassNotFoundException e) {
-      throw new TableNotFoundException("Table class not found!");
+      LOG.log(Level.SEVERE, e.getMessage(), e);
+      return null;
     } catch (IOException e) {
-      throw new TableNotFoundException("Table file not found, wrong path");
+      LOG.log(Level.SEVERE, "Table file not found", e);
+      return null;
     }
   }
 }
