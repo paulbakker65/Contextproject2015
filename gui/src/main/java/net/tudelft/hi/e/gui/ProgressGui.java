@@ -249,7 +249,8 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     if (result == null) {
       return;
     }
-    Exporter.delimiter = (char) result;
+
+    Exporter.setDelimiter((char)result);
 
     Table table = task.getTable(comboPreviews.getSelectedIndex());
     String filepath = Input.getOutputDir() + "/output_" + table.getName();
