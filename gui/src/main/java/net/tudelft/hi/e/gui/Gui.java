@@ -1,10 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JInternalFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -16,12 +11,18 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  * Contains methods for GUI's.
  */
-public class GUI {
+public class Gui {
   
-  private static final Logger LOG = Logger.getLogger(GUI.class.getName());
+  private static final Logger LOG = Logger.getLogger(Gui.class.getName());
   /**
    * Sets the gui to use visuals similar to the operating system, instead of the java gui visuals.
    */
@@ -53,7 +54,7 @@ public class GUI {
    * Sets the icon image to our program icon.
    * @param window The window (dialog/frame) to set the icon for.
    */
-  public static void setIconImage(Window window){
+  public static void setIconImage(Window window) {
     try {
       Image icon = ImageIO.read(ClassLoader.getSystemResource("icons/icon.png"));
       window.setIconImage(icon);
@@ -68,8 +69,8 @@ public class GUI {
    */
   public static void init(Window window) {
     window.pack();
-    GUI.setIconImage(window);
-    GUI.centreWindow(window);
+    Gui.setIconImage(window);
+    Gui.centreWindow(window);
     window.setVisible(true);
   }
   
@@ -97,17 +98,22 @@ public class GUI {
   public static JInternalFrame createInternalFrame(String windowTitle, Container container) {
     JInternalFrame frame = new JInternalFrame(windowTitle, true, true, true, true);
     frame.setContentPane(container);
-    frame.setFrameIcon(GUI.createImageIcon("icon.png"));
+    frame.setFrameIcon(Gui.createImageIcon("icon.png"));
     frame.setSize(container.getPreferredSize());
     frame.setVisible(true);
     return frame;
   }
 
+  /**
+   * Opens the file using the system default program for that file type.
+   * @param file The file to open.
+   */
   public static void openSystemEditor(File file) {
     try {
       Desktop.getDesktop().open(file);
     } catch (IOException e1) {
-      LOG.log(Level.SEVERE, "Error trying to open '" + file.getAbsolutePath() + "' in system editor.");
+      LOG.log(Level.SEVERE, 
+          "Error trying to open '" + file.getAbsolutePath() + "' in system editor.");
     }
   }
 }

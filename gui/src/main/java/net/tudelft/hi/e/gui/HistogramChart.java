@@ -1,8 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
@@ -18,17 +15,19 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.HistogramDataset;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JPanel;
 
 class HistogramChart {
-  private static final long serialVersionUID = 1L;
   private static HistogramDataset dataset;
 
   /**
    * Creates a JPanel containing a histogram of a stem leaf plot.
    * @param table stem leaf plot to make a histogram of.
    */
-  public static JPanel createPanel(Table table, String columnName, int power){
+  public static JPanel createPanel(Table table, String columnName, int power) {
     HistogramChart.dataset = createDataset(table, columnName, power);
 
     JFreeChart chart = createChart(dataset);
@@ -42,14 +41,11 @@ class HistogramChart {
 
   /**
    * Create a dataset for the histogram.
-   *
-   * @param columnName
-   *          the column in which all the values are saved.
-   * @param power
-   *          which tenth power has the stem.
+   * @param columnName the column in which all the values are saved.
+   * @param power which tenth power has the stem.
    * @return the dataset.
    */
-   static HistogramDataset createDataset(Table table, String columnName, int power) {
+  static HistogramDataset createDataset(Table table, String columnName, int power) {
     double bins = Math.pow(10, power);
 
     HistogramDataset dataset = new HistogramDataset();
@@ -63,7 +59,8 @@ class HistogramChart {
 
     List<Double> inBoundValues = removeOutOfBoundValues((ArrayList<Double>)values, 0, (int) bins);
 
-    dataset.addSeries("Histogram", ArrayUtils.toPrimitive(inBoundValues.toArray(new Double[inBoundValues.size()])),
+    dataset.addSeries("Histogram", 
+        ArrayUtils.toPrimitive(inBoundValues.toArray(new Double[inBoundValues.size()])),
         10, 0, bins);
 
     return dataset;

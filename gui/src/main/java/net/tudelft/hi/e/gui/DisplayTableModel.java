@@ -1,15 +1,18 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.table.AbstractTableModel;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
 
 /**
  * TableModel to display a Table in a JTable.
  */
 class DisplayTableModel extends AbstractTableModel {
+  private static final long serialVersionUID = 1L;
   private final Table table;
   private final List<String> columns;
 

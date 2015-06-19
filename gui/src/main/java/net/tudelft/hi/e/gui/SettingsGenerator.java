@@ -1,5 +1,12 @@
 package net.tudelft.hi.e.gui;
 
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.DateColumn;
+import net.tudelft.hi.e.export.SettingsWriter;
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Reader;
+import net.tudelft.hi.e.input.Settings;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -23,13 +30,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
-
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.DateColumn;
-import net.tudelft.hi.e.export.SettingsWriter;
-import net.tudelft.hi.e.input.DataFile;
-import net.tudelft.hi.e.input.Reader;
-import net.tudelft.hi.e.input.Settings;
 
 /**
  * A window that lets the user create XML settings based on an example file.
@@ -209,12 +209,12 @@ public class SettingsGenerator extends JFrame {
     settings = new Settings();
     if (example == null) {
       JOptionPane.showMessageDialog(this, "Need to select a file before you can preview it",
-          "File not specified", JOptionPane.WARNING_MESSAGE, GUI.createImageIcon("icon.png"));
+          "File not specified", JOptionPane.WARNING_MESSAGE, Gui.createImageIcon("icon.png"));
       return;
     }
     if (delimiterTextField.getText().isEmpty()) {
       JOptionPane.showMessageDialog(this, "Need to specify the delimiter of the selected file",
-          "Delimiter not specified", JOptionPane.WARNING_MESSAGE, GUI.createImageIcon("icon.png"));
+          "Delimiter not specified", JOptionPane.WARNING_MESSAGE, Gui.createImageIcon("icon.png"));
       return;
     }
     settings.setDelimiter(delimiterTextField.getText());
@@ -270,7 +270,7 @@ public class SettingsGenerator extends JFrame {
                 + ".xml was created in the directory " + chooser.getSelectedFile()
                 + "\n Would you like to see the output directory?", "A Silly Question",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-                GUI.createImageIcon("icon.png"), options, options[2]);
+                Gui.createImageIcon("icon.png"), options, options[2]);
         if (chosenOption == JOptionPane.CANCEL_OPTION) {
           this.dispose();
         }
@@ -302,7 +302,7 @@ public class SettingsGenerator extends JFrame {
         if (dateColumn.getFormatStr().isEmpty()) {
           JOptionPane.showMessageDialog(this, "Need to specify the format of the datacolumn: "
               + column.getName(), "Format not specified", JOptionPane.WARNING_MESSAGE,
-              GUI.createImageIcon("icon.png"));
+              Gui.createImageIcon("icon.png"));
           return true;
         }
       }

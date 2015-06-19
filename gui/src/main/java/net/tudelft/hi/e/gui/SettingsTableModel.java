@@ -1,15 +1,15 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
-
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.input.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
 
 /**
  * A TableModel that wraps around a Settings instance, and updates it as the table using this model
@@ -146,8 +146,8 @@ public class SettingsTableModel extends AbstractTableModel {
    */
   public static List<Column> generateEmptyCols(int amount) {
     ArrayList<Column> cols = new ArrayList<Column>();
-    for (int i=0; i<amount; i++) {
-      cols.add(new StringColumn("Col "+(i+1)));
+    for (int i = 0; i < amount; i++) {
+      cols.add(new StringColumn("Col " + (i + 1)));
     }
     return cols;
   }

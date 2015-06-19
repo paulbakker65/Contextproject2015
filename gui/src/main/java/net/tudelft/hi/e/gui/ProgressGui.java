@@ -1,5 +1,9 @@
 package net.tudelft.hi.e.gui;
 
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.export.Exporter;
+import net.tudelft.hi.e.input.Input;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -16,10 +20,10 @@ import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -30,9 +34,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.export.Exporter;
-import net.tudelft.hi.e.input.Input;
 
 /**
  * A GUI that shows a progress bar and a text area to show a log.
@@ -78,7 +79,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     contentPane.setPreferredSize(new Dimension(1024, 720));
     frame.setContentPane(contentPane);
 
-    GUI.init(frame);
+    Gui.init(frame);
   }
 
 
@@ -110,8 +111,10 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
 
   private JPanel createLeftButtonPanel() {
     JPanel panel = new JPanel();
+    panel.setVisible(true);
+    
     visualizationsButton = new JButton("Visualizations");
-    visualizationsButton.setIcon(GUI.createImageIcon("icon.png"));
+    visualizationsButton.setIcon(Gui.createImageIcon("icon.png"));
     visualizationsButton.setEnabled(false);
     visualizationsButton.addActionListener(new ActionListener() {
       @Override
@@ -122,7 +125,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(visualizationsButton);
 
     previewButton = new JButton("Preview Table");
-    previewButton.setIcon(GUI.createImageIcon("table.png"));
+    previewButton.setIcon(Gui.createImageIcon("table.png"));
     previewButton.setEnabled(false);
     previewButton.addActionListener(new ActionListener() {
       @Override
@@ -133,7 +136,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(previewButton);
     
     exportButton = new JButton("Export with custom delimiter");
-    exportButton.setIcon(GUI.createImageIcon("save.png"));
+    exportButton.setIcon(Gui.createImageIcon("save.png"));
     exportButton.setEnabled(false);
     exportButton.addActionListener(new ActionListener() {
       @Override
@@ -158,7 +161,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   private JPanel createRightButtonPanel() {
     JPanel panel = new JPanel();
     JButton viewoutputdirButton = new JButton("View output directory");
-    viewoutputdirButton.setIcon(GUI.createImageIcon("folder.png"));
+    viewoutputdirButton.setIcon(Gui.createImageIcon("folder.png"));
     viewoutputdirButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
@@ -168,7 +171,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(viewoutputdirButton);
 
     JButton exitButton = new JButton("Exit");
-    exitButton.setIcon(GUI.createImageIcon("exit.png"));
+    exitButton.setIcon(Gui.createImageIcon("exit.png"));
     exitButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
@@ -230,17 +233,19 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   }
   
   private void onExport() {
-	  Character[] delimiters = new Character[]{',',  ';', '.', '\t'};
-	  Object result = JOptionPane.showInputDialog(frame, "Please select delimiter:", "Change delimiter", JOptionPane.PLAIN_MESSAGE, GUI.createImageIcon("save.png"), delimiters, ',');
-	  if (result == null) {
-		  return;
-	  }
-	  Exporter.delimiter = (char) result;
+    Character[] delimiters = new Character[]{',',  ';', '.', '\t'};
+    Object result = JOptionPane.showInputDialog(frame, 
+        "Please select delimiter:", "Change delimiter", JOptionPane.PLAIN_MESSAGE, 
+        Gui.createImageIcon("save.png"), delimiters, ',');
+    if (result == null) {
+      return;
+    }
+    Exporter.delimiter = (char) result;
 
-	  Table table = task.getTable(comboPreviews.getSelectedIndex());
-	  String filepath = Input.getOutputDir() + "/output_" + table.getName();
-      task.exportFile(table, filepath);
-      task.exportSettings(table, filepath + ".xml");
+    Table table = task.getTable(comboPreviews.getSelectedIndex());
+    String filepath = Input.getOutputDir() + "/output_" + table.getName();
+    task.exportFile(table, filepath);
+    task.exportSettings(table, filepath + ".xml");
   }
 
   private void onViewOutputDir() {

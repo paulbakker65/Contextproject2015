@@ -1,8 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.NumberValue;
@@ -18,6 +15,9 @@ import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 

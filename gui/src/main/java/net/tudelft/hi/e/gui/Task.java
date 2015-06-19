@@ -1,16 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-
-import javax.swing.SwingWorker;
-
-
 import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Table;
@@ -21,6 +10,17 @@ import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
 import net.tudelft.hi.e.input.Settings;
 import net.tudelft.hi.e.script.ScriptExecutionManager;
+
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
+import javax.swing.SwingWorker;
+
 
 class Task extends SwingWorker<Void, Void> {
 
@@ -65,7 +65,7 @@ class Task extends SwingWorker<Void, Void> {
     for (DataFile datafile : Input.getFiles()) {
       log("Parsing " + datafile.toString());
       Table table = datafile.getTable();
-      if(table == null) {
+      if (table == null) {
         error("Error Parsing " + datafile.toString());
         return false;
       }
@@ -98,7 +98,7 @@ class Task extends SwingWorker<Void, Void> {
     }
     if (!ExceptionHandler.getExceptionHandlerInstance().getLogRecords().isEmpty()) {
       error("Error parsing the script file!");
-      for(LogRecord r : ExceptionHandler.getExceptionHandlerInstance().getLogRecords()) {
+      for (LogRecord r : ExceptionHandler.getExceptionHandlerInstance().getLogRecords()) {
         error(r.getMessage());
       }
       return false;

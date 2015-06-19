@@ -1,11 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.Code;
@@ -25,10 +19,16 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+
 import javax.swing.JPanel;
 
 class FrequencyChart {
-  private static final long serialVersionUID = 1L;
   private Table table;
   private int chunkDepth;
 
@@ -41,20 +41,20 @@ class FrequencyChart {
    */
   public static JPanel createPanel(Table table, int chunkDepth, String column) {
     FrequencyChart chart = new FrequencyChart(table, chunkDepth);
-		
+
     Dataset dataset = createDataset(table, column, chunkDepth);
     return chart.createChartPanel(chart.createChart(dataset, column));
   }
 
   /**
-   * Makes a Frequency Frame with codes
+   * Makes a Frequency Frame with codes.
    *
    * @param table data to use
    * @param chunkDepth depth of chunks
    */
   public static JPanel createPanel(Table table, int chunkDepth) {
-	FrequencyChart chart = new FrequencyChart(table, chunkDepth);
-		
+    FrequencyChart chart = new FrequencyChart(table, chunkDepth);
+
     Dataset dataset = chart.createCodesDataset();
     return chart.createChartPanel(chart.createChart(dataset, "Codes"));
   }

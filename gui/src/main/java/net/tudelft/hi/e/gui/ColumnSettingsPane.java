@@ -23,7 +23,9 @@ public class ColumnSettingsPane extends JScrollPane {
     super(empty);
     theTable = empty;
     DefaultTableModel dtm = new DefaultTableModel(0, 1);
-    dtm.setColumnIdentifiers(new Object[] { "Click 'Choose example' and then 'Preview' to get started." });
+    dtm.setColumnIdentifiers(new Object[] { 
+        "Click 'Choose example' and then 'Preview' to get started." 
+        });
     theTable.setModel(dtm);
   }
 
@@ -35,8 +37,7 @@ public class ColumnSettingsPane extends JScrollPane {
    * Changes the model of the table in the panel. Also sets the cellEditor of the second column to
    * combobox.
    * 
-   * @param cstm
-   *          the new model
+   * @param cstm the new model
    */
   public void setModel(TableModel cstm) {
     theTable.setModel(cstm);
@@ -49,9 +50,14 @@ public class ColumnSettingsPane extends JScrollPane {
     theTable.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(comboBox));
   }
 
+  /**
+   * Changes the table to instruct the user to press the preview button.
+   */
   public void showPreviewHint() {
     DefaultTableModel dtm = new DefaultTableModel(0, 1);
-    dtm.setColumnIdentifiers(new Object[] { "Set the header, starting line and delimiter, and then press 'Preview' to edit the columns" });
+    dtm.setColumnIdentifiers(new Object[] { 
+        "Set the header, starting line and delimiter, and then press 'Preview' to edit the columns"
+        });
     theTable.setModel(dtm);
   }
 
