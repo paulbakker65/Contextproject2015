@@ -3,16 +3,18 @@ package net.tudelft.hi.e.gui;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class TaskTest {
@@ -24,28 +26,34 @@ public class TaskTest {
     "-s", "src/test/resources/script.txt",
     "-nogui"};
   
-  @Before
-  public void setUp() throws Exception {
-    outputdir.delete();
-  }
-
+  private Table table;
   
-  @Test
-  public void testTask() {
+  /**
+   * Adds all the files to the input using parseCommandLine and executes the task.
+   */
+  @Before
+  public void setUp() {
+    cleanUp();
+    
     assertTrue(Main.parseCommandline(argv));
     
     Task task = new Task();
     task.doInBackground();
     
-    checkOutputFiles();
-    
-    checkResult(task.getTable(1));
+    table = task.getTable(1);
+  }
+  
+  @After
+  public void cleanUp() {
+    outputdir.delete();
   }
 
+
   /**
-   * Executes the connection operation and checks if the output of the test is correct.
+   * Checks if the output table is correct.
    */
-  public void checkResult(Table table) {    
+  @Test
+  public void checkResultTable() {    
     assertEquals(20, table.size());
     double previous = 0;
     for (final Record v : table) {
@@ -67,12 +75,14 @@ public class TaskTest {
   /**
    * Checks if all the expected files are created.
    */
+  @Test
   public void checkOutputFiles() {
     assertTrue(outputdir.exists() && outputdir.isDirectory());
-    String[] expected = {"output_test1.csv", "output_test1.ser", "output_test1.xml", 
+    String[] expectedfiles = {"output_test1.csv", "output_test1.ser", "output_test1.xml", 
         "output_test2.csv", "output_test2.ser", "output_test2.xml"};
-    assertArrayEquals(expected, outputdir.list());
-  }
-  
-  
+    List<String> actualfiles = Arrays.asList(outputdir.list());
+    for (String file : expectedfiles) {
+      assertTrue(actualfiles.contains(file));
+    }
+  }  
 }
