@@ -85,18 +85,11 @@ public class LsaOperation extends Operation {
       }
       return true;
     }
-
-    /**
-     * @return the cols
-     */
+    
     public List<Column> getCols() {
       return cols;
     }
 
-    /**
-     * @param cols
-     *          the cols to set
-     */
     public void setCols(List<Column> cols) {
       this.cols = cols;
     }

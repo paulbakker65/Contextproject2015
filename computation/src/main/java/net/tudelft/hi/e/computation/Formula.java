@@ -75,6 +75,7 @@ public class Formula {
       return false;
     }
   }
+  
   private boolean equalFirstOperand(final Formula other) {
     if (operand1 == null) {
       if (other.operand1 != null) {
