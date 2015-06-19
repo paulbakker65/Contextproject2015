@@ -145,4 +145,14 @@ public class ExporterTest {
     constructor.setAccessible(true);
     constructor.newInstance();
   }
+  
+  @Test
+  public void testGetterSetterDelimiter() {
+    char beginDelimiter = Exporter.getDelimiter();
+    Exporter.setDelimiter(';');
+    assertEquals(';', Exporter.getDelimiter());
+    Exporter.setDelimiter(',');
+    assertEquals(',', Exporter.getDelimiter());
+    Exporter.setDelimiter(beginDelimiter);
+  }
 }
