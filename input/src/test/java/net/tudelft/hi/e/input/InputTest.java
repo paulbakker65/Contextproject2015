@@ -24,6 +24,7 @@ public class InputTest {
   File settings = new File(resource + "settings.xml");
   File settingsxmlerror = new File(resource + "settings_xmlerror.xml");
   File notexisting = new File(resource + "notexisting.txt");
+  File notafile = new File(resource);
 
   @Before
   public void setUp() throws Exception {
@@ -56,12 +57,22 @@ public class InputTest {
     Input.addDataFile(file, notexisting);
     assertTrue(Input.getFiles().isEmpty());
   }
+  
+  /**
+   * Test if a file is really a file.
+   */
+  @Test(expected = IOException.class)
+  public void testAddDataFile4() throws Exception {
+    assertTrue(Input.getFiles().isEmpty());
+    Input.addDataFile(file, notafile);
+    assertTrue(Input.getFiles().isEmpty());
+  }
 
   /**
    * Tests XML error in settings file.
    */
   @Test
-  public void testAddDataFile4() {
+  public void testAddDataFile5() {
     assertTrue(Input.getFiles().isEmpty());
     try {
       Input.addDataFile(file, settingsxmlerror);
