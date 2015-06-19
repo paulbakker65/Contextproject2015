@@ -1,9 +1,15 @@
 package net.tudelft.hi.e.computation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import net.tudelft.hi.e.common.enums.ComputeOperator;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NullValue;
@@ -13,10 +19,7 @@ import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,12 +1,11 @@
 package net.tudelft.hi.e.computation;
 
-import net.tudelft.hi.e.common.enums.CompareOperator;
-import net.tudelft.hi.e.computation.Condition;
-import net.tudelft.hi.e.computation.RecordMatchesConditionCondition;
-import net.tudelft.hi.e.data.StringValue;
-import net.tudelft.hi.e.data.Value;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import net.tudelft.hi.e.common.enums.CompareOperator;
+import net.tudelft.hi.e.data.StringValue;
+import net.tudelft.hi.e.data.Value;
+
 import org.junit.Test;
 
 /**

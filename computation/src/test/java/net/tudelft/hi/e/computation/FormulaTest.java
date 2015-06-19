@@ -1,12 +1,10 @@
 package net.tudelft.hi.e.computation;
 
-
-
-import net.tudelft.hi.e.common.enums.CalcOperator;
-import net.tudelft.hi.e.computation.Formula;
-import net.tudelft.hi.e.data.NumberValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import net.tudelft.hi.e.common.enums.CalcOperator;
+import net.tudelft.hi.e.data.NumberValue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -97,48 +95,48 @@ public class FormulaTest {
     //
     formula = new Formula(new NumberValue(10), CalcOperator.MULTIPLY, new NumberValue(10));
     result = 1;
-    result = prime * result + ((formula.getOperand1() == null) ? 0 : formula.
-        getOperand1().hashCode());
-    result = prime * result + ((formula.getOperand2() == null) ? 0 : formula.
-        getOperand2().hashCode());
-    result = prime * result + ((formula.getOperator() == null) ? 0 : formula.
-        getOperator().hashCode());
+    result =
+        prime * result + ((formula.getOperand1() == null) ? 0 : formula.getOperand1().hashCode());
+    result =
+        prime * result + ((formula.getOperand2() == null) ? 0 : formula.getOperand2().hashCode());
+    result =
+        prime * result + ((formula.getOperator() == null) ? 0 : formula.getOperator().hashCode());
     assertEquals(result, formula.hashCode());
 
     //
     formula = new Formula(new NumberValue(10), CalcOperator.MULTIPLY, new NumberValue(10));
     formula.setOperand1(null);
     result = 1;
-    result = prime * result + ((formula.getOperand1() == null) ? 0 : formula.
-        getOperand1().hashCode());
-    result = prime * result + ((formula.getOperand2() == null) ? 0 : formula.
-        getOperand2().hashCode());
-    result = prime * result + ((formula.getOperator() == null) ? 0 : formula.
-        getOperator().hashCode());
+    result =
+        prime * result + ((formula.getOperand1() == null) ? 0 : formula.getOperand1().hashCode());
+    result =
+        prime * result + ((formula.getOperand2() == null) ? 0 : formula.getOperand2().hashCode());
+    result =
+        prime * result + ((formula.getOperator() == null) ? 0 : formula.getOperator().hashCode());
     assertEquals(result, formula.hashCode());
 
     formula = new Formula(new NumberValue(10), CalcOperator.MULTIPLY, new NumberValue(10));
     formula.setOperand1(null);
     formula.setOperand2(null);
     result = 1;
-    result = prime * result + ((formula.getOperand1() == null) ? 0 : formula.
-        getOperand1().hashCode());
-    result = prime * result + ((formula.getOperand2() == null) ? 0 : formula.
-        getOperand2().hashCode());
-    result = prime * result + ((formula.getOperator() == null) ? 0 : formula.
-        getOperator().hashCode());
+    result =
+        prime * result + ((formula.getOperand1() == null) ? 0 : formula.getOperand1().hashCode());
+    result =
+        prime * result + ((formula.getOperand2() == null) ? 0 : formula.getOperand2().hashCode());
+    result =
+        prime * result + ((formula.getOperator() == null) ? 0 : formula.getOperator().hashCode());
     assertEquals(result, formula.hashCode());
 
     formula = new Formula(new NumberValue(10), CalcOperator.MULTIPLY, new NumberValue(10));
     formula.setOperand1(null);
     formula.setOperator(null);
     result = 1;
-    result = prime * result + ((formula.getOperand1() == null) ? 0 : formula.
-        getOperand1().hashCode());
-    result = prime * result + ((formula.getOperand2() == null) ? 0 : formula.
-        getOperand2().hashCode());
-    result = prime * result + ((formula.getOperator() == null) ? 0 : formula.
-        getOperator().hashCode());
+    result =
+        prime * result + ((formula.getOperand1() == null) ? 0 : formula.getOperand1().hashCode());
+    result =
+        prime * result + ((formula.getOperand2() == null) ? 0 : formula.getOperand2().hashCode());
+    result =
+        prime * result + ((formula.getOperator() == null) ? 0 : formula.getOperator().hashCode());
     assertEquals(result, formula.hashCode());
 
     formula = new Formula(new NumberValue(10), CalcOperator.MULTIPLY, new NumberValue(10));
@@ -146,12 +144,12 @@ public class FormulaTest {
     formula.setOperand2(null);
     formula.setOperator(null);
     result = 1;
-    result = prime * result + ((formula.getOperand1() == null) ? 0 : formula.
-        getOperand1().hashCode());
-    result = prime * result + ((formula.getOperand2() == null) ? 0 : formula.
-        getOperand2().hashCode());
-    result = prime * result + ((formula.getOperator() == null) ? 0 : formula.
-        getOperator().hashCode());
+    result =
+        prime * result + ((formula.getOperand1() == null) ? 0 : formula.getOperand1().hashCode());
+    result =
+        prime * result + ((formula.getOperand2() == null) ? 0 : formula.getOperand2().hashCode());
+    result =
+        prime * result + ((formula.getOperator() == null) ? 0 : formula.getOperator().hashCode());
     assertEquals(result, formula.hashCode());
   }
 
