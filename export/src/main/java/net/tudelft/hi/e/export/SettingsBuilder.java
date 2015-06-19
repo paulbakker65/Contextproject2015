@@ -24,7 +24,7 @@ public final class SettingsBuilder {
   public static Settings generateSettings(final Table table, final String delimiter,
           final int startline) {
     Settings settings = null;
-    if (table.isEmpty() || delimiter == null) {
+    if (!table.isEmpty() && delimiter != null) {
       settings = new Settings();
       settings.setName(table.getName());
       settings.setDelimiter(delimiter);
