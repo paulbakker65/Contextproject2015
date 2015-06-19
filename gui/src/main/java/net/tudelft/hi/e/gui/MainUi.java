@@ -1,9 +1,13 @@
 package net.tudelft.hi.e.gui;
 
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Input;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -34,16 +38,14 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import net.tudelft.hi.e.input.DataFile;
-import net.tudelft.hi.e.input.Input;
 
 /**
  * MainUI class implementing the main Graphical User Interface.
  */
-public class MainUI extends JFrame {
+public class MainUi extends JFrame {
 
   private static final long serialVersionUID = 1L;
-  private static final Logger LOG = Logger.getLogger(MainUI.class.getName());
+  private static final Logger LOG = Logger.getLogger(MainUi.class.getName());
 
   // All GUI components:
   private JPanel contentPane;
@@ -55,26 +57,28 @@ public class MainUI extends JFrame {
   private JTable filesTable;
   private JButton addFileSButton;
   private JButton removeSelectedButton;
-  private JPanel filesPanel;
   private JTextField textFieldOutputDir;
   private JButton browseButton;
   private JButton viewDirectoryButton;
   private JButton buttonVisualizations;
   private JButton settingsbuilderButton;
-  private JScrollPane filesTableScrollPane;
 
   // Filters for JFileChooser dialog
-  private static final FileNameExtensionFilter xmlfilter =
+  public static final FileNameExtensionFilter xmlfilter =
           new FileNameExtensionFilter("XML files", "xml");
-  private static final FileNameExtensionFilter txtfilter =
+  @SuppressWarnings("WeakerAccess")
+  public static final FileNameExtensionFilter txtfilter =
           new FileNameExtensionFilter("TXT files", "txt");
-  private static final FileNameExtensionFilter csvfilter =
+  @SuppressWarnings("WeakerAccess")
+  public static final FileNameExtensionFilter csvfilter =
           new FileNameExtensionFilter("CSV files", "csv");
-  private static final FileNameExtensionFilter xlsfilter =
+  @SuppressWarnings("WeakerAccess")
+  public static final FileNameExtensionFilter xlsfilter =
           new FileNameExtensionFilter("Excel files", "xls", "xlsx");
-  private static final FileNameExtensionFilter serfilter =
+  @SuppressWarnings("WeakerAccess")
+  public static final FileNameExtensionFilter serfilter =
           new FileNameExtensionFilter("SER files", "ser");
-  private static final FileNameExtensionFilter allsupportedfilter =
+  public static final FileNameExtensionFilter allsupportedfilter =
           new FileNameExtensionFilter("All supported files", "csv", "txt", "xls", "xlsx");
 
   private static File previousDirectory;
@@ -83,7 +87,7 @@ public class MainUI extends JFrame {
   /**
    * Creates a gui for select input files.
    */
-  public MainUI() {
+  public MainUi() {
     setButtonActionListeners();
 
     init();
@@ -96,7 +100,7 @@ public class MainUI extends JFrame {
    * loads the icon and sets the file path fields.
    */
   private void init() {
-    GUI.setSystemLook();
+    Gui.setSystemLook();
     setContentPane(contentPane);
 
     getRootPane().setDefaultButton(buttonRunScript);
@@ -104,7 +108,7 @@ public class MainUI extends JFrame {
     filesTable.setTableHeader(null);
     filesTable.setModel(new FilesTableModel());
     filesTable.setColumnSelectionAllowed(false);
-    new MainUiContextMenu(filesTable, this);
+    MainUiContextMenu.init(filesTable, this);
 
     if (Input.hasScript()) {
       updateScriptInfo();
@@ -112,18 +116,23 @@ public class MainUI extends JFrame {
     if (Input.hasOutput()) {
       textFieldOutputDir.setText(Input.getOutputDir().getAbsolutePath());
     }
+    
+    readPreviousDirectory();
   }
 
   private void setCloseOperation() {
     contentPane.registerKeyboardAction(new ActionListener() {
-                                         public void actionPerformed(ActionEvent event) {
-                                           onCancel();
-                                         }
-                                       }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        @Override
+        public void actionPerformed(ActionEvent event) {
+          onCancel();
+        }
+      },
+      KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+      JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     addWindowListener(new WindowAdapter() {
+      @Override
       public void windowClosing(WindowEvent event) {
         onCancel();
       }
@@ -252,21 +261,20 @@ public class MainUI extends JFrame {
     }
 
     if (script.exists()) {
-      int result = JOptionPane.showConfirmDialog(this,
-              "The file '" + script.getName() + "' already exists, would you like to ovveride this file?.",
-              "File already exists.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-      if (result != JOptionPane.YES_OPTION) {
+      if (!overrideFile(this, script) || script.delete()) {
         return;
       }
-      script.delete();
-    } else if (!script.getPath().toLowerCase().endsWith(".txt")) {
-      script = new File(script.getPath() + ".txt");
+    } else {
+      script = setExtension(script, ".txt");
     }
 
     try {
-      script.createNewFile();
+      if (!script.createNewFile()) {
+        throw new IOException("The file already exists!");
+      }
     } catch (IOException e) {
-      LOG.log(Level.SEVERE, "Error creating file '" + script.getAbsolutePath() + "': " + e.getMessage());
+      LOG.log(Level.SEVERE, "Error creating file '" + script.getAbsolutePath() + "': " 
+          + e.getMessage(), e);
       return;
     }
 
@@ -276,6 +284,31 @@ public class MainUI extends JFrame {
   }
 
   /**
+   * Checks if the file has the given extension, if not it adds the extension.
+   * @param file The file to add the extension for.
+   * @param extension A string containing the extension (e.g. '.txt')
+   * @return returns the file containing the extension.
+   */
+  public static File setExtension(File file, String extension) {
+    if (!file.getPath().toLowerCase().endsWith(extension)) {
+      return new File(file.getPath() + extension);
+    }
+    return file;
+  }
+
+  /**
+   * Prompts the user if they want to override this file.
+   * @param window The parent window.
+   * @param file The file to override.
+   * @return Returns true if the user want's to override the file.
+   */
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  public static boolean overrideFile(Window window, File file) {
+    return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(window,
+          "The file '" + file.getName() + "' already exists, would you like to overide this file?.",
+          "File already exists.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+  }
+  /**
    * Opens the default system editor for the script file.
    */
   private void onEditScript() {
@@ -283,7 +316,7 @@ public class MainUI extends JFrame {
       return;
     }
 
-    GUI.openSystemEditor(Input.getScriptFile());
+    Gui.openSystemEditor(Input.getScriptFile());
   }
 
   /**
@@ -335,7 +368,7 @@ public class MainUI extends JFrame {
       return;
     }
 
-    GUI.openSystemEditor(Input.getOutputDir());
+    Gui.openSystemEditor(Input.getOutputDir());
   }
 
   /**
@@ -362,6 +395,7 @@ public class MainUI extends JFrame {
       //addDataFile will throw an exception if an error occurs when
       //creating the Reader and parsing the settings.
       JOptionPane.showMessageDialog(null, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       return;
     }
     filesTable.revalidate();
@@ -393,8 +427,12 @@ public class MainUI extends JFrame {
     }
     filesTable.revalidate();
   }
+  
+  /**
+   * Opens the settings builder window.
+   */
   private void onSettingsBuilder() {
-	GUI.init(new SettingsGenerator());
+    Gui.init(new SettingsGenerator());
   }
 
   /**
@@ -417,12 +455,12 @@ public class MainUI extends JFrame {
       return;
     }
 
-    System.out.println("Run script with input:\n"
+    LOG.log(Level.INFO, "Run script with input:\n"
             + "scriptFile = " + Input.getScriptFile().getAbsolutePath() + "\n"
             + "outputDir = " + Input.getOutputDir().getAbsolutePath() + "\n"
             + "files = ");
     for (DataFile file : Input.getFiles()) {
-      System.out.println(file.toString());
+      LOG.log(Level.INFO, file.toString());
     }
     ProgressGui.init();
   }
@@ -443,7 +481,7 @@ public class MainUI extends JFrame {
       }
       reader.close();
     } catch (IOException e) {
-      LOG.log(Level.WARNING, e.getMessage());
+      LOG.log(Level.WARNING, e.getMessage(), e);
     }
   }
 
@@ -457,7 +495,7 @@ public class MainUI extends JFrame {
       writer.write(previousDirectory.getAbsolutePath());
       writer.close();
     } catch (IOException e) {
-      LOG.log(Level.WARNING, e.getMessage());
+      LOG.log(Level.WARNING, e.getMessage(), e);
     }
   }
 
@@ -473,7 +511,7 @@ public class MainUI extends JFrame {
    * Shows a file dialog for the user to select the data file.
    */
   public static File openDataFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    List<FileNameExtensionFilter> filters = new ArrayList<>();
     filters.add(xlsfilter);
     filters.add(txtfilter);
     filters.add(csvfilter);
@@ -485,7 +523,7 @@ public class MainUI extends JFrame {
    * Shows a file dialog for the user to select a ser file.
    */
   public static File openTableFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    List<FileNameExtensionFilter> filters = new ArrayList<>();
     filters.add(serfilter);
     return openFile(filters, "table file");
   }
@@ -494,7 +532,7 @@ public class MainUI extends JFrame {
    * Shows a file dialog for the user to select the settings file.
    */
   public static File openSettingsFile() {
-    List<FileNameExtensionFilter> filters = new ArrayList<FileNameExtensionFilter>();
+    List<FileNameExtensionFilter> filters = new ArrayList<>();
     filters.add(xmlfilter);
     return openFile(filters, "settings file");
   }
@@ -502,7 +540,7 @@ public class MainUI extends JFrame {
   /**
    * Shows a file dialog for the user to select a file.
    */
-  private static File openFile(List<FileNameExtensionFilter> filters, String title) {
+  public static File openFile(List<FileNameExtensionFilter> filters, String title) {
     File file;
     JFileChooser chooser = new JFileChooser(previousDirectory);
     chooser.setDialogTitle("Open " + title + ".");
@@ -523,7 +561,7 @@ public class MainUI extends JFrame {
                 "File not found.", JOptionPane.ERROR_MESSAGE);
         return null;
       }
-      System.out.println("Selected " + title + ": " + file);
+
       return file;
     }
 
@@ -533,7 +571,7 @@ public class MainUI extends JFrame {
   /**
    * Shows a file dialog for the user to save a file.
    */
-  private static File saveFile(List<FileNameExtensionFilter> filters, String title) {
+  public static File saveFile(List<FileNameExtensionFilter> filters, String title) {
     File file;
     JFileChooser chooser = new JFileChooser(previousDirectory);
     chooser.setDialogTitle("Save " + title + ".");
@@ -545,7 +583,6 @@ public class MainUI extends JFrame {
     int state = chooser.showSaveDialog(null);
 
     if (state == JFileChooser.APPROVE_OPTION) {
-
       previousDirectory = chooser.getCurrentDirectory();
       file = chooser.getSelectedFile();
       return file;
@@ -554,7 +591,8 @@ public class MainUI extends JFrame {
     return null;
   }
 
-
+  
+//CHECKSTYLE:OFF
   {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
 // >>> IMPORTANT!! <<<
@@ -574,7 +612,7 @@ public class MainUI extends JFrame {
     contentPane.setLayout(new GridBagLayout());
     contentPane.setOpaque(true);
     contentPane.setPreferredSize(new Dimension(1024, 720));
-    filesPanel = new JPanel();
+    JPanel filesPanel = new JPanel();
     filesPanel.setLayout(new GridBagLayout());
     GridBagConstraints gbc;
     gbc = new GridBagConstraints();
@@ -629,7 +667,7 @@ public class MainUI extends JFrame {
     buttonCancel.setMaximumSize(new Dimension(170, 48));
     buttonCancel.setMinimumSize(new Dimension(170, 48));
     buttonCancel.setPreferredSize(new Dimension(170, 48));
-    buttonCancel.setText("Cancel");
+    buttonCancel.setText("Close");
     buttonCancel.setMnemonic('C');
     buttonCancel.setDisplayedMnemonicIndex(0);
     gbc = new GridBagConstraints();
@@ -791,7 +829,7 @@ public class MainUI extends JFrame {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.insets = new Insets(2, 2, 2, 2);
     filesPanel.add(openFileButton, gbc);
-    filesTableScrollPane = new JScrollPane();
+    JScrollPane filesTableScrollPane = new JScrollPane();
     gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 2;
@@ -815,4 +853,6 @@ public class MainUI extends JFrame {
   public JComponent $$$getRootComponent$$$() {
     return contentPane;
   }
+//CHECKSTYLE:ON
+  
 }

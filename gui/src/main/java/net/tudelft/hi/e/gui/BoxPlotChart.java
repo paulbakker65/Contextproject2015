@@ -1,8 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.NumberValue;
@@ -19,9 +16,16 @@ import org.jfree.data.general.Dataset;
 import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JPanel;
 
 class BoxPlotChart {
+
+  private BoxPlotChart() {
+
+  }
 
   public static JPanel createPanel(Table table, String column) {
     Dataset dataset = createDataset(table, column);
@@ -44,7 +48,7 @@ class BoxPlotChart {
   public static Dataset createDataset(Table table, String column) {
     DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
     for (Chunk chunk : ChunksFinder.extractChunks(table, 1)) {
-      List<Double> items = new ArrayList<Double>();
+      List<Double> items = new ArrayList<>();
       for (Record record : chunk) {
         Value value = record.get(column);
         if (value.isNumeric()) {

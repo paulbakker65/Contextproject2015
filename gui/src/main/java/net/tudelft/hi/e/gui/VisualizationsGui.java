@@ -1,5 +1,17 @@
 package net.tudelft.hi.e.gui;
 
+import net.tudelft.hi.e.common.exceptions.ParseFailedException;
+import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.DateColumn;
+import net.tudelft.hi.e.data.NumberColumn;
+import net.tudelft.hi.e.data.StateTransitionMatrix;
+import net.tudelft.hi.e.data.StemLeafPlot;
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.data.TableFile;
+import net.tudelft.hi.e.input.DataFile;
+import net.tudelft.hi.e.input.Input;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,6 +22,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +36,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -31,21 +45,10 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.JDesktopPane;
-import javax.swing.UIManager;
 import javax.swing.SpinnerNumberModel;
 
-import net.tudelft.hi.e.common.exceptions.ParseFailedException;
-import net.tudelft.hi.e.common.exceptions.TableNotFoundException;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.DateColumn;
-import net.tudelft.hi.e.data.NumberColumn;
-import net.tudelft.hi.e.data.StateTransitionMatrix;
-import net.tudelft.hi.e.data.StemLeafPlot;
-import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.data.TableFile;
-import net.tudelft.hi.e.input.DataFile;
-import net.tudelft.hi.e.input.Input;
+import javax.swing.UIManager;
+
 
 /**
  * A GUI for selecting visualizations.
@@ -85,11 +88,12 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   private JDesktopPane desktopHistogram;
   private SpinnerNumberModel frequencyDepthModel;
 
-  public static final String CODE = "* CODE *";
+  private static final String CODE = "* CODE *";
 
   private Table table;
 
-  private static final String start = "Start";
+  private static final String START = "Start";
+  private static final String SELECT = "Select a column: ";
 
   /**
    * Creates the GUI components, use init() instead.
@@ -114,7 +118,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
    * Creates the Visualizations GUI.
    */
   public static void init(Table table) {
-    String name = (table == null ? "" : " - " + table.getName());
+    String name = table == null ? "" : " - " + table.getName();
     JFrame frame = new JFrame("Visualizations" + name);
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -123,7 +127,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     contentPane.setPreferredSize(new Dimension(1024, 720));
     frame.setContentPane(contentPane);
 
-    GUI.init(frame);
+    Gui.init(frame);
   }
 
   private JPanel createFilePanel() {
@@ -157,6 +161,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     filepanel.add(settings, gbc);
 
     openfile = new JButton("Open file");
+    openfile.setMnemonic(KeyEvent.VK_O);
     openfile.addActionListener(this);
     gbc.gridx = 3;
     gbc.weightx = 0.1;
@@ -164,6 +169,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     filepanel.add(openfile, gbc);
 
     opentable = new JButton("Open table");
+    opentable.setMnemonic(KeyEvent.VK_T);
     opentable.addActionListener(this);
     gbc.gridx = 4;
     gbc.weightx = 0.1;
@@ -185,7 +191,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     tabbedPane = new JTabbedPane();
     tabbedPane.setEnabled(false);
-    ImageIcon icon = GUI.createImageIcon("icon.png");
+    ImageIcon icon = Gui.createImageIcon("icon.png");
 
     tabbedPane.addTab("Table Preview", icon, panel, "View a preview of the table");
     tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
@@ -197,13 +203,13 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
     tabbedPane.addTab("Transition Matrix", icon, null, "Create a Transition Matrix");
-    tabbedPane.setMnemonicAt(3, KeyEvent.VK_5);
+    tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
 
     tabbedPane.addTab("Stem and Leaf", icon, null, "Create a Stem and Leaf plot");
-    tabbedPane.setMnemonicAt(4, KeyEvent.VK_6);
+    tabbedPane.setMnemonicAt(4, KeyEvent.VK_5);
 
     tabbedPane.addTab("Histogram", icon, null, "Create a Histogram");
-    tabbedPane.setMnemonicAt(5, KeyEvent.VK_7);
+    tabbedPane.setMnemonicAt(5, KeyEvent.VK_6);
   }
 
   private JPanel createFrequencyPanel() {
@@ -213,17 +219,17 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     panel.add(top,  BorderLayout.PAGE_START);
 
     top.add(new JLabel("Chunk depth: "));
-    
+
     frequencyDepthModel = new SpinnerNumberModel(0, 0, 9, 1);
 
     top.add(new JSpinner(frequencyDepthModel));
-    
-    top.add(new JLabel("Select a column: "));
 
-    comboFrequency = new JComboBox<String>(getColumns(true));
+    top.add(new JLabel(SELECT));
+
+    comboFrequency = new JComboBox<>(getColumns(true));
     top.add(comboFrequency);
 
-    buttonFrequency = new JButton(start);
+    buttonFrequency = new JButton(START);
     buttonFrequency.addActionListener(this);
     top.add(buttonFrequency);
 
@@ -239,17 +245,17 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     JPanel top = new JPanel();
     panel.add(top, BorderLayout.PAGE_START);
 
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    List<Class<? extends Column>> allowed = new ArrayList<>();
 
     allowed.add(NumberColumn.class);
 
-    comboBar = new JComboBox<String>(getColumns(allowed, false, false));
+    comboBar = new JComboBox<>(getColumns(allowed, false, false));
     top.add(comboBar);
 
 
-    buttonBar = new JButton(start);
+    buttonBar = new JButton(START);
     buttonBar.addActionListener(this);
     top.add(buttonBar);
 
@@ -265,15 +271,15 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     JPanel top = new JPanel();
     panel.add(top, BorderLayout.PAGE_START);
 
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    List<Class<? extends Column>> allowed = new ArrayList<>();
     allowed.add(DateColumn.class);
 
-    comboStateT = new JComboBox<String>(getColumns(allowed, false, false));
+    comboStateT = new JComboBox<>(getColumns(allowed, false, false));
     top.add(comboStateT);
 
-    buttonStateT = new JButton(start);
+    buttonStateT = new JButton(START);
     buttonStateT.addActionListener(this);
     top.add(buttonStateT);
 
@@ -289,18 +295,18 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     JPanel top = new JPanel();
     panel.add(top, BorderLayout.PAGE_START);
 
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    List<Class<? extends Column>> allowed = new ArrayList<>();
     allowed.add(NumberColumn.class);
-    comboStemLeaf = new JComboBox<String>(getColumns(allowed, false, false));
+    comboStemLeaf = new JComboBox<>(getColumns(allowed, false, false));
     top.add(comboStemLeaf);
 
     top.add(new JLabel("Power: "));
     textStemLeaf = new JTextField("2");
     top.add(textStemLeaf);
 
-    buttonStemLeaf = new JButton(start);
+    buttonStemLeaf = new JButton(START);
     buttonStemLeaf.addActionListener(this);
     top.add(buttonStemLeaf);
 
@@ -316,18 +322,18 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     JPanel top = new JPanel();
     panel.add(top, BorderLayout.PAGE_START);
 
-    top.add(new JLabel("Select a column: "));
+    top.add(new JLabel(SELECT));
 
-    List<Class<? extends Column>> allowed = new ArrayList<Class<? extends Column>>();
+    List<Class<? extends Column>> allowed = new ArrayList<>();
     allowed.add(NumberColumn.class);
-    comboHistogram = new JComboBox<String>(getColumns(allowed, false, false));
+    comboHistogram = new JComboBox<>(getColumns(allowed, false, false));
     top.add(comboHistogram);
 
     top.add(new JLabel("Power: "));
     textHistogram = new JTextField("2");
     top.add(textHistogram);
 
-    buttonHistogram = new JButton(start);
+    buttonHistogram = new JButton(START);
     buttonHistogram.addActionListener(this);
     top.add(buttonHistogram);
 
@@ -339,9 +345,6 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
   private static JDesktopPane createDesktopPane() {
     return new JDesktopPane() {
-      /**
-       * 
-       */
       private static final long serialVersionUID = 1L;
 
       @Override
@@ -396,12 +399,12 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     File dataFile;
     File settingsFile;
 
-    dataFile = MainUI.openDataFile();
+    dataFile = MainUi.openDataFile();
     if (dataFile == null) {
       return;
     }
 
-    settingsFile = MainUI.openSettingsFile();
+    settingsFile = MainUi.openSettingsFile();
     if (settingsFile == null) {
       return;
     }
@@ -411,7 +414,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     } catch (Exception e) {
       // addDataFile will throw an exception if an error occurs when
       // creating the Reader and parsing the settings.
-      LOG.log(Level.SEVERE, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       JOptionPane.showMessageDialog(null, e.getMessage());
       return;
     }
@@ -435,7 +438,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
   }
 
   private void onOpenTable() {
-    File tableFile = MainUI.openTableFile();
+    File tableFile = MainUi.openTableFile();
 
     if (tableFile == null) {
       return;
@@ -445,7 +448,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       table = TableFile.readTable(tableFile);
       updateTabbedPane();
     } catch (TableNotFoundException e) {
-      LOG.log(Level.SEVERE, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       JOptionPane.showMessageDialog(null, e.getMessage());
     }
   }
@@ -459,24 +462,21 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     } else {
       panel = FrequencyChart.createPanel(table, depth, column);
     }
-      String title = "Frequency Chart {column:'" + column + "'}";
-    JInternalFrame frame = GUI.createInternalFrame(title, panel);
-    desktopFrequency.add(frame);
+    String title = "Frequency Chart {column:'" + column + "'}";
+    addFrame(desktopFrequency, Gui.createInternalFrame(title, panel));
   }
 
   private void onBoxChart() {
     String column = (String) comboBar.getSelectedItem();
-
     String title = "Bar Chart {column:'" + column + "'}";
-    JInternalFrame frame = GUI.createInternalFrame(title, BoxPlotChart.createPanel(table, column));
-    desktopBar.add(frame);
+    addFrame(desktopBar, Gui.createInternalFrame(title, BoxPlotChart.createPanel(table, column)));
   }
 
   private void onStateT() {
     String column = (String) comboStateT.getSelectedItem();
     StateTransitionMatrix stm = new StateTransitionMatrix(table, column);
-      String title = "State Transition Matrix {column:'" + column + "'}";
-    desktopStateT.add(GUI.createInternalFrame(title, new DisplayTableGui(stm)));
+    String title = "State Transition Matrix {column:'" + column + "'}";
+    addFrame(desktopStateT, Gui.createInternalFrame(title, new DisplayTableGui(stm)));
   }
 
   private void onStemLeaf() {
@@ -485,7 +485,7 @@ public class VisualizationsGui extends JPanel implements ActionListener {
 
     StemLeafPlot slp = new StemLeafPlot(table, column, power);
     String title = "Stem and Leaf {column:'" + column + "', power:" + power + "}";
-    desktopStemLeaf.add(GUI.createInternalFrame(title, new DisplayTableGui(slp)));
+    addFrame(desktopStemLeaf, Gui.createInternalFrame(title, new DisplayTableGui(slp)));
   }
 
   private void onHistogram() {
@@ -493,8 +493,8 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     int power = getIntFromText(textHistogram);
 
     String title = "Histogram {column:'" + column + "', power: " + power + "}";
-    JInternalFrame frame = GUI.createInternalFrame(title, HistogramChart.createPanel(table, column, power));
-    desktopHistogram.add(frame);
+    addFrame(desktopHistogram, 
+        Gui.createInternalFrame(title, HistogramChart.createPanel(table, column, power)));
   }
 
   private static int getIntFromText(JTextField field) {
@@ -507,25 +507,39 @@ public class VisualizationsGui extends JPanel implements ActionListener {
     return number;
   }
 
+  /**
+   * Adds the frame to the desktop pane, 
+   * sets the location and selects the frame so that it shows on top.
+   * @param pane The JDesktopPane to add the frame to.
+   * @param frame The JInternalFrame to add, set the location and set selected.
+   */
+  private void addFrame(JDesktopPane pane, JInternalFrame frame) {
+    int count = pane.getAllFrames().length;
+    frame.setLocation(count * 25, count * 25);
+
+    pane.add(frame);
+
+    try {
+      frame.setSelected(true);
+    } catch (PropertyVetoException e) {
+      LOG.log(Level.WARNING, "Error while selecting the new internalframe.", e);
+    }
+  }
 
 
 
 
   /**
    * Gives a list of all columns the table contains.
-   *
-   * @param columntypes
-   *          a list containing column classes. If set null, all class types are allowed.
-   * @param isblacklist
-   *          if true, columntypes is used as a blacklist, else it is used as a whitelist.
-   * @param codes
-   *          wether the special CODE should be added
+   * @param columntypes a list containing column classes. If set null, all class types are allowed.
+   * @param isblacklist if true, columntypes is used as a blacklist, else it is used as a whitelist.
+   * @param codes wether the special CODE should be added
    * @return all the column names.
    */
-  private String[] getColumns(List<Class<? extends Column>> columntypes, boolean isblacklist,
-      boolean codes) {
+  private String[] getColumns(List<Class<? extends Column>> columntypes, 
+      @SuppressWarnings("SameParameterValue") boolean isblacklist, boolean codes) {
     List<Column> columnlist = table.getColumns();
-    List<String> columns = new ArrayList<String>();
+    List<String> columns = new ArrayList<>();
 
     for (Column column : columnlist) {
       if (columntypes == null || columntypes.contains(column.getClass()) != isblacklist) {
@@ -537,15 +551,15 @@ public class VisualizationsGui extends JPanel implements ActionListener {
       columns.add(CODE);
     }
 
-    return columns.toArray(new String[0]);
+    return columns.toArray(new String[columns.size()]);
   }
 
-  private String[] getColumns(boolean codes) {
+  private String[] getColumns(@SuppressWarnings("SameParameterValue") boolean codes) {
     return getColumns(null, false, codes);
   }
 
   public static void main(String[] argv) {
-    GUI.setSystemLook();
+    Gui.setSystemLook();
     VisualizationsGui.init(null);
   }
 }

@@ -9,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
  * A TableModel used by FilesTable to store the table data.
  */
 class FilesTableModel extends AbstractTableModel {
+  private static final long serialVersionUID = 1L;
   private static final String[] columnNames = {"Data filepath",
     "Settings filepath"};
 

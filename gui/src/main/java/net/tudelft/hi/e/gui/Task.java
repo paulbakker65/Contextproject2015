@@ -1,16 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-
-import javax.swing.SwingWorker;
-
-
 import net.tudelft.hi.e.common.exceptions.ExceptionHandler;
 import net.tudelft.hi.e.common.exceptions.ParseFailedException;
 import net.tudelft.hi.e.data.Table;
@@ -21,6 +10,17 @@ import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
 import net.tudelft.hi.e.input.Settings;
 import net.tudelft.hi.e.script.ScriptExecutionManager;
+
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
+import javax.swing.SwingWorker;
+
 
 class Task extends SwingWorker<Void, Void> {
 
@@ -57,15 +57,15 @@ class Task extends SwingWorker<Void, Void> {
    */
   private boolean parseFiles() {
     log("Parsing input files.", true);
-    tables = new ArrayList<Table>();
+    tables = new ArrayList<>();
 
     int currentprogress = 0;
     int onefileprogress = 30 / Input.getFiles().size();
 
     for (DataFile datafile : Input.getFiles()) {
-      log("Parsing " + datafile.toString());
+      log("Parsing " + datafile.toString(), false);
       Table table = datafile.getTable();
-      if(table == null) {
+      if (table == null) {
         error("Error Parsing " + datafile.toString());
         return false;
       }
@@ -91,13 +91,14 @@ class Task extends SwingWorker<Void, Void> {
     try {
       exec.addScriptFile(Input.getScriptFile().getAbsolutePath());
     } catch (ParseFailedException ex) {
-      error("Error parsing the script file!");
-      error(ex.getMessage());
+      String error = "Error parsing the script file!";
+      LOG.log(Level.SEVERE, error, ex);
+      error(error + ex.getMessage());
       return false;
     }
     if (!ExceptionHandler.getExceptionHandlerInstance().getLogRecords().isEmpty()) {
       error("Error parsing the script file!");
-      for(LogRecord r : ExceptionHandler.getExceptionHandlerInstance().getLogRecords()) {
+      for (LogRecord r : ExceptionHandler.getExceptionHandlerInstance().getLogRecords()) {
         error(r.getMessage());
       }
       return false;
@@ -120,8 +121,8 @@ class Task extends SwingWorker<Void, Void> {
     int percent = (100 - progress) / tables.size();
     log("Writing output files.", true);
     for (Table table : tables) {
-      String filepath = Paths.get(outputDir.getAbsolutePath() , "output_" + table.getName())
-          .toString();
+      String filepath = 
+          Paths.get(outputDir.getAbsolutePath() , "output_" + table.getName()).toString();
       exportFile(table, filepath);
       exportSettings(table, filepath + ".xml");
       progress += percent;
@@ -145,8 +146,9 @@ class Task extends SwingWorker<Void, Void> {
     try {
       Exporter.export(table, filepath, ".csv");
     } catch (Exception e) {
-      error("Error writing file: " + filepath);
-      e.printStackTrace();
+      String error = "Error writing file: " + filepath;
+      LOG.log(Level.SEVERE, error, e);
+      error(error);
     }
   }
 
@@ -167,14 +169,15 @@ class Task extends SwingWorker<Void, Void> {
       try {
         SettingsWriter.writeSettings(settings, new File(filepath));
       } catch (Exception e) {
-        error("Error creating xml file: " + e.getMessage());
-        e.printStackTrace();
+        String error = "Error creating xml file: " + e.getMessage();
+        LOG.log(Level.SEVERE, error, e);
+        error(error);
       }
     }
   }
 
   private void log(String message, boolean... options) {
-    boolean bold = (options.length > 0 && options[0]);
+    boolean bold = options.length > 0 && options[0];
     LOG.log(Level.INFO, message);
     this.firePropertyChange("log", bold, message + System.lineSeparator());
   }

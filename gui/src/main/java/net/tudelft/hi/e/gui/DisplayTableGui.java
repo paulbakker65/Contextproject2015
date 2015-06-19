@@ -1,5 +1,7 @@
 package net.tudelft.hi.e.gui;
 
+import net.tudelft.hi.e.data.Table;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -13,7 +15,6 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import net.tudelft.hi.e.data.Table;
 
 /**
  * A GUI to display a Table.
@@ -59,7 +60,7 @@ public class DisplayTableGui extends JPanel {
 
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-    GUI.init(frame);
+    Gui.init(frame);
   }
 
   /**

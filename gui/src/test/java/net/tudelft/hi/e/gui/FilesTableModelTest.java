@@ -1,16 +1,19 @@
 package net.tudelft.hi.e.gui;
 
-import java.io.File;
-import java.util.ArrayList;
-import net.tudelft.hi.e.common.exceptions.WrongXmlException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import net.tudelft.hi.e.common.exceptions.WrongXmlException;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+
+
 
 /**
  * FileTableModelTest class testing the main.FileTableModel class.

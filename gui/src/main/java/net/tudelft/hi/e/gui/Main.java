@@ -1,10 +1,10 @@
 package net.tudelft.hi.e.gui;
 
+import net.tudelft.hi.e.input.Input;
+
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import net.tudelft.hi.e.input.Input;
 
 
 /**
@@ -14,6 +14,10 @@ import net.tudelft.hi.e.input.Input;
 public class Main{
   private static final Logger LOG = Logger.getLogger(Task.class.getName());
   private static boolean nogui = false;
+
+  private Main() {
+  }
+
   /**
    * Main
    * @param args A array of arguments.
@@ -23,7 +27,7 @@ public class Main{
       return;
     }
 
-    if(nogui) {
+    if (nogui) {
       noGui();
     } else {
       openGui();
@@ -36,11 +40,12 @@ public class Main{
    */
   public static boolean parseCommandline(String[] argv) {
     int argc = argv.length;
-    for (int i = 0; i < argc; i++) {
+    int i = 0;
+    while (i < argc) {
       String arg = argv[i];
       int left = argc - i;
       if ("-f".equals(arg) && left > 2) {
-        if(!addDataFile(argv[i + 1], argv[i + 2])) {
+        if (!addDataFile(argv[i + 1], argv[i + 2])) {
           return false;
         }
         i += 2;
@@ -63,9 +68,10 @@ public class Main{
             + "    -s <script file>\n"
             + "    -o <output directory>\n"
             + "    -nogui\n";
-        System.out.println(usage);
+        LOG.log(Level.INFO, usage);
         return false;
       }
+      i++;
     }
     return true;
   }
@@ -77,7 +83,7 @@ public class Main{
     try {
       Input.addDataFile(file, settings);
     } catch (Exception e) {
-      LOG.log(Level.SEVERE, e.getMessage());
+      LOG.log(Level.SEVERE, e.getMessage(), e);
       return false;
     }
 
@@ -89,10 +95,10 @@ public class Main{
    */
   private static void openGui() {
     String windowTitle = "Contextproject 2015 Groep 5/E";
-    MainUI frame = new MainUI();
+    MainUi frame = new MainUi();
     frame.setTitle(windowTitle);
 
-    GUI.init(frame);
+    Gui.init(frame);
   }
 
   private static void noGui() {

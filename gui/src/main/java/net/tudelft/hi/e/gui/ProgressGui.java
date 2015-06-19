@@ -1,25 +1,30 @@
 package net.tudelft.hi.e.gui;
 
+import net.tudelft.hi.e.data.Table;
+import net.tudelft.hi.e.export.Exporter;
+import net.tudelft.hi.e.input.Input;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -30,16 +35,15 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import net.tudelft.hi.e.data.Table;
-import net.tudelft.hi.e.export.Exporter;
-import net.tudelft.hi.e.input.Input;
 
 /**
  * A GUI that shows a progress bar and a text area to show a log.
  * Also creates a Task, it's code is run in a different thread and can be used to update the gui.
  */
 public class ProgressGui extends JPanel implements PropertyChangeListener {
+  private static final Logger LOG = Logger.getLogger(ProgressGui.class.getName());
   private static final long serialVersionUID = 1L;
+
   private JProgressBar progressBar;
   private JTextPane log;
   private JButton visualizationsButton;
@@ -78,7 +82,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     contentPane.setPreferredSize(new Dimension(1024, 720));
     frame.setContentPane(contentPane);
 
-    GUI.init(frame);
+    Gui.init(frame);
   }
 
 
@@ -110,8 +114,11 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
 
   private JPanel createLeftButtonPanel() {
     JPanel panel = new JPanel();
+    panel.setVisible(true);
+    
     visualizationsButton = new JButton("Visualizations");
-    visualizationsButton.setIcon(GUI.createImageIcon("icon.png"));
+    visualizationsButton.setMnemonic(KeyEvent.VK_V);
+    visualizationsButton.setIcon(Gui.createImageIcon("icon.png"));
     visualizationsButton.setEnabled(false);
     visualizationsButton.addActionListener(new ActionListener() {
       @Override
@@ -122,7 +129,8 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(visualizationsButton);
 
     previewButton = new JButton("Preview Table");
-    previewButton.setIcon(GUI.createImageIcon("table.png"));
+    previewButton.setMnemonic(KeyEvent.VK_P);
+    previewButton.setIcon(Gui.createImageIcon("table.png"));
     previewButton.setEnabled(false);
     previewButton.addActionListener(new ActionListener() {
       @Override
@@ -133,7 +141,8 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     panel.add(previewButton);
     
     exportButton = new JButton("Export with custom delimiter");
-    exportButton.setIcon(GUI.createImageIcon("save.png"));
+    exportButton.setMnemonic(KeyEvent.VK_E);
+    exportButton.setIcon(Gui.createImageIcon("save.png"));
     exportButton.setEnabled(false);
     exportButton.addActionListener(new ActionListener() {
       @Override
@@ -147,7 +156,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     comboLabel = new JLabel("Table selected:");
     comboLabel.setEnabled(false);
     comboPanel.add(comboLabel, BorderLayout.NORTH);
-    comboPreviews = new JComboBox<String>();
+    comboPreviews = new JComboBox<>();
     comboPreviews.setEnabled(false);
     comboPanel.add(comboPreviews, BorderLayout.SOUTH);
     panel.add(comboPanel);
@@ -156,9 +165,10 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   }
 
   private JPanel createRightButtonPanel() {
-    JPanel panel = new JPanel();
+    final JPanel panel = new JPanel();
     JButton viewoutputdirButton = new JButton("View output directory");
-    viewoutputdirButton.setIcon(GUI.createImageIcon("folder.png"));
+    viewoutputdirButton.setMnemonic(KeyEvent.VK_O);
+    viewoutputdirButton.setIcon(Gui.createImageIcon("folder.png"));
     viewoutputdirButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
@@ -167,8 +177,9 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
     });
     panel.add(viewoutputdirButton);
 
-    JButton exitButton = new JButton("Exit");
-    exitButton.setIcon(GUI.createImageIcon("exit.png"));
+    JButton exitButton = new JButton("Close");
+    exitButton.setMnemonic(KeyEvent.VK_X);
+    exitButton.setIcon(Gui.createImageIcon("exit.png"));
     exitButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent ae) {
@@ -184,6 +195,7 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   /**
    * Invoked when task's progress property changes.
    */
+  @Override
   public void propertyChange(PropertyChangeEvent evt) {
     String prop = evt.getPropertyName();
     if (Objects.equals("progress", prop)) {
@@ -230,26 +242,24 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
   }
   
   private void onExport() {
-	  Character[] delimiters = new Character[]{',',  ';', '.', '\t'};
-	  Object result = JOptionPane.showInputDialog(frame, "Please select delimiter:", "Change delimiter", JOptionPane.PLAIN_MESSAGE, GUI.createImageIcon("save.png"), delimiters, ',');
-	  if (result == null) {
-		  return;
-	  }
-	  Exporter.setDelimiter((char) result);
+    Character[] delimiters = new Character[]{',',  ';', '.', '\t'};
+    Object result = JOptionPane.showInputDialog(frame, 
+        "Please select delimiter:", "Change delimiter", JOptionPane.PLAIN_MESSAGE, 
+        Gui.createImageIcon("save.png"), delimiters, ',');
+    if (result == null) {
+      return;
+    }
 
-	  Table table = task.getTable(comboPreviews.getSelectedIndex());
-	  String filepath = Input.getOutputDir() + "/output_" + table.getName();
-      task.exportFile(table, filepath);
-      task.exportSettings(table, filepath + ".xml");
+    Exporter.setDelimiter((char)result);
+
+    Table table = task.getTable(comboPreviews.getSelectedIndex());
+    String filepath = Input.getOutputDir() + "/output_" + table.getName();
+    task.exportFile(table, filepath);
+    task.exportSettings(table, filepath + ".xml");
   }
 
   private void onViewOutputDir() {
-    try {
-      Desktop.getDesktop().open(Input.getOutputDir());
-    } catch (IOException e1) {
-      System.out.println("Error trying to view the directory.");
-      e1.printStackTrace();
-    }
+    Gui.openSystemEditor(Input.getOutputDir());
   }
 
   private void onExit() {
@@ -261,12 +271,13 @@ public class ProgressGui extends JPanel implements PropertyChangeListener {
 
 
   private void appendToLog(String message, boolean... options) {
-    boolean bold = (options.length > 0 && options[0]);
+    boolean bold = options.length > 0 && options[0];
 
     appendToLog(message, Color.BLACK, bold);
   }
 
   private void appendToLog(String message, Color color, boolean bold) {
+    LOG.log(color == Color.RED ? Level.SEVERE : Level.INFO, message);
     log.setEditable(true);
     StyleContext sc = StyleContext.getDefaultStyleContext();
     AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);

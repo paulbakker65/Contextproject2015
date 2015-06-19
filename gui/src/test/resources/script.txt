@@ -1,0 +1,1 @@
+CONNECT [test1].[date1] TO [test2].[date2]

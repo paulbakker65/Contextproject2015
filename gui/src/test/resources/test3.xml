@@ -1,4 +1,4 @@
-<settings startLine="2" delimiter="," name="name">
+<settings startLine="2" delimiter="," name="test3">
 	<column name="Soort"/>
 	<column name="Persoon"/>
 	<column name="Beoordeling" type="number" />

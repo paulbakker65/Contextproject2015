@@ -1,12 +1,10 @@
 package net.tudelft.hi.e.gui;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import net.tudelft.hi.e.gui.Main;
-import net.tudelft.hi.e.input.Input;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import net.tudelft.hi.e.input.Input;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +12,6 @@ import org.junit.Test;
  * Tests for Main class.
  */
 public class MainTest {
-  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final String filepath = "src/test/resources/";
 
   @Before
@@ -32,8 +29,7 @@ public class MainTest {
     boolean actual = Main.parseCommandline(argv);
     assertEquals(true, actual);
     assertEquals(1, Input.getFiles().size());
-    assertEquals("csvexample.csv", Input.getFiles().get(0).getRawDataFile().
-        getName());
+    assertEquals("csvexample.csv", Input.getFiles().get(0).getRawDataFile().getName());
     assertEquals("settings.xml", Input.getFiles().get(0).getSettingsfile().getName());
 
     Input.clean();
@@ -45,21 +41,6 @@ public class MainTest {
     assertFalse(Input.hasFiles());
     assertFalse(Input.hasOutput());
     assertFalse(Input.hasScript());
-  }
-
-  /**
-   * Test error in command line.
-   */
-  @Test
-  public void testParseCommandlineErrorCmd() {
-    final PrintStream bak = System.out;
-    System.setOut(new PrintStream(outContent));
-    final String commandline = "-o " + filepath + "output" + " -f " + filepath + "csvexample.csv";
-    final String[] argv = commandline.split(" ");
-    final boolean actual = Main.parseCommandline(argv);
-    assertEquals(false, actual);
-    assertTrue(outContent.toString().contains("Error in program arguments."));
-    System.setOut(bak);
   }
 
   /**

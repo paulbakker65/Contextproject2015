@@ -1,15 +1,15 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
-
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.input.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
 
 /**
  * A TableModel that wraps around a Settings instance, and updates it as the table using this model
@@ -22,8 +22,8 @@ public class SettingsTableModel extends AbstractTableModel {
    * Default id.
    */
   private static final long serialVersionUID = 1L;
-  private Settings settings;
-  private String[] examples;
+  private final Settings settings;
+  private final String[] examples;
 
   private static final String[] colnames = { "name", "type", "format", "target", "example" };
 
@@ -54,10 +54,8 @@ public class SettingsTableModel extends AbstractTableModel {
 
   @Override
   public boolean isCellEditable(int rowIndex, int columnIndex) {
-    if (columnIndex == 4) {
-      return false;
-    }
-    return "date".equals(settings.getColumns().get(rowIndex).getType()) || columnIndex < 2;
+    return columnIndex != 4 
+        && ("date".equals(settings.getColumns().get(rowIndex).getType()) || columnIndex < 2);
   }
 
   @Override
@@ -70,21 +68,15 @@ public class SettingsTableModel extends AbstractTableModel {
 
     if (columnIndex == 0) {
       return col.getName();
-    }
-    if (columnIndex == 1) {
+    } else if (columnIndex == 1) {
       return col.getType();
-    }
-    if (!"date".equals(col.getType())) {
+    } else if (!"date".equals(col.getType())) {
       return "";
+    }  else if (columnIndex == 2) {
+      return ((DateColumn)col).getFormatStr();
     }
 
-    DateColumn dc = (DateColumn) col;
-
-    if (columnIndex == 2) {
-      return dc.getFormatStr();
-    }
-
-    return dc.getTargetDate();
+    return ((DateColumn)col).getTargetDate();
   }
 
   @Override
@@ -130,7 +122,7 @@ public class SettingsTableModel extends AbstractTableModel {
    * @return Columns to use in settings
    */
   public static List<Column> generateColsByHeaders(String[] headers) {
-    ArrayList<Column> cols = new ArrayList<Column>();
+    List<Column> cols = new ArrayList<>();
     for (String header : headers) {
       cols.add(new StringColumn(header));
     }
@@ -145,9 +137,9 @@ public class SettingsTableModel extends AbstractTableModel {
    * @return Columns to use in settings
    */
   public static List<Column> generateEmptyCols(int amount) {
-    ArrayList<Column> cols = new ArrayList<Column>();
-    for (int i=0; i<amount; i++) {
-      cols.add(new StringColumn("Col "+(i+1)));
+    List<Column> cols = new ArrayList<>();
+    for (int i = 0; i < amount; i++) {
+      cols.add(new StringColumn("Col " + (i + 1)));
     }
     return cols;
   }

@@ -1,11 +1,5 @@
 package net.tudelft.hi.e.gui;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
 import net.tudelft.hi.e.data.Code;
@@ -25,12 +19,23 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
+
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.swing.JPanel;
 
 class FrequencyChart {
-  private static final long serialVersionUID = 1L;
-  private Table table;
-  private int chunkDepth;
+  private final Table table;
+  private final int chunkDepth;
+
+  private FrequencyChart(Table table, int chunkDepth) {
+    this.table = table;
+    this.chunkDepth = chunkDepth;
+  }
 
   /**
    * Makes a new Frequency Frame
@@ -41,27 +46,22 @@ class FrequencyChart {
    */
   public static JPanel createPanel(Table table, int chunkDepth, String column) {
     FrequencyChart chart = new FrequencyChart(table, chunkDepth);
-		
+
     Dataset dataset = createDataset(table, column, chunkDepth);
     return chart.createChartPanel(chart.createChart(dataset, column));
   }
 
   /**
-   * Makes a Frequency Frame with codes
+   * Makes a Frequency Frame with codes.
    *
    * @param table data to use
    * @param chunkDepth depth of chunks
    */
   public static JPanel createPanel(Table table, int chunkDepth) {
-	FrequencyChart chart = new FrequencyChart(table, chunkDepth);
-		
+    FrequencyChart chart = new FrequencyChart(table, chunkDepth);
+
     Dataset dataset = chart.createCodesDataset();
     return chart.createChartPanel(chart.createChart(dataset, "Codes"));
-  }
-
-  private FrequencyChart(Table table, int chunkDepth) {
-    this.table = table;
-    this.chunkDepth = chunkDepth;
   }
 
   private ChartPanel createChartPanel(JFreeChart chart) {
@@ -101,7 +101,7 @@ class FrequencyChart {
     DefaultCategoryDataset ds = new DefaultCategoryDataset();
 
     for (Chunk chunk : ChunksFinder.extractChunks(table, chunkDepth)) {
-      HashMap<String, Integer> amount = new LinkedHashMap<String, Integer>();
+      Map<String, Integer> amount = new LinkedHashMap<>();
       for (Record record : chunk) {
         if (record.get(column).isNull()) {
           continue;
@@ -122,6 +122,7 @@ class FrequencyChart {
     return ds;
   }
 
+  @SuppressWarnings("UnnecessaryBoxing")
   private static Dataset createDatesDataset(Table table, String column, int chunkDepth) {
     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
@@ -134,6 +135,7 @@ class FrequencyChart {
         amount[((DateValue) record.get(column)).getValue().get(Calendar.HOUR_OF_DAY)]++;
       }
       for (int i = 0; i < amount.length; i++) {
+        //noinspection UnnecessaryBoxing
         dataset.addValue(amount[i], new Integer(i), chunk.getLabel());
       }
     }
@@ -163,7 +165,7 @@ class FrequencyChart {
    * @param title Title of the chart. Just used as label for the axis
    * @return frequency chart
    */
-  public JFreeChart createChart(Dataset dataset, String title) {
+  private JFreeChart createChart(Dataset dataset, String title) {
     return ChartFactory.createBarChart(title, // chart title
         "Chunk", // domain axis label
         "Frequency", // range axis label

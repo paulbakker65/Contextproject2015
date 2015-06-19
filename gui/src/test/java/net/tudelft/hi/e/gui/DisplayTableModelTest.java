@@ -1,17 +1,20 @@
 package net.tudelft.hi.e.gui;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.gui.DisplayTableModel;
 import net.tudelft.hi.e.input.DataFile;
 import net.tudelft.hi.e.input.Input;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Test for the DisplayTableModel.
@@ -57,7 +60,7 @@ public class DisplayTableModelTest {
 
   @Test
   public void testGetColumnName() {
-    ArrayList<String> columns = new ArrayList<String>(Arrays.asList(columnNames));
+    ArrayList<String> columns = new ArrayList<>(Arrays.asList(columnNames));
     columns.add(0, "");
     for (int i = 0; i < columnNames.length; i++) {
       String actual = model.getColumnName(i);
@@ -87,6 +90,21 @@ public class DisplayTableModelTest {
     assertEquals("czaz", model.getValueAt(3, findColumnIndex(columnNames[2])).toString());
     assertEquals("2014-02-13", model.getValueAt(7, findColumnIndex(columnNames[1])).toString());
     assertEquals("7", model.getValueAt(9, findColumnIndex(columnNames[0])).toString());
+  }
+  
+  @Test
+  public void testRowNumbers() {
+    for (int i = 0; i < model.getColumnCount(); i++) {
+      assertEquals(i + 1, model.getValueAt(i, 0));
+    }
+  }
+  
+  @Test
+  public void testEmptyTable() {
+    Table table = new Table();
+    model = new DisplayTableModel(table);
+    assertEquals(1, model.getColumnCount());
+    assertEquals(0, model.getRowCount());
   }
 
   /**
