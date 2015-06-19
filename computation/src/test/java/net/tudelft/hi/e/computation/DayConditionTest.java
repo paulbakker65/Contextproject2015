@@ -1,15 +1,18 @@
 package net.tudelft.hi.e.computation;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import net.tudelft.hi.e.data.DateValue;
 
 import org.junit.Test;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DayConditionTest {
 
@@ -54,5 +57,28 @@ public class DayConditionTest {
     assertTrue(cond.matches(new DateValue(date)));
     assertTrue(cond.matches(new DateValue(date2)));
     assertFalse(cond.matches(new DateValue(date3)));
+  }
+  
+  @Test
+  public void testEquals() {
+    final DayCondition condition = new DayCondition(1);
+    final DayCondition conditionSame = new DayCondition(1);
+    final DayCondition conditionNotSame = new DayCondition(2);
+    final DayCondition conditionNotSameTime = new DayCondition(1);
+    conditionNotSameTime.matches(new DateValue(new GregorianCalendar(2015, 6, 19)));
+    final String otherClass = "";
+    
+    assertEquals(condition, condition);
+    assertEquals(condition, conditionSame);
+    assertNotEquals(condition, conditionNotSame);
+    assertNotEquals(condition, conditionNotSameTime);
+    assertNotEquals(condition, null);
+    assertNotEquals(condition, otherClass);
+  }
+  
+  @Test
+  public void testHashCode() {
+    final ChunkCondition condition = new DayCondition(1);    
+    assertEquals((31 + 1) * 31, condition.hashCode());
   }
 }

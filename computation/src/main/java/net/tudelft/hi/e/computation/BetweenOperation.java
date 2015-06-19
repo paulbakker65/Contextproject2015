@@ -1,16 +1,16 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.InputMismatchException;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import net.tudelft.hi.e.data.DateValue;
 import net.tudelft.hi.e.data.NumberValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import java.util.InputMismatchException;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Generates a table with the lag between two events. The first event record contains the column
@@ -33,18 +33,12 @@ public class BetweenOperation extends Operation {
   /**
    * Creates a new lag operation that compares the time between each couple of event 1 and 2.
    *
-   * @param inputDataset
-   *          Table containing the input data.
-   * @param eventcol
-   *          Column where the type of the event is stored
-   * @param datecol
-   *          Column where the timing of the first event is stored
-   * @param datecol2
-   *          Column where the timing of the second event is stored
-   * @param ev1val
-   *          Event 1 identifier
-   * @param ev2val
-   *          Event 2 identifiter
+   * @param inputDataset Table containing the input data.
+   * @param eventcol Column where the type of the event is stored
+   * @param datecol Column where the timing of the first event is stored
+   * @param datecol2 Column where the timing of the second event is stored
+   * @param ev1val Event 1 identifier
+   * @param ev2val Event 2 identifiter
    */
   public BetweenOperation(final Table inputDataset, final String eventcol, final String datecol,
       final String datecol2, final Value ev1val, final Value ev2val) {
@@ -59,16 +53,11 @@ public class BetweenOperation extends Operation {
   /**
    * Creates a new lag operation that compares the time between each couple of event 1 and 2.
    *
-   * @param inputDataset
-   *          Table containing the input data.
-   * @param eventcol
-   *          Column where the type of the event is stored
-   * @param datecol
-   *          Column where the timing of the event is stored
-   * @param ev1val
-   *          Event 1 identifier
-   * @param ev2val
-   *          Event 2 identifiter
+   * @param inputDataset Table containing the input data.
+   * @param eventcol Column where the type of the event is stored
+   * @param datecol Column where the timing of the event is stored
+   * @param ev1val Event 1 identifier
+   * @param ev2val Event 2 identifiter
    */
   public BetweenOperation(final Table inputDataset, final String eventcol, final String datecol,
       final Value ev1val, final Value ev2val) {
@@ -112,7 +101,7 @@ public class BetweenOperation extends Operation {
         addEvent(eventIndex, targetIndex);
         return;
       } else if (isFirstEvent(targetIndex)) {
-    	  return;
+        return;
       }
       targetIndex++;
     }
@@ -175,9 +164,9 @@ public class BetweenOperation extends Operation {
       return false;
     }
     BetweenOperation other = (BetweenOperation) obj;
-    return new EqualsBuilder().append(datecol, other.datecol)
-        .append(datecol2, other.datecol2).append(eventcol, other.eventcol)
-        .append(ev1val, other.ev1val).append(ev2val, other.ev2val).isEquals();
+    return new EqualsBuilder().append(datecol, other.datecol).append(datecol2, other.datecol2)
+        .append(eventcol, other.eventcol).append(ev1val, other.ev1val).append(ev2val, other.ev2val)
+        .isEquals();
   }
 
 }

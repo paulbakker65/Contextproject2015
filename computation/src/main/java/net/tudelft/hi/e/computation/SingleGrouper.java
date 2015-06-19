@@ -1,10 +1,10 @@
 package net.tudelft.hi.e.computation;
 
+import net.tudelft.hi.e.data.Record;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import net.tudelft.hi.e.data.Record;
 
 /**
  * Gives each record it's own group.
@@ -30,9 +30,6 @@ public class SingleGrouper extends Grouper {
   
   @Override
   public boolean equals(Object obj) {
-    if (super.equals(obj)) {
-      return true;
-    }
     if (obj == null) {
       return false;
     }

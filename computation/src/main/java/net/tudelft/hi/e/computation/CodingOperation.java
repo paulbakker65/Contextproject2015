@@ -46,11 +46,10 @@ public class CodingOperation extends Operation {
     int index = 0;
     final Code code;
     if (resultData.getCode(name) != null) {
-    	code = resultData.getCode(name);
-    }
-    else {
-    	code = new Code(name);
-    	resultData.addCode(code);
+      code = resultData.getCode(name);
+    } else {
+      code = new Code(name);
+      resultData.addCode(code);
     }
 
     while (index < inputData.size()) {
@@ -62,7 +61,7 @@ public class CodingOperation extends Operation {
       index++;
     }
 
-    
+
 
     return true;
   }

@@ -1,24 +1,18 @@
 package net.tudelft.hi.e.computation;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import net.tudelft.hi.e.common.enums.CompareOperator;
-import net.tudelft.hi.e.computation.Condition;
-import net.tudelft.hi.e.computation.Count;
-import net.tudelft.hi.e.computation.MultipleCount;
-import net.tudelft.hi.e.computation.CountPatternDescription;
-import net.tudelft.hi.e.computation.PatternMatcher;
-import net.tudelft.hi.e.computation.RecordCondition;
-import net.tudelft.hi.e.computation.RecordMatchesConditionCondition;
-import net.tudelft.hi.e.computation.RecordOccurrenceCondition;
-import net.tudelft.hi.e.computation.SingleCount;
-import net.tudelft.hi.e.data.NumberValue;
-import net.tudelft.hi.e.data.StringValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import net.tudelft.hi.e.common.enums.CompareOperator;
+import net.tudelft.hi.e.data.NumberValue;
+import net.tudelft.hi.e.data.StringValue;
+
 import org.junit.Test;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 
 public class PatternMatcherTest {
 

@@ -1,9 +1,8 @@
 package net.tudelft.hi.e.computation;
 
-import net.tudelft.hi.e.computation.MultipleCount;
-import net.tudelft.hi.e.computation.SingleCount;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Test;
 
 /**
@@ -28,8 +27,12 @@ public class CountTest {
   @Test
   public void testHashCodeSingleCount() {
     SingleCount singleCount = new SingleCount(1);
-
     assertEquals(31 + 1, singleCount.hashCode());
+  }
+  
+  @Test
+  public void testToStringSingleCount() {
+    assertEquals("SingleCount [count=1]", new SingleCount(1).toString());
   }
 
   @Test
@@ -42,6 +45,12 @@ public class CountTest {
     assertEquals(multiCount, multiCountSame);
     assertNotEquals(multiCount, null);
     assertNotEquals(multiCount, otherClass);
+  }
+  
+  @Test
+  public void testHashCodeMultipleCount() {
+    MultipleCount multiCount = new MultipleCount();
+    assertEquals(89, multiCount.hashCode());
   }
 
   @Test

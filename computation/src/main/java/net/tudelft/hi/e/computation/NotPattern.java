@@ -1,8 +1,8 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.Objects;
-
 import net.tudelft.hi.e.data.Table;
+
+import java.util.Objects;
 
 /**
  * Pattern for checking if a Pattern is not found.

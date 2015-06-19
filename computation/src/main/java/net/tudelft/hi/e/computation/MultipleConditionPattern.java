@@ -1,8 +1,9 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.Objects;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
+
+import java.util.Objects;
 
 /**
  * Multiple occurrences of a record from the same file.

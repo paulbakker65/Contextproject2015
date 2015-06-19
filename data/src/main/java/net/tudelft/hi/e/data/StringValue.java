@@ -16,11 +16,29 @@ public class StringValue extends Value {
   /**
    * Constructs a new NumberValue.
    *
-   * @param value
-   *          the stored string.
+   * @param value the stored string.
    */
   public StringValue(final String value) {
     this.setValue(value);
+  }
+
+  /**
+   * compareTo function using the Java-standard < 0 for less, > 0 for more and 0 for equal checks
+   * the instance of the Value to pick a specific compareTo overload.
+   *
+   * @param other
+   *          Value object to compare to
+   * @return 0 if equal to o <br>
+   *         -1 if less than o <br>
+   *         1 if more than o, or if the values cannot be compared <br>
+   */
+  @Override
+  public int compareTo(Value other) {
+    if (other instanceof StringValue) {
+      return this.compareToString((StringValue) other);
+    } else {
+      return Integer.MAX_VALUE;
+    }
   }
 
   public int compareToString(final StringValue other) {
@@ -81,8 +99,7 @@ public class StringValue extends Value {
   /**
    * Stores a new number string.
    *
-   * @param value
-   *          the new number string.
+   * @param value the new number string.
    */
   public void setValue(final String value) {
     this.value = value;
