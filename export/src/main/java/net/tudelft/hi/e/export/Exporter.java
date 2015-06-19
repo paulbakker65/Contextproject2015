@@ -52,9 +52,9 @@ public final class Exporter {
       export(table, writer);
       TableFile.writeTable(table, path);
     } catch (IOException e) {
-      throw new ExportException("Output filepath not found");
+      throw new ExportException(e);
     } catch (TableNotFoundException e) {
-      throw new ExportException("Table object not found");
+      throw new ExportException(e);
     }
     
    
