@@ -1,6 +1,15 @@
 package net.tudelft.hi.e.export;
 
+import net.tudelft.hi.e.common.exceptions.ExportException;
+import net.tudelft.hi.e.data.Column;
+import net.tudelft.hi.e.data.DateColumn;
+import net.tudelft.hi.e.input.Settings;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.io.File;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,44 +19,71 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import net.tudelft.hi.e.data.Column;
-import net.tudelft.hi.e.data.DateColumn;
-import net.tudelft.hi.e.input.Settings;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-public class SettingsWriter {
+public final class SettingsWriter {
+
+  /**
+   * Default hidden constructor because this class cannot be instantiated.
+   */
+  private SettingsWriter() {
+  }
 
   /**
    * Generates the xml document and writes it to a file.
-   * @param settings The settings file to convert to a xml document.
-   * @param file The file path to write the xml document to.
+   *
+   * @param settings
+   *         The settings file to convert to a xml document.
+   * @param file
+   *         The file path to write the xml document to.
+   *
+   * @throws ExportException
+   *         if there is an error exporting the data.
    */
-  public static void writeSettings(final Settings settings, final File file) throws Exception {
-    Document document = newDocument();
-
-    Element settingsNode = addSettings(document, settings);
-
-    addColumns(document, settings, settingsNode);
-
-    writeXmlFile(document, file);
+  public static void writeSettings(final Settings settings, final File file) throws
+          ExportException {
+    Document document = null;
+    Element settingsNode = null;
+    try {
+      document = newDocument();
+      settingsNode = addSettings(document, settings);
+      addColumns(document, settings, settingsNode);
+    } catch (ParserConfigurationException ex) {
+      throw new ExportException(ex);
+    }
+    try {
+      writeXmlFile(document, file);
+    } catch (TransformerException ex) {
+      throw new ExportException(ex);
+    }
   }
 
   /**
    * Creates a new xml document.
+   *
+   * @return the document that is created.
+   *
+   * @throws ParserConfigurationException
+   *         if the parsing failed.
    */
   private static Document newDocument() throws ParserConfigurationException {
-    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+    final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
     return docBuilder.newDocument();
   }
 
   /**
    * Creates the settings node and sets the required attributes.
+   *
+   * @param document
+   *         the document to add settings to.
+   * @param settings
+   *         the settings file to add to the document.
+   *
+   * @return the node that is created.
    */
-  private static Element addSettings(Document document, Settings settings) {
-    Element element = document.createElement("settings");
+  private static Element addSettings(final Document document, final Settings settings) {
+    final Element element = document.createElement("settings");
     element.setAttribute("name", settings.getName());
     element.setAttribute("startLine", Integer.toString(settings.getStartLine()));
     element.setAttribute("delimiter", settings.getDelimiter());
@@ -58,29 +94,43 @@ public class SettingsWriter {
 
   /**
    * For each column in the table it adds a column node to the xml.
+   *
+   * @param document
+   *         add column nodes to this document.
+   * @param settings
+   *         the settings to add the columns from.
+   * @param settingsNode
+   *         the node to add the column to.
    */
-  private static void addColumns(Document document, Settings settings, Element settingsNode) {
-    for (Column column : settings.getColumns()) {
-      Element element = createColumn(document, column);
+  private static void addColumns(final Document document, final Settings settings,
+          final Element settingsNode) {
+    for (final Column column : settings.getColumns()) {
+      final Element element = createColumn(document, column);
       settingsNode.appendChild(element);
     }
   }
 
   /**
-   * Creates a column node for the given column.
-   * Use addColumns to create and add all the columns to the xml from the settings.
-   * @param column The column to write create the node for.
+   * Creates a column node for the given column. Use addColumns to create and add all the columns to
+   * the xml from the settings.
+   *
+   * @param document
+   *         the document to create the element with.
+   * @param column
+   *         the column to create a node for.
+   *
+   * @return the node that was created.
    */
-  private static Element createColumn(Document document, Column column) {
+  private static Element createColumn(final Document document, final Column column) {
     final String type = column.getType();
-    Element element = document.createElement("column");
+    final Element element = document.createElement("column");
     element.setAttribute("name", column.getName());
     element.setAttribute("type", type);
 
-    if (type.equals("date")) {
-      element.setAttribute("format", ((DateColumn)column).getFormatStr()); 
-      if (((DateColumn)column).isTime()) {
-        element.setAttribute("target", ((DateColumn)column).getTargetDate());
+    if ("date".equals(type)) {
+      element.setAttribute("format", ((DateColumn) column).getFormatStr());
+      if (((DateColumn) column).isTime()) {
+        element.setAttribute("target", ((DateColumn) column).getTargetDate());
       }
     }
 
@@ -89,20 +139,25 @@ public class SettingsWriter {
 
   /**
    * Writes the xml document to a file.
-   * @param document The xml document.
-   * @param file The file path to write the document to.
+   *
+   * @param document
+   *         The xml document.
+   * @param file
+   *         The file path to write the document to.
+   *
+   * @throws TransformerException
+   *         when the xml cannot be converted to a file.
    */
-  private static void writeXmlFile(Document document, File file) throws TransformerException {
-    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-    Transformer transformer = transformerFactory.newTransformer();
+  private static void writeXmlFile(final Document document, final File file) throws
+          TransformerException {
+    final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    final Transformer transformer = transformerFactory.newTransformer();
     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
-    DOMSource source = new DOMSource(document);
-    StreamResult result = new StreamResult(file);
+    final DOMSource source = new DOMSource(document);
+    final StreamResult result = new StreamResult(file);
 
     transformer.transform(source, result);
   }
-
-  private SettingsWriter() { }
 
 }
