@@ -85,7 +85,7 @@ public class MainUI extends JFrame {
    */
   public MainUI() {
     setButtonActionListeners();
-    
+
     init();
 
     setCloseOperation();
@@ -394,7 +394,7 @@ public class MainUI extends JFrame {
     filesTable.revalidate();
   }
   private void onSettingsBuilder() {
-	new SettingsGenerator().setVisible(true);
+	GUI.init(new SettingsGenerator());
   }
 
   /**
