@@ -69,4 +69,31 @@ public class PhaseCondition extends ChunkCondition {
     long difference = currentTime - beginTime;
     return (int) (difference / (1000 * 60 * 60 * 24));
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + (int) (beginTime ^ (beginTime >>> 32));
+    result = prime * result + chunkIndex;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    PhaseCondition other = (PhaseCondition) obj;
+    if (beginTime != other.beginTime) {
+      return false;
+    }
+    return chunkIndex == other.chunkIndex;
+  }
 }

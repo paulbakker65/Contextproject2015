@@ -1,12 +1,17 @@
 package net.tudelft.hi.e.computation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import net.tudelft.hi.e.computation.MonthCondition;
+import java.util.GregorianCalendar;
+
 import net.tudelft.hi.e.data.DateValue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 public class MonthConditionTest {
@@ -41,6 +46,29 @@ public class MonthConditionTest {
     assertTrue(cond.matches(new DateValue(date2)));
     assertTrue(cond.matches(new DateValue(date3)));
     assertFalse(cond.matches(new DateValue(date4)));
+  }
+  
+  @Test
+  public void testEquals() {
+    final MonthCondition monthCondition = new MonthCondition(1);
+    final MonthCondition monthConditionSame = new MonthCondition(1);
+    final MonthCondition monthConditionNotSame = new MonthCondition(2);
+    final MonthCondition monthConditionNotSameTime = new MonthCondition(1);
+    monthConditionNotSameTime.matches(new DateValue(new GregorianCalendar(2015, 6, 19)));
+    final String otherClass = "";
+    
+    assertEquals(monthCondition, monthCondition);
+    assertEquals(monthCondition, monthConditionSame);
+    assertNotEquals(monthCondition, monthConditionNotSame);
+    assertNotEquals(monthCondition, monthConditionNotSameTime);
+    assertNotEquals(monthCondition, null);
+    assertNotEquals(monthCondition, otherClass);
+  }
+  
+  @Test
+  public void testHashCode() {
+    final MonthCondition condition = new MonthCondition(1);    
+    assertEquals((31 + 1) * 31, condition.hashCode());
   }
 
 }

@@ -20,6 +20,7 @@ public class DayCondition extends ChunkCondition {
    */
   public DayCondition(int maxNumberOfDifferences) {
     super(maxNumberOfDifferences);
+    this.beginTime = 0;
   }
 
   @Override
@@ -45,5 +46,22 @@ public class DayCondition extends ChunkCondition {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + (int) (beginTime ^ (beginTime >>> 32));
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!super.equals(obj)) {
+      return false;
+    }
+    DayCondition other = (DayCondition) obj;
+    return beginTime == other.beginTime;
   }
 }
