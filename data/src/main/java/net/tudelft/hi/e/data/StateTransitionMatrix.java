@@ -107,7 +107,6 @@ public class StateTransitionMatrix extends Table {
   @Override
   public int hashCode() {
     int hash = 7;
-    // hash = 37 * hash + Objects.hashCode(this.column);
     hash = 37 * hash + this.getName().hashCode();
     return hash;
   }

@@ -11,6 +11,11 @@ public class ChunksFinder {
   public static final String DEFAULT_CHUNK_NAME = "Default Chunk";
 
   /**
+   * Private constructor.
+   */
+  private ChunksFinder() {
+  }
+  /**
    * Returns all lists which link to chunks so that is known on which position newly created chunks
    * can be inserted.
    * 
@@ -142,6 +147,4 @@ public class ChunksFinder {
 
     return depth;
   }
-
-  private ChunksFinder() {}
 }

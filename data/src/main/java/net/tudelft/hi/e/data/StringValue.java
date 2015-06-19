@@ -35,7 +35,7 @@ public class StringValue extends Value {
   @Override
   public int compareTo(Value other) {
     if (other instanceof StringValue) {
-      return this.compareToString(((StringValue) other));
+      return this.compareToString((StringValue) other);
     } else {
       return Integer.MAX_VALUE;
     }
