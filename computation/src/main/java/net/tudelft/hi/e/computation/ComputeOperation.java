@@ -1,8 +1,5 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import net.tudelft.hi.e.common.enums.ComputeOperator;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.Record;
@@ -11,10 +8,16 @@ import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Operation for doing computations on a table column.
  */
 public class ComputeOperation extends Operation {
+  private static final String RESULT_TABLE_NAME = "Computation";
+  
   Computation computation;
   ComputeOperator operator;
   String column;
@@ -56,11 +59,11 @@ public class ComputeOperation extends Operation {
 
     Value result = computation.compute(getValues());
 
-    Column computationColumn = new StringColumn("Computation");
+    Column computationColumn = new StringColumn(RESULT_TABLE_NAME);
     Column resultColumn = result.getType("Result");
     List<Column> columns = new ArrayList<Column>(Arrays.asList(computationColumn, resultColumn));
     Value[] recordValues = new Value[] { getDescription(), result };
-    resultData.add(new Record(columns, recordValues, "Computation"));
+    resultData.add(new Record(columns, recordValues, RESULT_TABLE_NAME));
 
     return true;
   }
@@ -90,7 +93,7 @@ public class ComputeOperation extends Operation {
   public void resetData(Table inputData) {
     this.inputData = inputData;
     this.resultData = new Table();
-    this.resultData.setName("Computation");
+    this.resultData.setName(RESULT_TABLE_NAME);
   }
 
 }

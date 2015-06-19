@@ -3,17 +3,17 @@ package net.tudelft.hi.e.computation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.tudelft.hi.e.common.enums.CompareOperator;
 import net.tudelft.hi.e.data.StringValue;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test for pattern factory.

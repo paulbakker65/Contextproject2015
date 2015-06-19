@@ -1,7 +1,6 @@
 package net.tudelft.hi.e.computation;
 
 import net.tudelft.hi.e.common.enums.CompareOperator;
-import static net.tudelft.hi.e.common.enums.CompareOperator.EQ;
 import net.tudelft.hi.e.data.Value;
 
 /**
@@ -19,16 +18,13 @@ public class Condition {
   }
 
   /**
-   * Calculates whether a record value meets a constraint or not, this function
-   * uses the compareTo function of Value which in turn chooses which compareTo
-   * it uses based on the actual subclass.
+   * Calculates whether a record value meets a constraint or not, this function uses the compareTo
+   * function of Value which in turn chooses which compareTo it uses based on the actual subclass.
    *
    * @param recordValue record value, type generic Value
-   * @return <b>false</b> if and only if the record value does not meet the
-   * constraint,
-   * <br>
-   * <b>true</b> if the record value meets the constraint, <br>
-   * <b>true</b> if the constraint type is undefined
+   * @return <b>false</b> if and only if the record value does not meet the constraint, <br>
+   *         <b>true</b> if the record value meets the constraint, <br>
+   *         <b>true</b> if the constraint type is undefined
    */
   public boolean matches(Value recordValue) {
     if (recordValue == null) {
@@ -36,22 +32,7 @@ public class Condition {
     }
 
     int compareResult = recordValue.compareTo(getConditionValue());
-    switch (getConditionOperator()) {
-      case EQ:
-        return compareResult == 0;
-      case NEQ:
-        return compareResult != 0;
-      case G:
-        return compareResult > 0;
-      case GEQ:
-        return compareResult >= 0;
-      case L:
-        return compareResult < 0;
-      case LEQ:
-        return compareResult <= 0;
-      default:
-        return false;
-    }
+    return conditionOperator.matchesCompareResult(compareResult);
   }
 
   public CompareOperator getConditionOperator() {
@@ -112,22 +93,19 @@ public class Condition {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((getConditionOperator() == null) ? 0
-            : getConditionOperator().hashCode());
-    result = prime * result + ((getConditionValue() == null) ? 0
-            : getConditionValue().
-            hashCode());
+    result =
+        prime * result + ((getConditionOperator() == null) ? 0 : getConditionOperator().hashCode());
+    result = prime * result + ((getConditionValue() == null) ? 0 : getConditionValue().hashCode());
     return result;
   }
 
   /*
    * (non-Javadoc)
-   *
+   * 
    * @see java.lang.Object#toString()
    */
   @Override
   public final String toString() {
-    return getConditionOperator().toString() + " " + getConditionValue().
-            toString();
+    return getConditionOperator().toString() + " " + getConditionValue().toString();
   }
 }

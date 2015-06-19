@@ -1,10 +1,11 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 import net.tudelft.hi.e.common.enums.CompareOperator;
-import net.tudelft.hi.e.computation.Condition;
-import net.tudelft.hi.e.computation.ConstraintOperation;
-import net.tudelft.hi.e.computation.RecordMatchesConditionCondition;
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.DateColumn;
 import net.tudelft.hi.e.data.DateConversion;
@@ -16,12 +17,11 @@ import net.tudelft.hi.e.data.StringColumn;
 import net.tudelft.hi.e.data.StringValue;
 import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 /**
  * ConstraintOperationTest class testing the operations.ConstraintOperation.
@@ -362,8 +362,6 @@ public class ConstraintOperationTest {
 
     ConstraintOperation operation = new ConstraintOperation(input, column, operator, toCompare);
     assertTrue(operation.isOperationParametersSet());
-    operation = new ConstraintOperation(input, column, CompareOperator.ND, toCompare);
-    assertFalse(operation.isOperationParametersSet());
     operation = new ConstraintOperation(input, column, null, toCompare);
     assertFalse(operation.isOperationParametersSet());
     operation = new ConstraintOperation(input, column, null, null);

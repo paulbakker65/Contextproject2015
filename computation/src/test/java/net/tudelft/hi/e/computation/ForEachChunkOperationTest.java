@@ -5,8 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.StringValue;
@@ -17,6 +15,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+
+import java.util.List;
 
 /**
  * Class for testing the ForEachChunkOperation.

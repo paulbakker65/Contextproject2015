@@ -25,22 +25,6 @@ public class CountPatternDescription implements PatternDescription {
     return count.createPattern(condition);
   }
 
-  /**
-   * Returns the number of occurrences of the pattern.
-   * @return the number of occurrences of the pattern.
-   */
-  public Count getCount() {
-    return count;
-  }
-
-  /**
-   * Returns the {@link RecordCondition} for the pattern.
-   * @return the {@link RecordCondition} for the pattern.
-   */
-  public RecordCondition getCondition() {
-    return condition;
-  }
-
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -73,7 +57,7 @@ public class CountPatternDescription implements PatternDescription {
    */
   @Override
   public String toString() {
-    return "PatternDescription [count=" + count + ", condition=" + condition
+    return "CountPatternDescription [count=" + count + ", condition=" + condition
         + "]";
   }  
 }

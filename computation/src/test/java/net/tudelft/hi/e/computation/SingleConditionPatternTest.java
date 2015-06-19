@@ -1,9 +1,8 @@
 package net.tudelft.hi.e.computation;
 
-import net.tudelft.hi.e.computation.RecordOccurrenceCondition;
-import net.tudelft.hi.e.computation.SingleConditionPattern;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Test;
 
 /**

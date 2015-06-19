@@ -1,13 +1,5 @@
 package net.tudelft.hi.e.computation;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Objects;
-
 import net.tudelft.hi.e.data.Column;
 import net.tudelft.hi.e.data.NumberColumn;
 import net.tudelft.hi.e.data.NumberValue;
@@ -16,6 +8,14 @@ import net.tudelft.hi.e.data.Table;
 import net.tudelft.hi.e.data.Value;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Objects;
 
 /**
  * Implements Lag Sequential Analysis according to the slides.
@@ -61,46 +61,29 @@ public class LsaOperation extends Operation {
             new NumberValue(lag.getValue()) }));
       }
       Collections.sort(table, new RecordLagComparator());
+      table.setName(inputData.getName());
       return table;
     }
 
     @Override
     public int hashCode() {
-      int hash = 7;
-      hash = 89 * hash + Objects.hashCode(this.getCols());
-      return hash;
+      return 89 + super.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }      
       if (obj == null) {
         return false;
       }
-      if (getClass() != obj.getClass()) {
-        return false;
-      }
-      final LagTable other = (LagTable) obj;
-      if (!Objects.equals(this.cols, other.cols)) {
-        return false;
-      }
-      return true;
+      return super.equals(obj);
     }
-
-    /**
-     * @return the cols
-     */
+    
     public List<Column> getCols() {
       return cols;
     }
-
-    /**
-     * @param cols
-     *          the cols to set
-     */
-    public void setCols(List<Column> cols) {
-      this.cols = cols;
-    }
-
   }
 
   /**

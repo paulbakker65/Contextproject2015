@@ -23,7 +23,7 @@ public class MultipleCount implements Count {
 
   @Override
   public int hashCode() {
-    return 89 * super.hashCode();
+    return 89;
   }
 
   /* (non-Javadoc)
