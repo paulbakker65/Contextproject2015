@@ -18,17 +18,6 @@ public class CsvReader extends Reader {
   /**
    * CsvReader constructor creates an CsvReader object that reads CSV files.
    *
-   * @param filepath The CSV file path to be read.
-   * @throws FileNotFoundException If there is no file found at the designated file path an
-   *         FileNotFoundException is thrown.
-   */
-  public CsvReader(final String filepath) throws FileNotFoundException {
-    this(filepath, ";");
-  }
-
-  /**
-   * CsvReader constructor creates an CsvReader object that reads CSV files.
-   *
    * @param filepath
    *          The CSV file path to be read.
    * @param delimiter

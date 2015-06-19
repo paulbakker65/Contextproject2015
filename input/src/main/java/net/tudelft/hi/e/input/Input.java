@@ -19,12 +19,6 @@ public class Input {
   private static final Logger LOG = Logger.getLogger(Input.class.getName());
 
   /**
-   * Private constructor because this class cannot be instantiated.
-   */
-  private Input() {
-  }
-
-  /**
    * Validates the input files before creating the DataFile.
    *
    * @param file The data file.
