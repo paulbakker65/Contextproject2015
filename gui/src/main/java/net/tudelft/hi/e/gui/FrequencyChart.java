@@ -136,7 +136,7 @@ class FrequencyChart {
       }
       for (int i = 0; i < amount.length; i++) {
         //noinspection UnnecessaryBoxing
-        dataset.addValue(amount[i], new Integer(i), chunk.getLabel());
+        dataset.addValue(amount[i], "Time (h)", new Integer(i));
       }
     }
     return dataset;
