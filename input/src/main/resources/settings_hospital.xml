@@ -1,6 +1,0 @@
-<settings startLine="2" delimiter=";" name="Hospital">
-	<column name="PatientID" type="number" />
-	<column name="Group" type="number" />
-	<column name="Date" type="date" format="dd/MM/yyyy" /> 
-	<column name="Summary" />  
-</settings>

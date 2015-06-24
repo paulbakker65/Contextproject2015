@@ -62,6 +62,8 @@ public class MainUi extends JFrame {
   private JButton viewDirectoryButton;
   private JButton buttonVisualizations;
   private JButton settingsbuilderButton;
+  private JPanel filesPanel;
+  private JScrollPane filesTableScrollPane;
 
   // Filters for JFileChooser dialog
   public static final FileNameExtensionFilter xmlfilter =

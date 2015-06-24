@@ -1,5 +1,0 @@
-<settings startLine="2" delimiter="," name="name">
-	<column name="Soort"/>
-	<column name="Persoon"/>
-	<column name="Beoordeling" type="number" />
-</settings>
