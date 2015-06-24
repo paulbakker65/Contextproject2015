@@ -1,0 +1,21 @@
+CONSTRAINT [website].[Login] == "admire13"
+CONSTRAINT [hospital].[PatientID] == 13
+CONNECT [website].[Date] TO [hospital].[Date]
+#All the cases where the website gives the advice to contact the hospital.
+CODE [website] ON {1 [website].[KADRI] == 2} {5 [website]} {1 [website].[KADRI] == 5} AS "CONTACT"
+CODE [website] ON {1 [website].[KADRI] == 3} {5 [website]} {1 [website].[KADRI] == 5} AS "CONTACT"
+CODE [website] ON {1 [website].[KADRI] == 4} {5 [website]} {1 [website].[KADRI] == 5} AS "CONTACT"
+CODE [website] ON {1 [website].[KADRI] == 4} {5 [website]} {1 [website].[KADRI] == 4} AS "CONTACT"
+CODE [website] ON {1 [website].[KADRI] == 2} {4 [website]} {1 [website].[KADRI] == 5} AS "CONTACT"
+CODE [website] ON {1 [website].[KADRI] == 3} {4 [website]} {1 [website].[KADRI] == 5} AS "CONTACT"
+CODE [website] ON {1 [website].[KADRI] == 4} {4 [website]} {1 [website].[KADRI] == 5} AS "CONTACT"
+CODE [website] ON {1 [website].[KADRI] == 4} {4 [website]} {1 [website].[KADRI] == 4} AS "CONTACT"
+#Is the advice followed?
+CODE [website] ON {1 [website].[KADRI] == 2} {5 [website]} {1 [website].[KADRI] == 5} {! {1 [website]}} AS "Followed"
+CODE [website] ON {1 [website].[KADRI] == 3} {5 [website]} {1 [website].[KADRI] == 5} {! {1 [website]}} AS "Followed"
+CODE [website] ON {1 [website].[KADRI] == 4} {5 [website]} {1 [website].[KADRI] == 5} {! {1 [website]}} AS "Followed"
+CODE [website] ON {1 [website].[KADRI] == 4} {5 [website]} {1 [website].[KADRI] == 4} {! {1 [website]}} AS "Followed"
+CODE [website] ON {1 [website].[KADRI] == 2} {4 [website]} {1 [website].[KADRI] == 5} {! {1 [website]}} AS "Followed"
+CODE [website] ON {1 [website].[KADRI] == 3} {4 [website]} {1 [website].[KADRI] == 5} {! {1 [website]}} AS "Followed"
+CODE [website] ON {1 [website].[KADRI] == 4} {4 [website]} {1 [website].[KADRI] == 5} {! {1 [website]}} AS "Followed"
+CODE [website] ON {1 [website].[KADRI] == 4} {4 [website]} {1 [website].[KADRI] == 4} {! {1 [website]}} AS "Followed"
