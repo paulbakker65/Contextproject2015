@@ -2,8 +2,10 @@ package net.tudelft.hi.e.computation;
 
 import net.tudelft.hi.e.data.Chunk;
 import net.tudelft.hi.e.data.ChunksFinder;
+import net.tudelft.hi.e.data.Record;
 import net.tudelft.hi.e.data.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,13 +62,13 @@ public class ForEachChunkOperation extends Operation {
         if (!operation.execute()) {
           return false;
         }
+        
         Chunk newChunk = new Chunk(chunk, operation.getResult());
         chunkList.set(i, newChunk);
-        this.resultData.addAll(newChunk);
+        renameNewChunks(newChunk);        
+        addRecordsToResultTable(newChunk);        
       }
     }
-    
-    
 
     return true;
   }
@@ -74,5 +76,20 @@ public class ForEachChunkOperation extends Operation {
   @Override
   public Table getResult() {
     return resultData;
+  }
+  
+  private void renameNewChunks(Chunk newChunk) {
+    if (operation instanceof ChunkingOperation) {
+      for (Chunk eachChunk : newChunk.getChunks()) {
+        eachChunk.setLabel("C" + newChunk.getIndex() + "." + eachChunk.getIndex());
+      }
+    }
+  }
+  
+  private void addRecordsToResultTable(Chunk newChunk) {
+    List<Record> chunkRecords = new ArrayList<Record>();
+    chunkRecords.addAll(newChunk);
+    this.resultData.addAll(chunkRecords); 
+    this.resultData.getCodes().putAll(newChunk.getCodes());
   }
 }
