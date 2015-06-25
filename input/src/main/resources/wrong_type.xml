@@ -1,5 +1,0 @@
-<settings startLine="1" delimiter="," name="test">
-	<column name="Measurement" />
-	<column name="Value" type="wrong" />
-	<column name="Date" type="date" format="yyMMdd" />  
-</settings>

@@ -1,0 +1,11 @@
+CONSTRAINT [website].[Login] == "admire13"
+CONNECT [website].[Date] TO [StatSensor].[Date]
+BETWEEN [website].[MeasVar] [website].[Date] [website].[CreatedDate] "Crea" "Kreatinine (stat)"
+CHUNK [website].[Date] USING MONTH 1
+CODE [website] ON {* [StatSensor]} AS "MoreThen4SensorBetween"
+CODE [website] ON {1 [StatSensor]} AS "1SensorBetween"
+CODE [website] ON {2 [StatSensor]} AS "2SensorBetween"
+CODE [website] ON {3 [StatSensor]} AS "3SensorBetween"
+CODE [website] ON {4 [StatSensor]} AS "4SensorBetween"
+CODE [website] ON {5 [StatSensor]} AS "4SensorBetween"
+CODE [website] ON {6 [StatSensor]} AS "4SensorBetween"

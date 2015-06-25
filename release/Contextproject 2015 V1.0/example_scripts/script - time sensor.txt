@@ -1,0 +1,2 @@
+#No need to perform any operation. Only need to select the statsensor data and visualise using a frequency chart.
+# -	what time of the day and on what day do people measure themselves?

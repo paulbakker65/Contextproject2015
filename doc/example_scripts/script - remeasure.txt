@@ -1,0 +1,15 @@
+CONSTRAINT [website].[Login] == "admire13"
+BETWEEN [website].[MeasVar] [website].[CreatedDate] [website].[CreatedDate] "Kreatinine (stat)" "Kreatinine (stat)"
+CHUNK [website].[Date] USING MONTH 1
+#All the cases where the website gives the advice to remeasure.
+CODE [website] ON {1 [website].[KADRI] == 2} {5 [website]} {1 [website].[KADRI] == 4} AS "REMEASURE"
+CODE [website] ON {1 [website].[KADRI] == 3} {5 [website]} {1 [website].[KADRI] == 4} AS "REMEASURE"
+CODE [website] ON {1 [website].[KADRI] == 4} {5 [website]} {1 [website].[KADRI] == 3} AS "REMEASURE"
+CODE [website] ON {1 [website].[KADRI] == 2} {4 [website]} {1 [website].[KADRI] == 4} AS "REMEASURE"
+CODE [website] ON {1 [website].[KADRI] == 3} {4 [website]} {1 [website].[KADRI] == 4} AS "REMEASURE"
+CODE [website] ON {1 [website].[KADRI] == 4} {4 [website]} {1 [website].[KADRI] == 3} AS "REMEASURE"
+#If the remeasure is done within 24 hours.
+CODE [website] ON {1 [website].[KADRI] == 2} {4 [website]} {1 [website].[time_between] <= 24} {1 [website].[KADRI] == 4} AS "RemeasureCorrect"
+CODE [website] ON {1 [website].[KADRI] == 3} {4 [website]} {1 [website].[time_between] <= 24} {1 [website].[KADRI] == 4} AS "RemeasureCorrect"
+
+

@@ -1,6 +1,0 @@
-<settings startLine="7" delimiter=";">
-	<column name="Measurement" />
-	<column name="Value" type="number" />
-	<column name="Date" type="date" format="yyMMdd" /> 
-	<column name="Time" type="date" format="hh:mm" target="Date"/>	
-</settings>

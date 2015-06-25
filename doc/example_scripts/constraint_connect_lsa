@@ -1,3 +1,0 @@
-CONSTRAINT [website].[Login] == "admire13"
-CONNECT [website].[Date] TO [sensor].[Date]
-LSA [website].[Measurement] 0 100 "Kreatinine (stat)" "Crea" 

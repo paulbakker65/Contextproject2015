@@ -1,0 +1,5 @@
+# -	What is the difference in time between measurement device and entering data in Mijnnierinzicht?
+CONSTRAINT [website].[Login] == "admire13"
+CONSTRAINT [website].[MeasVar] == "Kreatinine (stat)"
+CONNECT [website].[Date] TO [StatSensor].[Date]
+BETWEEN [website].[MeasVar] [website].[Date] [website].[CreatedDate] "Crea" "Kreatinine (stat)"

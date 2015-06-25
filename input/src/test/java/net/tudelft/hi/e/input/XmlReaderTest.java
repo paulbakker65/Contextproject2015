@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
  *
  */
 public class XmlReaderTest {
-  String folder = "src/main/resources";
+  String folder = "src/test/resources";
 
   @Test
   public void correctXmlTest() throws WrongXmlException {

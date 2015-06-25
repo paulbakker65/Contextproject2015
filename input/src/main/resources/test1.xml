@@ -1,7 +1,0 @@
-<settings startLine="2" delimiter="," name="name">
-	<column name="number1" type="number" />
-	<column name="date1" type="date" format="dd/MM/yyyy"  />
-	<column name="string1"/>  
-	<column name="null1"/>
-	<column name="number" type="number" />
-</settings>
