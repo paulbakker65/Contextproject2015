@@ -1,0 +1,17 @@
+# To view original records, run this script and visualize the number of measurements per phase
+# per week by creating a frequency chart with chunk depth 2 and column "Measurement".
+# Now deviations can be seen by comparing the count to the expected count, which is for each phase:
+# -	phase 1: 7x / week
+# -	phase 2: 3-4x / week
+# -	phase 3: 2x / week
+# -	phase 4: 1x / week
+#
+CONSTRAINT [Website].[Login] == "admire13"
+CONSTRAINT [Website].[Measurement] == "Kreatinine (stat)"
+# Chunk on each phase of the schedule.
+CHUNK [Website].[Date] USING PHASE 1
+# For every phase, chunk on a week, so all measurements can be seen.
+FOR EACH CHUNK [Website] 1 CHUNK [Website].[Date] USING DAY 7
+#
+# To view the exact counts in the output table, uncomment this line. 
+#FOR EACH CHUNK [Website] 2 COMPUTE [Website] COUNT() [Website].[Measurement]  
